@@ -1,0 +1,55 @@
+body {
+  font-family: sans-serif;
+  background-color: rgb(255, 255, 255); 
+	height: 100vh;
+}
+
+h1 {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.panel {
+  background: #fafafa;
+  padding: 1em;
+  width: 92.5%;
+  margin: auto;
+  max-width: 30em;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1em;
+  margin-top: 0.5em;
+  padding: 0.5em;
+  border: none;
+  border-radius: 10vh;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::after {
+  width: 100%;
+  height: 10px;
+  background: red;
+}
+
+.nav-list {
+  width: 92.5%;
+  max-width: 30em;
+  text-align: center;
+  margin: auto;
+}
+.nav-list li {
+  list-style: none;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 0.7em;
+  margin: 0 0.1em;
+}
+.nav-list li.active {
+  background-color: rgba(255, 255, 255, 0.95);
+}
