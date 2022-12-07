@@ -103,6 +103,7 @@ function search_users() {
   }
 }
 
-function back_btn() {
-  
+document.getElementById("backbtn").onclick = function() {
+  document.querySelector('.main').style.display = "flex";
+  document.querySelector('.container').style.display = "none";
 }
