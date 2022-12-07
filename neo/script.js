@@ -35,7 +35,7 @@ function search_users() {
       base_div.className = "chip";
 
       const p_icon_div = document.createElement("div"); // Icon div
-      p_icon_div.className = "chip__icon";
+      p_icon_div.className = "chip-icon";
 
       const p_icon = document.createElement("ion-icon"); // Person icon
       p_icon.className = "icon"
@@ -47,14 +47,14 @@ function search_users() {
       const name_p = document.createElement("p"); // Name paragraph
 
       const v_icon_div = document.createElement("div"); // Icon div
-      v_icon_div.className = "chip__view";
+      v_icon_div.className = "chip-view";
 
       const v_icon = document.createElement("ion-icon"); // View icon
       v_icon.className = "icon"
       v_icon.setAttribute("name", "eye-outline");
 
       const e_icon_div = document.createElement("div"); // Icon div
-      e_icon_div.className = "chip__edit";
+      e_icon_div.className = "chip-edit";
 
       const e_icon = document.createElement("ion-icon"); // Edit icon
       e_icon.className = "icon"
