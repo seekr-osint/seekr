@@ -9,6 +9,10 @@
   --greyDark: #9baacf;
 }
 
+/* #252537 Background for main 
+   #
+*/
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -27,21 +31,36 @@ html {
   }
 }
 
+.table {
+  display: table;
+}
+
 .name-tag {
   font-size: 1.7rem;
   color: var(--greyDark);
 }
 
+.e-name-tag {
+  font-size: 1.7rem;
+  color: var(--greyDark);
+}
+
 .tag {
+  display: table-cell;
   font-size: 1.4rem;
   color: var(--greyDark);
   margin: 1.2rem;
+  margin-right: 0.4rem;
 }
 
 .scroll-box {
   overflow: hidden;
 	overflow-y: scroll;
   height: 42rem;
+}
+
+.scroll-box p {
+  display: flex;
 }
 
 .scroll-box::-webkit-scrollbar {
@@ -55,9 +74,19 @@ html {
   box-shadow: inset 6.91px 6.91px 15px #D9DFE9, inset -6.91px -6.91px 15px #EFF7FF;
 }
 
+.edit-container {
+  min-height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  background: var(--greyLight-1);
+  overflow: hidden;
+}
+
 .container {
   min-height: 100vh;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   font-family: "Poppins", sans-serif;
@@ -115,17 +144,17 @@ html {
 }
 
 /*  FORM  */
+
 .form {
-  grid-column: 3/4;
-  grid-row: 3/4;
+  display: table-cell;
 }
 .form-input {
-  width: 20.4rem;
-  height: 4rem;
+  max-width: 2000rem;
+  height: 3rem;
   border: none;
   border-radius: 1rem;
   font-size: 1.4rem;
-  padding-left: 1.4rem;
+  padding-left: 0.4rem;
   box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-2), inset -0.2rem -0.2rem 0.5rem var(--white);
   background: none;
   font-family: inherit;
