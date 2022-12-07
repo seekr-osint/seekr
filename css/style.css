@@ -27,7 +27,45 @@ html {
   }
 }
 
+.name-tag {
+  font-size: 1.7rem;
+  color: var(--greyDark);
+}
+
+.tag {
+  font-size: 1.4rem;
+  color: var(--greyDark);
+  margin: 1.2rem;
+}
+
+.scroll-box {
+  overflow: hidden;
+	overflow-y: scroll;
+  height: 42rem;
+}
+
+.scroll-box::-webkit-scrollbar {
+  width: 12px;
+  -webkit-appearance: none;
+}
+.scroll-box::-webkit-scrollbar-thumb {
+  background-color: var(--greyLight-1);
+  background: #E4EBF5;
+  border-radius: 3rem;
+  box-shadow: inset 6.91px 6.91px 15px #D9DFE9, inset -6.91px -6.91px 15px #EFF7FF;
+}
+
 .container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  background: var(--greyLight-1);
+  overflow: hidden;
+}
+
+.main {
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -48,7 +86,7 @@ html {
 
 /*  BUTTONS  */
 .btn {
-  width: 15rem;
+  width: 10rem;
   height: 4rem;
   border-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
@@ -59,11 +97,13 @@ html {
   cursor: pointer;
   transition: 0.3s ease;
 }
+
 .btn-secondary {
-  grid-column: 1/2;
-  grid-row: 5/6;
+  float: right;
+  margin-top: 2rem;
   color: var(--greyDark);
 }
+
 .btn-secondary:hover {
   color: var(--primary);
 }
@@ -149,7 +189,7 @@ html {
   align-items: center;
 }
 
-.chip .text-container p {
+.card-text {
   font-size: 1.2rem;
   color: var(--greyDark);
 }

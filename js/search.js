@@ -21,7 +21,7 @@ search_users();
 
 
 function search_users() {
-  let input = document.getElementById('searchbar').value
+  let input = document.getElementById('searchbar').value;
   input = input.toLowerCase();
   let x = document.querySelector('#list-holder');
   x.innerHTML = ""
@@ -45,9 +45,33 @@ function search_users() {
       txt_div.className = "text-container";
 
       const name_p = document.createElement("p"); // Name paragraph
+      name_p.className = "card-text";
 
       const v_icon_div = document.createElement("div"); // Icon div
       v_icon_div.className = "chip-view";
+      
+      v_icon_div.onclick = function() {
+        document.querySelector('.main').style.display = "none";
+        document.querySelector('.container').style.display = "flex";
+
+        document.querySelector(".name-tag").innerHTML = obj.name;
+
+        document.querySelector(".age").innerHTML = "Age: " + obj.age;
+        document.querySelector(".bday").innerHTML = "Birthdate: " + obj.bday;
+        document.querySelector(".address").innerHTML = "Address: " + obj.address;
+        document.querySelector(".phone").innerHTML = "Phone: " + obj.phone;
+        document.querySelector(".civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
+        document.querySelector(".kids").innerHTML = "Kids: " + obj.kids;
+        document.querySelector(".hobbies").innerHTML = "Hobbies: " + obj.hobbies;
+        document.querySelector(".email").innerHTML = "E-Mail: " + obj.email;
+        document.querySelector(".occupation").innerHTML = "Occupation: " + obj.occupation;
+        document.querySelector(".prev-occupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
+        document.querySelector(".military").innerHTML = "Military: " + obj.military;
+        document.querySelector(".club").innerHTML = "Club: " + obj.club;
+        document.querySelector(".legal").innerHTML = "Legal: " + obj.legal;
+        document.querySelector(".political").innerHTML = "Political: " + obj.political;
+        document.querySelector(".notes").innerHTML = "Notes: " + obj.notes;
+      }
 
       const v_icon = document.createElement("ion-icon"); // View icon
       v_icon.className = "icon"
