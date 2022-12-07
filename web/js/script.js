@@ -79,6 +79,29 @@ function search_users() {
       const e_icon_div = document.createElement("div"); // Icon div
       e_icon_div.className = "chip-edit";
 
+      e_icon_div.onclick = function() {
+        document.querySelector('.main').style.display = "none";
+        document.querySelector('.edit-container').style.display = "flex";
+
+        document.querySelector(".e-name-tag").innerHTML = obj.name;
+
+        document.querySelector(".e-age").innerHTML = "Age: " + obj.age;
+        document.querySelector(".e-bday").innerHTML = "Birthdate: " + obj.bday;
+        document.querySelector(".e-address").innerHTML = "Address: " + obj.address;
+        document.querySelector(".e-phone").innerHTML = "Phone: " + obj.phone;
+        document.querySelector(".e-civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
+        document.querySelector(".e-kids").innerHTML = "Kids: " + obj.kids;
+        document.querySelector(".e-hobbies").innerHTML = "Hobbies: " + obj.hobbies;
+        document.querySelector(".e-email").innerHTML = "E-Mail: " + obj.email;
+        document.querySelector(".e-occupation").innerHTML = "Occupation: " + obj.occupation;
+        document.querySelector(".e-prev-occupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
+        document.querySelector(".e-military").innerHTML = "Military: " + obj.military;
+        document.querySelector(".e-club").innerHTML = "Club: " + obj.club;
+        document.querySelector(".e-legal").innerHTML = "Legal: " + obj.legal;
+        document.querySelector(".e-political").innerHTML = "Political: " + obj.political;
+        document.querySelector(".e-notes").innerHTML = "Notes: " + obj.notes;
+      }
+
       const e_icon = document.createElement("ion-icon"); // Edit icon
       e_icon.className = "icon"
       e_icon.setAttribute("name", "create-outline");
@@ -107,3 +130,16 @@ document.getElementById("backbtn").onclick = function() {
   document.querySelector('.main').style.display = "flex";
   document.querySelector('.container').style.display = "none";
 }
+
+document.getElementById("e-backbtn").onclick = function() {
+  document.querySelector('.main').style.display = "flex";
+  document.querySelector('.edit-container').style.display = "none";
+}
+
+const input = document.querySelector('input');
+const span = document.querySelector('span');
+
+input.addEventListener('input', function (event) {
+    span.innerHTML = this.value.replace(/\s/g, '&nbsp;');
+    this.style.width = span.offsetWidth + 'px';
+});
