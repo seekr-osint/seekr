@@ -1,13 +1,14 @@
 import {jsonData} from "../data.js";
 
+// Uncomment to test server
+// If not commented, it wont work
+// const response = await fetch('http://127.0.0.1:8080/persons', {
+//   method: "GET",
+//   mode: 'no-cors',
+// });
+// const myJson = await response.json();
 
-const response = await fetch('http://127.0.0.1:8080/persons', {
-  method: "GET",
-  mode: 'no-cors',
-});
-const myJson = await response.json();
-
-console.log(myJson);
+// console.log(myJson);
 
 let data = JSON.parse(jsonData);
 var i;
