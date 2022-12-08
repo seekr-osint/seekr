@@ -17,6 +17,8 @@ type person struct {
 	Name    string `json:"name"`
 	Age     int8   `json:"age"`
 	Youtube string `json:"youtube"`
+  Address string `json:"address"`
+  Civilstatus string `json:"civilstatus"`
 }
 
 type DataBase map[string]person

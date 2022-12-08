@@ -1,4 +1,4 @@
-module github.com/9glenda/seekr
+module github.com/Niteletsplay/seekr/api
 
 go 1.19
 
