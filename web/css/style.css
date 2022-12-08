@@ -9,10 +9,6 @@
   --greyDark: #9baacf;
 }
 
-/* #252537 Background for main 
-   #
-*/
-
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -30,6 +26,11 @@ html {
     font-size: 75%;
   }
 }
+
+
+
+
+
 
 
 .table {
