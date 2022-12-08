@@ -31,6 +31,7 @@ html {
   }
 }
 
+
 .table {
   display: table;
 }
@@ -114,6 +115,11 @@ html {
 }
 
 /*  BUTTONS  */
+
+#e-savebtn {
+  margin-right: 2rem;
+}
+
 .btn {
   width: 10rem;
   height: 4rem;
@@ -147,14 +153,17 @@ html {
 
 .form {
   display: table-cell;
+  min-width: 10rem;
+  max-width: 60rem;
 }
 .form-input {
-  max-width: 2000rem;
-  height: 3rem;
+  display: inline-block;
+  width: 100%;
+  height: fit-content;
   border: none;
   border-radius: 1rem;
   font-size: 1.4rem;
-  padding-left: 0.4rem;
+  padding: 0.5rem;
   box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-2), inset -0.2rem -0.2rem 0.5rem var(--white);
   background: none;
   font-family: inherit;

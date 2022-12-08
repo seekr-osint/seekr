@@ -1,5 +1,16 @@
 import {jsonData} from "./data.js";
 
+fetch("http://localhost:8080/persons").then(function(response) {
+  return response.json();
+}).then(function(data) {
+  console.log(data);
+  return data;
+}).catch(function(err) {
+  console.log('Fetch Error :-S', err);
+});
+
+console.log(data);
+
 // Uncomment to test server
 // If not commented, it wont work
 // const response = await fetch('http://127.0.0.1:8080/persons', {
@@ -18,6 +29,10 @@ const element = document.getElementById("searchbar");
 element.addEventListener("keyup", search_users);
 
 search_users();
+
+function delay(time) { // Because there is no default sleep function
+  return new Promise(resolve => setTimeout(resolve, time));
+}
 
 function search_users() {
   let input = document.getElementById('searchbar').value;
@@ -85,21 +100,21 @@ function search_users() {
 
         document.querySelector(".e-name-tag").innerHTML = obj.name;
 
-        document.querySelector(".e-age").innerHTML = "Age: " + obj.age;
-        document.querySelector(".e-bday").innerHTML = "Birthdate: " + obj.bday;
-        document.querySelector(".e-address").innerHTML = "Address: " + obj.address;
-        document.querySelector(".e-phone").innerHTML = "Phone: " + obj.phone;
-        document.querySelector(".e-civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
-        document.querySelector(".e-kids").innerHTML = "Kids: " + obj.kids;
-        document.querySelector(".e-hobbies").innerHTML = "Hobbies: " + obj.hobbies;
-        document.querySelector(".e-email").innerHTML = "E-Mail: " + obj.email;
-        document.querySelector(".e-occupation").innerHTML = "Occupation: " + obj.occupation;
-        document.querySelector(".e-prev-occupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
-        document.querySelector(".e-military").innerHTML = "Military: " + obj.military;
-        document.querySelector(".e-club").innerHTML = "Club: " + obj.club;
-        document.querySelector(".e-legal").innerHTML = "Legal: " + obj.legal;
-        document.querySelector(".e-political").innerHTML = "Political: " + obj.political;
-        document.querySelector(".e-notes").innerHTML = "Notes: " + obj.notes;
+        document.querySelector(".e-age").innerHTML = obj.age;
+        document.querySelector(".e-bday").innerHTML = obj.bday;
+        document.querySelector(".e-address").innerHTML = obj.address;
+        document.querySelector(".e-phone").innerHTML = obj.phone;
+        document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
+        document.querySelector(".e-kids").innerHTML = obj.kids;
+        document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
+        document.querySelector(".e-email").innerHTML = obj.email;
+        document.querySelector(".e-occupation").innerHTML = obj.occupation;
+        document.querySelector(".e-prev-occupation").innerHTML = obj.prevoccupation;
+        document.querySelector(".e-military").innerHTML = obj.military;
+        document.querySelector(".e-club").innerHTML = obj.club;
+        document.querySelector(".e-legal").innerHTML = obj.legal;
+        document.querySelector(".e-political").innerHTML = obj.political;
+        document.querySelector(".e-notes").innerHTML = obj.notes;
       }
 
       const e_icon = document.createElement("ion-icon"); // Edit icon
@@ -136,10 +151,31 @@ document.getElementById("e-backbtn").onclick = function() {
   document.querySelector('.edit-container').style.display = "none";
 }
 
-const input = document.querySelector('input');
-const span = document.querySelector('span');
+document.getElementById("e-savebtn").onclick = function() {
+  console.log("Save data to db");
 
-input.addEventListener('input', function (event) {
-    span.innerHTML = this.value.replace(/\s/g, '&nbsp;');
-    this.style.width = span.offsetWidth + 'px';
-});
+  console.log(document.querySelector(".e-age").innerHTML);
+  console.log(document.querySelector(".e-bday").innerHTML);
+  console.log(document.querySelector(".e-address").innerHTML);
+  console.log(document.querySelector(".e-phone").innerHTML);
+  console.log(document.querySelector(".e-civilstatus").innerHTML);
+  console.log(document.querySelector(".e-kids").innerHTML);
+  console.log(document.querySelector(".e-hobbies").innerHTML);
+  console.log(document.querySelector(".e-email").innerHTML);
+  console.log(document.querySelector(".e-occupation").innerHTML);
+  console.log(document.querySelector(".e-prev-occupation").innerHTML);
+  console.log(document.querySelector(".e-military").innerHTML);
+  console.log(document.querySelector(".e-club").innerHTML);
+  console.log(document.querySelector(".e-legal").innerHTML);
+  console.log(document.querySelector(".e-political").innerHTML);
+  console.log(document.querySelector(".e-notes").innerHTML);
+
+
+  document.getElementById("e-savebtn-p").innerHTML = "Saved!";
+  delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
+  
+
+
+  // TODO Add saving to db
+}
+
