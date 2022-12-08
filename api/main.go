@@ -132,6 +132,7 @@ func getNamesListLenRequest(persons DataBase, c *gin.Context) {
 }
 
 func postPersons(persons DataBase, c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
 	var newPerson person
 
 	if err := c.BindJSON(&newPerson); err != nil {
@@ -171,6 +172,7 @@ func checkPersonExists(persons DataBase, id string) bool {
 }
 
 func getPersonByIDRequest(persons DataBase, c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
 	c.IndentedJSON(http.StatusOK, getPersonByID(persons, c.Param("id")))
 }
 
