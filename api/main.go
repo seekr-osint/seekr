@@ -53,6 +53,7 @@ func ServeApi(persons DataBase, ip string, databaseFile string) {
 	//router.GET("/names/:name", getPersonsByName)
 	router.GET("/persons/:id", handler(getPersonByIDRequest, persons))
 	router.POST("/persons", handler(postPersons, persons))
+  router.DELETE("/persons/:id", handler(deletePerson, persons))
 	DatabaseFile = databaseFile
 	data, err := ioutil.ReadFile(DatabaseFile)
 	if err != nil {
@@ -129,6 +130,21 @@ func getNamesListRequest(persons DataBase, c *gin.Context) {
 func getNamesListLenRequest(persons DataBase, c *gin.Context) {
 	names := len(getNamesList(persons))
 	c.IndentedJSON(http.StatusOK, names)
+}
+
+func deletePerson(persons DataBase, c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	if checkPersonExists(persons, c.Param("id")) {
+		// Add the new person to the slice.
+		delete(persons,c.Param("id"))
+		//c.IndentedJSON(http.StatusCreated, newPerson)
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
+	} 
+	jsonBytes, err := json.Marshal(persons)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	ioutil.WriteFile(DatabaseFile, jsonBytes, 0644)
 }
 
 func postPersons(persons DataBase, c *gin.Context) {
