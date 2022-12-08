@@ -1,15 +1,28 @@
 import {jsonData} from "./data.js";
 
-fetch("http://localhost:8080/persons").then(function(response) {
-  return response.json();
-}).then(function(data) {
-  console.log(data);
-  return data;
-}).catch(function(err) {
-  console.log('Fetch Error :-S', err);
-});
+async function foo() {
+  let obj;
 
-console.log(data);
+  const res = await fetch("http://localhost:8080/persons")
+
+  obj = await res.json();
+
+  // console.log(obj)
+  return obj;
+}
+
+
+
+// fetch("http://localhost:8080/persons").then(function(response) {
+//   return response.json();
+// }).then(function(data) {
+//   console.log(data);
+// }).catch(function(err) {
+//   console.log('Fetch Error :-S', err);
+// });
+
+// foo()
+console.log(foo());
 
 // Uncomment to test server
 // If not commented, it wont work
