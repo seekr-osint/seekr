@@ -38,12 +38,6 @@ jobs:
     - name: Test webserver
       run: go test -v ./...
       
-    - name: Build api
-      run: go build -v ./api/...
-
-    - name: Test api
-      run: go test -v ./api/...
-      
     - name: go-semantic-release
   # You may pin to the exact commit or the version.
   # uses: go-semantic-release/action@7149b1688a03fa91bc122d93cd8bc3e95d1872b2
