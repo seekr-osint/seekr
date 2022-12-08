@@ -2,6 +2,7 @@
 /seekr.exe
 result
 data.json
+data.json.example
 .direnv
 seekr
 
