@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"net/http"
@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 )
 
-var databaseFile string = "./data.json"
+var DatabaseFile string
 
 // person represents data about a record person.
 type person struct {
@@ -23,21 +23,26 @@ type person struct {
 
 type DataBase map[string]person
 
-// var persons = []person{}
-var persons = make(DataBase)
+func handler(function func(DataBase,*gin.Context),db DataBase) (gin.HandlerFunc) {
+  handlerFunc := func(c *gin.Context) {
+    function(db,c)
+  }
+  return gin.HandlerFunc(handlerFunc)
+}
 
-func main() {
-	fmt.Println(checkUsername("9glenda"))
+func ServeApi(persons DataBase,ip string, databaseFile string) {
+	//fmt.Println(checkUsername("9glenda"))
+  fmt.Println("running api on" + ip)
 	router := gin.Default()
-	router.GET("/persons", getPersons)
-	router.GET("/names", getNamesRequest)
-  router.GET("/names/list", getNamesListRequest)
-  router.GET("/names/list/len", getNamesListLenRequest)
+	router.GET("/persons", handler(getPersons,persons))
+	router.GET("/names", handler(getNamesRequest,persons))
+  router.GET("/names/list", handler(getNamesListRequest,persons))
+  router.GET("/names/list/len", handler(getNamesListLenRequest,persons))
 	//router.GET("/names/:name", getPersonsByName)
-	router.GET("/persons/:id", getPersonByIDRequest)
-	router.POST("/persons", postPersons)
-
-	data, err := ioutil.ReadFile(databaseFile)
+	router.GET("/persons/:id", handler(getPersonByIDRequest,persons))
+	router.POST("/persons", handler(postPersons,persons))
+  DatabaseFile = databaseFile
+	data, err := ioutil.ReadFile(DatabaseFile)
 	if err != nil {
 		fmt.Print(err)
 	}
@@ -46,7 +51,7 @@ func main() {
 		fmt.Println("error:", err)
 	}
 
-	router.Run("localhost:8080")
+	router.Run(ip)
 }
 
 func getStatusCode(url string) int {
@@ -80,18 +85,18 @@ func checkUsername(username string) []string {
 	return valid
 }
 
-func getPersons(c *gin.Context) {
+func getPersons(persons DataBase,c *gin.Context) {
   c.Header("Access-Control-Allow-Origin","*")
 	c.IndentedJSON(http.StatusOK, persons)
 }
-func getNames() map[string][]person {
+func getNames(persons DataBase) map[string][]person {
 	names := map[string][]person{}
 	for _, element := range persons {
 		names[element.Name] = append(names[element.Name], element)
 	}
 	return names
 }
-func getNamesList() []string {
+func getNamesList(persons DataBase) []string {
 	names := []string{}
 	for _, element := range persons {
 		names = append(names,element.Name)
@@ -101,22 +106,22 @@ func getNamesList() []string {
 
 
 
-func getNamesRequest(c *gin.Context) {
-	names := getNames()
+func getNamesRequest(persons DataBase,c *gin.Context) {
+	names := getNames(persons)
 	c.IndentedJSON(http.StatusOK, names)
 }
 
-func getNamesListRequest(c *gin.Context) {
-	names := getNamesList()
+func getNamesListRequest(persons DataBase,c *gin.Context) {
+	names := getNamesList(persons)
 	c.IndentedJSON(http.StatusOK, names)
 }
 
-func getNamesListLenRequest(c *gin.Context) {
-	names := len(getNamesList())
+func getNamesListLenRequest(persons DataBase,c *gin.Context) {
+	names := len(getNamesList(persons))
 	c.IndentedJSON(http.StatusOK, names)
 }
 
-func postPersons(c *gin.Context) {
+func postPersons(persons DataBase, c *gin.Context) {
 	var newPerson person
 
 	if err := c.BindJSON(&newPerson); err != nil {
@@ -136,10 +141,10 @@ func postPersons(c *gin.Context) {
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-	ioutil.WriteFile(databaseFile, jsonBytes, 0644)
+	ioutil.WriteFile(DatabaseFile, jsonBytes, 0644)
 }
 
-func getPersonID(id string) (bool, person, int) {
+func getPersonID(persons DataBase,id string) (bool, person, int) {
 	var selectedPerson person
 	var personExists = false
 	var index int
@@ -155,7 +160,7 @@ func checkPersonExists(persons DataBase, id string) bool {
 	return ok
 }
 
-func getPersonByIDRequest(c *gin.Context) {
+func getPersonByIDRequest(persons DataBase,c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(persons, c.Param("id")))
 }
 
