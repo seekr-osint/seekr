@@ -53,6 +53,7 @@ html {
   color: var(--greyDark);
   margin: 1.2rem;
   margin-right: 0.4rem;
+  vertical-align: top;
 }
 
 .scroll-box {
