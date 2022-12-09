@@ -34,8 +34,6 @@ type person struct {
 	Accounts       []Account `json:"accounts"`
 }
 
-
-
 type DataBase map[string]person
 
 func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc {
@@ -79,8 +77,6 @@ func GetStatusCode(url string) int {
 	}
 	return resp.StatusCode
 }
-
-
 
 func getPersons(persons DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
