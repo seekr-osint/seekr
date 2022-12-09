@@ -15,8 +15,6 @@ async function main() {
   element.addEventListener("keyup", search_users);
 
   search_users();
-
-
   
 
   function search_users() {
@@ -24,6 +22,8 @@ async function main() {
     input = input.toLowerCase();
     let x = document.querySelector('#list-holder');
     x.innerHTML = ""
+
+    
     
 
     for (const [i, _] of Object.entries(data)) {
@@ -141,6 +141,46 @@ async function main() {
   document.getElementById("e-backbtn").onclick = function() {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
+  }
+
+  document.getElementById("e-backbtn").onclick = function() {
+    document.querySelector('.main').style.display = "flex";
+    document.querySelector('.edit-container').style.display = "none";
+  }
+
+
+  document.getElementById("c-savebtn").onclick = function() {
+    console.log("Save data to db");
+
+    let totalIds = Object.keys(data).length;
+
+    let id = String(totalIds + 1);
+
+    let name = document.querySelector(".e-name-tag").innerHTML;
+    
+    let age = parseInt(document.querySelector(".c-age").innerHTML);
+    let bday = document.querySelector(".c-bday").innerHTML;
+    let address = document.querySelector(".c-address").innerHTML;
+    let phone = document.querySelector(".c-phone").innerHTML;
+    let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
+    let kids = document.querySelector(".c-kids").innerHTML;
+    let hobbies = document.querySelector(".c-hobbies").innerHTML;
+    let email = document.querySelector(".c-email").innerHTML;
+    let occupation = document.querySelector(".c-occupation").innerHTML;
+    let prevoccupation = document.querySelector(".c-prev-occupation").innerHTML;
+    let military = document.querySelector(".c-military").innerHTML;
+    let club = document.querySelector(".c-club").innerHTML;
+    let legal = document.querySelector(".c-legal").innerHTML;
+    let political = document.querySelector(".c-political").innerHTML;
+    let notes = document.querySelector(".c-notes").innerHTML;
+
+    fetch('http://localhost:8080/persons', {
+      method: 'POST',
+      body: JSON.stringify({"id": id,"name": name,"age": age,"bday": bday,"address": address,"phone": phone,"civilstatus": civilstatus,"kids": kids,"hobbies": hobbies,"email": email,"occupation": occupation,"prevoccupation": prevoccupation,"military": military,"club": club,"legal": legal,"political": political,"notes": notes})
+    });
+
+    document.getElementById("e-savebtn-p").innerHTML = "Saved!";
+    delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
   }
 
   document.getElementById("e-savebtn").onclick = function() {
