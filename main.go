@@ -23,6 +23,6 @@ var config = webServer.WebServerConfig{
 
 func main() {
 	go api.ServeApi(persons, ":8080", "data.json") // TODO config parsing stuff
-	go webServer.ParseConfig(config)
+	webServer.ParseConfig(config)
 	fmt.Println(api.ServicesHandler(api.DefaultServices, "9glenda"))
 }

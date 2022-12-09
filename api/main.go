@@ -12,30 +12,6 @@ import (
 
 var DatabaseFile string
 
-// person represents data about a record person.
-type person struct {
-	ID             string    `json:"id"`
-	Name           string    `json:"name"`
-	Age            int8      `json:"age"`
-	Birthday       string    `json:"bday"`
-	Address        string    `json:"address"`
-	Phone          string    `json:"phone"`
-	Civilstatus    string    `json:"civilstatus"`
-	Kids           string    `json:"kids"`
-	Hobbies        string    `json:"hobbies"`
-	Email          string    `json:"email"`
-	Occupation     string    `json:"occupation"`
-	Prevoccupation string    `json:"prevoccupation"`
-	Military       string    `json:"military"`
-	Club           string    `json:"club"`
-	Legal          string    `json:"legal"`
-	Political      string    `json:"political"`
-	Notes          string    `json:"notes"`
-	Accounts       []Account `json:"accounts"`
-}
-
-type DataBase map[string]person
-
 func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc {
 	handlerFunc := func(c *gin.Context) {
 		function(db, c)
@@ -143,12 +119,7 @@ func postPersons(persons DataBase, c *gin.Context) {
 		persons[newPerson.ID] = newPerson
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
-
-	jsonBytes, err := json.Marshal(persons)
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	ioutil.WriteFile(DatabaseFile, jsonBytes, 0644)
+	SaveJson(persons)
 }
 
 func getPersonID(persons DataBase, id string) (bool, person, int) {
