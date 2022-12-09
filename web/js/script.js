@@ -83,6 +83,8 @@ async function main() {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.edit-container').style.display = "flex";
 
+          document.querySelector("#e-showid").innerHTML = obj.id;
+
           document.querySelector(".e-name-tag").innerHTML = obj.name;
 
           document.querySelector(".e-age").innerHTML = obj.age;
@@ -131,6 +133,11 @@ async function main() {
     document.querySelector('.container').style.display = "none";
   }
 
+  document.getElementById("newbtn").onclick = function() {
+    document.querySelector('.main').style.display = "none";
+    document.querySelector('.create-container').style.display = "flex";
+  }
+
   document.getElementById("e-backbtn").onclick = function() {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
@@ -139,45 +146,35 @@ async function main() {
   document.getElementById("e-savebtn").onclick = function() {
     console.log("Save data to db");
 
-    fetch('http://localhost:8080/persons/6', {
+    let id = document.querySelector("#e-showid").innerHTML;
+
+    let name = document.querySelector(".e-name-tag").innerHTML;
+    
+    let age = parseInt(document.querySelector(".e-age").innerHTML);
+    let bday = document.querySelector(".e-bday").innerHTML;
+    let address = document.querySelector(".e-address").innerHTML;
+    let phone = document.querySelector(".e-phone").innerHTML;
+    let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
+    let kids = document.querySelector(".e-kids").innerHTML;
+    let hobbies = document.querySelector(".e-hobbies").innerHTML;
+    let email = document.querySelector(".e-email").innerHTML;
+    let occupation = document.querySelector(".e-occupation").innerHTML;
+    let prevoccupation = document.querySelector(".e-prev-occupation").innerHTML;
+    let military = document.querySelector(".e-military").innerHTML;
+    let club = document.querySelector(".e-club").innerHTML;
+    let legal = document.querySelector(".e-legal").innerHTML;
+    let political = document.querySelector(".e-political").innerHTML;
+    let notes = document.querySelector(".e-notes").innerHTML;
+    
+
+    fetch('http://localhost:8080/persons', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        age: 50
-      }),
-      mode: 'cors'
+      body: JSON.stringify({"id": id,"name": name,"age": age,"bday": bday,"address": address,"phone": phone,"civilstatus": civilstatus,"kids": kids,"hobbies": hobbies,"email": email,"occupation": occupation,"prevoccupation": prevoccupation,"military": military,"club": club,"legal": legal,"political": political,"notes": notes})
     });
-
-
-    console.log(document.querySelector(".e-age").innerHTML);
-    console.log(document.querySelector(".e-bday").innerHTML);
-    console.log(document.querySelector(".e-address").innerHTML);
-    console.log(document.querySelector(".e-phone").innerHTML);
-    console.log(document.querySelector(".e-civilstatus").innerHTML);
-    console.log(document.querySelector(".e-kids").innerHTML);
-    console.log(document.querySelector(".e-hobbies").innerHTML);
-    console.log(document.querySelector(".e-email").innerHTML);
-    console.log(document.querySelector(".e-occupation").innerHTML);
-    console.log(document.querySelector(".e-prev-occupation").innerHTML);
-    console.log(document.querySelector(".e-military").innerHTML);
-    console.log(document.querySelector(".e-club").innerHTML);
-    console.log(document.querySelector(".e-legal").innerHTML);
-    console.log(document.querySelector(".e-political").innerHTML);
-    console.log(document.querySelector(".e-notes").innerHTML);
-
 
     document.getElementById("e-savebtn-p").innerHTML = "Saved!";
     delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
-    
-
-
-    // TODO Add saving to db
   }
-
-
 }
-
 
 main()

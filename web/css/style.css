@@ -45,6 +45,11 @@ html {
 .e-name-tag {
   font-size: 1.7rem;
   color: var(--greyDark);
+  outline: none;
+}
+
+#e-showid {
+  color: transparent;
 }
 
 .tag {
@@ -87,6 +92,16 @@ html {
   overflow: hidden;
 }
 
+.create-container {
+  min-height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  background: var(--greyLight-1);
+  overflow: hidden;
+}
+
 .container {
   min-height: 100vh;
   display: none;
@@ -108,6 +123,7 @@ html {
 }
 
 .components {
+  position: relative;
   width: 80rem;
   height: 60rem;
   border-radius: 3rem;
@@ -117,6 +133,15 @@ html {
 }
 
 /*  BUTTONS  */
+
+
+#newbtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 4rem;
+  margin-bottom: 3rem;
+}
 
 #e-savebtn {
   margin-right: 2rem;
