@@ -139,6 +139,18 @@ async function main() {
   document.getElementById("e-savebtn").onclick = function() {
     console.log("Save data to db");
 
+    fetch('http://localhost:8080/persons/6', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        age: 50
+      }),
+      mode: 'cors'
+    });
+
+
     console.log(document.querySelector(".e-age").innerHTML);
     console.log(document.querySelector(".e-bday").innerHTML);
     console.log(document.querySelector(".e-address").innerHTML);
