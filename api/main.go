@@ -5,35 +5,12 @@ import (
 
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
+
+	"github.com/gin-gonic/gin"
 )
 
 var DatabaseFile string
-
-// person represents data about a record person.
-type person struct {
-	ID             string `json:"id"`
-	Name           string `json:"name"`
-	Age            int8   `json:"age"`
-	Birthday       string `json:"bday"`
-	Address        string `json:"address"`
-	Phone          string `json:"phone"`
-	Civilstatus    string `json:"civilstatus"`
-	Kids           string `json:"kids"`
-	Hobbies        string `json:"hobbies"`
-	Email          string `json:"email"`
-	Occupation     string `json:"occupation"`
-	Prevoccupation string `json:"prevoccupation"`
-	Military       string `json:"military"`
-	Club           string `json:"club"`
-	Legal          string `json:"legal"`
-	Political      string `json:"political"`
-	Notes          string `json:"notes"`
-	Youtube        string `json:"youtube"`
-}
-
-type DataBase map[string]person
 
 func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc {
 	handlerFunc := func(c *gin.Context) {
@@ -49,10 +26,9 @@ func ServeApi(persons DataBase, ip string, databaseFile string) {
 	router.GET("/names", handler(getNamesRequest, persons))
 	router.GET("/names/list", handler(getNamesListRequest, persons))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, persons))
-	//router.GET("/names/:name", getPersonsByName)
 	router.GET("/persons/:id", handler(getPersonByIDRequest, persons))
 	router.POST("/persons", handler(postPersons, persons))
-  router.DELETE("/persons/:id", handler(deletePerson, persons))
+	router.DELETE("/persons/:id", handler(deletePerson, persons))
 	DatabaseFile = databaseFile
 	data, err := ioutil.ReadFile(DatabaseFile)
 	if err != nil {
@@ -66,39 +42,16 @@ func ServeApi(persons DataBase, ip string, databaseFile string) {
 	router.Run(ip)
 }
 
-func getStatusCode(url string) int {
-
+func GetStatusCode(url string) int {
 	resp, err := http.Get(url)
-
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	defer resp.Body.Close()
-
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	return resp.StatusCode
-}
-
-func CheckUsername(username string) []string {
-	services := []string{
-		"https://github.com/" + username,
-    "https://www.shutterstock.com/fi/g/" + username,
-    "https://www.myfitnesspal.com/user/idanshina/profile/" + username,
-    "https://nitter.net/" + username,
-    "https://slideshare.net/" + username,
-	}
-
-	valid := []string{}
-	for _, service := range services {
-		if getStatusCode(service) == 200 {
-			valid = append(valid, service)
-		}
-	}
-	return valid
 }
 
 func getPersons(persons DataBase, c *gin.Context) {
@@ -139,10 +92,10 @@ func deletePerson(persons DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	if checkPersonExists(persons, c.Param("id")) {
 		// Add the new person to the slice.
-		delete(persons,c.Param("id"))
+		delete(persons, c.Param("id"))
 		//c.IndentedJSON(http.StatusCreated, newPerson)
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
-	} 
+	}
 	jsonBytes, err := json.Marshal(persons)
 	if err != nil {
 		fmt.Println("error:", err)
@@ -166,12 +119,7 @@ func postPersons(persons DataBase, c *gin.Context) {
 		persons[newPerson.ID] = newPerson
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
-
-	jsonBytes, err := json.Marshal(persons)
-	if err != nil {
-		fmt.Println("error:", err)
-	}
-	ioutil.WriteFile(DatabaseFile, jsonBytes, 0644)
+	SaveJson(persons)
 }
 
 func getPersonID(persons DataBase, id string) (bool, person, int) {
@@ -201,7 +149,4 @@ func getPersonByID(persons DataBase, id string) person {
 		personToReturn = persons[id]
 	}
 	return personToReturn
-}
-
-func getPersonsByName(c *gin.Context) {
 }
