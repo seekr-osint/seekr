@@ -70,6 +70,7 @@
             nixpkgsFor.${system}.go
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
+            nixpkgsFor.${system}.maigret
             self.packages.${system}.seekr
           ];
         };

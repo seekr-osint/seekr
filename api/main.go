@@ -43,7 +43,6 @@ func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc
 }
 
 func ServeApi(persons DataBase, ip string, databaseFile string) {
-	//fmt.Println(checkUsername("9glenda"))
 	fmt.Println("running api on" + ip)
 	router := gin.Default()
 	router.GET("/persons", handler(getPersons, persons))
@@ -84,15 +83,19 @@ func getStatusCode(url string) int {
 	return resp.StatusCode
 }
 
-func checkUsername(username string) []string {
+func CheckUsername(username string) []string {
 	services := []string{
-		"https://github.com/",
+		"https://github.com/" + username,
+    "https://www.shutterstock.com/fi/g/" + username,
+    "https://www.myfitnesspal.com/user/idanshina/profile/" + username,
+    "https://nitter.net/" + username,
+    "https://slideshare.net/" + username,
 	}
 
 	valid := []string{}
 	for _, service := range services {
-		if getStatusCode(service+username) == 200 {
-			valid = append(valid, service+username)
+		if getStatusCode(service) == 200 {
+			valid = append(valid, service)
 		}
 	}
 	return valid
