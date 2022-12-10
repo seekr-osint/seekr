@@ -8,14 +8,14 @@ type Service struct {
 	BaseUrl        string         // example: "https://github.com"
 }
 
-type Accounts []Account
+type Accounts map[string]Account
 type Account struct {
-	Service  string `json:"service"`  // example: GitHub
-	Id       string `json:"id"`       // example: 1224234
-	Username string `json:"username"` // example: 9glenda
-	Url      string `json:"url"`      // example: https://github.com/9glenda
-	Pricture string `json:"profilePicture"`
-	Bio      string `json:"bio"` // example: pro hacka
+	Service  string   `json:"service"`  // example: GitHub
+	Id       string   `json:"id"`       // example: 1224234
+	Username string   `json:"username"` // example: 9glenda
+	Url      string   `json:"url"`      // example: https://github.com/9glenda
+	Pricture []string `json:"profilePicture"`
+	Bio      []string `json:"bio"` // example: pro hacka
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
@@ -53,11 +53,12 @@ func DefaultServicesHandler(username string) Accounts {
 }
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
-	var accounts Accounts
+  var accounts = make(Accounts)
 	for i := 0; i < len(servicesToCheck); i++ {
 		service := servicesToCheck[i]
 		if service.UserExistsFunc(service.BaseUrl, username) {
-			accounts = append(accounts, service.GetInfoFunc(username, service))
+			//accounts = append(accounts, service.GetInfoFunc(username, service))
+      accounts[service.Name] = service.GetInfoFunc(username, service)
 		}
 	}
 	return accounts

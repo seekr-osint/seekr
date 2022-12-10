@@ -27,6 +27,7 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/names/list", handler(getNamesListRequest, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
+  router.GET("/persons/:id/addAccounts/:username", handler(getPersonByIDRequest, people))
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	DatabaseFile = databaseFile
@@ -140,6 +141,12 @@ func checkPersonExists(people DataBase, id string) bool {
 
 func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
+	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
+func getAccounts(people DataBase, c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+  //people[c.Param("id")]["account"] = ServicesHandler(DefaultServices, "9glenda")
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
