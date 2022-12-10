@@ -7,7 +7,7 @@ function delay(time) { // Because there is no default sleep function
 }
 
 async function main() {
-  const res = await fetch("http://localhost:8080/persons")
+  const res = await fetch("http://localhost:8080/people")
 
   data = await res.json();
 
@@ -189,7 +189,7 @@ async function main() {
     let political = document.querySelector(".c-political").innerHTML;
     let notes = document.querySelector(".c-notes").innerHTML;
 
-    fetch('http://localhost:8080/persons', {
+    fetch('http://localhost:8080/people', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
     });
@@ -222,7 +222,7 @@ async function main() {
     let notes = document.querySelector(".e-notes").innerHTML;
 
 
-    fetch('http://localhost:8080/persons', {
+    fetch('http://localhost:8080/people', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
     });

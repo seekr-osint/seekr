@@ -1,6 +1,6 @@
 ```sh
-curl http://localhost:8080/persons
-curl http://localhost:8080/persons     --include     --header "Content-Type: application/json"     --request "POST"     --data '{"id": "4","name": "hacker","age": 49}'
+curl http://localhost:8080/people
+curl http://localhost:8080/people     --include     --header "Content-Type: application/json"     --request "POST"     --data '{"id": "4","name": "hacker","age": 49}'
 ```
 # get names
 ```sh

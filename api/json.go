@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 )
 
-func SaveJson(persons DataBase) {
-	jsonBytes, err := json.Marshal(persons)
+func SaveJson(people DataBase) {
+	jsonBytes, err := json.Marshal(people)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
