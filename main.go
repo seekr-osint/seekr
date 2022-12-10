@@ -13,7 +13,7 @@ import (
 //go:embed web
 var content embed.FS
 
-var persons = make(api.DataBase)
+var people = make(api.DataBase)
 
 var config = webServer.WebServerConfig{
 	Type:    webServer.SingleBinary,
@@ -22,7 +22,7 @@ var config = webServer.WebServerConfig{
 }
 
 func main() {
-	go api.ServeApi(persons, ":8080", "data.json") // TODO config parsing stuff
+	go api.ServeApi(people, ":8080", "data.json") // TODO config parsing stuff
 	webServer.ParseConfig(config)
 	fmt.Println(api.ServicesHandler(api.DefaultServices, "9glenda"))
 }
