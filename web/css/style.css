@@ -228,6 +228,10 @@ html {
 
 #list-holder {
   padding: 2rem;
+  overflow: hidden;
+  height: 43rem;
+  column-count: 2;
+  column-fill: auto;
 }
 
 #list-holder li {
