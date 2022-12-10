@@ -15,7 +15,7 @@ async function main() {
   element.addEventListener("keyup", search_users);
 
   search_users();
-  
+
 
   function search_users() {
     let input = document.getElementById('searchbar').value;
@@ -23,8 +23,8 @@ async function main() {
     let x = document.querySelector('#list-holder');
     x.innerHTML = ""
 
-    
-    
+
+
 
     for (const [i, _] of Object.entries(data)) {
       let obj = data[i];
@@ -48,8 +48,8 @@ async function main() {
 
         const v_icon_div = document.createElement("div"); // Icon div
         v_icon_div.className = "chip-view";
-        
-        v_icon_div.onclick = function() {
+
+        v_icon_div.onclick = function () {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.container').style.display = "flex";
 
@@ -79,7 +79,7 @@ async function main() {
         const e_icon_div = document.createElement("div"); // Icon div
         e_icon_div.className = "chip-edit";
 
-        e_icon_div.onclick = function() {
+        e_icon_div.onclick = function () {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.edit-container').style.display = "flex";
 
@@ -107,9 +107,9 @@ async function main() {
         const e_icon = document.createElement("ion-icon"); // Edit icon
         e_icon.className = "icon"
         e_icon.setAttribute("name", "create-outline");
-        
 
-        
+
+
         base_div.appendChild(p_icon_div);
         base_div.appendChild(txt_div);
         txt_div.appendChild(name_p);
@@ -128,28 +128,28 @@ async function main() {
     }
   }
 
-  document.getElementById("backbtn").onclick = function() {
+  document.getElementById("backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.container').style.display = "none";
   }
 
-  document.getElementById("newbtn").onclick = function() {
+  document.getElementById("newbtn").onclick = function () {
     document.querySelector('.main').style.display = "none";
     document.querySelector('.create-container').style.display = "flex";
   }
 
-  document.getElementById("e-backbtn").onclick = function() {
+  document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
   }
 
-  document.getElementById("e-backbtn").onclick = function() {
+  document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
   }
 
 
-  document.getElementById("c-savebtn").onclick = function() {
+  document.getElementById("c-savebtn").onclick = function () {
     console.log("Save data to db");
 
     let totalIds = Object.keys(data).length;
@@ -157,7 +157,7 @@ async function main() {
     let id = String(totalIds + 1);
 
     let name = document.querySelector(".e-name-tag").innerHTML;
-    
+
     let age = parseInt(document.querySelector(".c-age").innerHTML);
     let bday = document.querySelector(".c-bday").innerHTML;
     let address = document.querySelector(".c-address").innerHTML;
@@ -176,20 +176,20 @@ async function main() {
 
     fetch('http://localhost:8080/persons', {
       method: 'POST',
-      body: JSON.stringify({"id": id,"name": name,"age": age,"bday": bday,"address": address,"phone": phone,"civilstatus": civilstatus,"kids": kids,"hobbies": hobbies,"email": email,"occupation": occupation,"prevoccupation": prevoccupation,"military": military,"club": club,"legal": legal,"political": political,"notes": notes})
+      body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
     });
 
     document.getElementById("e-savebtn-p").innerHTML = "Saved!";
     delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
   }
 
-  document.getElementById("e-savebtn").onclick = function() {
+  document.getElementById("e-savebtn").onclick = function () {
     console.log("Save data to db");
 
     let id = document.querySelector("#e-showid").innerHTML;
 
     let name = document.querySelector(".e-name-tag").innerHTML;
-    
+
     let age = parseInt(document.querySelector(".e-age").innerHTML);
     let bday = document.querySelector(".e-bday").innerHTML;
     let address = document.querySelector(".e-address").innerHTML;
@@ -205,11 +205,11 @@ async function main() {
     let legal = document.querySelector(".e-legal").innerHTML;
     let political = document.querySelector(".e-political").innerHTML;
     let notes = document.querySelector(".e-notes").innerHTML;
-    
+
 
     fetch('http://localhost:8080/persons', {
       method: 'POST',
-      body: JSON.stringify({"id": id,"name": name,"age": age,"bday": bday,"address": address,"phone": phone,"civilstatus": civilstatus,"kids": kids,"hobbies": hobbies,"email": email,"occupation": occupation,"prevoccupation": prevoccupation,"military": military,"club": club,"legal": legal,"political": political,"notes": notes})
+      body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
     });
 
     document.getElementById("e-savebtn-p").innerHTML = "Saved!";
