@@ -1,4 +1,5 @@
 let data;
+let accDataGithub;
 const element = document.getElementById("searchbar");
 
 function delay(time) { // Because there is no default sleep function
@@ -70,10 +71,25 @@ async function main() {
           document.querySelector(".legal").innerHTML = "Legal: " + obj.legal;
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
           document.querySelector(".notes").innerHTML = "Notes: " + obj.notes;
+
+          // Accounts
+
+          let accDataGithub = {
+            "github": {
+              "service": "github",
+              "id": "1828288A",
+              "username": "9glenda",
+              "bio": "I hate JavaScript",
+              "profilePicture": "not sure what data type yet probably a list just keep in mind to design with profile picture support in mind"
+            }
+          }
+
+          document.querySelector(".userName").innerHTML = accDataGithub["github"]["username"];
+          document.querySelector(".userBio").innerHTML = accDataGithub["github"]["bio"];
         }
 
         const v_icon = document.createElement("ion-icon"); // View icon
-        v_icon.className = "icon"
+        v_icon.className = "icon";
         v_icon.setAttribute("name", "eye-outline");
 
         const e_icon_div = document.createElement("div"); // Icon div
@@ -107,7 +123,6 @@ async function main() {
         const e_icon = document.createElement("ion-icon"); // Edit icon
         e_icon.className = "icon"
         e_icon.setAttribute("name", "create-outline");
-
 
 
         base_div.appendChild(p_icon_div);

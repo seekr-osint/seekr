@@ -29,13 +29,49 @@ html {
 }
 
 
+.userPfp {
+  float: left;
+  border-radius: 50%;
+  height: 8rem;
+  width: 8rem;
+  margin: 0.5rem;
+}
 
+.accounts {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
 
+.github {
+  display: flex;
+  flex-direction: row;
+  height: 9rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.serviceName {
+  font-size: 1.5rem;
+  color: var(--greyDark);
+}
+
+.userName {
+  font-size: 2rem;
+  color: var(--greyDark);
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.userBio {
+  font-size: 1.7rem;
+  color: var(--greyDark);
+}
 
 
 
 .table {
-  
   display: flex;
 }
 
