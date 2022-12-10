@@ -35,7 +35,8 @@ html {
 
 
 .table {
-  display: table;
+  
+  display: flex;
 }
 
 .name-tag {
@@ -54,12 +55,13 @@ html {
 }
 
 .tag {
-  display: table-cell;
+  display: flex;
   font-size: 1.4rem;
   color: var(--greyDark);
   margin: 1.2rem;
   margin-right: 0.4rem;
-  vertical-align: top;
+  position: relative;
+  top: 0;
 }
 
 .scroll-box {
@@ -190,6 +192,9 @@ html {
   display: table-cell;
   min-width: 10rem;
   max-width: 60rem;
+  align-items: flex-start;
+  margin: 1rem;
+  margin-left: 0.7rem;
 }
 
 .form-input {
