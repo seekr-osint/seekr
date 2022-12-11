@@ -109,7 +109,7 @@ func GithubInfo(username string, service Service) Account {
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
     Bio:      []string{data.Bio},
-    Pricture:  []string{EncodeBase64(data.Url)},
+    Pricture:  []string{EncodeBase64(data.Avatar_url)},
 	}
 	return account
 }
