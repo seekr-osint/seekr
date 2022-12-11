@@ -29,6 +29,28 @@ html {
 }
 
 
+
+#acc-rejectbtn {
+  float: right;
+  margin: 2rem;
+}
+
+#acc-acceptbtn {
+  float: right;
+  margin: 2rem;
+  margin-left: 5rem;
+}
+
+#c-accbtn {
+  float: none;
+  margin: 2rem;
+  width: 20rem;
+}
+
+.left-container {
+  width: 40rem;
+}
+
 .userPfp {
   float: left;
   border-radius: 50%;
@@ -41,6 +63,7 @@ html {
   display: flex;
   align-items: center;
   margin-right: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .github {
@@ -85,6 +108,19 @@ html {
   color: var(--greyDark);
   outline: none;
 }
+
+.c-name-tag {
+  font-size: 1.7rem;
+  color: var(--greyDark);
+  outline: none;
+}
+
+.acc-name-tag {
+  font-size: 1.7rem;
+  color: var(--greyDark);
+  outline: none;
+}
+
 
 #e-showid {
   color: transparent;
@@ -142,6 +178,17 @@ html {
   overflow: hidden;
 }
 
+.acc-container {
+  min-height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  background: var(--greyLight-1);
+  overflow: hidden;
+}
+
+
 .container {
   min-height: 100vh;
   display: none;
@@ -184,6 +231,10 @@ html {
 }
 
 #c-savebtn {
+  margin-right: 2rem;
+}
+
+#acc-savebtn {
   margin-right: 2rem;
 }
 

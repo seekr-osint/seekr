@@ -1,4 +1,5 @@
 let data;
+let accData;
 let accDataGithub;
 const element = document.getElementById("searchbar");
 
@@ -12,6 +13,8 @@ async function main() {
   data = await res.json();
 
   console.log(data);
+
+  
 
   element.addEventListener("keyup", search_users);
 
@@ -74,6 +77,14 @@ async function main() {
 
           // Accounts
 
+          let accounts;
+
+          fetch('http://localhost:8080/people/3/getAccounts/9glenda')
+            .then(res => res.json())
+            .then(data1 => accounts = data1["accounts"]);
+
+          console.log(data1)
+
           let accDataGithub = {
             "github": {
               "service": "github",
@@ -84,8 +95,8 @@ async function main() {
             }
           }
 
-          document.querySelector(".userName").innerHTML = accDataGithub["github"]["username"];
-          document.querySelector(".userBio").innerHTML = accDataGithub["github"]["bio"];
+          document.querySelector(".userName").innerHTML = accounts["github"]["username"];
+          document.querySelector(".userBio").innerHTML = accounts["github"]["bio"];
         }
 
         const v_icon = document.createElement("ion-icon"); // View icon
@@ -161,6 +172,21 @@ async function main() {
   document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
+  }
+
+  document.getElementById("c-accbtn").onclick = function () {
+    document.querySelector('.create-container').style.display = "none";
+    document.querySelector('.acc-container').style.display = "flex";
+  }
+
+  document.getElementById("c-backbtn").onclick = function () {
+    document.querySelector('.main').style.display = "flex";
+    document.querySelector('.create-container').style.display = "none";
+  }
+
+  document.getElementById("acc-backbtn").onclick = function () {
+    document.querySelector('.create-container').style.display = "flex";
+    document.querySelector('.acc-container').style.display = "none";
   }
 
 
