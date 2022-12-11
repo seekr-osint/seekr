@@ -9,10 +9,13 @@ curl http://localhost:8080/names
 ```json
 ```
 
-# post names
+# add accounts
 ```sh
 curl http://localhost:8080/people/3/addAccounts/9glenda
 ```
+
+# getAccounts
+to get the accounts of the user with an api call run this
 ```sh
 curl http://localhost:8080/people/3/getAccounts/9glenda
 ```
