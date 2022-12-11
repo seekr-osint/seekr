@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 var DatabaseFile string
@@ -20,25 +20,25 @@ func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc
 }
 
 func ServeApi(people DataBase, ip string, databaseFile string) {
-	fmt.Println("running api on" + ip)
+	log.Println("running api on" + ip)
 	router := gin.Default()
 	router.GET("/people", handler(getPeople, people))
 	router.GET("/names", handler(getNamesRequest, people))
 	router.GET("/names/list", handler(getNamesListRequest, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
-  router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
-  router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
+	router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
+	router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	DatabaseFile = databaseFile
 	data, err := ioutil.ReadFile(DatabaseFile)
 	if err != nil {
-		fmt.Print(err)
+		log.Println("error:", err)
 	}
 	err = json.Unmarshal(data, &people)
 	if err != nil {
-		fmt.Println("error:", err)
+		log.Println("error:", err)
 	}
 
 	router.Run(ip)
@@ -47,11 +47,11 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 func GetStatusCode(url string) int {
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	defer resp.Body.Close()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	return resp.StatusCode
 }
@@ -100,7 +100,7 @@ func deletePerson(people DataBase, c *gin.Context) {
 	}
 	jsonBytes, err := json.Marshal(people)
 	if err != nil {
-		fmt.Println("error:", err)
+		log.Println("error:", err)
 	}
 	ioutil.WriteFile(DatabaseFile, jsonBytes, 0644)
 }
@@ -117,7 +117,7 @@ func postPeople(people DataBase, c *gin.Context) {
 		people[newPerson.ID] = newPerson
 		c.IndentedJSON(http.StatusCreated, newPerson)
 	} else {
-		fmt.Println(people[newPerson.ID])
+		log.Println(people[newPerson.ID])
 		people[newPerson.ID] = newPerson
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
@@ -147,21 +147,21 @@ func getPersonByIDRequest(people DataBase, c *gin.Context) {
 
 func addAccounts(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-  people = getAccounts(people, c.Param("id"),c.Param("username"))
-  SaveJson(people)
+	people = getAccounts(people, c.Param("id"), c.Param("username"))
+	SaveJson(people)
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
-func getAccounts(people DataBase, id,username string) (DataBase) {
-  person := getPersonByID(people, id)
-  person.Accounts = ServicesHandler(DefaultServices, username)
-  people[id] = person
-  return people
+func getAccounts(people DataBase, id, username string) DataBase {
+	person := getPersonByID(people, id)
+	person.Accounts = ServicesHandler(DefaultServices, username)
+	people[id] = person
+	return people
 }
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-  people = getAccounts(people, c.Param("id"),c.Param("username"))
+	people = getAccounts(people, c.Param("id"), c.Param("username"))
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
