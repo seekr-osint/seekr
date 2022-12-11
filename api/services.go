@@ -104,7 +104,7 @@ func GithubInfo(username string, service Service) Account {
 		log.Println(err)
 	}
 	account := Account{
-		Service:  service.Name,
+		Service:  "GitHub",
 		Username: username,
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
