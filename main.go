@@ -1,6 +1,6 @@
 package main
 
-import "C"
+////import "C"
 import (
 	"embed"
 	"fmt"
@@ -23,7 +23,7 @@ func main() {
 	fmt.Println(api.ServicesHandler(api.DefaultServices, "9glenda"))
 }
 
-//export RunWebServer
+////export RunWebServer
 func RunWebServer() {
 
 var config = webServer.WebServerConfig{
