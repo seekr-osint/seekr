@@ -27,7 +27,8 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/names/list", handler(getNamesListRequest, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
-  router.GET("/persons/:id/addAccounts/:username", handler(getPersonByIDRequest, people))
+  router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
+  router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	DatabaseFile = databaseFile
@@ -144,9 +145,23 @@ func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
-func getAccounts(people DataBase, c *gin.Context) {
+func addAccounts(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-  //people[c.Param("id")]["account"] = ServicesHandler(DefaultServices, "9glenda")
+  people = getAccounts(people, c.Param("id"),c.Param("username"))
+  SaveJson(people)
+	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
+func getAccounts(people DataBase, id,username string) (DataBase) {
+  person := getPersonByID(people, id)
+  person.Accounts = ServicesHandler(DefaultServices, username)
+  people[id] = person
+  return people
+}
+
+func getAccountsRequest(people DataBase, c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+  people = getAccounts(people, c.Param("id"),c.Param("username"))
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
