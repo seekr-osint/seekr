@@ -1,6 +1,5 @@
 let data;
 let accData;
-let accDataGithub;
 const element = document.getElementById("searchbar");
 
 function delay(time) { // Because there is no default sleep function
@@ -53,7 +52,7 @@ async function main() {
         const v_icon_div = document.createElement("div"); // Icon div
         v_icon_div.className = "chip-view";
 
-        v_icon_div.onclick = function () {
+        v_icon_div.onclick = async function () {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.container').style.display = "flex";
 
@@ -77,26 +76,30 @@ async function main() {
 
           // Accounts
 
-          let accounts;
+          if (obj.accounts != null) {
+            for (const [i, _] of Object.entries(obj.accounts)) {
+              let accObj = obj.accounts[i];
+  
+              console.log(accObj);
 
-          fetch('http://localhost:8080/people/3/getAccounts/9glenda')
-            .then(res => res.json())
-            .then(data1 => accounts = data1["accounts"]);
+              // Creating elements
 
-          console.log(data1)
+              const base_div = document.createElement("div"); // Outer div
+              base_div.className = "acc-chip";
 
-          let accDataGithub = {
-            "github": {
-              "service": "github",
-              "id": "1828288A",
-              "username": "9glenda",
-              "bio": "I hate JavaScript",
-              "profilePicture": "not sure what data type yet probably a list just keep in mind to design with profile picture support in mind"
+              const pfp_img = document.createElement("img"); // Outer div
+              pfp_img.className = "userPfp";
+              pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+
+
+              document.querySelector(".userPfp").src = "data:image/png;base64," + accObj.profilePicture[0];
+              document.querySelector(".userName").innerHTML = accObj.username;
+
+              if (accObj.bio != null) {
+                document.querySelector(".userBio").innerHTML = accObj.bio[0];
+              }
             }
           }
-
-          document.querySelector(".userName").innerHTML = accounts["github"]["username"];
-          document.querySelector(".userBio").innerHTML = accounts["github"]["bio"];
         }
 
         const v_icon = document.createElement("ion-icon"); // View icon
