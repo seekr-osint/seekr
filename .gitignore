@@ -6,4 +6,6 @@ data.json.example
 .direnv
 seekr
 main
-
+main.c
+main.h
+a.out
