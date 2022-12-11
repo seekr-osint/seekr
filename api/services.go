@@ -53,6 +53,7 @@ func EmptyAccountInfo(username string, service Service) Account {
 	return Account{
 		Service:  service.Name,
 		Username: username,
+    Bio: []string{},
 	}
 }
 
