@@ -47,11 +47,22 @@ jobs:
 
     - name: Test webserver
       run: go test -v ./...
-      
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
     - name: go fmt
       run: go fmt ./...
-    - name: Commit and push changes
-      uses: devops-infra/action-commit-push@master
+    - name: Add & Commit
+      # You may pin to the exact commit or the version.
+      # uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
+      uses: EndBug/add-and-commit@v9.1.1
       with:
+        add: .
+        commit: --signoff
+        push: true
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        commit_prefix: "[GO FMT]"
+    #- name: Commit and push changes
+      #uses: devops-infra/action-commit-push@master
+      #with:
+        #github_token: ${{ secrets.GITHUB_TOKEN }}
+        #commit_prefix: "[GO FMT]"
