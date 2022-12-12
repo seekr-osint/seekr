@@ -161,8 +161,9 @@ func getAccounts(people DataBase, id, username string) DataBase {
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-	people = getAccounts(people, c.Param("id"), c.Param("username"))
-	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+  people2 := people
+	people2 = getAccounts(people2, c.Param("id"), c.Param("username"))
+	c.IndentedJSON(http.StatusOK, getPersonByID(people2, c.Param("id")))
 }
 
 func getPersonByID(people DataBase, id string) person {
