@@ -1,12 +1,12 @@
 package api
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
-  "encoding/base64"
 )
 
 type Services []Service
@@ -53,7 +53,7 @@ func EmptyAccountInfo(username string, service Service) Account {
 	return Account{
 		Service:  service.Name,
 		Username: username,
-    Bio: nil, 
+		Bio:      nil,
 	}
 }
 
@@ -87,16 +87,16 @@ func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	return accounts
 }
 
-func EncodeBase64(url string) (string) {
+func EncodeBase64(url string) string {
 	return base64.StdEncoding.EncodeToString([]byte(HttpRequest(url)))
 }
 
 func GithubInfo(username string, service Service) Account {
 	var data struct {
-		Id int `json:"id"`
-    Bio string `json:"bio"`
-    Avatar_url string `json:"avatar_url"`
-    Url string `json:"html_url"`
+		Id         int    `json:"id"`
+		Bio        string `json:"bio"`
+		Avatar_url string `json:"avatar_url"`
+		Url        string `json:"html_url"`
 	}
 	jsonData := HttpRequest("https://api.github.com/users/" + username)
 	err := json.Unmarshal([]byte(jsonData), &data)
@@ -108,8 +108,8 @@ func GithubInfo(username string, service Service) Account {
 		Username: username,
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
-    Bio:      []string{data.Bio},
-    Pricture:  []string{EncodeBase64(data.Avatar_url)},
+		Bio:      []string{data.Bio},
+		Pricture: []string{EncodeBase64(data.Avatar_url)},
 	}
 	return account
 }
