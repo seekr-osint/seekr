@@ -41,11 +41,15 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-golang-
 
-    - name: Build webserver
+    - name: go build
       run: go build -v ./...
 
-    - name: Test webserver
+    - name: go test
       run: go test -v ./...
+
+    - name: go build seekr
+      run: go build
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
