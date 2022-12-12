@@ -50,6 +50,7 @@ jobs:
   fmt:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: go fmt
       run: go fmt ./...
     - name: Add & Commit
