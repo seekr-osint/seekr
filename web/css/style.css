@@ -28,7 +28,18 @@ html {
   }
 }
 
+.manage-btn-container {
+  right: 0;
+  position: absolute;
+}
 
+.manage-acc-chip {
+  flex-direction: row;
+  height: 9rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+}
 
 #acc-rejectbtn {
   float: right;
