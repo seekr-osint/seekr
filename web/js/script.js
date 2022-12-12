@@ -26,9 +26,6 @@ async function main() {
     let x = document.querySelector('#list-holder');
     x.innerHTML = ""
 
-
-
-
     for (const [i, _] of Object.entries(data)) {
       let obj = data[i];
 
@@ -87,16 +84,42 @@ async function main() {
               const base_div = document.createElement("div"); // Outer div
               base_div.className = "acc-chip";
 
-              const pfp_img = document.createElement("img"); // Outer div
+              const pfp_img = document.createElement("img"); // Pfp img
               pfp_img.className = "userPfp";
-              pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
 
+              if (accObj.profilePicture != null) {
+                pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+              } else {
+                pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
+              }
 
-              document.querySelector(".userPfp").src = "data:image/png;base64," + accObj.profilePicture[0];
-              document.querySelector(".userName").innerHTML = accObj.username;
+              const info_div = document.createElement("div"); // Info div
+              info_div.className = "info-container";
+
+              const service_p = document.createElement("p");
+              service_p.className = "serviceName";
+              service_p.innerHTML = accObj.service;
+
+              const name_p = document.createElement("p");
+              name_p.className = "userName";
+              name_p.innerHTML = accObj.username;
+
+              
+
+              
+
+              document.querySelector(".accounts").appendChild(base_div);
+              base_div.appendChild(pfp_img);
+              base_div.appendChild(info_div);
+              info_div.appendChild(service_p);
+              info_div.appendChild(name_p);
 
               if (accObj.bio != null) {
-                document.querySelector(".userBio").innerHTML = accObj.bio[0];
+                const bio_p = document.createElement("p");
+                bio_p.className = "userBio";
+                bio_p.innerHTML = accObj.bio[0];
+
+                info_div.appendChild(bio_p);
               }
             }
           }
@@ -160,6 +183,12 @@ async function main() {
   document.getElementById("backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.container').style.display = "none";
+
+    var elements = document.getElementsByClassName("acc-chip");
+
+    while (elements.length > 0) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
   }
 
   document.getElementById("newbtn").onclick = function () {

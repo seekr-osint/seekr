@@ -60,7 +60,7 @@ html {
 }
 
 .accounts {
-  display: flex;
+  display: block;
   align-items: center;
   margin-right: 1rem;
   margin-bottom: 1.5rem;
