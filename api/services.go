@@ -7,11 +7,11 @@ import (
 	"image"
 	"image/png"
 	"io/ioutil"
-  //"io"
+	//"io"
 	"log"
 	"net/http"
 	//"os"
-  _ "image/jpeg"
+	_ "image/jpeg"
 	"strconv"
 	"strings"
 )
@@ -30,7 +30,7 @@ type Account struct {
 	Id       string   `json:"id"`       // example: 1224234
 	Username string   `json:"username"` // example: 9glenda
 	Url      string   `json:"url"`      // example: https://github.com/9glenda
-	Picture []string `json:"profilePicture"`
+	Picture  []string `json:"profilePicture"`
 	Bio      []string `json:"bio"` // example: pro hacka
 }
 
@@ -95,37 +95,36 @@ func ServicesHandler(servicesToCheck Services, username string) Accounts {
 }
 
 func EncodeBase64(url string) string {
-  img := HttpRequest(url)
-  reader := strings.NewReader(img)
-  decodedImg,imgType,err := image.Decode(reader)
-  log.Printf("image type:%s",imgType)
+	img := HttpRequest(url)
+	reader := strings.NewReader(img)
+	decodedImg, imgType, err := image.Decode(reader)
+	log.Printf("image type:%s", imgType)
 	if err != nil {
 		log.Println(err)
 	}
-  buf := new(bytes.Buffer)
+	buf := new(bytes.Buffer)
 	err = png.Encode(buf, decodedImg)
 	if err != nil {
 		log.Println(err)
 	}
 
-  base64Img := base64.StdEncoding.EncodeToString(buf.Bytes())
+	base64Img := base64.StdEncoding.EncodeToString(buf.Bytes())
 	return base64Img
 }
 
-
 func SlideshareInfo(username string, service Service) Account {
-  avatar_url := "https://cdn.slidesharecdn.com/profile-photo-" + username + "-96x96.jpg"
-  log.Printf("avatar_url: %s",avatar_url)
+	avatar_url := "https://cdn.slidesharecdn.com/profile-photo-" + username + "-96x96.jpg"
+	log.Printf("avatar_url: %s", avatar_url)
 
-  account := Account{
+	account := Account{
 		Service:  service.Name,
 		Username: username,
 		Url:      service.BaseUrl + username,
 		//Picture: []string{EncodeBase64("https://www.tutorialspoint.com/html/images/test.png")},
 	}
-  if GetStatusCode(avatar_url) == 200 {
-    account.Picture =  []string{EncodeBase64(avatar_url)} 
-  }
+	if GetStatusCode(avatar_url) == 200 {
+		account.Picture = []string{EncodeBase64(avatar_url)}
+	}
 	return account
 }
 func GithubInfo(username string, service Service) Account {
@@ -137,7 +136,7 @@ func GithubInfo(username string, service Service) Account {
 	}
 	jsonData := HttpRequest("https://api.github.com/users/" + username)
 	err := json.Unmarshal([]byte(jsonData), &data)
-  log.Printf("avatar_url: %s",data.Avatar_url)
+	log.Printf("avatar_url: %s", data.Avatar_url)
 	if err != nil {
 		log.Println(err)
 	}
@@ -147,7 +146,7 @@ func GithubInfo(username string, service Service) Account {
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
 		Bio:      []string{data.Bio},
-		Picture: []string{EncodeBase64(data.Avatar_url)},
+		Picture:  []string{EncodeBase64(data.Avatar_url)},
 
 		//Picture: []string{EncodeBase64("https://www.tutorialspoint.com/html/images/test.png")},
 	}
