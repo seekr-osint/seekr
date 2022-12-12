@@ -36,7 +36,6 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ~/.cache/go-build
           ~/go/pkg/mod
         key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
         restore-keys: |
@@ -47,15 +46,31 @@ jobs:
 
     - name: Test webserver
       run: go test -v ./...
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+        path: ./seekr
+    # The desired behavior if no files are found using the provided path.
+        retention-days: 15
+        if-no-files-found: "error"
+    
   fmt:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Setup Golang caches
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-golang-
+
     - name: go fmt
       run: go fmt ./...
+      
     - name: Add & Commit
-      # You may pin to the exact commit or the version.
-      # uses: EndBug/add-and-commit@61a88be553afe4206585b31aa72387c64295d08b
       uses: EndBug/add-and-commit@v9.1.1
       with:
         add: .
