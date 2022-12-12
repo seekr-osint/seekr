@@ -7,18 +7,18 @@ on:
   workflow_dispatch:
   push:
     branches: [ "master" ]
-    paths:
-      - "api/*"
-      - "go.*"
-      - "*.go"
-      - ".github/workflows/go.yml"
+    #paths:
+      #- "api/*"
+      #- "go.*"
+      #- "*.go"
+      #- ".github/workflows/go.yml"
   pull_request:
     branches: [ "master" ]
-    paths:
-      - "api/*"
-      - "go.*"
-      - "*.go"
-      - ".github/workflows/go.yml"
+    #paths:
+      #- "api/*"
+      #- "go.*"
+      #- "*.go"
+      #- ".github/workflows/go.yml"
 
 jobs:
 
@@ -32,11 +32,6 @@ jobs:
       with:
         go-version: 1.19
 
-    - name: Build webserver
-      run: go build -v ./...
-
-    - name: Test webserver
-      run: go test -v ./...
     - name: Setup Golang caches
       uses: actions/cache@v3
       with:
@@ -46,3 +41,9 @@ jobs:
         key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           ${{ runner.os }}-golang-
+
+    - name: Build webserver
+      run: go build -v ./...
+
+    - name: Test webserver
+      run: go test -v ./...
