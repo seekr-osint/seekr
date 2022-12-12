@@ -2,7 +2,7 @@ package main
 
 ////import "C"
 import (
-	"embed"
+"embed"
 	"fmt"
 
 	api "github.com/niteletsplay/seekr/api"
