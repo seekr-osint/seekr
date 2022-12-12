@@ -103,8 +103,6 @@ html {
   color: var(--greyDark);
 }
 
-
-
 .table {
   display: flex;
 }
@@ -331,7 +329,7 @@ html {
 
 #list-holder {
   padding: 2rem;
-  overflow: hidden;
+  overflow: scroll;
   height: 43rem;
   column-count: 2;
   column-fill: auto;

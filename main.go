@@ -16,20 +16,19 @@ var content embed.FS
 
 var people = make(api.DataBase)
 
-
 func main() {
 	go api.ServeApi(people, ":8080", "data.json") // TODO config parsing stuff
-  RunWebServer()
+	RunWebServer()
 	fmt.Println(api.ServicesHandler(api.DefaultServices, "9glenda"))
 }
 
-////export RunWebServer
+// //export RunWebServer
 func RunWebServer() {
 
-var config = webServer.WebServerConfig{
-	Type:    webServer.SingleBinary,
-	Content: content,
-	Ip:      ":5050",
-}
+	var config = webServer.WebServerConfig{
+		Type:    webServer.SingleBinary,
+		Content: content,
+		Ip:      ":5050",
+	}
 	webServer.ParseConfig(config)
 }

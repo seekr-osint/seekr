@@ -12,11 +12,9 @@ async function main() {
   data = await res.json();
 
   console.log(data);
-
   
 
   element.addEventListener("keyup", search_users);
-
   search_users();
 
 
@@ -104,9 +102,6 @@ async function main() {
               name_p.className = "userName";
               name_p.innerHTML = accObj.username;
 
-              
-
-              
 
               document.querySelector(".accounts").appendChild(base_div);
               base_div.appendChild(pfp_img);
@@ -180,7 +175,8 @@ async function main() {
     }
   }
 
-  document.getElementById("backbtn").onclick = function () {
+  document.getElementById("backbtn").onclick = function () { // back button in view ig
+    console.log("pressed back button from view")
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.container').style.display = "none";
 
@@ -206,7 +202,7 @@ async function main() {
     document.querySelector('.edit-container').style.display = "none";
   }
 
-  document.getElementById("c-accbtn").onclick = function () {
+  document.getElementById("c-accbtn").onclick = function () { // account button
     document.querySelector('.create-container').style.display = "none";
     document.querySelector('.acc-container').style.display = "flex";
   }
@@ -216,20 +212,29 @@ async function main() {
     document.querySelector('.create-container').style.display = "none";
   }
 
-  document.getElementById("acc-backbtn").onclick = function () {
+  document.getElementById("acc-backbtn").onclick = function () { // account back button
     document.querySelector('.create-container').style.display = "flex";
     document.querySelector('.acc-container').style.display = "none";
   }
 
 
-  document.getElementById("c-savebtn").onclick = function () {
-    console.log("Save data to db");
+
+  document.getElementById("acc-savebtn").onclick = function () { // account menu save button
+    console.log("account save button pressed")
+    document.getElementById("c-savebtn-p").innerHTML = "Saved!";
+    delay(1000).then(() => document.getElementById("c-savebtn-p").innerHTML = "Save");
+    document.querySelector('.create-container').style.display = "flex";
+    document.querySelector('.acc-container').style.display = "none";
+  }
+
+  document.getElementById("c-savebtn").onclick = function () { // new document save button
+    console.log("Save data to db (new)");
 
     let totalIds = Object.keys(data).length;
 
     let id = String(totalIds + 1);
 
-    let name = document.querySelector(".e-name-tag").innerHTML;
+    let name = document.querySelector(".c-name-tag").innerHTML;
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
     let bday = document.querySelector(".c-bday").innerHTML;
@@ -252,12 +257,14 @@ async function main() {
       body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
     });
 
-    document.getElementById("e-savebtn-p").innerHTML = "Saved!";
-    delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
+    document.getElementById("c-savebtn-p").innerHTML = "Saved!";
+    delay(1000).then(() => document.getElementById("c-savebtn-p").innerHTML = "Save");
+    document.querySelector('.main').style.display = "flex";
+    document.querySelector('.create-container').style.display = "none";
   }
 
-  document.getElementById("e-savebtn").onclick = function () {
-    console.log("Save data to db");
+  document.getElementById("e-savebtn").onclick = function () { // edit
+    console.log("Save data to db (edit)");
 
     let id = document.querySelector("#e-showid").innerHTML;
 
@@ -287,6 +294,8 @@ async function main() {
 
     document.getElementById("e-savebtn-p").innerHTML = "Saved!";
     delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
+    document.querySelector('.main').style.display = "flex";
+    document.querySelector('.edit-container').style.display = "none";
   }
 }
 
