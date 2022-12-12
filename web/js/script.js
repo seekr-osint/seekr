@@ -104,9 +104,6 @@ async function main() {
               name_p.className = "userName";
               name_p.innerHTML = accObj.username;
 
-              
-
-              
 
               document.querySelector(".accounts").appendChild(base_div);
               base_div.appendChild(pfp_img);
@@ -222,14 +219,14 @@ async function main() {
   }
 
 
-  document.getElementById("c-savebtn").onclick = function () {
+  document.getElementById("c-savebtn").onclick = function () { // new
     console.log("Save data to db");
 
     let totalIds = Object.keys(data).length;
 
     let id = String(totalIds + 1);
 
-    let name = document.querySelector(".e-name-tag").innerHTML;
+    let name = document.querySelector(".c-name-tag").innerHTML;
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
     let bday = document.querySelector(".c-bday").innerHTML;
@@ -252,8 +249,10 @@ async function main() {
       body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
     });
 
-    document.getElementById("e-savebtn-p").innerHTML = "Saved!";
-    delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
+    document.getElementById("c-savebtn-p").innerHTML = "Saved!";
+    delay(1000).then(() => document.getElementById("c-savebtn-p").innerHTML = "Save");
+    document.querySelector('.main').style.display = "flex";
+    document.querySelector('.create-container').style.display = "none";
   }
 
   document.getElementById("e-savebtn").onclick = function () {
@@ -287,6 +286,8 @@ async function main() {
 
     document.getElementById("e-savebtn-p").innerHTML = "Saved!";
     delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
+    document.querySelector('.main').style.display = "flex";
+    document.querySelector('.edit-container').style.display = "none";
   }
 }
 
