@@ -49,7 +49,7 @@ jobs:
       run: go test -v ./...
       
     - name: go fmt
-      run: go fmt ./..
+      run: go fmt ./...
     - name: Commit and push changes
       uses: devops-infra/action-commit-push@master
       with:
