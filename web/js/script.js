@@ -28,6 +28,9 @@ async function main() {
       let obj = data[i];
 
       if (obj.name.toLowerCase().includes(input)) {
+
+        // Create Cards For Each Person
+
         const base_div = document.createElement("div"); // Outer div
         base_div.className = "chip";
 
@@ -46,6 +49,8 @@ async function main() {
 
         const v_icon_div = document.createElement("div"); // Icon div
         v_icon_div.className = "chip-view";
+
+        // View
 
         v_icon_div.onclick = async function () {
           document.querySelector('.main').style.display = "none";
@@ -227,6 +232,8 @@ async function main() {
     document.querySelector('.acc-container').style.display = "none";
   }
 
+  // CREATE
+
   document.getElementById("c-savebtn").onclick = function () { // new document save button
     console.log("Save data to db (new)");
 
@@ -263,7 +270,9 @@ async function main() {
     document.querySelector('.create-container').style.display = "none";
   }
 
-  document.getElementById("e-savebtn").onclick = function () { // edit
+  // EDIT
+
+  document.getElementById("e-savebtn").onclick = function () {
     console.log("Save data to db (edit)");
 
     let id = document.querySelector("#e-showid").innerHTML;
