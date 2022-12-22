@@ -31,6 +31,7 @@ type Account struct {
 	Username string   `json:"username"` // example: 9glenda
 	Url      string   `json:"url"`      // example: https://github.com/9glenda
 	Picture  []string `json:"profilePicture"`
+  ImgHash  []uint64 `json:"imgHash"`
 	Bio      []string `json:"bio"` // example: pro hacka
 }
 
@@ -93,17 +94,21 @@ func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	}
 	return accounts
 }
-
-func EncodeBase64(url string) string {
-	img := HttpRequest(url)
+func getImg(img string) image.Image {
 	reader := strings.NewReader(img)
 	decodedImg, imgType, err := image.Decode(reader)
 	log.Printf("image type:%s", imgType)
 	if err != nil {
 		log.Println(err)
 	}
+  return decodedImg
+}
+
+
+func EncodeBase64(img string) string {
+  decodedImg := getImg(img)
 	buf := new(bytes.Buffer)
-	err = png.Encode(buf, decodedImg)
+  err := png.Encode(buf, decodedImg)
 	if err != nil {
 		log.Println(err)
 	}
@@ -123,7 +128,9 @@ func SlideshareInfo(username string, service Service) Account {
 		//Picture: []string{EncodeBase64("https://www.tutorialspoint.com/html/images/test.png")},
 	}
 	if GetStatusCode(avatar_url) == 200 {
-		account.Picture = []string{EncodeBase64(avatar_url)}
+    avatar := HttpRequest(avatar_url)
+		account.Picture = []string{EncodeBase64(avatar)} // img := HttpRequest(url)
+    account.ImgHash = []uint64{MkImgHash(getImg(avatar))}
 	}
 	return account
 }
@@ -140,13 +147,15 @@ func GithubInfo(username string, service Service) Account {
 	if err != nil {
 		log.Println(err)
 	}
+  avatar := HttpRequest(data.Avatar_url)
 	account := Account{
 		Service:  service.Name,
 		Username: username,
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
 		Bio:      []string{data.Bio},
-		Picture:  []string{EncodeBase64(data.Avatar_url)},
+		Picture:  []string{EncodeBase64(avatar)},
+    ImgHash:  []uint64{MkImgHash(getImg(avatar))},
 	}
 	return account
 }
