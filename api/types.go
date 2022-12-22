@@ -20,6 +20,7 @@ type person struct {
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
 	Accounts       map[string]Account `json:"accounts"`
+	NotAccounts    map[string]Account `json:"notaccounts"`
 }
 
 type DataBase map[string]person

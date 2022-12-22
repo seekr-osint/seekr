@@ -147,8 +147,6 @@ func GithubInfo(username string, service Service) Account {
 		Id:       strconv.Itoa(data.Id),
 		Bio:      []string{data.Bio},
 		Picture:  []string{EncodeBase64(data.Avatar_url)},
-
-		//Picture: []string{EncodeBase64("https://www.tutorialspoint.com/html/images/test.png")},
 	}
 	return account
 }
