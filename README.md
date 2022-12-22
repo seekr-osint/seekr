@@ -1,3 +1,4 @@
+![seekr-logo](https://user-images.githubusercontent.com/67828948/209133320-f742f9dd-e938-4ed7-b5de-7c451c606cd5.jpg)
 # SEEKR
 ## SEEKR explained in fortnite terms
 Seekr is like a special weapon that you can use in **Fortnite** to gather information about other players or locations on the map. It's kind of like the "recon scanner" item, which allows you to scan the area and see what's around you. However, Seekr is much more powerful and versatile, because it can search for information about almost anything you can think of, and it has a nice web interface that makes it easy to use.
