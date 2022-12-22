@@ -33,6 +33,8 @@ type Account struct {
 	Picture  []string `json:"profilePicture"`
 	ImgHash  []uint64 `json:"imgHash"`
 	Bio      []string `json:"bio"` // example: pro hacka
+  Firstname string `json:"firstname"` // example Glenda
+  Lastname string `json:"lastname"` // example Belov
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
@@ -44,6 +46,12 @@ var DefaultServices = Services{
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    GithubInfo,
 		BaseUrl:        "https://github.com/",
+	},
+	Service{
+		Name:           "Lichess",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    LichessInfo,
+		BaseUrl:        "https://lichess.org/api/user/",
 	},
 	Service{
 		Name:           "SlideShare",
@@ -157,4 +165,29 @@ func GithubInfo(username string, service Service) Account {
 		ImgHash:  []uint64{MkImgHash(getImg(avatar))},
 	}
 	return account
+}
+
+func LichessInfo(username string, service Service) Account {
+	var data struct {
+		Id         string `json:"id"`
+		Url        string `json:"url"`
+    Profile struct {
+		Bio        string `json:"bio"`
+      Firstname string `json:"firstName"`
+      Lastname string `json:"lastName"`
+    } `json:"profile"`
+	}
+	jsonData := HttpRequest("https://lichess.org/api/user/" + username)
+	err := json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		log.Println(err)
+	}
+	return Account{
+		Service:  service.Name,
+		Username: username,
+    Id: data.Id,
+		Bio:      []string{data.Profile.Bio},
+    Firstname: data.Profile.Firstname,
+    Lastname: data.Profile.Lastname,
+	}
 }
