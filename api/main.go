@@ -14,6 +14,11 @@ var DatabaseFile string
 
 func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc {
 	handlerFunc := func(c *gin.Context) {
+		file, _ := ioutil.ReadFile("data.json")
+		err := json.Unmarshal(file, &db)
+		if err != nil {
+			log.Println(err)
+		}
 		function(db, c)
 	}
 	return gin.HandlerFunc(handlerFunc)
@@ -161,9 +166,7 @@ func getAccounts(people DataBase, id, username string) DataBase {
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-	people2 := people
-	people2 = getAccounts(people2, c.Param("id"), c.Param("username"))
-	c.IndentedJSON(http.StatusOK, getPersonByID(people2, c.Param("id")))
+	c.IndentedJSON(http.StatusOK, getPersonByID(getAccounts(people, c.Param("id"), c.Param("username")), c.Param("id")))
 }
 
 func getPersonByID(people DataBase, id string) person {
