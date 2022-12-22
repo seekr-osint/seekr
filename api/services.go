@@ -26,15 +26,15 @@ type Service struct {
 
 type Accounts map[string]Account
 type Account struct {
-	Service  string   `json:"service"`  // example: GitHub
-	Id       string   `json:"id"`       // example: 1224234
-	Username string   `json:"username"` // example: 9glenda
-	Url      string   `json:"url"`      // example: https://github.com/9glenda
-	Picture  []string `json:"profilePicture"`
-	ImgHash  []uint64 `json:"imgHash"`
-	Bio      []string `json:"bio"` // example: pro hacka
-  Firstname string `json:"firstname"` // example Glenda
-  Lastname string `json:"lastname"` // example Belov
+	Service   string   `json:"service"`  // example: GitHub
+	Id        string   `json:"id"`       // example: 1224234
+	Username  string   `json:"username"` // example: 9glenda
+	Url       string   `json:"url"`      // example: https://github.com/9glenda
+	Picture   []string `json:"profilePicture"`
+	ImgHash   []uint64 `json:"imgHash"`
+	Bio       []string `json:"bio"`       // example: pro hacka
+	Firstname string   `json:"firstname"` // example Glenda
+	Lastname  string   `json:"lastname"`  // example Belov
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
@@ -169,13 +169,13 @@ func GithubInfo(username string, service Service) Account {
 
 func LichessInfo(username string, service Service) Account {
 	var data struct {
-		Id         string `json:"id"`
-		Url        string `json:"url"`
-    Profile struct {
-		Bio        string `json:"bio"`
-      Firstname string `json:"firstName"`
-      Lastname string `json:"lastName"`
-    } `json:"profile"`
+		Id      string `json:"id"`
+		Url     string `json:"url"`
+		Profile struct {
+			Bio       string `json:"bio"`
+			Firstname string `json:"firstName"`
+			Lastname  string `json:"lastName"`
+		} `json:"profile"`
 	}
 	jsonData := HttpRequest("https://lichess.org/api/user/" + username)
 	err := json.Unmarshal([]byte(jsonData), &data)
@@ -183,11 +183,11 @@ func LichessInfo(username string, service Service) Account {
 		log.Println(err)
 	}
 	return Account{
-		Service:  service.Name,
-		Username: username,
-    Id: data.Id,
-		Bio:      []string{data.Profile.Bio},
-    Firstname: data.Profile.Firstname,
-    Lastname: data.Profile.Lastname,
+		Service:   service.Name,
+		Username:  username,
+		Id:        data.Id,
+		Bio:       []string{data.Profile.Bio},
+		Firstname: data.Profile.Firstname,
+		Lastname:  data.Profile.Lastname,
 	}
 }
