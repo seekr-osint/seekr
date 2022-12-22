@@ -185,6 +185,15 @@ async function main() {
   
     console.log(data);
 
+    const term_container = document.createElement("div");
+    term_container.className = "term-container";
+
+    const term_header = document.createElement("p");
+    term_header.className = "term-header";
+    term_header.innerHTML = document.getElementById("acc-name-tag").innerHTML;
+
+    term_container.appendChild(term_header);
+
 
     for (const [i, _] of Object.entries(data)) {
       let obj = data[i];
@@ -219,7 +228,8 @@ async function main() {
       user_name.innerHTML = obj.username;
 
       document.getElementById("accounts").appendChild(row_div);
-      row_div.appendChild(manage_acc_chip);
+      row_div.appendChild(term_container);
+      term_container.appendChild(manage_acc_chip);
       manage_acc_chip.appendChild(outer_div);
       outer_div.appendChild(user_pfp);
       outer_div.appendChild(info_container);
@@ -233,6 +243,36 @@ async function main() {
 
         info_container.appendChild(user_bio);
       }
+
+      const btn_container = document.createElement("div");
+      btn_container.className = "manage-btn-container";
+
+      const reject_btn = document.createElement("div");
+      reject_btn.id = "acc-rejectbtn";
+      reject_btn.className = "btn btn-secondary";
+
+      const reject_p = document.createElement("p");
+      reject_p.innerHTML = "Reject";
+
+      const accept_btn = document.createElement("div");
+      accept_btn.id = "acc-acceptbtn";
+      accept_btn.className = "btn btn-secondary";
+
+      const accept_p = document.createElement("p");
+      accept_p.innerHTML = "Accept";
+
+      manage_acc_chip.appendChild(btn_container);
+      btn_container.appendChild(reject_btn);
+      btn_container.appendChild(accept_btn);
+      reject_btn.appendChild(reject_p);
+      accept_btn.appendChild(accept_p);
+
+      // accept_btn.onclick = async function () {
+      //   fetch('http://localhost:8080/people', {
+      //     method: 'POST',
+      //     body: JSON.stringify({})
+      //   });
+      // }
     }
   }
 

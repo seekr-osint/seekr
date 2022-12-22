@@ -39,6 +39,26 @@ html {
   display: flex;
 }
 
+.term-container {
+  margin-top: 2rem;
+  border-radius: 2rem;
+  padding: 1rem;
+  position: relative;
+  border-radius: 3rem;
+  box-shadow: 0.8rem 0.8rem 1.4rem var(--greyLight-2), -0.2rem -0.2rem 1.8rem var(--white);
+  padding: 2rem;
+  margin: 1rem;
+}
+
+.term-header {
+  font-size: 1.6rem;
+  color: var(--greyDark);
+  margin-left: 2rem;
+}
+
+.acc-row {
+  margin-bottom: 2rem;
+}
 
 .acc-header {
   align-items: center;
@@ -48,6 +68,7 @@ html {
 .manage-btn-container {
   right: 0;
   position: absolute;
+  margin-right: 1rem;
 }
 
 .manage-acc-chip {
@@ -83,6 +104,7 @@ html {
 #acc-rejectbtn {
   float: right;
   margin: 2rem;
+  margin-right: 2rem;
 }
 
 #acc-acceptbtn {
