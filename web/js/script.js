@@ -179,11 +179,62 @@ async function main() {
     }
   }
 
-document.getElementById("acc-searchbtn").onclick = function () {
+  document.getElementById("acc-searchbtn").onclick = async function () {
+    const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").innerHTML);
+    const data = await response.json();
   
-}
+    console.log(data);
 
 
+    for (const [i, _] of Object.entries(data)) {
+      let obj = data[i];
+
+      const row_div = document.createElement("div");
+      row_div.className = "acc-row";
+
+      const manage_acc_chip = document.createElement("div");
+      manage_acc_chip.className = "manage-acc-chip"
+
+      const outer_div = document.createElement("div");
+      outer_div.className = "acc-chip";
+
+      const user_pfp = document.createElement("img");
+      user_pfp.className = "userPfp";
+
+      if (obj.profilePicture != null) {
+        user_pfp.src = "data:image/png;base64," + obj.profilePicture[0];
+      } else {
+        user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
+      }
+
+      const info_container = document.createElement("div");
+      info_container.className = "info-container";
+
+      const service_name = document.createElement("p");
+      service_name.className = "serviceName";
+      service_name.innerHTML = obj.service;
+
+      const user_name = document.createElement("p");
+      user_name.className = "userName";
+      user_name.innerHTML = obj.username;
+
+      document.getElementById("accounts").appendChild(row_div);
+      row_div.appendChild(manage_acc_chip);
+      manage_acc_chip.appendChild(outer_div);
+      outer_div.appendChild(user_pfp);
+      outer_div.appendChild(info_container);
+      info_container.appendChild(service_name);
+      info_container.appendChild(user_name);
+
+      if (obj.bio != null) {
+        const user_bio = document.createElement("p");
+        user_bio.className = "userBio";
+        user_bio.innerHTML = obj.bio[0];
+
+        info_container.appendChild(user_bio);
+      }
+    }
+  }
 
 
 

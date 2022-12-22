@@ -116,6 +116,13 @@ html {
   margin-bottom: 1.5rem;
 }
 
+#accounts {
+  display: block;
+  align-items: center;
+  margin-right: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 .acc-chip {
   display: flex;
   flex-direction: row;
