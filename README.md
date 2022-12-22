@@ -1,4 +1,5 @@
 # SEEKR
+## SEEKR explained in fortnite terms
 Seekr is like a special weapon that you can use in **Fortnite** to gather information about other players or locations on the map. It's kind of like the "recon scanner" item, which allows you to scan the area and see what's around you. However, Seekr is much more powerful and versatile, because it can search for information about almost anything you can think of, and it has a nice web interface that makes it easy to use.
 
 The backend API of Seekr is like the engine that powers the weapon. It's written in a programming language called Golang, which is kind of like the fuel that makes Seekr work. Just like how you need to have the right type of fuel in your vehicle to make it run, the backend API of Seekr needs to be written in Golang in order to function properly.
