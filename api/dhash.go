@@ -54,8 +54,8 @@ func ConvertToGrayscale(img image.Image) image.Image {
 	}
 	return grayImg
 }
-func MkImgHash(img image.Image) (uint64){
-  	// Normalize the image to a fixed width and height of 4 pixels
+func MkImgHash(img image.Image) uint64 {
+	// Normalize the image to a fixed width and height of 4 pixels
 	normImg := NormalizeImage(img, 4, 4)
 
 	// Convert the image to grayscale
@@ -63,6 +63,6 @@ func MkImgHash(img image.Image) (uint64){
 
 	// Calculate the dHash of the grayscale image
 	hash := DHash(grayImg)
-  log.Printf("Img hash: %d",hash)
-  return hash
+	log.Printf("Img hash: %d", hash)
+	return hash
 }
