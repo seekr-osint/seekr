@@ -33,7 +33,8 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
 	router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
-	router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
+	//router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
+	router.GET("/getAccounts/:username", handler(getAccountsRequest, people))
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	DatabaseFile = databaseFile
@@ -163,10 +164,13 @@ func getAccounts(people DataBase, id, username string) DataBase {
 	people[id] = person
 	return people
 }
+func getAccountsSimple(username string) Accounts {
+  return ServicesHandler(DefaultServices, username)
+}
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
-	c.IndentedJSON(http.StatusOK, getPersonByID(getAccounts(people, c.Param("id"), c.Param("username")), c.Param("id")))
+	c.IndentedJSON(http.StatusOK, getAccountsSimple(c.Param("username")))
 }
 
 func getPersonByID(people DataBase, id string) person {

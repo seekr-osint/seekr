@@ -54,6 +54,7 @@ func ConvertToGrayscale(img image.Image) image.Image {
 	}
 	return grayImg
 }
+
 func MkImgHash(img image.Image) uint64 {
 	// Normalize the image to a fixed width and height of 4 pixels
 	normImg := NormalizeImage(img, 4, 4)
