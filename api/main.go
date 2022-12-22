@@ -165,7 +165,7 @@ func getAccounts(people DataBase, id, username string) DataBase {
 	return people
 }
 func getAccountsSimple(username string) Accounts {
-  return ServicesHandler(DefaultServices, username)
+	return ServicesHandler(DefaultServices, username)
 }
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
