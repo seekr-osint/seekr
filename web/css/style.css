@@ -28,6 +28,23 @@ html {
   }
 }
 
+.search-chip {
+  width: 30rem;
+  height: 4rem;
+  display: flex;
+
+}
+
+.search-container {
+  display: flex;
+}
+
+
+.acc-header {
+  align-items: center;
+  justify-self: center;
+}
+
 .manage-btn-container {
   right: 0;
   position: absolute;
@@ -39,6 +56,28 @@ html {
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+.acc-search-icon {
+  font-size: 1.4rem;
+}
+
+#acc-chip {
+  display: inline-block;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+#acc-search-chip {
+  display: inline-block;
+  margin-left: 1rem;
+  width: 4rem;
+  position: relative;
+  bottom: -0.2rem;
+}
+
+#acc-searchbtn {
+  margin-top: 0;
 }
 
 #acc-rejectbtn {

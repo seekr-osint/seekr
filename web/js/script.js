@@ -173,15 +173,23 @@ async function main() {
         e_icon_div.appendChild(e_icon);
 
 
-
         name_p.innerHTML = `${obj.name}`
         x.appendChild(base_div)
       }
     }
   }
 
+document.getElementById("acc-searchbtn").onclick = function () {
+  
+}
+
+
+
+
+
+
+
   document.getElementById("backbtn").onclick = function () { // back button in view ig
-    console.log("pressed back button from view")
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.container').style.display = "none";
 
