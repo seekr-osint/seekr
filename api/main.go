@@ -97,6 +97,8 @@ func getNamesListLenRequest(people DataBase, c *gin.Context) {
 }
 
 func deletePerson(people DataBase, c *gin.Context) {
+
+	c.Header("Access-Control-Allow-Headers", "Content-Type,Content-Length,Server,Date,access-control-allow-methods,access-control-allow-origin")
 	if checkPersonExists(people, c.Param("id")) {
 		// Add the new person to the slice.
 		delete(people, c.Param("id"))
