@@ -6,8 +6,9 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 var DatabaseFile string
@@ -97,6 +98,7 @@ func getNamesListLenRequest(people DataBase, c *gin.Context) {
 }
 
 func deletePerson(people DataBase, c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
 	if checkPersonExists(people, c.Param("id")) {
 		// Add the new person to the slice.
 		delete(people, c.Param("id"))

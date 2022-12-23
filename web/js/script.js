@@ -161,6 +161,22 @@ async function main() {
         e_icon.className = "icon"
         e_icon.setAttribute("name", "create-outline");
 
+        const d_icon_div = document.createElement("div"); // Icon div
+        d_icon_div.className = "chip-edit";
+
+        const d_icon = document.createElement("ion-icon"); // Edit icon
+        d_icon.className = "icon"
+        d_icon.setAttribute("name", "trash-outline");
+
+        d_icon_div.onclick = function () {
+          const headers = new Headers();
+          headers.append('Access-Control-Allow-Origin', '*');
+
+          fetch("http://localhost:8080/people/3", {
+            method: "DELETE"
+          });
+        }
+
 
         base_div.appendChild(p_icon_div);
         base_div.appendChild(txt_div);
@@ -168,9 +184,11 @@ async function main() {
 
         base_div.appendChild(v_icon_div);
         base_div.appendChild(e_icon_div);
+        base_div.appendChild(d_icon_div);
         p_icon_div.appendChild(p_icon);
         v_icon_div.appendChild(v_icon);
         e_icon_div.appendChild(e_icon);
+        d_icon_div.appendChild(d_icon);
 
 
         name_p.innerHTML = `${obj.name}`
