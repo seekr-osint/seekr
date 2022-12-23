@@ -14,7 +14,7 @@ var DatabaseFile string
 
 func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc {
 	handlerFunc := func(c *gin.Context) {
-	  c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Origin", "*")
 		file, _ := ioutil.ReadFile("data.json")
 		err := json.Unmarshal(file, &db)
 		if err != nil {
