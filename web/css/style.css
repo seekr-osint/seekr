@@ -184,8 +184,10 @@ html {
   outline: none;
 }
 
-#e-showid {
+#e-showid,
+#acc-midsave {
   color: transparent;
+  font-size: 0;
 }
 
 .tag {
