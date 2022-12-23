@@ -14,6 +14,7 @@ var DatabaseFile string
 
 func handler(function func(DataBase, *gin.Context), db DataBase) gin.HandlerFunc {
 	handlerFunc := func(c *gin.Context) {
+	  c.Header("Access-Control-Allow-Origin", "*")
 		file, _ := ioutil.ReadFile("data.json")
 		err := json.Unmarshal(file, &db)
 		if err != nil {
@@ -63,7 +64,6 @@ func GetStatusCode(url string) int {
 }
 
 func getPeople(people DataBase, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
 	c.IndentedJSON(http.StatusOK, people)
 }
 func getNames(people DataBase) map[string][]person {
@@ -97,7 +97,6 @@ func getNamesListLenRequest(people DataBase, c *gin.Context) {
 }
 
 func deletePerson(people DataBase, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
 	if checkPersonExists(people, c.Param("id")) {
 		// Add the new person to the slice.
 		delete(people, c.Param("id"))
@@ -112,7 +111,6 @@ func deletePerson(people DataBase, c *gin.Context) {
 }
 
 func postPeople(people DataBase, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
 	var newPerson person
 
 	if err := c.BindJSON(&newPerson); err != nil {
@@ -147,12 +145,10 @@ func checkPersonExists(people DataBase, id string) bool {
 }
 
 func getPersonByIDRequest(people DataBase, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
 func addAccounts(people DataBase, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
 	people = getAccounts(people, c.Param("id"), c.Param("username"))
 	SaveJson(people)
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
@@ -169,7 +165,6 @@ func getAccountsSimple(username string) Accounts {
 }
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
 	c.IndentedJSON(http.StatusOK, getAccountsSimple(c.Param("username")))
 }
 
