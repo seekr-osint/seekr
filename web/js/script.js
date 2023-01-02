@@ -345,12 +345,9 @@ let isButtonEnabled = true;
     }
   }
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> 96242b5 (New Data-Fields (test-data.sh not updated))
   document.getElementById("backbtn").onclick = function () { // back button in view ig
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.container').style.display = "none";
