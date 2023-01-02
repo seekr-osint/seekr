@@ -167,7 +167,9 @@ func getAccountsSimple(username string) Accounts {
 }
 
 func getAccountsRequest(people DataBase, c *gin.Context) {
+  //if c.Param("username") != "" {
 	c.IndentedJSON(http.StatusOK, getAccountsSimple(c.Param("username")))
+  //}
 }
 
 func getPersonByID(people DataBase, id string) person {
