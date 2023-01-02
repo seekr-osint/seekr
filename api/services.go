@@ -79,22 +79,22 @@ func DefaultServicesHandler(username string) Accounts {
 }
 
 func HttpRequest(url string) string {
-  log.Println("request to:"+url)
-  if url != "" {
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Println(err)
-	}
-	defer resp.Body.Close()
+	log.Println("request to:" + url)
+	if url != "" {
+		resp, err := http.Get(url)
+		if err != nil {
+			log.Println(err)
+		}
+		defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println(err)
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Println(err)
+		}
+		return string(body)
 	}
-	return string(body)
-}
 
-return ""
+	return ""
 }
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
@@ -130,7 +130,7 @@ func EncodeBase64(img string) string {
 }
 
 func SlideshareInfo(username string, service Service) Account {
-  log.Println("slideshare")
+	log.Println("slideshare")
 	avatar_url := "https://cdn.slidesharecdn.com/profile-photo-" + username + "-96x96.jpg"
 	log.Printf("avatar_url: %s", avatar_url)
 
@@ -148,35 +148,35 @@ func SlideshareInfo(username string, service Service) Account {
 	return account
 }
 func GithubInfo(username string, service Service) Account {
-  log.Println("github")
+	log.Println("github")
 	var data struct {
 		Id         int    `json:"id"`
 		Bio        string `json:"bio"`
 		Avatar_url string `json:"avatar_url"`
 		Url        string `json:"html_url"`
 	}
-  var errData struct {
-    Documentation_url string `json:"documentation_url"`
-  }
+	var errData struct {
+		Documentation_url string `json:"documentation_url"`
+	}
 
 	jsonData := HttpRequest("https://api.github.com/users/" + username)
 
 	err := json.Unmarshal([]byte(jsonData), &errData)
 	if err != nil {
-    log.Println(err)
-	} else {
-    if errData.Documentation_url == "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting" {
-    log.Println("api request limitied")
-  } else {
-
-		log.Println("no api limitation")
-	err = json.Unmarshal([]byte(jsonData), &data)
-	log.Printf("avatar_url: %s", data.Avatar_url)
-	if err != nil {
 		log.Println(err)
+	} else {
+		if errData.Documentation_url == "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting" {
+			log.Println("api request limitied")
+		} else {
+
+			log.Println("no api limitation")
+			err = json.Unmarshal([]byte(jsonData), &data)
+			log.Printf("avatar_url: %s", data.Avatar_url)
+			if err != nil {
+				log.Println(err)
+			}
+		}
 	}
-  }
-  }
 	avatar := HttpRequest(data.Avatar_url)
 	account := Account{
 		Service:  service.Name,
@@ -191,7 +191,7 @@ func GithubInfo(username string, service Service) Account {
 }
 
 func LichessInfo(username string, service Service) Account {
-  log.Println("lichess")
+	log.Println("lichess")
 	var data struct {
 		Id      string `json:"id"`
 		Url     string `json:"url"`
