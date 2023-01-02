@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"encoding/json"
@@ -37,6 +38,7 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
 	//router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
 	router.GET("/getAccounts/:username", handler(getAccountsRequest, people))
+	router.GET("/markdown/:id", handler(mdPersonByIDRequest, people))
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	DatabaseFile = databaseFile
@@ -148,6 +150,11 @@ func checkPersonExists(people DataBase, id string) bool {
 
 func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
+func mdPersonByIDRequest(people DataBase, c *gin.Context) {
+  fmt.Println(GenMD(getPersonByID(people, c.Param("id"))))
+	c.IndentedJSON(http.StatusOK, GenMD(getPersonByID(people, c.Param("id"))))
 }
 
 func addAccounts(people DataBase, c *gin.Context) {
