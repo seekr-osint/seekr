@@ -92,6 +92,7 @@ async function main() {
 
               if (accObj.profilePicture != null) {
                 pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+                console.log("profilePicture exsits")
               } else {
                 pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
               }
@@ -197,8 +198,37 @@ async function main() {
 
 
 
-      document.getElementById("acc-searchbtn").onclick = async function () {
-        const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").innerHTML);
+      document.getElementById("acc-name-tag").onkeypress = function(event) {
+  // Check if the pressed key is the Enter key
+  if (event.key === "Enter") {
+        event.preventDefault();
+    // Execute the search function
+    search();
+  }
+  if (event.key == " ") {
+    event.preventDefault();
+  }
+};
+      document.getElementById("acc-searchbtn").onclick = search; 
+let isButtonEnabled = true;
+        async function search() {
+            // Check if the button is enabled
+  if (!isButtonEnabled) {
+    return;
+  }
+
+  // Disable the button
+  isButtonEnabled = false;
+
+  // Code for the action you want to execute goes here
+  console.log("Searching...");
+
+  // Enable the button after a delay
+          event.stopPropagation();
+          console.log("search");
+
+  // Set the flag to indicate that a request is in progress
+        const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
         const data = await response.json();
       
         console.log(data);
@@ -297,15 +327,13 @@ async function main() {
             document.getElementById("acc-midsave").innerHTML = midSave;
           }
         }
+
+  setTimeout(function() {
+    isButtonEnabled = true;
+  }, 1000); // 1000ms = 1 second
       }
     }
   }
-
-  
-
-
-
-
 
   document.getElementById("backbtn").onclick = function () { // back button in view ig
     document.querySelector('.main').style.display = "flex";

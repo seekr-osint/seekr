@@ -17,6 +17,7 @@ var content embed.FS
 var people = make(api.DataBase)
 
 func main() {
+
 	go api.ServeApi(people, ":8080", "data.json") // TODO config parsing stuff
 	RunWebServer()
 	fmt.Println(api.ServicesHandler(api.DefaultServices, "9glenda"))
