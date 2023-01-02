@@ -17,7 +17,7 @@ const (
 type WebServerConfig struct {
 	Type    ServerType
 	Content embed.FS
-	Dir string
+	Dir     string
 	Ip      string
 }
 
@@ -37,13 +37,12 @@ func serveLive(config WebServerConfig) {
 	log.Fatal(http.ListenAndServe(config.Ip, nil))
 }
 
-
 func ParseConfig(config WebServerConfig) {
 	switch config.Type {
 	case SingleBinary:
 		serveSingleBinary(config)
 	case LiveServer:
-   serveLive(config) 
+		serveLive(config)
 	case NotEnabled:
 	default:
 		panic("WebServerConfig.Type is neither SingleBinary, LiveServer or NotEnabled")

@@ -153,7 +153,7 @@ func getPersonByIDRequest(people DataBase, c *gin.Context) {
 }
 
 func mdPersonByIDRequest(people DataBase, c *gin.Context) {
-  fmt.Println(GenMD(getPersonByID(people, c.Param("id"))))
+	fmt.Println(GenMD(getPersonByID(people, c.Param("id"))))
 	c.IndentedJSON(http.StatusOK, GenMD(getPersonByID(people, c.Param("id"))))
 }
 

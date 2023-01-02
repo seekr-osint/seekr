@@ -18,11 +18,11 @@ type person struct {
 	Club           string             `json:"club"`
 	Legal          string             `json:"legal"`
 	Political      string             `json:"political"`
-  SSN            string             `json:"SSN"`
-  Education      string             `json:"education"`
-  Religion      string `json:"religion"`
-  Pets          string `json:"pets"`
-  MaidenName   string `json:"maidenName"`
+	SSN            string             `json:"SSN"`
+	Education      string             `json:"education"`
+	Religion       string             `json:"religion"`
+	Pets           string             `json:"pets"`
+	MaidenName     string             `json:"maidenName"`
 	Notes          string             `json:"notes"`
 	Accounts       map[string]Account `json:"accounts"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
