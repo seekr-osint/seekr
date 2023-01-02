@@ -79,6 +79,12 @@ async function main() {
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
           document.querySelector(".notes").innerHTML = "Notes: " + obj.notes;
 
+          // allObjects = document.getElementsByClassName("viewtag")
+
+          // for (const [i, _] of allObjects) {
+          //   console.log(1)
+          // }
+
           // Accounts
 
           if (obj.accounts != null) {
