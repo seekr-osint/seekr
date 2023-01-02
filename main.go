@@ -27,8 +27,9 @@ func main() {
 func RunWebServer() {
 
 	var config = webServer.WebServerConfig{
-		Type:    webServer.SingleBinary,
+		Type:    webServer.LiveServer,
 		Content: content,
+    Dir:      "./web",
 		Ip:      ":5050",
 	}
 	webServer.ParseConfig(config)
