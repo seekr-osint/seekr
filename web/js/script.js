@@ -242,35 +242,32 @@ async function main() {
 
 
       document.getElementById("acc-name-tag").onkeypress = function(event) {
-  // Check if the pressed key is the Enter key
-  if (event.key === "Enter") {
-        event.preventDefault();
-    // Execute the search function
-    search();
-  }
-  if (event.key == " ") {
-    event.preventDefault();
-  }
-};
+        // Check if the pressed key is the Enter key
+        if (event.key === "Enter") {
+              event.preventDefault();
+          // Execute the search function
+          search();
+        }
+
+        if (event.key == " ") {
+          event.preventDefault();
+        }
+      };
+
       document.getElementById("acc-searchbtn").onclick = search; 
-let isButtonEnabled = true;
-        async function search() {
-            // Check if the button is enabled
-  if (!isButtonEnabled) {
-    return;
-  }
 
-  // Disable the button
-  isButtonEnabled = false;
+      let isButtonEnabled = true;
 
-  // Code for the action you want to execute goes here
-  console.log("Searching...");
+      async function search() {
+        // Check if the button is enabled
+        if (!isButtonEnabled) {
+          return;
+        }
 
-  // Enable the button after a delay
-          event.stopPropagation();
-          console.log("search");
+        // Disable the button
+        isButtonEnabled = false;
 
-  // Set the flag to indicate that a request is in progress
+        // Set the flag to indicate that a request is in progress
         const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
         const data = await response.json();
       
@@ -301,10 +298,12 @@ let isButtonEnabled = true;
           const user_pfp = document.createElement("img");
           user_pfp.className = "userPfp";
     
-          if (obj.profilePicture != null) {
+          if (accObj.profilePicture != null) {
             user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
+            console.log("not null")
           } else {
             user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
+            console.log("null")
           }
     
           const info_container = document.createElement("div");
@@ -371,9 +370,9 @@ let isButtonEnabled = true;
           }
         }
 
-  setTimeout(function() {
-    isButtonEnabled = true;
-  }, 1000); // 1000ms = 1 second
+        setTimeout(function() {
+          isButtonEnabled = true;
+        }, 1000); // 1000ms = 1 second
       }
     }
   }
