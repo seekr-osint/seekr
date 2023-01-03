@@ -319,6 +319,7 @@ async function main() {
           user_name.className = "userName";
           user_name.innerHTML = accObj.username;
           user_name.href = accObj.url;
+          user_name.target = "_blank";
     
           document.getElementById("accounts").appendChild(row_div);
           row_div.appendChild(term_container);
@@ -378,7 +379,6 @@ async function main() {
       }
     }
   }
-
 
 
 
