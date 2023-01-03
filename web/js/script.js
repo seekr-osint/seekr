@@ -267,6 +267,8 @@ async function main() {
         // Disable the button
         isButtonEnabled = false;
 
+        document.getElementById("loading-spinner").style.display = "inline-block";
+
         // Set the flag to indicate that a request is in progress
         const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
         const data = await response.json();
@@ -371,9 +373,8 @@ async function main() {
           }
         }
 
-        setTimeout(function() {
-          isButtonEnabled = true;
-        }, 1000); // 1000ms = 1 second
+        document.getElementById("loading-spinner").style.display = "none";
+        isButtonEnabled = true;
       }
     }
   }
