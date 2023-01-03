@@ -58,7 +58,7 @@ async function main() {
 
           document.querySelector(".name-tag").innerHTML = obj.name;
 
-          document.querySelector(".maiden-name").innerHTML = obj.name;
+          document.querySelector(".maidenname").innerHTML = "Maiden name: " + obj.maidenname;
           document.querySelector(".age").innerHTML = "Age: " + obj.age;
           document.querySelector(".bday").innerHTML = "Birthdate: " + obj.bday;
           document.querySelector(".address").innerHTML = "Address: " + obj.address;
@@ -69,7 +69,7 @@ async function main() {
           document.querySelector(".hobbies").innerHTML = "Hobbies: " + obj.hobbies;
           document.querySelector(".email").innerHTML = "E-Mail: " + obj.email;
           document.querySelector(".occupation").innerHTML = "Occupation: " + obj.occupation;
-          document.querySelector(".prev-occupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
+          document.querySelector(".prevoccupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
           document.querySelector(".education").innerHTML = "Education: " + obj.education;
           document.querySelector(".military").innerHTML = "Military stand: " + obj.military;
           document.querySelector(".religion").innerHTML = "Religion: " + obj.religion;
@@ -79,11 +79,38 @@ async function main() {
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
           document.querySelector(".notes").innerHTML = "Notes: " + obj.notes;
 
-          // allObjects = document.getElementsByClassName("viewtag")
+          
+          let allObjectsAtStart = document.querySelectorAll(".viewtag");
+          
+          allObjectsAtStart.forEach(object => {
+            object.style.display = "flex";
+          });
 
-          // for (const [i, _] of allObjects) {
-          //   console.log(1)
-          // }
+
+
+          // Get all the elements with the class "viewtag" and store them in a variable called "allObjects"
+          let allObjects = document.getElementsByClassName("viewtag");
+
+          // Loop through all the objects in the array
+          for (let i = 0; i < allObjects.length; i++) {
+            
+            // Store the current object's HTML in a variable called "item"
+            let item = allObjects[i].innerHTML;
+            // Get the text from the object's HTML and store it in a variable called "tempText"
+            let tempText = item.substring(item.indexOf(':') + 1).trim();
+
+            // Check if the text is empty, null, or undefined
+            if (tempText.length <= 0 || tempText == "" || tempText == " " || tempText == null || tempText == undefined || tempText == 0) {
+              // Remove the object from the page
+              // allObjects[i].remove();
+
+              allObjects[i].style.display = "none";
+              // i--;
+            }
+          }
+
+          
+
 
           // Accounts
 
@@ -152,7 +179,7 @@ async function main() {
 
           document.querySelector(".e-name-tag").innerHTML = obj.name;
 
-          document.querySelector(".e-maiden-name").innerHTML = obj.maidenname;
+          document.querySelector(".e-maidenname").innerHTML = obj.maidenname;
           document.querySelector(".e-age").innerHTML = obj.age;
           document.querySelector(".e-bday").innerHTML = obj.bday;
           document.querySelector(".e-address").innerHTML = obj.address;
@@ -163,7 +190,7 @@ async function main() {
           document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
           document.querySelector(".e-email").innerHTML = obj.email;
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
-          document.querySelector(".e-prev-occupation").innerHTML = obj.prevoccupation;
+          document.querySelector(".e-prevoccupation").innerHTML = obj.prevoccupation;
           document.querySelector(".e-education").innerHTML = obj.education;
           document.querySelector(".e-military").innerHTML = obj.military;
           document.querySelector(".e-religion").innerHTML = obj.religion;
@@ -418,7 +445,7 @@ let isButtonEnabled = true;
 
     let name = document.querySelector(".c-name-tag").innerHTML;
 
-    let maidenname = document.querySelector(".c-maiden-name").innerHTML;
+    let maidenname = document.querySelector(".c-maidenname").innerHTML;
     let age = parseInt(document.querySelector(".c-age").innerHTML);
     let bday = document.querySelector(".c-bday").innerHTML;
     let address = document.querySelector(".c-address").innerHTML;
@@ -429,7 +456,7 @@ let isButtonEnabled = true;
     let hobbies = document.querySelector(".c-hobbies").innerHTML;
     let email = document.querySelector(".c-email").innerHTML;
     let occupation = document.querySelector(".c-occupation").innerHTML;
-    let prevoccupation = document.querySelector(".c-prev-occupation").innerHTML;
+    let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
     let military = document.querySelector(".c-military").innerHTML;
     let religion = document.querySelector(".c-religion").innerHTML;
@@ -441,7 +468,7 @@ let isButtonEnabled = true;
 
     fetch('http://localhost:8080/people', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "military": military, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     });
 
     document.getElementById("c-savebtn-p").innerHTML = "Saved!";
@@ -459,31 +486,31 @@ let isButtonEnabled = true;
 
     let name = document.querySelector(".e-name-tag").innerHTML;
 
-    let maidenname = document.querySelector(".c-maiden-name").innerHTML;
-    let age = parseInt(document.querySelector(".c-age").innerHTML);
-    let bday = document.querySelector(".c-bday").innerHTML;
-    let address = document.querySelector(".c-address").innerHTML;
-    let phone = document.querySelector(".c-phone").innerHTML;
-    let ssn = document.querySelector(".c-ssn").innerHTML;
-    let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
-    let kids = document.querySelector(".c-kids").innerHTML;
-    let hobbies = document.querySelector(".c-hobbies").innerHTML;
-    let email = document.querySelector(".c-email").innerHTML;
-    let occupation = document.querySelector(".c-occupation").innerHTML;
-    let prevoccupation = document.querySelector(".c-prev-occupation").innerHTML;
-    let education = document.querySelector(".c-education").innerHTML;
-    let military = document.querySelector(".c-military").innerHTML;
-    let religion = document.querySelector(".c-religion").innerHTML;
-    let pets = document.querySelector(".c-pets").innerHTML;
-    let club = document.querySelector(".c-club").innerHTML;
-    let legal = document.querySelector(".c-legal").innerHTML;
-    let political = document.querySelector(".c-political").innerHTML;
-    let notes = document.querySelector(".c-notes").innerHTML;
+    let maidenname = document.querySelector(".e-maidenname").innerHTML;
+    let age = parseInt(document.querySelector(".e-age").innerHTML);
+    let bday = document.querySelector(".e-bday").innerHTML;
+    let address = document.querySelector(".e-address").innerHTML;
+    let phone = document.querySelector(".e-phone").innerHTML;
+    let ssn = document.querySelector(".e-ssn").innerHTML;
+    let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
+    let kids = document.querySelector(".e-kids").innerHTML;
+    let hobbies = document.querySelector(".e-hobbies").innerHTML;
+    let email = document.querySelector(".e-email").innerHTML;
+    let occupation = document.querySelector(".e-occupation").innerHTML;
+    let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
+    let education = document.querySelector(".e-education").innerHTML;
+    let military = document.querySelector(".e-military").innerHTML;
+    let religion = document.querySelector(".e-religion").innerHTML;
+    let pets = document.querySelector(".e-pets").innerHTML;
+    let club = document.querySelector(".e-club").innerHTML;
+    let legal = document.querySelector(".e-legal").innerHTML;
+    let political = document.querySelector(".e-political").innerHTML;
+    let notes = document.querySelector(".e-notes").innerHTML;
 
 
     fetch('http://localhost:8080/people', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     });
 
     document.getElementById("e-savebtn-p").innerHTML = "Saved!";
