@@ -313,9 +313,10 @@ async function main() {
           service_name.className = "serviceName";
           service_name.innerHTML = accObj.service;
     
-          const user_name = document.createElement("p");
+          const user_name = document.createElement("a");
           user_name.className = "userName";
           user_name.innerHTML = accObj.username;
+          user_name.href = accObj.url;
     
           document.getElementById("accounts").appendChild(row_div);
           row_div.appendChild(term_container);
