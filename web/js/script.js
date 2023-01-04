@@ -219,7 +219,8 @@ async function main() {
           headers.append('Access-Control-Allow-Origin', '*');
 
           fetch("http://localhost:8080/people/3", {
-            method: "DELETE"
+            method: "DELETE",
+            headers: headers
           });
         }
 
