@@ -12,6 +12,30 @@ async function main() {
   data = await res.json();
 
   console.log(data);
+
+  let totalIds = Object.keys(data).length;
+
+  let id = String(totalIds + 1);
+
+  //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
+  function checkId(id) {
+    let idExists = false;
+
+    for (let i = 0; i < totalIds; i++) {
+      if (Object.keys(data)[i] == id) {
+        idExists = true;
+        break;
+      }
+    }
+
+    if (idExists) {
+      id = String(parseInt(id) + 1);
+      return checkId(id);
+    }
+    return id;
+  }
+
+  console.log(checkId(id));
   
 
   element.addEventListener("keyup", search_users);
