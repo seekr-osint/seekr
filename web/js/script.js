@@ -242,21 +242,6 @@ async function main() {
         x.appendChild(base_div)
       }
 
-
-
-      document.getElementById("acc-name-tag").onkeypress = function(event) {
-        // Check if the pressed key is the Enter key
-        if (event.key === "Enter") {
-              event.preventDefault();
-          // Execute the search function
-          search();
-        }
-
-        if (event.key == " ") {
-          event.preventDefault();
-        }
-      };
-
       document.getElementById("acc-searchbtn").onclick = search; 
 
       let isButtonEnabled = true;
@@ -375,6 +360,18 @@ async function main() {
 
             document.getElementById("acc-midsave").innerHTML = midSave;
           }
+
+          reject_btn.onclick = async function () {
+            let elementCount = term_container.childElementCount;
+
+            console.log(elementCount);
+
+            if (elementCount > 2) {
+              manage_acc_chip.remove();
+            } else {
+              term_container.remove();
+            }
+          }
         }
 
         document.getElementById("loading-spinner").style.display = "none";
@@ -422,18 +419,6 @@ async function main() {
   }
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
-    document.querySelector('.create-container').style.display = "flex";
-    document.querySelector('.acc-container').style.display = "none";
-  }
-
-
-
-  document.getElementById("acc-savebtn").onclick = function () { // account menu save button
-    
-
-
-    document.getElementById("c-savebtn-p").innerHTML = "Saved!";
-    delay(1000).then(() => document.getElementById("c-savebtn-p").innerHTML = "Save");
     document.querySelector('.create-container').style.display = "flex";
     document.querySelector('.acc-container').style.display = "none";
   }
@@ -494,11 +479,6 @@ async function main() {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     });
-
-    document.getElementById("c-savebtn-p").innerHTML = "Saved!";
-    delay(1000).then(() => document.getElementById("c-savebtn-p").innerHTML = "Save");
-    document.querySelector('.main').style.display = "flex";
-    document.querySelector('.create-container').style.display = "none";
   }
 
   // EDIT

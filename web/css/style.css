@@ -185,8 +185,7 @@ html {
   outline: none;
 }
 
-#e-showid,
-#acc-midsave {
+#e-showid {
   color: transparent;
   font-size: 0;
 }
@@ -268,7 +267,6 @@ html {
 }
 
 #c-savebtn,
-#acc-savebtn,
 #e-savebtn {
   margin-right: 2rem;
 }
@@ -355,6 +353,7 @@ html {
   height: 43rem;
   column-count: 2;
   column-fill: auto;
+  padding-left: 1rem;
 }
 
 #list-holder li {
@@ -372,6 +371,7 @@ html {
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
   display: flex;
   align-items: center;
+  margin-left: 1.37rem;
 }
 
 .chip-icon {
