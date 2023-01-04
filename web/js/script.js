@@ -244,6 +244,19 @@ async function main() {
 
       document.getElementById("acc-searchbtn").onclick = search; 
 
+      document.getElementById("acc-name-tag").onkeypress = function(event) {
+        // Check if the pressed key is the Enter key
+        if (event.key === "Enter") {
+              event.preventDefault();
+          // Execute the search function
+          search();
+        }
+
+        if (event.key == " ") {
+          event.preventDefault();
+        }
+      };
+
       let isButtonEnabled = true;
 
       async function search() {
@@ -429,7 +442,6 @@ async function main() {
     console.log("Save data to db (new)");
 
     let totalIds = Object.keys(data).length;
-
     let preId = String(totalIds + 1);
 
     //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
