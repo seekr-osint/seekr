@@ -222,8 +222,7 @@ async function main() {
         d_icon.setAttribute("name", "trash-outline");
 
         d_icon_div.onclick = function () {
-
-          fetch("http://localhost:8080/people/3/delete", {
+          fetch("http://localhost:8080/people/" + obj.id + "/delete", {
             method: "GET",
             mode: "no-cors"
           });
