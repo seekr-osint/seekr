@@ -106,7 +106,7 @@ func deletePerson(people DataBase, c *gin.Context) {
 		delete(people, c.Param("id"))
 		//c.IndentedJSON(http.StatusCreated, newPerson)
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
-    //c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
+		//c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
 	}
 	jsonBytes, err := json.Marshal(people)
 	if err != nil {
