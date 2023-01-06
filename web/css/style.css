@@ -113,7 +113,7 @@ html {
   margin-left: 5rem;
 }
 
-#c-accbtn {
+#e-accbtn {
   float: none;
   margin: 2rem;
   width: 20rem;
@@ -365,7 +365,7 @@ html {
 .chip {
   margin-bottom: 1rem;
   justify-self: center;
-  width: 30rem;
+  width: 32rem;
   height: 4rem;
   border-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
@@ -388,11 +388,11 @@ html {
 }
 
 .text-container {
-  justify-content: center;
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
+  margin-left: 2rem;
 }
 
 .card-text {
@@ -411,7 +411,9 @@ html {
   cursor: pointer;
 }
 
-.chip-edit {
+.chip-edit,
+.chip-acc,
+.chip-delete {
   width: 1.6rem;
   height: 1.6rem;
   margin: 0 0.5rem;

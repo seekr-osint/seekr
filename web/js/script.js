@@ -207,8 +207,15 @@ async function main() {
         e_icon.className = "icon"
         e_icon.setAttribute("name", "create-outline");
 
+        const acc_icon_div = document.createElement("div"); // Icon div
+        acc_icon_div.className = "chip-acc";
+
+        const acc_icon = document.createElement("ion-icon"); // Edit icon
+        acc_icon.className = "icon"
+        acc_icon.setAttribute("name", "person-circle-outline");
+
         const d_icon_div = document.createElement("div"); // Icon div
-        d_icon_div.className = "chip-edit";
+        d_icon_div.className = "chip-delete";
 
         const d_icon = document.createElement("ion-icon"); // Edit icon
         d_icon.className = "icon"
@@ -224,6 +231,167 @@ async function main() {
           });
         }
 
+        acc_icon_div.onclick = function () {
+          document.querySelector('.main').style.display = "none";
+          document.querySelector('.acc-container').style.display = "flex";
+        }
+
+        document.getElementById("acc-searchbtn").onclick = search; 
+
+        document.getElementById("acc-name-tag").onkeypress = function(event) {
+          // Check if the pressed key is the Enter key
+          if (event.key === "Enter") {
+                event.preventDefault();
+            // Execute the search function
+            search();
+          }
+
+          if (event.key == " ") {
+            event.preventDefault();
+          }
+        };
+
+        let isButtonEnabled = true;
+
+        async function search() {
+          // Check if the button is enabled
+          if (!isButtonEnabled) {
+            return;
+          }
+
+          // Disable the button
+          isButtonEnabled = false;
+
+          document.getElementById("loading-spinner").style.display = "inline-block";
+
+          // Set the flag to indicate that a request is in progress
+          const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
+          const data = await response.json();
+        
+          console.log(data);
+      
+          const term_container = document.createElement("div");
+          term_container.className = "term-container";
+      
+          const term_header = document.createElement("p");
+          term_header.className = "term-header";
+          term_header.innerHTML = document.getElementById("acc-name-tag").innerHTML;
+
+          term_container.appendChild(term_header);
+
+
+          for (const [i, _] of Object.entries(data)) {
+            let accObj = data[i];
+      
+            const row_div = document.createElement("div");
+            row_div.className = "acc-row";
+      
+            const manage_acc_chip = document.createElement("div");
+            manage_acc_chip.className = "manage-acc-chip"
+      
+            const outer_div = document.createElement("div");
+            outer_div.className = "acc-chip";
+      
+            const user_pfp = document.createElement("img");
+            user_pfp.className = "userPfp";
+      
+            if (accObj.profilePicture != null) {
+              user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
+              console.log("not null")
+            } else {
+              user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
+              console.log("null")
+            }
+      
+            const info_container = document.createElement("div");
+            info_container.className = "info-container";
+      
+            const service_name = document.createElement("p");
+            service_name.className = "serviceName";
+            service_name.innerHTML = accObj.service;
+      
+            const user_name = document.createElement("a");
+            user_name.className = "userName";
+            user_name.innerHTML = accObj.username;
+            user_name.href = accObj.url;
+            user_name.target = "_blank";
+      
+            document.getElementById("accounts").appendChild(row_div);
+            row_div.appendChild(term_container);
+            term_container.appendChild(manage_acc_chip);
+            manage_acc_chip.appendChild(outer_div);
+            outer_div.appendChild(user_pfp);
+            outer_div.appendChild(info_container);
+            info_container.appendChild(service_name);
+            info_container.appendChild(user_name);
+      
+            if (accObj.bio != null) {
+              const user_bio = document.createElement("p");
+              user_bio.className = "userBio";
+              user_bio.innerHTML = accObj.bio[0];
+      
+              info_container.appendChild(user_bio);
+            }
+      
+            const btn_container = document.createElement("div");
+            btn_container.className = "manage-btn-container";
+      
+            const reject_btn = document.createElement("div");
+            reject_btn.id = "acc-rejectbtn";
+            reject_btn.className = "btn btn-secondary";
+      
+            const reject_p = document.createElement("p");
+            reject_p.innerHTML = "Reject";
+      
+            const accept_btn = document.createElement("div");
+            accept_btn.id = "acc-acceptbtn";
+            accept_btn.className = "btn btn-secondary";
+      
+            const accept_p = document.createElement("p");
+            accept_p.innerHTML = "Accept";
+      
+            manage_acc_chip.appendChild(btn_container);
+            btn_container.appendChild(reject_btn);
+            btn_container.appendChild(accept_btn);
+            reject_btn.appendChild(reject_p);
+            accept_btn.appendChild(accept_p);
+
+            
+      
+            accept_btn.onclick = async function () {
+              console.log(accObj.id);
+
+              // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
+              let getId = document.getElementById("e-showid").innerHTML
+
+              console.log(getId);
+
+
+              fetch('http://localhost:8080/people', {
+                method: 'POST',
+                body: JSON.stringify({"id": getId, "accounts": {"service": accObj.service, "id": accObj.id, "username": accObj.username, "url": accObj.url, "profilePicture": [accObj.profilePicture], "imgHash": [accObj.imgHash], "bio": [accObj.bio], "firstname": accObj.firstname, "lastname": accObj.lastname}})
+              });
+
+              accept_p.innerHTML = "Accepted!";
+            }
+
+            reject_btn.onclick = async function () {
+              let elementCount = term_container.childElementCount;
+
+              console.log(elementCount);
+
+              if (elementCount > 2) {
+                manage_acc_chip.remove();
+              } else {
+                term_container.remove();
+              }
+            }
+          }
+
+          document.getElementById("loading-spinner").style.display = "none";
+          isButtonEnabled = true;
+        }
+
 
         base_div.appendChild(p_icon_div);
         base_div.appendChild(txt_div);
@@ -231,164 +399,17 @@ async function main() {
 
         base_div.appendChild(v_icon_div);
         base_div.appendChild(e_icon_div);
+        base_div.appendChild(acc_icon_div);
         base_div.appendChild(d_icon_div);
         p_icon_div.appendChild(p_icon);
         v_icon_div.appendChild(v_icon);
         e_icon_div.appendChild(e_icon);
+        acc_icon_div.appendChild(acc_icon);
         d_icon_div.appendChild(d_icon);
 
 
         name_p.innerHTML = `${obj.name}`
-        x.appendChild(base_div)
-      }
-
-      document.getElementById("acc-searchbtn").onclick = search; 
-
-      document.getElementById("acc-name-tag").onkeypress = function(event) {
-        // Check if the pressed key is the Enter key
-        if (event.key === "Enter") {
-              event.preventDefault();
-          // Execute the search function
-          search();
-        }
-
-        if (event.key == " ") {
-          event.preventDefault();
-        }
-      };
-
-      let isButtonEnabled = true;
-
-      async function search() {
-        // Check if the button is enabled
-        if (!isButtonEnabled) {
-          return;
-        }
-
-        // Disable the button
-        isButtonEnabled = false;
-
-        document.getElementById("loading-spinner").style.display = "inline-block";
-
-        // Set the flag to indicate that a request is in progress
-        const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
-        const data = await response.json();
-      
-        console.log(data);
-    
-        const term_container = document.createElement("div");
-        term_container.className = "term-container";
-    
-        const term_header = document.createElement("p");
-        term_header.className = "term-header";
-        term_header.innerHTML = document.getElementById("acc-name-tag").innerHTML;
-    
-        term_container.appendChild(term_header);
-    
-    
-        for (const [i, _] of Object.entries(data)) {
-          let accObj = data[i];
-    
-          const row_div = document.createElement("div");
-          row_div.className = "acc-row";
-    
-          const manage_acc_chip = document.createElement("div");
-          manage_acc_chip.className = "manage-acc-chip"
-    
-          const outer_div = document.createElement("div");
-          outer_div.className = "acc-chip";
-    
-          const user_pfp = document.createElement("img");
-          user_pfp.className = "userPfp";
-    
-          if (accObj.profilePicture != null) {
-            user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
-            console.log("not null")
-          } else {
-            user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
-            console.log("null")
-          }
-    
-          const info_container = document.createElement("div");
-          info_container.className = "info-container";
-    
-          const service_name = document.createElement("p");
-          service_name.className = "serviceName";
-          service_name.innerHTML = accObj.service;
-    
-          const user_name = document.createElement("a");
-          user_name.className = "userName";
-          user_name.innerHTML = accObj.username;
-          user_name.href = accObj.url;
-          user_name.target = "_blank";
-    
-          document.getElementById("accounts").appendChild(row_div);
-          row_div.appendChild(term_container);
-          term_container.appendChild(manage_acc_chip);
-          manage_acc_chip.appendChild(outer_div);
-          outer_div.appendChild(user_pfp);
-          outer_div.appendChild(info_container);
-          info_container.appendChild(service_name);
-          info_container.appendChild(user_name);
-    
-          if (accObj.bio != null) {
-            const user_bio = document.createElement("p");
-            user_bio.className = "userBio";
-            user_bio.innerHTML = accObj.bio[0];
-    
-            info_container.appendChild(user_bio);
-          }
-    
-          const btn_container = document.createElement("div");
-          btn_container.className = "manage-btn-container";
-    
-          const reject_btn = document.createElement("div");
-          reject_btn.id = "acc-rejectbtn";
-          reject_btn.className = "btn btn-secondary";
-    
-          const reject_p = document.createElement("p");
-          reject_p.innerHTML = "Reject";
-    
-          const accept_btn = document.createElement("div");
-          accept_btn.id = "acc-acceptbtn";
-          accept_btn.className = "btn btn-secondary";
-    
-          const accept_p = document.createElement("p");
-          accept_p.innerHTML = "Accept";
-    
-          manage_acc_chip.appendChild(btn_container);
-          btn_container.appendChild(reject_btn);
-          btn_container.appendChild(accept_btn);
-          reject_btn.appendChild(reject_p);
-          accept_btn.appendChild(accept_p);
-
-          
-    
-          accept_btn.onclick = async function () {
-            console.log(accObj.id);
-
-            let midSave = [];
-
-            midSave.push(accObj.id);
-
-            document.getElementById("acc-midsave").innerHTML = midSave;
-          }
-
-          reject_btn.onclick = async function () {
-            let elementCount = term_container.childElementCount;
-
-            console.log(elementCount);
-
-            if (elementCount > 2) {
-              manage_acc_chip.remove();
-            } else {
-              term_container.remove();
-            }
-          }
-        }
-
-        document.getElementById("loading-spinner").style.display = "none";
-        isButtonEnabled = true;
+        x.appendChild(base_div);
       }
     }
   }
@@ -421,18 +442,13 @@ async function main() {
     document.querySelector('.edit-container').style.display = "none";
   }
 
-  document.getElementById("c-accbtn").onclick = function () { // account button
-    document.querySelector('.create-container').style.display = "none";
-    document.querySelector('.acc-container').style.display = "flex";
-  }
-
   document.getElementById("c-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.create-container').style.display = "none";
   }
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
-    document.querySelector('.create-container').style.display = "flex";
+    document.querySelector('.main').style.display = "flex";
     document.querySelector('.acc-container').style.display = "none";
   }
 
