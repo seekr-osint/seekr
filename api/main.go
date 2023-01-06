@@ -36,11 +36,13 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
 	router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
+  router.POST("/people/:id/addAccount", handler(addAccount, people))
 	//router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
 	router.GET("/getAccounts/:username", handler(getAccountsRequest, people))
 	router.GET("/markdown/:id", handler(mdPersonByIDRequest, people))
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
+	router.GET("/people/:id/delete", handler(deletePerson, people))
 	DatabaseFile = databaseFile
 	data, err := ioutil.ReadFile(DatabaseFile)
 	if err != nil {
@@ -105,7 +107,6 @@ func deletePerson(people DataBase, c *gin.Context) {
 		// Add the new person to the slice.
 		delete(people, c.Param("id"))
 		//c.IndentedJSON(http.StatusCreated, newPerson)
-		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
 		//c.IndentedJSON(http.StatusAccepted, gin.H{"message": "deleted person"})
 	}
 	jsonBytes, err := json.Marshal(people)
@@ -164,6 +165,24 @@ func addAccounts(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
+func addAccount(people DataBase, c *gin.Context) {
+
+	var account Account
+
+	if err := c.BindJSON(&account); err != nil {
+    log.Println("bindjson error")
+		return
+	}
+  personToAdd := getPersonByID(people,c.Param("id"))
+  personToAdd.Accounts = make(map[string]Account)
+  personToAdd.Accounts[account.Service] = account
+people[c.Param("id")] = personToAdd
+
+  //people[c.Param("id")].Accounts,account)
+  SaveJson(people)
+	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
 func getAccounts(people DataBase, id, username string) DataBase {
 	person := getPersonByID(people, id)
 	person.Accounts = ServicesHandler(DefaultServices, username)
@@ -179,6 +198,7 @@ func getAccountsRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getAccountsSimple(c.Param("username")))
 	//}
 }
+
 
 func getPersonByID(people DataBase, id string) person {
 	var personToReturn person

@@ -29,3 +29,4 @@ type person struct {
 }
 
 type DataBase map[string]person
+//type Accounts map[string]Account
