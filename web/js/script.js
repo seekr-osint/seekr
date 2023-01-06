@@ -364,9 +364,9 @@ async function main() {
               console.log(getId);
 
 
-              fetch('http://localhost:8080/people', {
+              fetch('http://localhost:8080/people/4/addAccount', {
                 method: 'POST',
-                body: JSON.stringify({"id": getId, "accounts": {"service": accObj.service, "id": accObj.id, "username": accObj.username, "url": accObj.url, "profilePicture": [accObj.profilePicture], "imgHash": [accObj.imgHash], "bio": [accObj.bio], "firstname": accObj.firstname, "lastname": accObj.lastname}})
+                body: JSON.stringify(accObj)
               });
 
               accept_p.innerHTML = "Accepted!";
