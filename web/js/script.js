@@ -222,12 +222,10 @@ async function main() {
         d_icon.setAttribute("name", "trash-outline");
 
         d_icon_div.onclick = function () {
-          const headers = new Headers();
-          headers.append('Access-Control-Allow-Origin', '*');
 
-          fetch("http://localhost:8080/people/3", {
-            method: "DELETE",
-            headers: headers
+          fetch("http://localhost:8080/people/3/delete", {
+            method: "GET",
+            mode: "no-cors"
           });
         }
 
