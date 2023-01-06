@@ -364,7 +364,7 @@ async function main() {
               console.log(getId);
 
 
-              fetch('http://localhost:8080/people/4/addAccount', {
+              fetch("http://localhost:8080/people/" + getId + "/addAccount", {
                 method: 'POST',
                 body: JSON.stringify(accObj)
               });
