@@ -29,6 +29,20 @@ html {
   }
 }
 
+
+#no-results {
+  display: none;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+#no-results-text {
+  margin: 2rem;
+  font-size: 1.7rem;
+  color: rgba(155, 170, 207, 0.5);
+}
+
 .hitbox {
   display: flex;
   align-items: center;

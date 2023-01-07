@@ -22,6 +22,8 @@ async function main() {
     let x = document.querySelector('#list-holder');
     x.innerHTML = ""
 
+    
+
     for (const [i, _] of Object.entries(data)) {
       let obj = data[i];
 
@@ -389,6 +391,14 @@ async function main() {
         x.appendChild(base_div);
       }
     }
+
+    if (x.childElementCount <= 0) {
+      document.getElementById("no-results").style.display = "flex";
+    } else {
+      document.getElementById("no-results").style.display = "none";
+    }
+
+    console.log(x.childElementCount);
   }
 
 
