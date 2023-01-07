@@ -269,105 +269,119 @@ async function main() {
 
           term_container.appendChild(term_header);
 
+          let amountOfReturnedAccounts = Object.entries(data).length;
 
-          for (const [i, _] of Object.entries(data)) {
-            let accObj = data[i];
-      
+          if (amountOfReturnedAccounts >= 1) {
+            document.getElementById("acc-no-results").style.display = "none";
+
             const row_div = document.createElement("div");
             row_div.className = "acc-row";
-      
-            const manage_acc_chip = document.createElement("div");
-            manage_acc_chip.className = "manage-acc-chip"
-      
-            const outer_div = document.createElement("div");
-            outer_div.className = "acc-chip";
-      
-            const user_pfp = document.createElement("img");
-            user_pfp.className = "userPfp";
-      
-            if (accObj.profilePicture != null) {
-              user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
-            } else {
-              user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
-            }
-      
-            const info_container = document.createElement("div");
-            info_container.className = "info-container";
-      
-            const service_name = document.createElement("p");
-            service_name.className = "serviceName";
-            service_name.innerHTML = accObj.service;
-      
-            const user_name = document.createElement("a");
-            user_name.className = "userName";
-            user_name.innerHTML = accObj.username;
-            user_name.href = accObj.url;
-            user_name.target = "_blank";
-      
+
             document.getElementById("accounts").appendChild(row_div);
-            row_div.appendChild(term_container);
-            term_container.appendChild(manage_acc_chip);
-            manage_acc_chip.appendChild(outer_div);
-            outer_div.appendChild(user_pfp);
-            outer_div.appendChild(info_container);
-            info_container.appendChild(service_name);
-            info_container.appendChild(user_name);
-      
-            if (accObj.bio != null) {
-              const user_bio = document.createElement("p");
-              user_bio.className = "userBio";
-              user_bio.innerHTML = accObj.bio[0];
-      
-              info_container.appendChild(user_bio);
-            }
-      
-            const btn_container = document.createElement("div");
-            btn_container.className = "manage-btn-container";
-      
-            const reject_btn = document.createElement("div");
-            reject_btn.id = "acc-rejectbtn";
-            reject_btn.className = "btn btn-secondary";
-      
-            const reject_p = document.createElement("p");
-            reject_p.innerHTML = "Reject";
-      
-            const accept_btn = document.createElement("div");
-            accept_btn.id = "acc-acceptbtn";
-            accept_btn.className = "btn btn-secondary";
-      
-            const accept_p = document.createElement("p");
-            accept_p.innerHTML = "Accept";
-      
-            manage_acc_chip.appendChild(btn_container);
-            btn_container.appendChild(reject_btn);
-            btn_container.appendChild(accept_btn);
-            reject_btn.appendChild(reject_p);
-            accept_btn.appendChild(accept_p);
 
-            
-      
-            accept_btn.onclick = async function () {
-              // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-              let getId = document.getElementById("e-showid").innerHTML
 
-              fetch("http://localhost:8080/people/" +  getId + "/addAccount", {
-                method: 'POST',
-                body: JSON.stringify(accObj)
-              });
-
-              accept_p.innerHTML = "Accepted!";
-            }
-
-            reject_btn.onclick = async function () {
-              let elementCount = term_container.childElementCount;
-
-              if (elementCount > 2) {
-                manage_acc_chip.remove();
+            for (const [i, _] of Object.entries(data)) {
+              let accObj = data[i];
+        
+              const manage_acc_chip = document.createElement("div");
+              manage_acc_chip.className = "manage-acc-chip"
+        
+              const outer_div = document.createElement("div");
+              outer_div.className = "acc-chip";
+        
+              const user_pfp = document.createElement("img");
+              user_pfp.className = "userPfp";
+        
+              if (accObj.profilePicture != null) {
+                user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
               } else {
-                term_container.remove();
+                user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
+              }
+        
+              const info_container = document.createElement("div");
+              info_container.className = "info-container";
+        
+              const service_name = document.createElement("p");
+              service_name.className = "serviceName";
+              service_name.innerHTML = accObj.service;
+        
+              const user_name = document.createElement("a");
+              user_name.className = "userName";
+              user_name.innerHTML = accObj.username;
+              user_name.href = accObj.url;
+              user_name.target = "_blank";
+        
+              row_div.appendChild(term_container);
+              term_container.appendChild(manage_acc_chip);
+              manage_acc_chip.appendChild(outer_div);
+              outer_div.appendChild(user_pfp);
+              outer_div.appendChild(info_container);
+              info_container.appendChild(service_name);
+              info_container.appendChild(user_name);
+        
+              if (accObj.bio != null) {
+                const user_bio = document.createElement("p");
+                user_bio.className = "userBio";
+                user_bio.innerHTML = accObj.bio[0];
+        
+                info_container.appendChild(user_bio);
+              }
+        
+              const btn_container = document.createElement("div");
+              btn_container.className = "manage-btn-container";
+        
+              const reject_btn = document.createElement("div");
+              reject_btn.id = "acc-rejectbtn";
+              reject_btn.className = "btn btn-secondary";
+        
+              const reject_p = document.createElement("p");
+              reject_p.innerHTML = "Reject";
+        
+              const accept_btn = document.createElement("div");
+              accept_btn.id = "acc-acceptbtn";
+              accept_btn.className = "btn btn-secondary";
+        
+              const accept_p = document.createElement("p");
+              accept_p.innerHTML = "Accept";
+        
+              manage_acc_chip.appendChild(btn_container);
+              btn_container.appendChild(reject_btn);
+              btn_container.appendChild(accept_btn);
+              reject_btn.appendChild(reject_p);
+              accept_btn.appendChild(accept_p);
+  
+              
+        
+              accept_btn.onclick = async function () {
+                // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
+                let getId = document.getElementById("e-showid").innerHTML
+  
+                fetch("http://localhost:8080/people/" +  getId + "/addAccount", {
+                  method: 'POST',
+                  body: JSON.stringify(accObj)
+                });
+  
+                accept_p.innerHTML = "Accepted!";
+              }
+  
+              reject_btn.onclick = async function () {
+                let elementCount = term_container.childElementCount;
+  
+                if (elementCount > 2) {
+                  manage_acc_chip.remove();
+                } else {
+                  row_div.remove();
+                }
               }
             }
+          } else {
+            // No accounts found
+
+            if (document.getElementById("accounts").childElementCount <= 0) {
+              document.getElementById("acc-no-results").style.display = "flex";
+            }
           }
+
 
           document.getElementById("loading-spinner").style.display = "none";
           isButtonEnabled = true;
@@ -393,9 +407,9 @@ async function main() {
     }
 
     if (x.childElementCount <= 0) {
-      document.getElementById("no-results").style.display = "flex";
+      document.getElementById("base-no-results").style.display = "flex";
     } else {
-      document.getElementById("no-results").style.display = "none";
+      document.getElementById("base-no-results").style.display = "none";
     }
 
     console.log(x.childElementCount);
