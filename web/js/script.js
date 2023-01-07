@@ -273,6 +273,7 @@ async function main() {
 
           if (amountOfReturnedAccounts >= 1) {
             document.getElementById("acc-no-results").style.display = "none";
+            document.getElementById("acc-scroll-box").style.display = "block";
 
             const row_div = document.createElement("div");
             row_div.className = "acc-row";
@@ -379,6 +380,7 @@ async function main() {
 
             if (document.getElementById("accounts").childElementCount <= 0) {
               document.getElementById("acc-no-results").style.display = "flex";
+              document.getElementById("acc-scroll-box").style.display = "none";
             }
           }
 

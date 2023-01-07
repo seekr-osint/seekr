@@ -29,12 +29,19 @@ html {
   }
 }
 
+#acc-backbtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 4rem;
+  margin-bottom: 3rem;
+}
 
 #base-no-results,
 #acc-no-results {
   display: none;
   justify-content: center;
-  height: 100%;
+  height: 43rem;
   width: 100%;
 }
 
@@ -225,22 +232,26 @@ html {
   top: 0;
 }
 
+#acc-scroll-box,
 .scroll-box {
   overflow: hidden;
   overflow-y: scroll;
   height: 42rem;
 }
 
-.scroll-box p {
+.scroll-box p,
+#acc-scroll-box p {
   display: flex;
 }
 
-.scroll-box::-webkit-scrollbar {
+.scroll-box::-webkit-scrollbar,
+#acc-scroll-box::-webkit-scrollbar {
   width: 12px;
   -webkit-appearance: none;
 }
 
-.scroll-box::-webkit-scrollbar-thumb {
+.scroll-box::-webkit-scrollbar-thumb,
+#acc-scroll-box::-webkit-scrollbar-thumb {
   background-color: var(--greyLight-1);
   background: #E4EBF5;
   border-radius: 3rem;
