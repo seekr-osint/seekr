@@ -239,7 +239,7 @@ async function main() {
         document.getElementById("acc-name-tag").onkeypress = function(event) {
           // Check if the pressed key is the Enter key
           if (event.key === "Enter") {
-                event.preventDefault();
+            event.preventDefault();
             // Execute the search function
             search();
           }
@@ -252,6 +252,9 @@ async function main() {
         let isButtonEnabled = true;
 
         async function search() {
+          if (document.getElementById("acc-name-tag").textContent == "") {
+            return;
+          }
           // Check if the button is enabled
           if (!isButtonEnabled) {
             return;
