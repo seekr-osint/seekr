@@ -12,6 +12,7 @@
     <script src="https://kit.fontawesome.com/f0601b0fb2.js" crossorigin="anonymous"></script>
     <script type='module' src='https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js'></script>
     <script nomodule='' src='https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js'></script>
+    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -23,12 +24,6 @@
 
     <div class="main">
       <div class="components">
-        <!-- <div class="btn btn-secondary"><p>Button</p></div>
-      
-        <div class="form">
-          <input type="text" class="form-input" placeholder="Type anything...">
-        </div> -->
-        
         <div class="search">
           <input type="text" id="searchbar" class="search-input" spellcheck="false" placeholder="Search...">
           <div class="search-icon">
@@ -47,6 +42,8 @@
     </div>
 
     <div class="container">
+      <p id="v-showid"></p>
+
       <div class="components">
         <div class="chip">
           <div class="text-container">
@@ -78,8 +75,9 @@
 
           <div class="accounts"></div>
         </div>
-
+        
         <div class="btn btn-secondary" id="backbtn"><p>Back</p></div>
+        <div class="btn btn-secondary" id="savetxtbtn"><p>Save As TXT</p></div>
       
         <!-- <div class="form">
           <input type="text" class="form-input" placeholder="Type anything...">

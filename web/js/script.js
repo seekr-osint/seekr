@@ -6,6 +6,17 @@ function delay(time) { // Because there is no default sleep function
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
+function SaveAsFile(t, f, m) {
+  try {
+      var b = new Blob([t],{type:m});
+      saveAs(b, f);
+  } catch (e) {
+      window.open("data:"+m+"," + encodeURIComponent(t), '_blank','');
+  }
+}
+
+// SaveAsFile("text","filename.txt","text/plain;charset=utf-8");
+
 async function main() {
   const res = await fetch("http://localhost:8080/people")
 
@@ -55,6 +66,8 @@ async function main() {
         hitbox_div.onclick = async function () {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.container').style.display = "flex";
+
+          document.querySelector("#v-showid").innerHTML = obj.id;
 
           document.querySelector(".name-tag").innerHTML = obj.name;
 
@@ -160,6 +173,50 @@ async function main() {
             }
           }
         }
+
+        document.getElementById("savetxtbtn").onclick = async function () {
+          let textToSave = "";
+        
+          let getId = document.getElementById("v-showid").innerHTML;
+        
+          const res = await fetch("http://localhost:8080/people/"+ getId)
+        
+          data = await res.json();
+        
+          // For each item in data: check if the field is empty, if not, add item to textToSave
+            // For each item in data: check if the field is empty, if not, add item to textToSave
+          if (data.name) {
+            textToSave += `Name: ${data.name}\n`;
+          }
+          for (const [key, value] of Object.entries(data)) {
+            if (key === "accounts" && typeof value === "object") {
+              let accountsText = "";
+              let first = true;
+              for (const [service, account] of Object.entries(value)) {
+                if (first) {
+                  accountsText += ` ${service}, ${account.username}, ${account.url}`;
+                  first = false;
+                } else {
+                  accountsText += `\n          ${service}, ${account.username}, ${account.url}`;
+                }
+              }
+              textToSave += `${key.charAt(0).toUpperCase()}${key.slice(1)}:${accountsText}\n`;
+            } else if (key !== "id" && value && value != " " && value != null && value != undefined && value != 0 && key != "name") {
+              textToSave += `${key.charAt(0).toUpperCase()}${key.slice(1)}: ${value}\n`;
+            }
+          }
+
+          
+        
+          SaveAsFile(textToSave, data.name.toLowerCase().replace(/ /g, "") + ".txt","text/plain;charset=utf-8");
+        }
+        
+        
+        
+        
+        
+        
+        
 
         const e_icon_div = document.createElement("div"); // Icon div
         e_icon_div.className = "chip-edit";

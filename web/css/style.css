@@ -29,6 +29,7 @@ html {
   }
 }
 
+
 #acc-backbtn {
   position: absolute;
   bottom: 0;
@@ -217,7 +218,8 @@ html {
   outline: none;
 }
 
-#e-showid {
+#e-showid,
+#v-showid {
   color: transparent;
   font-size: 0;
 }
@@ -303,7 +305,8 @@ html {
 }
 
 #c-savebtn,
-#e-savebtn {
+#e-savebtn,
+#savetxtbtn {
   margin-right: 2rem;
 }
 
