@@ -32,6 +32,9 @@ async function main() {
         const base_div = document.createElement("div"); // Outer div
         base_div.className = "chip";
 
+        const hitbox_div = document.createElement("div"); // hitbox div
+        hitbox_div.className = "hitbox";
+
         const p_icon_div = document.createElement("div"); // Icon div
         p_icon_div.className = "chip-icon";
 
@@ -45,12 +48,9 @@ async function main() {
         const name_p = document.createElement("p"); // Name paragraph
         name_p.className = "card-text";
 
-        const v_icon_div = document.createElement("div"); // Icon div
-        v_icon_div.className = "chip-view";
-
         // View
 
-        v_icon_div.onclick = async function () {
+        hitbox_div.onclick = async function () {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.container').style.display = "flex";
 
@@ -158,10 +158,6 @@ async function main() {
             }
           }
         }
-
-        const v_icon = document.createElement("ion-icon"); // View icon
-        v_icon.className = "icon";
-        v_icon.setAttribute("name", "eye-outline");
 
         const e_icon_div = document.createElement("div"); // Icon div
         e_icon_div.className = "chip-edit";
@@ -375,17 +371,15 @@ async function main() {
           isButtonEnabled = true;
         }
 
-
-        base_div.appendChild(p_icon_div);
-        base_div.appendChild(txt_div);
+        base_div.appendChild(hitbox_div);
+        hitbox_div.appendChild(p_icon_div);
+        hitbox_div.appendChild(txt_div);
         txt_div.appendChild(name_p);
 
-        base_div.appendChild(v_icon_div);
         base_div.appendChild(e_icon_div);
         base_div.appendChild(acc_icon_div);
         base_div.appendChild(d_icon_div);
         p_icon_div.appendChild(p_icon);
-        v_icon_div.appendChild(v_icon);
         e_icon_div.appendChild(e_icon);
         acc_icon_div.appendChild(acc_icon);
         d_icon_div.appendChild(d_icon);
