@@ -10,10 +10,6 @@ async function main() {
   const res = await fetch("http://localhost:8080/people")
 
   data = await res.json();
-
-  console.log(data);
-
-  
   
 
   element.addEventListener("keyup", search_users);
@@ -120,8 +116,6 @@ async function main() {
             for (const [i, _] of Object.entries(obj.accounts)) {
               let accObj = obj.accounts[i];
   
-              console.log(accObj);
-
               // Creating elements
 
               const base_div = document.createElement("div"); // Outer div
@@ -132,7 +126,6 @@ async function main() {
 
               if (accObj.profilePicture != null) {
                 pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
-                console.log("profilePicture exsits")
               } else {
                 pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
               }
@@ -268,8 +261,6 @@ async function main() {
           // Set the flag to indicate that a request is in progress
           const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
           const data = await response.json();
-        
-          console.log(data);
       
           const term_container = document.createElement("div");
           term_container.className = "term-container";
@@ -298,10 +289,8 @@ async function main() {
       
             if (accObj.profilePicture != null) {
               user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
-              console.log("not null")
             } else {
               user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
-              console.log("null")
             }
       
             const info_container = document.createElement("div");
@@ -360,13 +349,8 @@ async function main() {
             
       
             accept_btn.onclick = async function () {
-              console.log(accObj.id);
-
               // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
               let getId = document.getElementById("e-showid").innerHTML
-
-              console.log(getId);
-
 
               fetch("http://localhost:8080/people/" +  getId + "/addAccount", {
                 method: 'POST',
@@ -378,8 +362,6 @@ async function main() {
 
             reject_btn.onclick = async function () {
               let elementCount = term_container.childElementCount;
-
-              console.log(elementCount);
 
               if (elementCount > 2) {
                 manage_acc_chip.remove();
@@ -456,8 +438,6 @@ async function main() {
   // CREATE
 
   document.getElementById("c-savebtn").onclick = function () { // new document save button
-    console.log("Save data to db (new)");
-
     let totalIds = Object.keys(data).length;
     let preId = String(totalIds + 1);
 
@@ -513,8 +493,6 @@ async function main() {
   // EDIT
 
   document.getElementById("e-savebtn").onclick = function () {
-    console.log("Save data to db (edit)");
-
     let id = document.querySelector("#e-showid").innerHTML;
 
     let name = document.querySelector(".e-name-tag").innerHTML;
