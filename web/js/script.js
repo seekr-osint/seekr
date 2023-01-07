@@ -229,6 +229,7 @@ async function main() {
         }
 
         acc_icon_div.onclick = function () {
+          document.querySelector("#e-showid").innerHTML = obj.id;
           document.querySelector('.main').style.display = "none";
           document.querySelector('.acc-container').style.display = "flex";
         }
@@ -364,7 +365,7 @@ async function main() {
               console.log(getId);
 
 
-              fetch("http://localhost:8080/people/" + getId + "/addAccount", {
+              fetch("http://localhost:8080/people/" +  getId + "/addAccount", {
                 method: 'POST',
                 body: JSON.stringify(accObj)
               });
