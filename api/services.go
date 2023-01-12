@@ -99,11 +99,11 @@ func HttpRequest(url string) string {
 }
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
-	var accounts Accounts 
+	var accounts Accounts
 	for i := 0; i < len(servicesToCheck); i++ {
 		service := servicesToCheck[i]
 		if service.UserExistsFunc(service.BaseUrl, username) {
-			accounts = append(accounts,service.GetInfoFunc(username, service))
+			accounts = append(accounts, service.GetInfoFunc(username, service))
 		}
 	}
 	return accounts
