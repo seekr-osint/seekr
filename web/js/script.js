@@ -148,13 +148,17 @@ async function main() {
               const info_div = document.createElement("div"); // Info div
               info_div.className = "info-container";
 
-              const service_p = document.createElement("p");
+              const service_p = document.createElement("a");
               service_p.className = "serviceName";
               service_p.innerHTML = accObj.service;
+              service_p.href = accObj.url;
+              service_p.target = "_blank";
 
-              const name_p = document.createElement("p");
+              const name_p = document.createElement("a");
               name_p.className = "userName";
               name_p.innerHTML = accObj.username;
+              name_p.href = accObj.url;
+              name_p.target = "_blank";
 
 
               document.querySelector(".accounts").appendChild(base_div);

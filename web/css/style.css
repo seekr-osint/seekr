@@ -29,6 +29,10 @@ html {
   }
 }
 
+a {
+  text-decoration: none;
+  display: block;
+}
 
 #acc-backbtn {
   position: absolute;
