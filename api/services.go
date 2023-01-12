@@ -24,7 +24,8 @@ type Service struct {
 	BaseUrl        string         // example: "https://github.com"
 }
 
-type Accounts map[string]Account
+//type Accounts map[string]Account
+type Accounts []Account
 type Account struct {
 	Service   string   `json:"service"`  // example: GitHub
 	Id        string   `json:"id"`       // example: 1224234
@@ -98,11 +99,11 @@ func HttpRequest(url string) string {
 }
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
-	var accounts = make(Accounts)
+	var accounts Accounts
 	for i := 0; i < len(servicesToCheck); i++ {
 		service := servicesToCheck[i]
 		if service.UserExistsFunc(service.BaseUrl, username) {
-			accounts[service.Name] = service.GetInfoFunc(username, service)
+			accounts = append(accounts, service.GetInfoFunc(username, service))
 		}
 	}
 	return accounts
