@@ -128,8 +128,8 @@ async function main() {
           // Accounts
 
           if (obj.accounts != null) {
-            for (const [i, _] of Object.entries(obj.accounts)) {
-              let accObj = obj.accounts[i];
+            for (const accObj of obj.accounts) {
+              //let accObj = obj.accounts[i];
   
               // Creating elements
 

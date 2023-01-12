@@ -25,7 +25,7 @@ type person struct {
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
 	Sources        []string           `json:"sources"`
-	Accounts       map[string]Account `json:"accounts"`
+	Accounts       Accounts`json:"accounts"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
 }
 

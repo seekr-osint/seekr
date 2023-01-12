@@ -175,9 +175,9 @@ func addAccount(people DataBase, c *gin.Context) {
 	}
 	personToAdd := getPersonByID(people, c.Param("id"))
 	if personToAdd.Accounts == nil {
-		personToAdd.Accounts = make(map[string]Account)
+		personToAdd.Accounts = Accounts{}
 	}
-	personToAdd.Accounts[account.Service] = account
+	personToAdd.Accounts = append(personToAdd.Accounts,account)
 	people[c.Param("id")] = personToAdd
 
 	//people[c.Param("id")].Accounts,account)
