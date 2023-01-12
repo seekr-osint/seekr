@@ -474,8 +474,6 @@ async function main() {
     } else {
       document.getElementById("base-no-results").style.display = "none";
     }
-
-    console.log(x.childElementCount);
   }
 
 
