@@ -34,6 +34,25 @@ a {
   display: block;
 }
 
+#notes-header {
+  color: var(--greyDark);
+  font-size: 1.4rem;
+}
+
+#space-maker {
+  height: fit-content;
+  width: 67rem;
+  padding: 1rem;
+  display: block;
+}
+
+#e-notes {
+  width: 63.5rem;
+  min-height: 20rem;
+  height: fit-content;
+  padding: 1rem;
+}
+
 #acc-backbtn {
   position: absolute;
   bottom: 0;
