@@ -2,6 +2,7 @@ package api
 
 // main data set
 type person struct {
+  Pictures       []string           `json:"pictures"`
 	ID             string             `json:"id"`
 	Maidenname     string             `json:"maidenname"`
 	Name           string             `json:"name"`

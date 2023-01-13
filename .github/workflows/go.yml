@@ -58,31 +58,3 @@ jobs:
         retention-days: 15
         if-no-files-found: "error"
     
-  fmt:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup Golang caches
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/go/pkg/mod
-        key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-golang-
-
-    - name: go fmt
-      run: go fmt ./...
-      
-    - name: Add & Commit
-      uses: EndBug/add-and-commit@v9.1.1
-      with:
-        add: .
-        commit: --signoff
-        push: true
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-    #- name: Commit and push changes
-      #uses: devops-infra/action-commit-push@master
-      #with:
-        #github_token: ${{ secrets.GITHUB_TOKEN }}
-        #commit_prefix: "[GO FMT]"

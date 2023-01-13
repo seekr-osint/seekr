@@ -24,7 +24,7 @@ type Service struct {
 	BaseUrl        string         // example: "https://github.com"
 }
 
-//type Accounts map[string]Account
+// type Accounts map[string]Account
 type Accounts []Account
 type Account struct {
 	Service   string   `json:"service"`  // example: GitHub
@@ -60,9 +60,17 @@ var DefaultServices = Services{
 		GetInfoFunc:    SlideshareInfo,
 		BaseUrl:        "https://slideshare.net/",
 	},
+  Service{
+		Name:           "Reddit",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    RedditInfo,
+		BaseUrl:        "https://api.reddit.com/user/",
+	},
 }
 
 func SimpleUserExistsCheck(BaseUrl, username string) bool {
+  log.Println("check:" + BaseUrl + username)
+  log.Println(GetStatusCode(BaseUrl+username))
 	return GetStatusCode(BaseUrl+username) == 200
 }
 
@@ -191,6 +199,33 @@ func GithubInfo(username string, service Service) Account {
 	return account
 }
 
+
+func RedditInfo(username string, service Service) Account {
+	log.Println("reddit")
+	var data struct {
+		Id      string `json:"id"`
+		Url     string `json:"url"`
+		Profile struct {
+			Bio       string `json:"bio"`
+			Firstname string `json:"firstName"`
+			Lastname  string `json:"lastName"`
+		} `json:"profile"`
+	}
+	jsonData := HttpRequest("https://api.reddit.com/user/" + username)
+	err := json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		log.Println(err)
+	}
+	return Account{
+		Service:   service.Name,
+		Username:  username,
+		Id:        data.Id,
+		Url:       "https://lichess.org/@/" + username,
+		Bio:       []string{data.Profile.Bio},
+		Firstname: data.Profile.Firstname,
+		Lastname:  data.Profile.Lastname,
+	}
+}
 func LichessInfo(username string, service Service) Account {
 	log.Println("lichess")
 	var data struct {
@@ -211,6 +246,7 @@ func LichessInfo(username string, service Service) Account {
 		Service:   service.Name,
 		Username:  username,
 		Id:        data.Id,
+		Url:       "https://lichess.org/@/" + username,
 		Bio:       []string{data.Profile.Bio},
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,
