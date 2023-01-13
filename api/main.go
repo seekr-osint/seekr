@@ -173,26 +173,26 @@ func addAccount(people DataBase, c *gin.Context) {
 		log.Println("bindjson error")
 		return
 	}
-  exists := false
+	exists := false
 	personToAdd := getPersonByID(people, c.Param("id"))
 	if personToAdd.Accounts == nil {
 		personToAdd.Accounts = Accounts{}
 	} else {
-   for _, element := range personToAdd.Accounts {
-      if element.Username == account.Username && element.Service == account.Service {
-        exists = true
-        log.Println("username already exists")
-      }
-   } 
-  }
-  if ! exists {
-	personToAdd.Accounts = append(personToAdd.Accounts, account)
-	people[c.Param("id")] = personToAdd
+		for _, element := range personToAdd.Accounts {
+			if element.Username == account.Username && element.Service == account.Service {
+				exists = true
+				log.Println("username already exists")
+			}
+		}
+	}
+	if !exists {
+		personToAdd.Accounts = append(personToAdd.Accounts, account)
+		people[c.Param("id")] = personToAdd
 
-	//people[c.Param("id")].Accounts,account)
-	SaveJson(people)
-	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
-}
+		//people[c.Param("id")].Accounts,account)
+		SaveJson(people)
+		c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+	}
 }
 
 func getAccounts(people DataBase, id, username string) DataBase {

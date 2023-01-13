@@ -24,7 +24,7 @@ type Service struct {
 	BaseUrl        string         // example: "https://github.com"
 }
 
-//type Accounts map[string]Account
+// type Accounts map[string]Account
 type Accounts []Account
 type Account struct {
 	Service   string   `json:"service"`  // example: GitHub
@@ -211,6 +211,7 @@ func LichessInfo(username string, service Service) Account {
 		Service:   service.Name,
 		Username:  username,
 		Id:        data.Id,
+		Url:       "https://lichess.org/@/" + username,
 		Bio:       []string{data.Profile.Bio},
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,
