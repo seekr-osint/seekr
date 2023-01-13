@@ -78,9 +78,9 @@ jobs:
       uses: EndBug/add-and-commit@v9.1.1
       with:
         add: .
-        commit: --signoff
+        #commit: --signoff
         push: true
-        github_token: ${{ secrets.ACCESS_TOKEN }}
+        #github_token: ${{ secrets.ACCESS_TOKEN }}
     #- name: Commit and push changes
       #uses: devops-infra/action-commit-push@master
       #with:
