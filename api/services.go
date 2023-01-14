@@ -16,12 +16,160 @@ import (
 	"strings"
 )
 
+var DefaultServices = Services{
+	Service{
+		Name:           "GitHub",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    GithubInfo,
+		BaseUrl:        "https://github.com/{username}",
+	},
+	Service{
+		Name:           "Facebook",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://www.facebook.com/{username}/videos",
+		HtmlUrl:        "https://www.facebook.com/{username}",
+	},
+	Service{
+		Name:           "gurefrage",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://www.gurefrage.net/nutzer/{username}",
+	},
+	Service{
+		Name:           "Lichess",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    LichessInfo,
+		BaseUrl:        "https://lichess.org/api/user/{username}",
+	},
+	Service{
+		Name:           "SlideShare",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://slideshare.net/{username}",
+		AvatarUrl:      "https://cdn.slidesharecdn.com/profile-photo-{username}-96x96.jpg",
+	},
+	Service{
+		Name:           "Slides.com",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://slides.com/{username}",
+	},
+	Service{
+		Name:           "Asciinema",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://asciinema.org/~{username}",
+	},
+	Service{
+		Name:           "Ask Fedora",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://ask.fedoraproject.org/u/{username}",
+	},
+	Service{
+		Name:           "Autofrage",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://www.autofrage.net/nutzer/{username}",
+	},
+	Service{
+		Name:           "Brave Community",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://community.brave.com/u/{username}",
+	},
+	Service{
+		Name:           "BuyMeACoffee",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://buymeacoff.ee/{username}",
+	},
+	Service{
+		Name:           "Bitbucket",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://bitbucket.org/{username}/",
+		// AvatarUrl:      "https://bitbucket.org/workspaces/{username}/avatar/", // FIXME
+	},
+	Service{
+		Name:           "Bitwarden",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://community.bitwarden.com/u/{username}/summary",
+	},
+	Service{
+		Name:           "Cloudflare",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://community.cloudflare.com/u/{username}",
+	},
+	Service{
+		Name:           "Clubhouse",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://www.clubhouse.com/@{username}",
+	},
+	Service{
+		Name:           "Codepen",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://codepen.io/{username}",
+	},
+	Service{
+		Name:           "Codewars",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://www.codewars.com/users/{username}",
+	},
+	Service{
+		Name:           "Docker Hub",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://hub.docker.com/u/{username}",
+	},
+	Service{
+		Name:           "Apple Developer",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://developer.apple.com/forums/profile/{username}",
+	},
+	Service{ // broken
+		Name:           "Reddit",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    RedditInfo,
+		BaseUrl:        "https://api.reddit.com/user/{username}",
+	},
+}
+
 type Services []Service
 type Service struct {
 	Name           string         // example: "GitHub"
 	UserExistsFunc UserExistsFunc // example: SimpleUserExistsCheck()
 	GetInfoFunc    GetInfoFunc    // example: EmptyAccountInfo()
 	BaseUrl        string         // example: "https://github.com"
+	AvatarUrl      string
+	Check          string // example: "status_code"
+	HtmlUrl        string
 }
 
 // type Accounts map[string]Account
@@ -45,39 +193,17 @@ type Account struct {
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
-type UserExistsFunc func(string, string) bool  // (BaseUrl,username)
+type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 
-var DefaultServices = Services{
-	Service{
-		Name:           "GitHub",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    GithubInfo,
-		BaseUrl:        "https://github.com/",
-	},
-	Service{
-		Name:           "Lichess",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    LichessInfo,
-		BaseUrl:        "https://lichess.org/api/user/",
-	},
-	Service{
-		Name:           "SlideShare",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SlideshareInfo,
-		BaseUrl:        "https://slideshare.net/",
-	},
-	Service{
-		Name:           "Reddit",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    RedditInfo,
-		BaseUrl:        "https://api.reddit.com/user/",
-	},
-}
-
-func SimpleUserExistsCheck(BaseUrl, username string) bool {
-	log.Println("check:" + BaseUrl + username)
-	log.Println(GetStatusCode(BaseUrl + username))
-	return GetStatusCode(BaseUrl+username) == 200
+func SimpleUserExistsCheck(service Service, username string) bool {
+	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
+	log.Println("check:" + BaseUrl)
+	//log.Println(GetStatusCode(BaseUrl))
+	exists := false
+	if service.Check == "status_code" {
+		exists = GetStatusCode(BaseUrl) == 200
+	}
+	return exists
 }
 
 func EmptyAccountInfo(username string, service Service) Account {
@@ -116,12 +242,13 @@ func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	var accounts Accounts
 	for i := 0; i < len(servicesToCheck); i++ {
 		service := servicesToCheck[i]
-		if service.UserExistsFunc(service.BaseUrl, username) {
+		if service.UserExistsFunc(service, username) {
 			accounts = append(accounts, service.GetInfoFunc(username, service))
 		}
 	}
 	return accounts
 }
+
 func getImg(img string) image.Image {
 	reader := strings.NewReader(img)
 	decodedImg, imgType, err := image.Decode(reader)
@@ -144,22 +271,47 @@ func EncodeBase64(img string) string {
 	return base64Img
 }
 
-func SlideshareInfo(username string, service Service) Account {
-	log.Println("slideshare")
-	avatar_url := "https://cdn.slidesharecdn.com/profile-photo-" + username + "-96x96.jpg"
+func GetAvatar(avatar_url string, account Account) Account {
 	log.Printf("avatar_url: %s", avatar_url)
 
-	account := Account{
-		Service:  service.Name,
-		Username: username,
-		Url:      service.BaseUrl + username,
-		//Picture: []string{EncodeBase64("https://www.tutorialspoint.com/html/images/test.png")},
-	}
 	if GetStatusCode(avatar_url) == 200 {
 		avatar := HttpRequest(avatar_url)
 		account.Picture = []string{EncodeBase64(avatar)} // img := HttpRequest(url)
 		account.ImgHash = []uint64{MkImgHash(getImg(avatar))}
 	}
+	return account
+}
+
+func SimpleAccountInfo(username string, service Service) Account {
+	log.Println(service.Name)
+	baseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
+	account := Account{
+		Service:  service.Name,
+		Username: username,
+	}
+	if service.HtmlUrl == "" {
+		account.Url = baseUrl
+	} else {
+		account.Url = strings.ReplaceAll(service.HtmlUrl, "{username}", username)
+	}
+
+	if service.AvatarUrl != "" {
+		avatar_url := strings.ReplaceAll(service.AvatarUrl, "{username}", username)
+		account = GetAvatar(avatar_url, account)
+	}
+	return account
+}
+
+func SlideshareInfo(username string, service Service) Account {
+	log.Println("slideshare")
+	baseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
+	avatar_url := strings.ReplaceAll(service.BaseUrl, "{username}", username)
+	account := Account{
+		Service:  service.Name,
+		Username: username,
+		Url:      baseUrl,
+	}
+	account = GetAvatar(avatar_url, account)
 	return account
 }
 func GithubInfo(username string, service Service) Account {
