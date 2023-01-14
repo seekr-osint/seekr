@@ -34,19 +34,25 @@ a {
   display: block;
 }
 
-#notes-header {
+#notes-header,
+#e-notes-header,
+#c-notes-header {
   color: var(--greyDark);
   font-size: 1.4rem;
 }
 
-#space-maker {
+#space-maker,
+#e-space-maker,
+#c-space-maker {
   height: fit-content;
   width: 67rem;
   padding: 1rem;
   display: block;
 }
 
-#e-notes {
+#notes,
+#e-notes,
+#c-notes {
   width: 63.5rem;
   min-height: 20rem;
   height: fit-content;

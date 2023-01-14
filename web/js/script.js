@@ -90,7 +90,7 @@ async function main() {
           document.querySelector(".club").innerHTML = "Club: " + obj.club;
           document.querySelector(".legal").innerHTML = "Legal: " + obj.legal;
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
-          document.querySelector(".notes").innerHTML = "Notes: " + obj.notes;
+          document.querySelector(".notes").innerHTML = obj.notes;
 
           
           let allObjectsAtStart = document.querySelectorAll(".viewtag");

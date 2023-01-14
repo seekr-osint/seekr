@@ -71,7 +71,13 @@
           <p class="viewtag tag club">Club: x</p>
           <p class="viewtag tag legal">Legal: x</p>
           <p class="viewtag tag political">Political: x</p>
-          <p class="viewtag tag notes">Notes: x</p>
+          <div class="chip" id="space-maker">
+            <p id="notes-header">Notes</p>
+
+            <div class="table">
+              <div class="form"><span type="text" id="notes" class="form-input notes" role="textbox" spellcheck="false"></span></div>
+            </div>
+          </div>
 
           <div class="accounts"></div>
         </div>
@@ -191,8 +197,8 @@
             <div class="form"><span type="text" class="form-input e-political" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="chip" id="space-maker">
-            <p id="notes-header">Notes</p>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Notes</p>
 
             <div class="table">
               <div class="form"><span type="text" id="e-notes" class="form-input e-notes" role="textbox" spellcheck="false" contenteditable></span></div>
@@ -310,9 +316,12 @@
             <div class="form"><span type="text" class="form-input c-political" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Notes: </p>
-            <div class="form"><span type="text" class="form-input c-notes" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Notes</p>
+
+            <div class="table">
+              <div class="form"><span type="text" id="c-notes" class="form-input c-notes" role="textbox" spellcheck="false" contenteditable></span></div>
+            </div>
           </div>
         </div>
         
