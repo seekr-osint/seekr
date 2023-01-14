@@ -371,6 +371,10 @@ a {
   margin-right: 2rem;
 }
 
+#exportbtn {
+  margin-right: 12rem;
+}
+
 .btn {
   width: 10rem;
   height: 4rem;

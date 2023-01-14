@@ -20,11 +20,15 @@ function SaveAsFile(t, f, m) {
 async function main() {
   const res = await fetch("http://localhost:8080/people")
 
-  data = await res.json();
+  const data = await res.json();
   
 
   element.addEventListener("keyup", search_users);
   search_users();
+
+  document.getElementById("exportbtn").onclick = function() {
+    SaveAsFile(JSON.stringify(data),"data.json","text/plain;charset=utf-8");
+  }
 
 
   function search_users() {
@@ -126,6 +130,9 @@ async function main() {
             }
           }
 
+          if (document.getElementById("notes").innerHTML.length <= 0) {
+            document.getElementById("space-maker").style.display = "none";
+          }
           
 
 
@@ -458,7 +465,6 @@ async function main() {
             }
           }
 
-
           document.getElementById("loading-spinner").style.display = "none";
           isButtonEnabled = true;
         }
@@ -497,6 +503,8 @@ async function main() {
   document.getElementById("backbtn").onclick = function () { // back button in view ig
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.container').style.display = "none";
+
+    document.getElementById("space-maker").style.display = "block";
 
     var elements = document.getElementsByClassName("acc-chip");
 
