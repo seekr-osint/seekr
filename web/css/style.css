@@ -232,6 +232,11 @@ a {
 .userBio {
   font-size: 1.7rem;
   color: var(--greyDark);
+  display: -webkit-box !important;
+  max-width: 28rem;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .table {
