@@ -32,12 +32,46 @@ var DefaultServices = Services{
 		BaseUrl:        "https://tiktok.com/@{username}",
 	},
 	Service{
+		Name:           "Twitter",
+		Check:          "pattern",
+    Pattern:        "<div class=\"error-panel\"><span>User ",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://nitter.net/{username}",
+    HtmlUrl:        "https://twitter.com/{username}",
+	},
+	Service{
+		Name:           "Instagram",
+		Check:          "pattern",
+    Pattern:        "Nothing found!",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://instagram.com/{username}",
+	},
+	Service{
+		Name:           "LinkedIn",
+		Check:          "", // broken
+    Pattern:        "{username}",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://linkedin.com/in/{username}",
+	},
+	Service{
 		Name:           "Snapchat",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://www.snapchat.com/add/{username}",
 		// AvatarUrl:      "https://app.snapchat.com/web/deeplink/snapcode?username={username}&type=SVG&bitmoji=enable", // FIXME SVG
+	},
+	Service{
+		Name:           "Reddit",
+		Check:          "pattern", // FIXME blocked not sure rather it actually works
+		Pattern:        "Sorry, nobody on Reddit goes by that name.",
+		BlockedPattern: "<title>Blocked</title>",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://reddit.com/user/{username}",
 	},
 	Service{
 		Name:           "Facebook",
@@ -55,11 +89,71 @@ var DefaultServices = Services{
 		BaseUrl:        "https://www.twitch.tv/{username}",
 	},
 	Service{
+		Name:           "Chess.com",
+		Check:          "pattern",
+    Pattern:        "The page you are looking for doesn’t exist. (404)",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://chess.com/member/{username}",
+	},
+	Service{
+		Name:           "SteamGroup",
+		Check:          "pattern",
+    Pattern:        "No group could be retrieved for the given URL",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://steamcommunity.com/groups/{username}",
+	},
+	Service{
+		Name:           "SteamCommunity",
+		Check:          "pattern",
+    Pattern:        "The specified profile could not be found.",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://steamcommunity.com/id/{username}",
+	},
+	Service{
 		Name:           "TryHackMe",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://tryhackme.com/p/{username}",
+	},
+	Service{
+		Name:           "Odysee",
+		Check:          "", // FIXME
+    Pattern:        "Channel Not Found",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://odysee.com/@{username}",
+	},
+	Service{
+		Name:           "Scratch",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://scratch.mit.edu/users/{username}",
+	},
+	Service{
+		Name:           "Telegram",
+		Check:          "", // FIXME
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://t.me/{username}",
+	},
+	Service{
+		Name:           "XBox Gamertag",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://xboxgamertag.com/search/{username}",
+	},
+	Service{
+		Name:           "Spotify",
+		Check:          "", // FIXME
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://spotify.com/user/{username}",
 	},
 	Service{
 		Name:           "Mastodon.social",
@@ -322,12 +416,6 @@ var DefaultServices = Services{
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://developer.apple.com/forums/profile/{username}",
 	},
-	Service{ // broken
-		Name:           "Reddit",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    RedditInfo,
-		BaseUrl:        "https://api.reddit.com/user/{username}",
-	},
 }
 
 type Services []Service
@@ -339,6 +427,8 @@ type Service struct {
 	AvatarUrl      string
 	Check          string // example: "status_code"
 	HtmlUrl        string
+	Pattern        string
+	BlockedPattern string
 }
 
 // type Accounts map[string]Account
@@ -371,9 +461,22 @@ func SimpleUserExistsCheck(service Service, username string) bool {
 	switch service.Check {
 	case "status_code":
 		exists = GetStatusCode(BaseUrl) == 200
-	case "string": // search for string on website
+	case "pattern": // search for string on website
 		site := HttpRequest(BaseUrl)
-		log.Println(site)
+		// log.Println(site)
+		found := strings.Contains(site, strings.ReplaceAll(service.Pattern, "{username}", username)) // ! pattern was found
+		blocked := false
+		if service.BlockedPattern != "" {
+			blocked = strings.Contains(site, service.BlockedPattern)
+		}
+		if !blocked {
+			log.Println("found:", found)
+			if !found {
+				exists = true
+			}
+		}
+		// the pattern is the not found text therefore it's true if no not found text was found
+		// BUG you can put the not found text into your bio
 	}
 
 	return exists
@@ -547,32 +650,6 @@ func GithubInfo(username string, service Service) Account {
 	return account
 }
 
-func RedditInfo(username string, service Service) Account {
-	log.Println("reddit")
-	var data struct {
-		Id      string `json:"id"`
-		Url     string `json:"url"`
-		Profile struct {
-			Bio       string `json:"bio"`
-			Firstname string `json:"firstName"`
-			Lastname  string `json:"lastName"`
-		} `json:"profile"`
-	}
-	jsonData := HttpRequest("https://api.reddit.com/user/" + username)
-	err := json.Unmarshal([]byte(jsonData), &data)
-	if err != nil {
-		log.Println(err)
-	}
-	return Account{
-		Service:   service.Name,
-		Username:  username,
-		Id:        data.Id,
-		Url:       "https://reddit.com/user/" + username,
-		Bio:       []string{data.Profile.Bio},
-		Firstname: data.Profile.Firstname,
-		Lastname:  data.Profile.Lastname,
-	}
-}
 func LichessInfo(username string, service Service) Account {
 	log.Println("lichess")
 	var data struct {
