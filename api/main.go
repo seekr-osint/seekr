@@ -43,6 +43,7 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.POST("/people", handler(postPeople, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	router.GET("/people/:id/delete", handler(deletePerson, people))
+	router.POST("/dataJson", handler(writeDataJson, people))
 	DatabaseFile = databaseFile
 	data, err := ioutil.ReadFile(DatabaseFile)
 	if err != nil {
@@ -154,6 +155,8 @@ func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
+
+
 func mdPersonByIDRequest(people DataBase, c *gin.Context) {
 	fmt.Println(GenMD(getPersonByID(people, c.Param("id"))))
 	c.IndentedJSON(http.StatusOK, GenMD(getPersonByID(people, c.Param("id"))))
@@ -163,6 +166,14 @@ func addAccounts(people DataBase, c *gin.Context) {
 	people = getAccounts(people, c.Param("id"), c.Param("username"))
 	SaveJson(people)
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
+func writeDataJson(people DataBase, c *gin.Context) {
+	if err := c.BindJSON(&people); err != nil {
+		log.Println("bindjson error")
+		return
+	}
+  SaveJson(people)
 }
 
 func addAccount(people DataBase, c *gin.Context) {
