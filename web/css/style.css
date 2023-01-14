@@ -252,6 +252,19 @@ a {
   outline: none;
 }
 
+#acc-name-tag {
+  background: none;
+  font-family: inherit;
+  font-size: 1.4rem;
+  border: none;
+  width: 95%;
+  padding: 1rem;
+}
+
+#acc-name-tag::placeholder {
+  color: var(--greyDark);
+}
+
 #e-showid,
 #v-showid {
   color: transparent;
@@ -465,7 +478,7 @@ a {
   width: 100%;
   display: flex;
   align-items: center;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 .card-text {
