@@ -29,6 +29,20 @@ html {
   }
 }
 
+abbr {
+  border-bottom: none !important;
+  cursor: inherit !important;
+  text-decoration: none !important;
+}
+
+.hitbox-abbr {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  height: 100%;
+  width: 100%;
+}
+
 a {
   text-decoration: none;
   display: block;

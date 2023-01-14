@@ -45,6 +45,10 @@ async function main() {
         const base_div = document.createElement("div"); // Outer div
         base_div.className = "chip";
 
+        const hitbox_abbr = document.createElement("abbr"); // hitbox abbr
+        hitbox_abbr.title = "View"
+        hitbox_abbr.className = "hitbox-abbr";
+
         const hitbox_div = document.createElement("div"); // hitbox div
         hitbox_div.className = "hitbox";
 
@@ -459,7 +463,8 @@ async function main() {
           isButtonEnabled = true;
         }
 
-        base_div.appendChild(hitbox_div);
+        base_div.appendChild(hitbox_abbr);
+        hitbox_abbr.appendChild(hitbox_div);
         hitbox_div.appendChild(p_icon_div);
         hitbox_div.appendChild(txt_div);
         txt_div.appendChild(name_p);
