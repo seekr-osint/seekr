@@ -34,8 +34,14 @@ type Account struct {
 	Picture   []string `json:"profilePicture"`
 	ImgHash   []uint64 `json:"imgHash"`
 	Bio       []string `json:"bio"`       // example: pro hacka
-	Firstname string   `json:"firstname"` // example Glenda
-	Lastname  string   `json:"lastname"`  // example Belov
+	Firstname string   `json:"firstname"` // example: Glenda
+	Lastname  string   `json:"lastname"`  // example: Belov
+	Location  string   `json:"location"`  // example: Moscow
+	Created   string   `json:"created"`   // example: 2020-07-31T13:04:48Z
+	Updated   string   `json:"updated"`
+	Blog      string   `json:"blog"`
+	Followers int      `json:"followers"`
+	Following int      `json:"following"`
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
@@ -60,7 +66,7 @@ var DefaultServices = Services{
 		GetInfoFunc:    SlideshareInfo,
 		BaseUrl:        "https://slideshare.net/",
 	},
-  Service{
+	Service{
 		Name:           "Reddit",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    RedditInfo,
@@ -69,8 +75,8 @@ var DefaultServices = Services{
 }
 
 func SimpleUserExistsCheck(BaseUrl, username string) bool {
-  log.Println("check:" + BaseUrl + username)
-  log.Println(GetStatusCode(BaseUrl+username))
+	log.Println("check:" + BaseUrl + username)
+	log.Println(GetStatusCode(BaseUrl + username))
 	return GetStatusCode(BaseUrl+username) == 200
 }
 
@@ -163,6 +169,17 @@ func GithubInfo(username string, service Service) Account {
 		Bio        string `json:"bio"`
 		Avatar_url string `json:"avatar_url"`
 		Url        string `json:"html_url"`
+		Name       string `json:"name"`
+		Location   string `json:"location"`
+		Repos      int    `json:"public_repos"`
+		Gists      int    `json:"public_gists"`
+		Blog       string `json:"blog"`
+		Twitter    string `json:"twitter_username"`
+		Followers  int    `json:"followers"`
+		Following  int    `json:"following"`
+		Created_at string `json:"created_at"`
+		Updated_at string `json:"updated_at"`
+		Company    string `jons:"company"`
 	}
 	var errData struct {
 		Documentation_url string `json:"documentation_url"`
@@ -188,17 +205,22 @@ func GithubInfo(username string, service Service) Account {
 	}
 	avatar := HttpRequest(data.Avatar_url)
 	account := Account{
-		Service:  service.Name,
-		Username: username,
-		Url:      data.Url,
-		Id:       strconv.Itoa(data.Id),
-		Bio:      []string{data.Bio},
-		Picture:  []string{EncodeBase64(avatar)},
-		ImgHash:  []uint64{MkImgHash(getImg(avatar))},
+		Service:   service.Name,
+		Username:  username,
+		Url:       data.Url,
+		Id:        strconv.Itoa(data.Id),
+		Bio:       []string{data.Bio},
+		Picture:   []string{EncodeBase64(avatar)},
+		ImgHash:   []uint64{MkImgHash(getImg(avatar))},
+		Location:  data.Location,
+		Created:   data.Created_at,
+		Updated:   data.Updated_at,
+		Blog:      data.Blog,
+		Followers: data.Followers,
+		Following: data.Following,
 	}
 	return account
 }
-
 
 func RedditInfo(username string, service Service) Account {
 	log.Println("reddit")
@@ -220,7 +242,7 @@ func RedditInfo(username string, service Service) Account {
 		Service:   service.Name,
 		Username:  username,
 		Id:        data.Id,
-		Url:       "https://lichess.org/@/" + username,
+		Url:       "https://reddit.com/user/" + username,
 		Bio:       []string{data.Profile.Bio},
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,

@@ -5,8 +5,8 @@ import (
 	"embed"
 	"fmt"
 
-	api "github.com/niteletsplay/seekr/api"
-	webServer "github.com/niteletsplay/seekr/webServer"
+	api "github.com/seekr-osint/seekr/api"
+	webServer "github.com/seekr-osint/seekr/webServer"
 )
 
 // Web server content

@@ -1,4 +1,4 @@
-module github.com/niteletsplay/seekr
+module github.com/seekr-osint/seekr
 
 go 1.19
 
