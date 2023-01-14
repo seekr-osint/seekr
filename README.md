@@ -5,6 +5,8 @@ SEEKR is a multi-purpose toolkit for gathering and managing OSINT-data with a sl
 
 Check the wiki for setup guide, etc.
 ![main_view](images/main_view.png)
+![view_view](images/view_view.png)
+![accounts_view](images/accounts_view.png)
 ## Getting Started
 To install seekr on linux simply run:
 ```sh
