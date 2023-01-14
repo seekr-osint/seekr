@@ -225,6 +225,9 @@ async function main() {
         const e_icon_div = document.createElement("div"); // Icon div
         e_icon_div.className = "chip-edit";
 
+        const e_abbr = document.createElement("abbr");
+        e_abbr.title = "Edit"
+
         e_icon_div.onclick = function () {
           document.querySelector('.main').style.display = "none";
           document.querySelector('.edit-container').style.display = "flex";
@@ -262,12 +265,18 @@ async function main() {
         const acc_icon_div = document.createElement("div"); // Icon div
         acc_icon_div.className = "chip-acc";
 
+        const acc_abbr = document.createElement("abbr");
+        acc_abbr.title = "Add Accounts"
+
         const acc_icon = document.createElement("ion-icon"); // Edit icon
         acc_icon.className = "icon"
         acc_icon.setAttribute("name", "person-circle-outline");
 
         const d_icon_div = document.createElement("div"); // Icon div
         d_icon_div.className = "chip-delete";
+
+        const d_abbr = document.createElement("abbr");
+        d_abbr.title = "Delete"
 
         const d_icon = document.createElement("ion-icon"); // Edit icon
         d_icon.className = "icon"
@@ -454,10 +463,12 @@ async function main() {
         hitbox_div.appendChild(p_icon_div);
         hitbox_div.appendChild(txt_div);
         txt_div.appendChild(name_p);
-
-        base_div.appendChild(e_icon_div);
-        base_div.appendChild(acc_icon_div);
-        base_div.appendChild(d_icon_div);
+        base_div.appendChild(e_abbr);
+        e_abbr.appendChild(e_icon_div);
+        base_div.appendChild(acc_abbr);
+        base_div.appendChild(d_abbr);
+        acc_abbr.appendChild(acc_icon_div);
+        d_abbr.appendChild(d_icon_div);
         p_icon_div.appendChild(p_icon);
         e_icon_div.appendChild(e_icon);
         acc_icon_div.appendChild(acc_icon);
