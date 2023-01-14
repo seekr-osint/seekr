@@ -332,8 +332,6 @@ async function main() {
             return;
           }
 
-          console.log(document.getElementById("acc-name-tag").value);
-
           // Disable the button
           isButtonEnabled = false;
 
