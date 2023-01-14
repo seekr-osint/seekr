@@ -306,7 +306,7 @@ async function main() {
           document.querySelector('.acc-container').style.display = "flex";
         }
 
-        document.getElementById("acc-searchbtn").onclick = search; 
+        document.getElementById("acc-search-chip").onclick = search;
 
         document.getElementById("acc-name-tag").onkeypress = function(event) {
           // Check if the pressed key is the Enter key
@@ -324,7 +324,7 @@ async function main() {
         let isButtonEnabled = true;
 
         async function search() {
-          if (document.getElementById("acc-name-tag").textContent == "") {
+          if (document.getElementById("acc-name-tag").value == "") {
             return;
           }
           // Check if the button is enabled
@@ -332,13 +332,15 @@ async function main() {
             return;
           }
 
+          console.log(document.getElementById("acc-name-tag").value);
+
           // Disable the button
           isButtonEnabled = false;
 
           document.getElementById("loading-spinner").style.display = "inline-block";
 
           // Set the flag to indicate that a request is in progress
-          const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").textContent);
+          const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").value);
           const data = await response.json();
       
           const term_container = document.createElement("div");
