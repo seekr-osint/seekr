@@ -360,7 +360,6 @@ type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 func SimpleUserExistsCheck(service Service, username string) bool {
 	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	log.Println("check:" + BaseUrl)
-	//log.Println(GetStatusCode(BaseUrl))
 	exists := false
 	if service.Check == "status_code" {
 		exists = GetStatusCode(BaseUrl) == 200
