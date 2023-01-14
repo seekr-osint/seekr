@@ -37,7 +37,7 @@ var DefaultServices = Services{
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://www.snapchat.com/add/{username}",
-    // AvatarUrl:      "https://app.snapchat.com/web/deeplink/snapcode?username={username}&type=SVG&bitmoji=enable", // FIXME SVG
+		// AvatarUrl:      "https://app.snapchat.com/web/deeplink/snapcode?username={username}&type=SVG&bitmoji=enable", // FIXME SVG
 	},
 	Service{
 		Name:           "Facebook",
@@ -132,6 +132,13 @@ var DefaultServices = Services{
 		BaseUrl:        "https://replit.com/{username}",
 	},
 	Service{
+		Name:           "PyPi",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		BaseUrl:        "https://pypi.org/user/{username}",
+	},
+	Service{
 		Name:           "SlideShare",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
@@ -221,7 +228,7 @@ var DefaultServices = Services{
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
-    BaseUrl:        "https://linktr.ee/{username}",
+		BaseUrl:        "https://linktr.ee/{username}",
 	},
 	Service{
 		Name:           "Myspace",
@@ -361,9 +368,14 @@ func SimpleUserExistsCheck(service Service, username string) bool {
 	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	log.Println("check:" + BaseUrl)
 	exists := false
-	if service.Check == "status_code" {
+	switch service.Check {
+	case "status_code":
 		exists = GetStatusCode(BaseUrl) == 200
+	case "string": // search for string on website
+		site := HttpRequest(BaseUrl)
+		log.Println(site)
 	}
+
 	return exists
 }
 

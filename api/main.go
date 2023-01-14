@@ -155,8 +155,6 @@ func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
 }
 
-
-
 func mdPersonByIDRequest(people DataBase, c *gin.Context) {
 	fmt.Println(GenMD(getPersonByID(people, c.Param("id"))))
 	c.IndentedJSON(http.StatusOK, GenMD(getPersonByID(people, c.Param("id"))))
@@ -173,7 +171,7 @@ func writeDataJson(people DataBase, c *gin.Context) {
 		log.Println("bindjson error")
 		return
 	}
-  SaveJson(people)
+	SaveJson(people)
 }
 
 func addAccount(people DataBase, c *gin.Context) {
