@@ -26,18 +26,18 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Facebook",
-		Check:          "status_code",
+		Check:          "", // FIXME
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://www.facebook.com/{username}/videos",
 		HtmlUrl:        "https://www.facebook.com/{username}",
 	},
 	Service{
-		Name:           "gurefrage",
+		Name:           "gutefrage",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
-		BaseUrl:        "https://www.gurefrage.net/nutzer/{username}",
+		BaseUrl:        "https://www.gutefrage.net/nutzer/{username}",
 	},
 	Service{
 		Name:           "Lichess",
@@ -141,7 +141,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Docker Hub",
-		Check:          "status_code",
+		Check:          "", // FIXME
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://hub.docker.com/u/{username}",
