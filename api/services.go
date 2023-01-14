@@ -34,8 +34,8 @@ type Account struct {
 	Picture   []string `json:"profilePicture"`
 	ImgHash   []uint64 `json:"imgHash"`
 	Bio       []string `json:"bio"`       // example: pro hacka
-	Firstname string   `json:"firstname"` // example Glenda
-	Lastname  string   `json:"lastname"`  // example Belov
+	Firstname string   `json:"firstname"` // example: Glenda
+	Lastname  string   `json:"lastname"`  // example: Belov
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
@@ -60,7 +60,7 @@ var DefaultServices = Services{
 		GetInfoFunc:    SlideshareInfo,
 		BaseUrl:        "https://slideshare.net/",
 	},
-  Service{
+	Service{
 		Name:           "Reddit",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    RedditInfo,
@@ -69,8 +69,8 @@ var DefaultServices = Services{
 }
 
 func SimpleUserExistsCheck(BaseUrl, username string) bool {
-  log.Println("check:" + BaseUrl + username)
-  log.Println(GetStatusCode(BaseUrl+username))
+	log.Println("check:" + BaseUrl + username)
+	log.Println(GetStatusCode(BaseUrl + username))
 	return GetStatusCode(BaseUrl+username) == 200
 }
 
@@ -220,7 +220,7 @@ func RedditInfo(username string, service Service) Account {
 		Service:   service.Name,
 		Username:  username,
 		Id:        data.Id,
-		Url:       "https://lichess.org/@/" + username,
+		Url:       "https://reddit.com/user/" + username,
 		Bio:       []string{data.Profile.Bio},
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,
