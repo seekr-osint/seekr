@@ -1,5 +1,19 @@
-![seekr-logo2](https://user-images.githubusercontent.com/67828948/209133527-88a5eec7-fd24-43a5-bbcb-363777ef5bd9.jpg)
-# SEEKR
+<p align="center">
+  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="https://user-images.githubusercontent.com/69043370/212559304-17f44716-e748-4ac2-b86b-097ad1e49bb3.png" width="250" alt="Seekr Logo" /></a>
+ </p>
+ 
+ <p align="center">
+ A multi-purpose toolkit for gathering and managing OSINT-Data with a neat web-interface.
+</p>
+<p align="center">
+<img alt="GitHub" src="https://img.shields.io/github/license/seekr-osint/seekr">
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/seekr-osint/seekr/go.yml">
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/seekr-osint/seekr">
+<img alt="GitHub issues" src="https://img.shields.io/github/issues/seekr-osint/seekr">
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
+</p>
+
+
 ## Introduction
 SEEKR is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. The backend is written in Go and offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, SEEKR makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
 
