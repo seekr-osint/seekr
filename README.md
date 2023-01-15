@@ -35,9 +35,6 @@ journey
 SEEKR is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. The backend is written in Go and offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, SEEKR makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
 
 Check the wiki for setup guide, etc.
-![main_view](images/main_view.png)
-![view_view](images/view_view.png)
-![accounts_view](images/accounts_view.png)
 ## Getting Started
 To install seekr on linux simply run:
 ```sh
