@@ -13,6 +13,12 @@
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
 </p>
 
+
+## Introduction
+eekrS is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. The backend is written in Go and offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, SEEKR makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
+
+Check the wiki for setup guide, etc.
+## Intigrating seekr into your current workflow
 ```mermaid
 journey
 	title How to Intigrate seekr into your current workflow.
@@ -31,10 +37,6 @@ journey
 		Done.: 100
 ```
 
-## Introduction
-SEEKR is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. The backend is written in Go and offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, SEEKR makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
-
-Check the wiki for setup guide, etc.
 ## Getting Started
 To install seekr on linux simply run:
 ```sh
