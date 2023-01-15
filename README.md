@@ -15,7 +15,7 @@
 
 ```mermaid
 journey
-	title How to Intigrate seekr into your workflow.
+	title How to Intigrate seekr into your current workflow.
 	section Initial Research
 		Create a person in seekr: 100: seekr
     Simple web research: 100: Known tools
