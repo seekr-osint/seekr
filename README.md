@@ -13,6 +13,23 @@
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
 </p>
 
+```mermaid
+journey
+	title How to Intigrate seekr into your workflow.
+	section Initial Research
+		Create a person in seekr: 100: seekr
+    Simple web research: 100: Known tools
+		Account scan: 100: seekr
+	section Deeper account investigation
+		Investigate the accounts: 100: seekr, Known tools
+		Keep notes: 100: seekr
+  section Deeper Web research
+    Deep web research: 100: Known tools
+    Keep notes: 100: seekr
+	section Finishing the report
+		Export the person with seekr: 100: seekr
+		Done.: 100
+```
 
 ## Introduction
 SEEKR is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. The backend is written in Go and offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, SEEKR makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
