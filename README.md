@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="https://user-images.githubusercontent.com/67828948/212679506-01581100-b313-4f65-85f8-9253ab0cd8b8.png" width="250" alt="Seekr Logo" /></a>
+  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="https://user-images.githubusercontent.com/67828948/213162432-4beec1b7-2aee-432e-a534-969aa28e2ac8.png" width="250" alt="Seekr Logo" /></a>
  </p>
- 
+
  <p align="center">
  A multi-purpose toolkit for gathering and managing OSINT-Data with a neat web-interface.
 </p>
