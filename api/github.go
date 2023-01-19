@@ -73,10 +73,10 @@ func GithubInfoDeep(username string) {
 				if err != nil {
 					log.Println(err)
 				}
-			if commitInfo.Author.Name == username {
-        log.Println("found:")
-				log.Println(c.Author.Email)
-			}
+				if commitInfo.Author.Name == username {
+					log.Println("found:")
+					log.Println(c.Author.Email)
+				}
 			}
 			contributors[c.Author.Email] = true
 			//log.Println(c.Hash.String())
