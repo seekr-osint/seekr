@@ -1,26 +1,11 @@
-let data;
-let accData;
+import { delay, SaveAsFile } from "./framework.js";
+
 const element = document.getElementById("searchbar");
-
-function delay(time) { // Because there is no default sleep function
-  return new Promise(resolve => setTimeout(resolve, time));
-}
-
-function SaveAsFile(t, f, m) {
-  try {
-      var b = new Blob([t],{type:m});
-      saveAs(b, f);
-  } catch (e) {
-      window.open("data:"+m+"," + encodeURIComponent(t), '_blank','');
-  }
-}
-
-// SaveAsFile("text","filename.txt","text/plain;charset=utf-8");
 
 async function main() {
   const res = await fetch("http://localhost:8080/people")
 
-  const data = await res.json();
+  let data = await res.json();
   
 
   element.addEventListener("keyup", search_users);
@@ -106,7 +91,6 @@ async function main() {
           allObjectsAtStart.forEach(object => {
             object.style.display = "flex";
           });
-
 
 
           // Get all the elements with the class "viewtag" and store them in a variable called "allObjects"
@@ -204,7 +188,7 @@ async function main() {
             textToSave += `Name: ${data.name}\n`;
           }
           for (const [key, value] of Object.entries(data)) {
-            if (key === "accounts" && typeof value === "object") {
+            if (key === "accounts" && typeof value === "object" && value != null) {
               let accountsText = "";
               let first = true;
               for (const [service, account] of Object.entries(value)) {
@@ -635,67 +619,3 @@ async function main() {
 }
 
 main()
-
-document.querySelectorAll("span").forEach(function (element) {
-  element.addEventListener('paste', function (e) {
-    // Prevent the default action
-    e.preventDefault();
-
-    // Get the copied text from the clipboard
-    const text = e.clipboardData
-      ? (e.originalEvent || e).clipboardData.getData('text/plain')
-      : // For IE
-      window.clipboardData
-      ? window.clipboardData.getData('Text')
-      : '';
-
-    if (document.queryCommandSupported('insertText')) {
-      document.execCommand('insertText', false, text);
-    } else {
-      // Insert text at the current position of caret
-      const range = document.getSelection().getRangeAt(0);
-      range.deleteContents();
-
-      const textNode = document.createTextNode(text);
-      range.insertNode(textNode);
-      range.selectNodeContents(textNode);
-      range.collapse(false);
-
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  });
-});
-
-[document.getElementById("c-name-tag"), document.getElementById("acc-name-tag")].forEach(item => {
-  item.addEventListener('paste', function (e) {
-    // Prevent the default action
-    e.preventDefault();
-  
-    // Get the copied text from the clipboard
-    const text = e.clipboardData
-        ? (e.originalEvent || e).clipboardData.getData('text/plain')
-        : // For IE
-        window.clipboardData
-        ? window.clipboardData.getData('Text')
-        : '';
-  
-    if (document.queryCommandSupported('insertText')) {
-        document.execCommand('insertText', false, text);
-    } else {
-        // Insert text at the current position of caret
-        const range = document.getSelection().getRangeAt(0);
-        range.deleteContents();
-  
-        const textNode = document.createTextNode(text);
-        range.insertNode(textNode);
-        range.selectNodeContents(textNode);
-        range.collapse(false);
-  
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-    }
-  });
-});
