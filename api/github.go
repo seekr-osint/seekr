@@ -13,7 +13,7 @@ import (
 	//"github.com/go-git/go-git/v5/plumbing"
 )
 
-func GithubInfoDeep(username string) {
+func GithubInfoDeep(username string,fork bool) []string {
 	log.Println("github")
 	var data []struct {
 		//Id     string `json:"id"`
@@ -41,7 +41,10 @@ func GithubInfoDeep(username string) {
 		log.Println(err)
 	}
 
+		contributors := make(map[string]bool)
+    foundEmail := make(map[string]bool)
 	for _, repo := range data {
+    //if repo.Fork == fork || repo.Fork {
 		log.Println(repo.Name)
 
 		r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
@@ -54,14 +57,11 @@ func GithubInfoDeep(username string) {
 
 		commitIter, err := r.Log(&git.LogOptions{})
 		Check(err)
-		contributors := make(map[string]bool)
 		err = commitIter.ForEach(func(c *object.Commit) error {
-			if contributors[c.Author.Email] != true {
+			if ! contributors[c.Author.Email] && ! IsGitHubMail(c.Author.Email) {
 				type Author struct {
 					Name  string `json:"name"`
 					Email string `json:"email"`
-					//Id     string `json:"id"`
-					//NodeId string `json:"node_id"`
 				}
 				var commitInfo struct {
 					Author Author `json:"author"`
@@ -77,6 +77,7 @@ func GithubInfoDeep(username string) {
 					log.Println("found:")
 					log.Println(c.Author.Email)
 				}
+        foundEmail[c.Author.Email] = true
 			}
 			contributors[c.Author.Email] = true
 			//log.Println(c.Hash.String())
@@ -84,24 +85,20 @@ func GithubInfoDeep(username string) {
 		})
 		Check(err)
 
-		for c := range contributors {
-			log.Println(c)
-		}
-		//Mkdir(fmt.Sprintf("/tmp/%s", username))
-		//Remove(fmt.Sprintf("/tmp/seekr/%s", repo.FullName))
-		//_, err = git.PlainClone(fmt.Sprintf("/tmp/seekr/%s", repo.FullName), false, &git.CloneOptions{
-		//	URL:      repo.CloneUrl,
-		//	Progress: os.Stdout,
-		//})
-		//if err != nil {
-		//	log.Println(err)
-		//}
 	}
+  var foundEmailArray []string
+    for c := range foundEmail {
+      foundEmailArray = append(foundEmailArray,c)
+    }
+  //}
+  return foundEmailArray
 }
+
 func Exists(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil
 }
+
 func Remove(path string) {
 	if Exists(path) {
 		err := os.RemoveAll(path)

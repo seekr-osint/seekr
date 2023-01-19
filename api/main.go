@@ -33,6 +33,7 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/people", handler(getPeople, people))
 	router.GET("/names", handler(getNamesRequest, people))
 	router.GET("/names/list", handler(getNamesListRequest, people))
+  router.GET("/github/:username/mail", handler(getGithubEmail, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
 	router.GET("/people/:id/accounts", handler(getPersonByIDRequestAccount, people))
@@ -250,6 +251,12 @@ func getAccountsSimple(username string) Accounts {
 func getAccountsRequest(people DataBase, c *gin.Context) {
 	//if c.Param("username") != "" {
 	c.IndentedJSON(http.StatusOK, getAccountsSimple(c.Param("username")))
+	//}
+}
+
+func getGithubEmail(people DataBase, c *gin.Context) {
+	//if c.Param("username") != "" {
+	c.IndentedJSON(http.StatusOK, GithubInfoDeep(c.Param("username"),true))
 	//}
 }
 
