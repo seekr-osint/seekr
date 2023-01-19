@@ -35,6 +35,7 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/names/list", handler(getNamesListRequest, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
+	router.GET("/people/:id/accounts", handler(getPersonByIDRequestAccount, people))
 	router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
 	router.POST("/people/:id/addAccount", handler(addAccount, people))
 	//router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
@@ -153,6 +154,10 @@ func checkPersonExists(people DataBase, id string) bool {
 
 func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
+func getPersonByIDRequestAccount(people DataBase, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")).Accounts)
 }
 
 func mdPersonByIDRequest(people DataBase, c *gin.Context) {
