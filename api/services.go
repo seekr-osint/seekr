@@ -34,16 +34,16 @@ var DefaultServices = Services{
 	Service{
 		Name:           "Twitter",
 		Check:          "pattern",
-    Pattern:        "<div class=\"error-panel\"><span>User ",
+		Pattern:        "<div class=\"error-panel\"><span>User ",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://nitter.net/{username}",
-    HtmlUrl:        "https://twitter.com/{username}",
+		HtmlUrl:        "https://twitter.com/{username}",
 	},
 	Service{
 		Name:           "Instagram",
-		Check:          "pattern",
-    Pattern:        "Nothing found!",
+		Check:          "",
+		Pattern:        "Nothing found!",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://instagram.com/{username}",
@@ -51,7 +51,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "LinkedIn",
 		Check:          "", // broken
-    Pattern:        "{username}",
+		Pattern:        "{username}",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://linkedin.com/in/{username}",
@@ -91,7 +91,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "Chess.com",
 		Check:          "pattern",
-    Pattern:        "The page you are looking for doesn’t exist. (404)",
+		Pattern:        "The page you are looking for doesn’t exist. (404)",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://chess.com/member/{username}",
@@ -99,7 +99,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "SteamGroup",
 		Check:          "pattern",
-    Pattern:        "No group could be retrieved for the given URL",
+		Pattern:        "No group could be retrieved for the given URL",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://steamcommunity.com/groups/{username}",
@@ -107,7 +107,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "SteamCommunity",
 		Check:          "pattern",
-    Pattern:        "The specified profile could not be found.",
+		Pattern:        "The specified profile could not be found.",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://steamcommunity.com/id/{username}",
@@ -122,7 +122,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "Odysee",
 		Check:          "", // FIXME
-    Pattern:        "Channel Not Found",
+		Pattern:        "Channel Not Found",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://odysee.com/@{username}",
@@ -516,10 +516,10 @@ func HttpRequest(url string) string {
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	var accounts Accounts
-	for i := 0; i < len(servicesToCheck); i++ {
-		service := servicesToCheck[i]
-		if service.UserExistsFunc(service, username) {
-			accounts = append(accounts, service.GetInfoFunc(username, service))
+	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
+		service := servicesToCheck[i]                  // current service
+		if service.UserExistsFunc(service, username) { // if service exisits
+			accounts = append(accounts, service.GetInfoFunc(username, service)) // add service to accounts
 		}
 	}
 	return accounts

@@ -210,6 +210,7 @@ func getAccounts(people DataBase, id, username string) DataBase {
 	people[id] = person
 	return people
 }
+
 func getAccountsSimple(username string) Accounts {
 	// remove @ if it is the first char
 	log.Println(username[0:1])
