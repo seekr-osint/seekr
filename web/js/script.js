@@ -606,7 +606,7 @@ async function main() {
     let notes = document.querySelector(".e-notes").innerHTML;
 
 
-    fetch('http://localhost:8080/people', {
+    fetch('http://localhost:8080/people/noAccounts', {
       method: 'POST',
       body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     });

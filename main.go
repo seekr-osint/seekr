@@ -19,8 +19,8 @@ var content embed.FS
 var people = make(api.DataBase)
 
 func main() {
-  //api.Emails("fragenwert@gmail.com")
-  //log.Println(api.Discord("fragenwert@gmail.com"))
+	//api.Emails("fragenwert@gmail.com")
+	//log.Println(api.Discord("fragenwert@gmail.com"))
 	//api.GithubInfoDeep("niteletsplay")
 	fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "")
 	go api.ServeApi(people, ":8080", "data.json") // TODO config parsing stuff
