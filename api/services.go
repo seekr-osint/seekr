@@ -1,6 +1,7 @@
 package api
 
 import (
+  "sync"
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
@@ -515,13 +516,22 @@ func HttpRequest(url string) string {
 }
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
+  wg := &sync.WaitGroup{}
+
+
 	var accounts Accounts
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
+  wg.Add(1)
+  go func(i int) {
+    // Do something
 		service := servicesToCheck[i]                  // current service
 		if service.UserExistsFunc(service, username) { // if service exisits
 			accounts = append(accounts, service.GetInfoFunc(username, service)) // add service to accounts
 		}
+    wg.Done()
+  }(i)
 	}
+wg.Wait()
 	return accounts
 }
 
