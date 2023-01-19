@@ -239,7 +239,6 @@ func getAccounts(people DataBase, id, username string) DataBase {
 
 func getAccountsSimple(username string) Accounts {
 	// remove @ if it is the first char
-	log.Println(username[0:1])
 	if username[0:1] == "@" {
 		log.Println("@ is first")
 		username = username[1:]
