@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"math/rand"
 	"time"
 )
@@ -16,4 +17,9 @@ func RandomString(cnt int) string {
 		str = str + RandomChar()
 	}
 	return str
+}
+func Check(err error) {
+	if err != nil {
+		log.Println(err)
+	}
 }
