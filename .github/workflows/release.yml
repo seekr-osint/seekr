@@ -7,9 +7,6 @@ name: release
 on:
   workflow_dispatch:
   push:
-    tags:
-      - 'v*'
-      - 'testing-*'
 
 permissions:
    contents: write # needed to write releases
