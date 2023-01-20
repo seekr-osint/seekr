@@ -1,15 +1,29 @@
 package api
 
 import (
+	"sync"
 	"testing"
 )
 
+func TcTestHandler(t *testing.T,testCases []TestCase, testFunc func(string) (bool)) { // example TcTestHandler(t,testCases,TestFunction)
+	wg := &sync.WaitGroup{}
+
+	for _, tc := range testCases {
+    wg.Add(1)
+		go func(tc TestCase) {
+		result := testFunc(tc.Input)
+		if result != tc.expect {
+			t.Errorf("Expected %t for %s, got %t", tc.expect, tc.Input, result)
+		}
+   wg.Done()
+  }(tc)
+	}
+  wg.Wait()
+}
+
 func TestIsEmailValid(t *testing.T) {
 	// Test cases
-	testCases := []struct {
-		email  string
-		expect bool
-	}{
+	testCases := []TestCase{
 		{"user@example.com", true},
 		{"user.name@example.com", true},
 		{"user_name@example.com", true},
@@ -24,22 +38,18 @@ func TestIsEmailValid(t *testing.T) {
 		{"user@example.c", false},
 		{"user@example.c@m", false},
 	}
-
-	// Loop through test cases
-	for _, tc := range testCases {
-		result := IsEmailValid(tc.email)
-		if result != tc.expect {
-			t.Errorf("Expected %t for %s, got %t", tc.expect, tc.email, result)
-		}
-	}
+  TcTestHandler(t,testCases,IsEmailValid)
 }
+
+type TestCase struct{
+  Input string
+  expect bool
+}
+
 
 func TestIsGmailAddress(t *testing.T) {
 	// Test cases
-	testCases := []struct {
-		email  string
-		expect bool
-	}{
+	testCases := []TestCase{
 		{"user@gmail.com", true},
 		{"user.name@gmail.com", true},
 		{"user_name@gmail.com", true},
@@ -51,20 +61,12 @@ func TestIsGmailAddress(t *testing.T) {
 		{"@gmail.com", false},
 	}
 
-	// Loop through test cases
-	for _, tc := range testCases {
-		result := IsGmailAddress(tc.email)
-		if result != tc.expect {
-			t.Errorf("Expected %t for %s, got %t", tc.expect, tc.email, result)
-		}
-	}
+
+  TcTestHandler(t,testCases,IsGmailAddress)
 }
 func TestIsValidGmailAddress(t *testing.T) {
 	// Test cases
-	testCases := []struct {
-		email  string
-		expect bool
-	}{
+	testCases := []TestCase{
 		{"user@gmail.com", true},
 		{"user.name@gmail.com", true},
 		{"user.name1@gmail.com", true},
@@ -82,10 +84,34 @@ func TestIsValidGmailAddress(t *testing.T) {
 		{"user.name@gmail.1com", false},
 	}
 	// Loop through test cases
+  TcTestHandler(t,testCases,IsValidGmailAddress)
+}
+
+func TestIsGitHubMail(t *testing.T) {
+	// Test cases
+	testCases := []TestCase{
+		{"user@gmail.com", false},
+		{"user.name@gmail.com", false},
+		{"user.name1@gmail.com", false},
+		{"user.1name@gmail.com", false},
+		{"user-name@gmail.com", false},
+		{"user_name@gmail.com", false},
+		{"user.name@googlemail.com", false},
+		{"user.name@example.com", false},
+		{"user.name@gmail.co.uk", false},
+		{"user.name@gmail.", false},
+		{"@gmail.com", false},
+		{"user.name@gmail.c", false},
+		{"user.name@gmail.co", false},
+		{"user.name@gmail.c1", false},
+		{"user.name@gmail.1com", false},
+		{"67828948+9glenda@users.noreply.github.com", true},
+	}
+	// Loop through test cases
 	for _, tc := range testCases {
-		result := IsValidGmailAddress(tc.email)
+		result := IsGitHubMail(tc.Input)
 		if result != tc.expect {
-			t.Errorf("Expected %t for %s, got %t", tc.expect, tc.email, result)
+			t.Errorf("Expected %t for %s, got %t", tc.expect, tc.Input, result)
 		}
 	}
 }
