@@ -52,7 +52,7 @@ func GithubInfoDeep(username string,fork bool) []string {
 		})
 		Check(err)
 		//head, err := r.Head()
-		Check(err)
+		//Check(err)
 		//commitIter, err := r.Log(&git.LogOptions{From: head.Hash()})
 
 		commitIter, err := r.Log(&git.LogOptions{})
