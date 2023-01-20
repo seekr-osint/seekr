@@ -6,8 +6,9 @@ name: release
 # run only on tags
 on:
   push:
-    # tags:
-    # - 'v*'
+     tags:
+        - 'v*'
+        - 'testing-*'
 
 permissions:
    contents: write # needed to write releases
