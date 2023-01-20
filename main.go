@@ -1,6 +1,5 @@
 package main
 
-////import "C"
 import (
 	"embed"
 	"fmt"
@@ -13,7 +12,7 @@ import (
 
 // Web server content
 //
-//go:embed web
+//go:embed web/*
 var content embed.FS
 
 var people = make(api.DataBase)
@@ -32,7 +31,7 @@ func main() {
 func RunWebServer() {
 
 	var config = webServer.WebServerConfig{
-		Type:    webServer.LiveServer,
+		Type:    webServer.SingleBinary,
 		Content: content,
 		Dir:     "./web",
 		Ip:      ":5050",
