@@ -18,6 +18,7 @@ var content embed.FS
 var people = make(api.DataBase)
 
 func main() {
+  //fmt.Println(api.PortScan("scannme.nmap.org"))
 	//if OPENBROWSER {
 		//api.Openbrowser("http://localhost:5050")
 	//}
