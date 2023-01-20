@@ -91,7 +91,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Chess.com",
-		Check:          "pattern",
+		Check:          "", // FIXME disabled
 		Pattern:        "The page you are looking for doesn’t exist. (404)",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
