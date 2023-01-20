@@ -17,7 +17,12 @@ var content embed.FS
 
 var people = make(api.DataBase)
 
+var OPENBROWSER=false
+
 func main() {
+  if OPENBROWSER {
+  api.Openbrowser("http://localhost:5050")
+}
 	//api.Emails("fragenwert@gmail.com")
   //mail := api.GithubInfoDeep("niteletsplay",true)
   //fmt.Println(mail)

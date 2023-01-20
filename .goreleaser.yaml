@@ -26,6 +26,8 @@ builds:
       - -trimpath
     ldflags:
       - -s -w
+    flags:
+      - -X main.OPENBROWSER=true
     env:
       - CGO_ENABLED=0
     ignore:
