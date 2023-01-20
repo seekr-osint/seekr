@@ -14,7 +14,7 @@ builds:
       - linux
       - windows
       - darwin
-      - freebsd
+        #- freebsd
     goarch:
       - amd64
       - arm64
@@ -26,8 +26,6 @@ builds:
       - -trimpath
     ldflags:
       - -s -w
-    flags:
-      - -X main.OPENBROWSER=true
     env:
       - CGO_ENABLED=0
     ignore:

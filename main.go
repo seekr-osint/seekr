@@ -17,15 +17,13 @@ var content embed.FS
 
 var people = make(api.DataBase)
 
-var OPENBROWSER=false
-
 func main() {
-  if OPENBROWSER {
-  api.Openbrowser("http://localhost:5050")
-}
+	//if OPENBROWSER {
+		//api.Openbrowser("http://localhost:5050")
+	//}
 	//api.Emails("fragenwert@gmail.com")
-  //mail := api.GithubInfoDeep("niteletsplay",true)
-  //fmt.Println(mail)
+	//mail := api.GithubInfoDeep("niteletsplay",true)
+	//fmt.Println(mail)
 	fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "")
 	go api.ServeApi(people, ":8080", "data.json") // TODO config parsing stuff
 	RunWebServer()
