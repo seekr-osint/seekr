@@ -20,8 +20,8 @@ archives:
       windows: Windows
       386: i386
       amd64: x86_64
-  format: binary
-  name_template: "my-binary-{{.Os}}-{{.Arch}}-{{.Version}}"
+  - format: binary
+  - name_template: "my-binary-{{.Os}}-{{.Arch}}-{{.Version}}"
 checksum:
   name_template: 'checksums.txt'
 snapshot:
