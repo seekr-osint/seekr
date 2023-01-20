@@ -13,7 +13,7 @@ import (
 	//"github.com/go-git/go-git/v5/plumbing"
 )
 
-func GithubInfoDeep(username string,fork bool) []string {
+func GithubInfoDeep(username string, fork bool) []string {
 	log.Println("github")
 	var data []struct {
 		//Id     string `json:"id"`
@@ -41,10 +41,10 @@ func GithubInfoDeep(username string,fork bool) []string {
 		log.Println(err)
 	}
 
-		contributors := make(map[string]bool)
-    foundEmail := make(map[string]bool)
+	contributors := make(map[string]bool)
+	foundEmail := make(map[string]bool)
 	for _, repo := range data {
-    //if repo.Fork == fork || repo.Fork {
+		//if repo.Fork == fork || repo.Fork {
 		log.Println(repo.Name)
 
 		r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
@@ -58,7 +58,7 @@ func GithubInfoDeep(username string,fork bool) []string {
 		commitIter, err := r.Log(&git.LogOptions{})
 		Check(err)
 		err = commitIter.ForEach(func(c *object.Commit) error {
-			if ! contributors[c.Author.Email] && ! IsGitHubMail(c.Author.Email) {
+			if !contributors[c.Author.Email] && !IsGitHubMail(c.Author.Email) {
 				type Author struct {
 					Name  string `json:"name"`
 					Email string `json:"email"`
@@ -77,7 +77,7 @@ func GithubInfoDeep(username string,fork bool) []string {
 					log.Println("found:")
 					log.Println(c.Author.Email)
 				}
-        foundEmail[c.Author.Email] = true
+				foundEmail[c.Author.Email] = true
 			}
 			contributors[c.Author.Email] = true
 			//log.Println(c.Hash.String())
@@ -86,12 +86,12 @@ func GithubInfoDeep(username string,fork bool) []string {
 		Check(err)
 
 	}
-  var foundEmailArray []string
-    for c := range foundEmail {
-      foundEmailArray = append(foundEmailArray,c)
-    }
-  //}
-  return foundEmailArray
+	var foundEmailArray []string
+	for c := range foundEmail {
+		foundEmailArray = append(foundEmailArray, c)
+	}
+	//}
+	return foundEmailArray
 }
 
 func Exists(path string) bool {

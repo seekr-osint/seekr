@@ -22,6 +22,6 @@ func IsEmailValid(email string) bool {
 	return pattern.MatchString(email)
 }
 func IsGitHubMail(email string) bool {
-    match, _ := regexp.MatchString("@users\\.noreply\\.github\\.com$", email)
-    return match
+	match, _ := regexp.MatchString("@users\\.noreply\\.github\\.com$", email)
+	return match
 }

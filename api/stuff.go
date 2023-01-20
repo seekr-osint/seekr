@@ -3,9 +3,9 @@ package api
 import (
 	"log"
 	"math/rand"
+	"os/exec"
+	"runtime"
 	"time"
-  "os/exec"
-  "runtime"
 )
 
 func RandomChar() string {
@@ -26,7 +26,7 @@ func Check(err error) {
 	}
 }
 func Openbrowser(url string) {
-  var err error
+	var err error
 	switch runtime.GOOS {
 	case "linux":
 		err = exec.Command("xdg-open", url).Start()
@@ -36,6 +36,6 @@ func Openbrowser(url string) {
 		err = exec.Command("open", url).Start()
 	default:
 	}
-  Check(err)
+	Check(err)
 
 }
