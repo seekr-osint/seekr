@@ -5,10 +5,11 @@ name: release
 
 # run only on tags
 on:
+  workflow_dispatch:
   push:
-     tags:
-        - 'v*'
-        - 'testing-*'
+    tags:
+      - 'v*'
+      - 'testing-*'
 
 permissions:
    contents: write # needed to write releases
