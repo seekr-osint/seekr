@@ -7,8 +7,8 @@ name: release
 on:
   workflow_dispatch:
   push:
-    tags:
-      - '*'
+    #tags:
+    #- '*'
 
 permissions:
    contents: write # needed to write releases
@@ -35,6 +35,6 @@ jobs:
       - uses: goreleaser/goreleaser-action@v2          # run goreleaser
         with:
           version: latest
-          args: release --rm-dist
+          args: release --rm-dist --snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

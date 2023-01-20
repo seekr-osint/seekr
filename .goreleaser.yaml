@@ -12,8 +12,17 @@ builds:
     binary: seekr
     goos:
       - linux
-      - darwin
       - windows
+      - darwin
+      - freebsd
+    goarch:
+      - amd64
+    tags:
+      - osusergo
+      - netgo
+      - static_build
+    asmflags:
+      - -trimpath
     env:
       - CGO_ENABLED=0
 archives:
