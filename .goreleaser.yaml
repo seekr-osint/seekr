@@ -8,22 +8,16 @@ before:
     - go generate ./...
 builds:
   - main: ./main.go
-    env:
-      - CGO_ENABLED=0
+    id: "seekr"
+    binary: seekr
     goos:
       - linux
-      - windows
       - darwin
+      - windows
+    env:
+      - CGO_ENABLED=0
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
   - format: binary
-  - files:
-    - none*
 checksum:
   name_template: 'checksums.txt'
 snapshot:
