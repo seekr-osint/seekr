@@ -17,14 +17,20 @@ builds:
       - freebsd
     goarch:
       - amd64
+      - arm64
     tags:
       - osusergo
       - netgo
       - static_build
     asmflags:
       - -trimpath
+    ldflags:
+      - -s -w
     env:
       - CGO_ENABLED=0
+    ignore:
+      - goos: windows
+        goarch: arm64
 archives:
   - format: binary
 checksum:
