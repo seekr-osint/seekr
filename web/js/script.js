@@ -193,10 +193,10 @@ async function main() {
               let first = true;
               for (const [service, account] of Object.entries(value)) {
                 if (first) {
-                  accountsText += ` ${service}, ${account.username}, ${account.url}`;
+                  accountsText += ` ${account.service}, ${account.username}, ${account.url}`;
                   first = false;
                 } else {
-                  accountsText += `\n          ${service}, ${account.username}, ${account.url}`;
+                  accountsText += `\n          ${account.service}, ${account.username}, ${account.url}`;
                 }
               }
               textToSave += `${key.charAt(0).toUpperCase()}${key.slice(1)}:${accountsText}\n`;
@@ -205,9 +205,10 @@ async function main() {
             }
           }
 
+          var textToSave1 = textToSave.replace(/<br>/g, "\n       ");
           
         
-          SaveAsFile(textToSave, data.name.toLowerCase().replace(/ /g, "") + ".txt","text/plain;charset=utf-8");
+          SaveAsFile(textToSave1, data.name.toLowerCase().replace(/ /g, "") + ".txt","text/plain;charset=utf-8");
         }
         
         
@@ -610,11 +611,6 @@ async function main() {
       method: 'POST',
       body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     });
-
-    document.getElementById("e-savebtn-p").innerHTML = "Saved!";
-    delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
-    document.querySelector('.main').style.display = "flex";
-    document.querySelector('.edit-container').style.display = "none";
   }
 }
 
