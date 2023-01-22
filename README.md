@@ -23,6 +23,7 @@ Seekr combines note taking and OSINT in one application. Seekr can be used along
 Seekr is desingned with OSINT in mind and optimized for real world usecases.
 ### Key features
 - Database for OSINT targets
+- GitHub to email
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database

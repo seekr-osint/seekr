@@ -33,14 +33,17 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/people", handler(getPeople, people))
 	router.GET("/names", handler(getNamesRequest, people))
 	router.GET("/names/list", handler(getNamesListRequest, people))
+	router.GET("/github/:username/mail", handler(getGithubEmail, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
+	router.GET("/people/:id/accounts", handler(getPersonByIDRequestAccount, people))
 	router.GET("/people/:id/addAccounts/:username", handler(addAccounts, people))
 	router.POST("/people/:id/addAccount", handler(addAccount, people))
 	//router.GET("/people/:id/getAccounts/:username", handler(getAccountsRequest, people))
 	router.GET("/getAccounts/:username", handler(getAccountsRequest, people))
 	router.GET("/markdown/:id", handler(mdPersonByIDRequest, people))
 	router.POST("/people", handler(postPeople, people))
+	router.POST("/people/noAccounts", handler(postPeopleNoAccounts, people))
 	router.DELETE("/people/:id", handler(deletePerson, people))
 	router.GET("/people/:id/delete", handler(deletePerson, people))
 	router.POST("/dataJson", handler(writeDataJson, people))
@@ -134,6 +137,25 @@ func postPeople(people DataBase, c *gin.Context) {
 	}
 	SaveJson(people)
 }
+func postPeopleNoAccounts(people DataBase, c *gin.Context) {
+	var newPerson person
+
+	if err := c.BindJSON(&newPerson); err != nil {
+		return
+	}
+	if !checkPersonExists(people, newPerson.ID) {
+		// Add the new person to the slice.
+		people[newPerson.ID] = newPerson
+		c.IndentedJSON(http.StatusCreated, newPerson)
+	} else {
+		log.Println(people[newPerson.ID])
+		var accounts = people[newPerson.ID].Accounts
+		newPerson.Accounts = accounts
+		people[newPerson.ID] = newPerson
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
+	}
+	SaveJson(people)
+}
 
 func getPersonID(people DataBase, id string) (bool, person, int) {
 	var selectedPerson person
@@ -153,6 +175,10 @@ func checkPersonExists(people DataBase, id string) bool {
 
 func getPersonByIDRequest(people DataBase, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")))
+}
+
+func getPersonByIDRequestAccount(people DataBase, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, getPersonByID(people, c.Param("id")).Accounts)
 }
 
 func mdPersonByIDRequest(people DataBase, c *gin.Context) {
@@ -213,7 +239,6 @@ func getAccounts(people DataBase, id, username string) DataBase {
 
 func getAccountsSimple(username string) Accounts {
 	// remove @ if it is the first char
-	log.Println(username[0:1])
 	if username[0:1] == "@" {
 		log.Println("@ is first")
 		username = username[1:]
@@ -225,6 +250,12 @@ func getAccountsSimple(username string) Accounts {
 func getAccountsRequest(people DataBase, c *gin.Context) {
 	//if c.Param("username") != "" {
 	c.IndentedJSON(http.StatusOK, getAccountsSimple(c.Param("username")))
+	//}
+}
+
+func getGithubEmail(people DataBase, c *gin.Context) {
+	//if c.Param("username") != "" {
+	c.IndentedJSON(http.StatusOK, GithubInfoDeep(c.Param("username"), true))
 	//}
 }
 
