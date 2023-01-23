@@ -521,8 +521,7 @@ async function main() {
   }
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
-    document.querySelector('.main').style.display = "flex";
-    document.querySelector('.acc-container').style.display = "none";
+    location.reload();
   }
 
   // CREATE
