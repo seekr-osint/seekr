@@ -35,6 +35,13 @@ cd seekr
 go run main.go
 ```
 Now open [the web interface](http://localhost:5050) in your browser of choice.
+## Run on NixOS
+Seekr is build with NixOS in mind and therefore supports nix flakes.
+To run seekr on NixOS run following commands.
+```sh
+nix shell github:seekr-osint/seekr
+seekr
+```
 
 ## Intigrating seekr into your current workflow
 ```mermaid
