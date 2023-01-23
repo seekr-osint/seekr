@@ -8,15 +8,15 @@ import (
 
 func PortScan(ip string) map[int]bool { // FIXME
 	wg := sync.WaitGroup{}
-  valid := make(map[int]bool)
+	valid := make(map[int]bool)
 	for i := 1; i <= 65535; i++ { // 65535
 		wg.Add(1)
 		valid[i] = scan(&wg, ip, i)
-    wg.Done()
+		wg.Done()
 	}
 
 	wg.Wait()
-  return valid
+	return valid
 }
 
 func scan(wg *sync.WaitGroup, address string, port int) bool {
@@ -26,5 +26,5 @@ func scan(wg *sync.WaitGroup, address string, port int) bool {
 		return false
 	}
 	conn.Close()
-  return true
+	return true
 }
