@@ -1,0 +1,3 @@
+#!/bin/sh
+go test -tags networking -cover -coverprofile coverage.out ./...
+~/go/bin/gocovsh

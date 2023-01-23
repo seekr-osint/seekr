@@ -1,4 +1,5 @@
 package api
+
 // https://github.com/alpkeskin/wau/blob/main/cmd/apps/discord.go
 
 import (
@@ -45,13 +46,13 @@ func Discord(email string) bool {
 		json.Unmarshal(body, &response)
 		if len(response.Errors.Email.Errors) > 0 {
 			if response.Errors.Email.Errors[0].Code == "EMAIL_ALREADY_REGISTERED" {
-        return true
+				return true
 			}
-			
-    }
+
+		}
 	} else if res.StatusCode == 429 {
 		//("Too many requests to Discord!")
-  }
-  return false
+	}
+	return false
 
 }
