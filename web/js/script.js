@@ -281,6 +281,8 @@ async function main() {
           fetch("http://localhost:8080/people/" + obj.id + "/delete", {
             method: "GET",
             mode: "no-cors"
+          }).then (function () {
+            location.reload();
           });
         }
 
@@ -574,6 +576,8 @@ async function main() {
     fetch('http://localhost:8080/people', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+    }).then (function () {
+      location.reload();
     });
   }
 
@@ -605,16 +609,12 @@ async function main() {
     let political = document.querySelector(".e-political").innerHTML;
     let notes = document.querySelector(".e-notes").innerHTML;
 
-
     fetch('http://localhost:8080/people', {
       method: 'POST',
       body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
-    });
-
-    document.getElementById("e-savebtn-p").innerHTML = "Saved!";
-    delay(1000).then(() => document.getElementById("e-savebtn-p").innerHTML = "Save");
-    document.querySelector('.main').style.display = "flex";
-    document.querySelector('.edit-container').style.display = "none";
+    }).then (function () {
+      location.reload();
+    })
   }
 }
 
