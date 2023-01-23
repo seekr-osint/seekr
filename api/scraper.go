@@ -1,8 +1,8 @@
 package api
 
 import (
-//"github.com/gocolly/colly"
-//"log"
+// "github.com/gocolly/colly"
+// "log"
 )
 
 func Scrape(url string) {
