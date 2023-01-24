@@ -356,6 +356,13 @@ a {
 
 /*  BUTTONS  */
 
+#deepInvBtn {
+  float: right;
+  width: 18rem;
+  margin: 4rem;
+  margin-bottom: 3rem;
+  margin-left: 12rem;
+}
 
 #newbtn {
   position: absolute;
@@ -581,6 +588,7 @@ a {
 
 .info-container {
   max-width: 29rem;
+  width: 29rem;
 }
 
 .neu {

@@ -252,6 +252,68 @@ async function main() {
           document.querySelector(".e-legal").innerHTML = obj.legal;
           document.querySelector(".e-political").innerHTML = obj.political;
           document.querySelector(".e-notes").innerHTML = obj.notes;
+
+          // Accounts
+
+          if (obj.accounts != null) {
+            for (const accObj of obj.accounts) {
+              //let accObj = obj.accounts[i];
+  
+              // Creating elements
+
+              const base_div = document.createElement("div"); // Outer div
+              base_div.className = "acc-chip";
+
+              const pfp_img = document.createElement("img"); // Pfp img
+              pfp_img.className = "userPfp";
+
+              if (accObj.profilePicture != null) {
+                pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+              } else {
+                pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
+              }
+
+              const info_div = document.createElement("div"); // Info div
+              info_div.className = "info-container";
+
+              const service_p = document.createElement("a");
+              service_p.className = "serviceName";
+              service_p.innerHTML = accObj.service;
+              service_p.href = accObj.url;
+              service_p.target = "_blank";
+
+              const name_p = document.createElement("a");
+              name_p.className = "userName";
+              name_p.innerHTML = accObj.username;
+              name_p.href = accObj.url;
+              name_p.target = "_blank";
+
+              const deep_btn = document.createElement("div");
+              deep_btn.className = "deepInvBtn btn btn-secondary";
+              deep_btn.id = "deepInvBtn";
+
+              const deep_btn_txt = document.createElement("p");
+              deep_btn_txt.className = "deepInvBtnTxt";
+              deep_btn_txt.innerHTML = "Deep Investigation";
+
+
+              document.querySelector(".e-accounts").appendChild(base_div);
+              base_div.appendChild(pfp_img);
+              base_div.appendChild(info_div);
+              info_div.appendChild(service_p);
+              info_div.appendChild(name_p);
+              base_div.appendChild(deep_btn);
+              deep_btn.appendChild(deep_btn_txt);
+
+              if (accObj.bio != null) {
+                const bio_p = document.createElement("p");
+                bio_p.className = "userBio";
+                bio_p.innerHTML = accObj.bio[0];
+
+                info_div.appendChild(bio_p);
+              }
+            }
+          }
         }
 
         const e_icon = document.createElement("ion-icon"); // Edit icon
