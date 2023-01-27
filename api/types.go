@@ -32,11 +32,11 @@ type person struct {
 
 type DataBase map[string]person
 
-type Email map[string]struct{
-  mail string
-  value int
-  src string
-  services []string
+type Email map[string]struct {
+	mail     string
+	value    int
+	src      string
+	services []string
 }
 
 //type Accounts map[string]Account
