@@ -32,11 +32,12 @@ type person struct {
 
 type DataBase map[string]person
 
-type Email map[string]struct {
-	mail     string
-	value    int
-	src      string
-	services []string
+type Email []struct {
+	Mail     string   `json:"mail"`
+	Value    int      `json:"value"`
+	Src      string   `json:"src"`
+	Services []string `json:"services"`
+	Valid    bool     `json:"valid"`
 }
 
 //type Accounts map[string]Account
