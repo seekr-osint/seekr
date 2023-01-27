@@ -288,22 +288,24 @@ async function main() {
               name_p.href = accObj.url;
               name_p.target = "_blank";
 
-              const deep_btn = document.createElement("div");
-              deep_btn.className = "deepInvBtn btn btn-secondary";
-              deep_btn.id = "deepInvBtn";
-
-              const deep_btn_txt = document.createElement("p");
-              deep_btn_txt.className = "deepInvBtnTxt";
-              deep_btn_txt.innerHTML = "Deep Investigation";
-
-
               document.querySelector(".e-accounts").appendChild(base_div);
               base_div.appendChild(pfp_img);
               base_div.appendChild(info_div);
               info_div.appendChild(service_p);
               info_div.appendChild(name_p);
-              base_div.appendChild(deep_btn);
-              deep_btn.appendChild(deep_btn_txt);
+
+              if(accObj.service.toLowerCase() == "github") {
+                const deep_btn = document.createElement("div");
+                deep_btn.className = "deepInvBtn btn btn-secondary";
+                deep_btn.id = "deepInvBtn";
+
+                const deep_btn_txt = document.createElement("p");
+                deep_btn_txt.className = "deepInvBtnTxt";
+                deep_btn_txt.innerHTML = "Deep Investigation";
+
+                base_div.appendChild(deep_btn);
+                deep_btn.appendChild(deep_btn_txt);
+              }
 
               if (accObj.bio != null) {
                 const bio_p = document.createElement("p");
