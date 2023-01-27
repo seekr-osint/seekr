@@ -399,9 +399,7 @@ async function main() {
 
           term_container.appendChild(term_header);
 
-          let amountOfReturnedAccounts = Object.entries(data).length;
-
-          if (amountOfReturnedAccounts >= 1) {
+          if (data != null && Object.entries(data).length >= 1) {
             document.getElementById("acc-no-results").style.display = "none";
             document.getElementById("acc-scroll-box").style.display = "block";
 
