@@ -67,7 +67,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Reddit",
-		Check:          "pattern", // FIXME blocked not sure rather it actually works
+		Check:          "", // FIXME blocked not sure rather it actually works
 		Pattern:        "Sorry, nobody on Reddit goes by that name.",
 		BlockedPattern: "<title>Blocked</title>",
 		UserExistsFunc: SimpleUserExistsCheck,
