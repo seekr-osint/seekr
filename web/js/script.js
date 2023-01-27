@@ -294,7 +294,7 @@ async function main() {
               info_div.appendChild(service_p);
               info_div.appendChild(name_p);
 
-              if(accObj.service.toLowerCase() == "github") {
+              if(accObj.service.toLowerCase() == "github") { // If the service is github, add a deep investigation button
                 const deep_btn = document.createElement("div");
                 deep_btn.className = "deepInvBtn btn btn-secondary";
                 deep_btn.id = "deepInvBtn";
