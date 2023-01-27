@@ -14,7 +14,7 @@ type person struct {
 	Civilstatus    string             `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`
-	Email          string             `json:"email"`
+	Email          Email              `json:"email"`
 	Occupation     string             `json:"occupation"`
 	Prevoccupation string             `json:"prevoccupation"`
 	Education      string             `json:"education"`
@@ -31,5 +31,12 @@ type person struct {
 }
 
 type DataBase map[string]person
+
+type Email map[string]struct{
+  mail string
+  value int
+  src string
+  services []string
+}
 
 //type Accounts map[string]Account
