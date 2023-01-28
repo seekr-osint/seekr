@@ -16,9 +16,9 @@ type SeekrdFunc func(DataBase) DataBase
 
 var DefaultSeekrdServices = SeekrdServices{
 	SeekrdService{
-		Name:     "birthday",
+		Name: "birthday",
 		//Function: func(db DataBase) DataBase { log.Println("test seekrd"); return db },
-    Function: Birthday,
+		Function: Birthday,
 	},
 }
 
@@ -50,12 +50,12 @@ func Birthday(db DataBase) DataBase {
 				if now.YearDay() < date.YearDay() {
 					age--
 				}
-        log.Println(person.Birthday)
-        log.Println(age)
-        person.Age = age
+				log.Println(person.Birthday)
+				log.Println(age)
+				person.Age = age
 			}
 		}
-    db[i] = person
+		db[i] = person
 	}
 	return db
 }
