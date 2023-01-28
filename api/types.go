@@ -2,10 +2,10 @@ package api
 
 // main data set
 type person struct {
-	Pictures       []string           `json:"pictures"`
 	ID             string             `json:"id"`
-	Maidenname     string             `json:"maidenname"`
 	Name           string             `json:"name"`
+	Pictures       []string           `json:"pictures"`
+	Maidenname     string             `json:"maidenname"`
 	Age            int                `json:"age"`
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
@@ -25,24 +25,26 @@ type person struct {
 	Legal          string             `json:"legal"`
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
+	Relations      Relation           `json:"relations"`
 	Sources        []string           `json:"sources"`
 	Accounts       Accounts           `json:"accounts"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
 }
 
 type DataBase map[string]person
+type Relation map[string]string
 
 type Email []struct {
-	Mail     string   `json:"mail"`
-	Value    int      `json:"value"`
-	Src      string   `json:"src"`
-	Services []string `json:"services"`
-	Valid    bool     `json:"valid"`
-  Gmail    bool     `json:"gmail"`
-  ValidGmail    bool     `json:"validGmail"`
+	Mail       string   `json:"mail"`
+	Value      int      `json:"value"`
+	Src        string   `json:"src"`
+	Services   []string `json:"services"`
+	Valid      bool     `json:"valid"`
+	Gmail      bool     `json:"gmail"`
+	ValidGmail bool     `json:"validGmail"`
 }
 
-//type Accounts map[string]Account
+// type Accounts map[string]Account
 type Accounts []Account
 type Account struct {
 	Service   string   `json:"service"`  // example: GitHub
