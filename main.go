@@ -48,7 +48,7 @@ func main() {
 	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
-  go api.Seekrd(api.DefaultSeekrdServices,30) // run every 30 minutes
+	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
 	go api.ServeApi(people, *apiIp, *data)
 	RunWebServer(config)
 }

@@ -2,21 +2,21 @@ package api
 
 import (
 	"regexp"
-  "sync"
+	"sync"
 )
 
 type MailService struct {
-	Name           string         // example: "GitHub"
+	Name           string             // example: "GitHub"
 	UserExistsFunc MailUserExistsFunc // example: Discord()
 }
 type MailServices []MailService
 type MailUserExistsFunc func(MailService, string) bool // (BaseUrl,email)
 
 var DefaultMailServices = MailServices{
-  MailService{
-    Name:           "Discord",
-    UserExistsFunc: Discord,
-  },
+	MailService{
+		Name:           "Discord",
+		UserExistsFunc: Discord,
+	},
 }
 
 func IsGmailAddress(email string) bool {
@@ -41,9 +41,6 @@ func IsGitHubMail(email string) bool {
 	return match
 }
 
-
-
-
 func MailServicesHandler(servicesToCheck MailServices, email string) []string {
 	wg := &sync.WaitGroup{}
 
@@ -52,7 +49,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string) []string {
 		wg.Add(1)
 		go func(i int) {
 			// Do something
-			service := servicesToCheck[i]                  // current service
+			service := servicesToCheck[i]               // current service
 			if service.UserExistsFunc(service, email) { // if service exisits
 				services = append(services, service.Name) // add service to accounts
 			}

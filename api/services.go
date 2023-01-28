@@ -17,7 +17,6 @@ import (
 	"strings"
 )
 
-
 type Services []Service
 type Service struct {
 	Name           string         // example: "GitHub"
@@ -31,11 +30,8 @@ type Service struct {
 	BlockedPattern string
 }
 
-
-
 type GetInfoFunc func(string, Service) Account // (username)
 type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
-
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	wg := &sync.WaitGroup{}
@@ -517,7 +513,6 @@ func HttpRequest(url string) string {
 
 	return ""
 }
-
 
 func getImg(img string) image.Image {
 	reader := strings.NewReader(img)
