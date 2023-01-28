@@ -73,7 +73,6 @@ async function main() {
           document.querySelector(".civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
           document.querySelector(".kids").innerHTML = "Kids: " + obj.kids;
           document.querySelector(".hobbies").innerHTML = "Hobbies: " + obj.hobbies;
-          document.querySelector(".email").innerHTML = "E-Mail: " + obj.email;
           document.querySelector(".occupation").innerHTML = "Occupation: " + obj.occupation;
           document.querySelector(".prevoccupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
           document.querySelector(".education").innerHTML = "Education: " + obj.education;
@@ -85,7 +84,7 @@ async function main() {
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
           document.querySelector(".notes").innerHTML = obj.notes;
 
-          
+
           let allObjectsAtStart = document.querySelectorAll(".viewtag");
           
           allObjectsAtStart.forEach(object => {
@@ -118,6 +117,45 @@ async function main() {
             document.getElementById("space-maker").style.display = "none";
           }
           
+          
+          // Email
+
+          document.querySelector('.v-email-base').style.display = "block";
+
+          console.log(obj.email.length);
+
+          if (obj.email.length >= 1) {
+            let emailContainer = document.querySelector('.v-email-base');
+
+            obj.email.forEach(function(email) {
+              let container = document.createElement("div");
+              container.className = "v-email-container";
+  
+              let email_input = document.createElement("input");
+              email_input.className = "form-input v-mail";
+              email_input.id = "v-e-mail";
+              email_input.type = "email";
+              email_input.placeholder = "Enter email address";
+              email_input.spellcheck = "false";
+              email_input.maxLength = "30";
+              email_input.required = "true";
+              email_input.value = email.mail;
+  
+  
+              let infoBtn = document.createElement("div");
+              infoBtn.className = "v-info-btn";
+  
+              let icon = document.createElement("ion-icon");
+              icon.setAttribute("name", "information-outline");
+  
+              infoBtn.appendChild(icon);
+              container.appendChild(email_input);
+              container.appendChild(infoBtn);
+              emailContainer.appendChild(container);
+            });
+          } else {
+            document.getElementById('v-space-maker').style.display = "none";
+          }
 
 
           // Accounts
@@ -211,12 +249,6 @@ async function main() {
           SaveAsFile(textToSave1, data.name.toLowerCase().replace(/ /g, "") + ".txt","text/plain;charset=utf-8");
         }
         
-        
-        
-        
-        
-        
-        
 
         const e_icon_div = document.createElement("div"); // Icon div
         e_icon_div.className = "chip-edit";
@@ -241,7 +273,6 @@ async function main() {
           document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
           document.querySelector(".e-kids").innerHTML = obj.kids;
           document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
-          document.querySelector(".e-email").innerHTML = obj.email;
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
           document.querySelector(".e-prevoccupation").innerHTML = obj.prevoccupation;
           document.querySelector(".e-education").innerHTML = obj.education;
@@ -252,6 +283,80 @@ async function main() {
           document.querySelector(".e-legal").innerHTML = obj.legal;
           document.querySelector(".e-political").innerHTML = obj.political;
           document.querySelector(".e-notes").innerHTML = obj.notes;
+
+          // Email
+
+          if (obj.email.length >= 1) {
+            let emailContainer = document.querySelector('.email-base');
+
+            obj.email.forEach(function(email) {
+              let container = document.createElement("div");
+              container.className = "email-container";
+  
+              let email_input = document.createElement("input");
+              email_input.className = "form-input e-mail";
+              email_input.id = "e-mail";
+              email_input.type = "email";
+              email_input.placeholder = "Enter email address";
+              email_input.spellcheck = "false";
+              email_input.maxLength = "30";
+              email_input.required = "true";
+              email_input.value = email.mail;
+  
+  
+              let infoBtn = document.createElement("div");
+              infoBtn.className = "e-info-btn";
+  
+              let icon = document.createElement("ion-icon");
+              icon.setAttribute("name", "information-outline");
+  
+              infoBtn.appendChild(icon);
+              container.appendChild(email_input);
+              container.appendChild(infoBtn);
+              emailContainer.appendChild(container);
+            });
+          }
+
+          
+
+          document.getElementById("add-btn").onclick = function () {
+            const email_base = document.querySelector(".email-base");
+
+            const email_container = document.createElement("div");
+            email_container.className = "email-container";
+
+            const email_input = document.createElement("input");
+            email_input.className = "form-input e-mail";
+            email_input.id = "e-mail";
+            email_input.type = "email";
+            email_input.placeholder = "Enter email address";
+            email_input.spellcheck = "false";
+            email_input.maxLength = "30";
+            email_input.required = "true";
+
+            const info_btn_div = document.createElement("div");
+            info_btn_div.className = "info-btn";
+
+            const info_btn = document.createElement("ion-icon");
+            info_btn.name = "information-outline";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            email_base.appendChild(email_container);
+            email_container.appendChild(email_input);
+            email_container.appendChild(info_btn_div);
+            info_btn_div.appendChild(info_btn);
+            email_container.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              email_container.remove();
+            }
+          }
 
           // Accounts
 
@@ -560,6 +665,12 @@ async function main() {
     while (elements.length > 0) {
       elements[0].parentNode.removeChild(elements[0]);
     }
+
+    var elements = document.getElementsByClassName("v-email-container");
+
+    while (elements.length > 0) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
   }
 
   document.getElementById("newbtn").onclick = function () {
@@ -570,11 +681,11 @@ async function main() {
   document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
-  }
+    var elements = document.getElementsByClassName("email-container");
 
-  document.getElementById("e-backbtn").onclick = function () {
-    document.querySelector('.main').style.display = "flex";
-    document.querySelector('.edit-container').style.display = "none";
+    while (elements.length > 0) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
   }
 
   document.getElementById("c-backbtn").onclick = function () {
@@ -584,6 +695,47 @@ async function main() {
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
     location.reload();
+  }
+
+  // Email
+
+  document.getElementById("c-add-btn").onclick = function () {
+    const email_base = document.querySelector(".c-email-base");
+
+    const email_container = document.createElement("div");
+    email_container.className = "c-email-container";
+
+    const email_input = document.createElement("input");
+    email_input.className = "form-input e-mail";
+    email_input.id = "c-e-mail";
+    email_input.type = "email";
+    email_input.placeholder = "Enter email address";
+    email_input.spellcheck = "false";
+    email_input.maxLength = "30";
+    email_input.autocomplete = "off";
+
+    const info_btn_div = document.createElement("div");
+    info_btn_div.className = "info-btn";
+
+    const info_btn = document.createElement("ion-icon");
+    info_btn.name = "information-outline";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    email_base.appendChild(email_container);
+    email_container.appendChild(email_input);
+    email_container.appendChild(info_btn_div);
+    info_btn_div.appendChild(info_btn);
+    email_container.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      email_container.remove();
+    }
   }
 
   // CREATE
@@ -623,7 +775,6 @@ async function main() {
     let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
     let kids = document.querySelector(".c-kids").innerHTML;
     let hobbies = document.querySelector(".c-hobbies").innerHTML;
-    let email = document.querySelector(".c-email").innerHTML;
     let occupation = document.querySelector(".c-occupation").innerHTML;
     let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
@@ -635,13 +786,30 @@ async function main() {
     let political = document.querySelector(".c-political").innerHTML;
     let notes = document.querySelector(".c-notes").innerHTML;
 
+    let emailContainers = document.querySelectorAll('.c-email-container');
+    let emailAddresses = [];
+
+    emailContainers.forEach(function(container) {
+      let emailInput = container.querySelector('input');
+      emailAddresses.push(emailInput.value);
+    });
+
+    let formattedEmails = emailAddresses.map(function(email) {
+      return {
+        "mail": email,
+        "src": "manual"
+      };
+    });
+
+
     fetch('http://localhost:8080/people', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": formattedEmails, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then (function () {
       location.reload();
     });
   }
+
 
   // EDIT
 
@@ -659,7 +827,6 @@ async function main() {
     let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
     let kids = document.querySelector(".e-kids").innerHTML;
     let hobbies = document.querySelector(".e-hobbies").innerHTML;
-    let email = document.querySelector(".e-email").innerHTML;
     let occupation = document.querySelector(".e-occupation").innerHTML;
     let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
     let education = document.querySelector(".e-education").innerHTML;
@@ -671,12 +838,33 @@ async function main() {
     let political = document.querySelector(".e-political").innerHTML;
     let notes = document.querySelector(".e-notes").innerHTML;
 
+    let emailContainers = document.querySelectorAll('.email-container');
+    let emailAddresses = [];
+
+    emailContainers.forEach(function(container) {
+      console.log("d");
+      if (container.querySelector('input').value != "" && container.querySelector('input').value != " ") {
+        console.log("f");
+        let emailInput = container.querySelector('input');
+        emailAddresses.push(emailInput.value);
+      }
+    });
+
+    let formattedEmails = emailAddresses.map(function(email) {
+      return {
+        "mail": email,
+        "src": "manual"
+      };
+    });
+
+    console.log(formattedEmails);
+
     fetch('http://localhost:8080/people/noAccounts', {
       method: 'POST',
-      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": email, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": formattedEmails, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then (function () {
       location.reload();
-    })
+    });
   }
 }
 

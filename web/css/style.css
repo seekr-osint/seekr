@@ -29,6 +29,85 @@ html {
   }
 }
 
+.email-container,
+.c-email-container,
+.v-email-container {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.info-btn,
+.c-info-btn,
+.del-btn,
+.v-info-btn,
+.e-info-btn {
+  align-self: center;
+  margin-left: 1rem;
+}
+
+.add-btn,
+.info-btn,
+.del-btn,
+.c-add-btn,
+.c-info-btn,
+.c-del-btn,
+.v-info-btn,
+.e-info-btn {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  box-shadow: .3rem .3rem .6rem var(--greyLight-2), -.2rem -.2rem .5rem var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--greyDark);
+  transition: all .5s ease;
+}
+
+.add-btn:active,
+.info-btn:active,
+.del-btn:active,
+.c-add-btn:active,
+.c-info-btn:active,
+.c-del-btn:active,
+.v-info-btn:active,
+.e-info-btn:active {
+  box-shadow: inset .2rem .2rem .5rem var(--greyLight-2), inset -.2rem -.2rem .5rem var(--white);;
+  color: var(--primary);
+}
+
+.add-btn:hover,
+.info-btn:hover,
+.del-btn:hover,
+.c-add-btn:hover,
+.c-info-btn:hover,
+.c-del-btn:hover,
+.v-info-btn:hover,
+.e-info-btn:hover {
+  color: var(--primary);
+}
+
+#logo {
+  font: 0.1rem / 0.05rem monospace;
+  background-color: white;
+  overflow: hidden;
+  border: medium none;
+  color: black;
+}
+
+#e-mail,
+#c-e-mail,
+#v-e-mail {
+  align-self: center;
+  width: 42rem;
+  height: 2.7rem;
+  overflow: hidden;
+  word-break: break-all;
+  white-space: nowrap;
+}
+
 abbr {
   border-bottom: none !important;
   cursor: inherit !important;
@@ -50,14 +129,17 @@ a {
 
 #notes-header,
 #e-notes-header,
-#c-notes-header {
+#c-notes-header,
+#v-notes-header {
   color: var(--greyDark);
   font-size: 1.4rem;
 }
 
 #space-maker,
 #e-space-maker,
-#c-space-maker {
+#c-space-maker,
+#v-space-maker {
+  margin-top: 0.4rem;
   height: fit-content;
   width: 67rem;
   padding: 1rem;
