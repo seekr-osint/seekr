@@ -32,7 +32,7 @@ type person struct {
 }
 
 type DataBase map[string]person
-type Relation map[string]string
+type Relation map[string][]string
 
 type Email []struct {
 	Mail       string   `json:"mail"`
