@@ -27,7 +27,12 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
-## Getting Started
+## Getting Started - Installation
+### Windows
+Download the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
+### Linux (stable)
+Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
+### Linux (unstable)
 To install seekr on linux simply run:
 ```sh
 git clone https://github.com/seekr-osint/seekr
@@ -35,7 +40,7 @@ cd seekr
 go run main.go
 ```
 Now open [the web interface](http://localhost:5050) in your browser of choice.
-## Run on NixOS
+### Run on NixOS
 Seekr is build with NixOS in mind and therefore supports nix flakes.
 To run seekr on NixOS run following commands.
 ```sh
