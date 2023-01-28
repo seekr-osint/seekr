@@ -13,7 +13,7 @@ func Emails(email string) {
 	go func() {
 		// Do something
 		log.Println("hello")
-		email_services["discord"] = Discord(email)
+		//email_services["discord"] = Discord(email)
 		wg.Done()
 	}()
 	log.Println("hello2")

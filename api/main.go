@@ -120,12 +120,13 @@ func deletePerson(people DataBase, c *gin.Context) {
 	ioutil.WriteFile(DatabaseFile, jsonBytes, 0644)
 }
 
-func postPeople(people DataBase, c *gin.Context) {
+func postPeople(people DataBase, c *gin.Context) { // c.BindJSON is a person not people
 	var newPerson person
 
 	if err := c.BindJSON(&newPerson); err != nil {
 		return
 	}
+  newPerson = CheckMail(newPerson)
 	if !checkPersonExists(people, newPerson.ID) {
 		// Add the new person to the slice.
 		people[newPerson.ID] = newPerson
@@ -137,12 +138,34 @@ func postPeople(people DataBase, c *gin.Context) {
 	}
 	SaveJson(people)
 }
-func postPeopleNoAccounts(people DataBase, c *gin.Context) {
+
+func CheckMail(newPerson person) person {
+  if newPerson.Email != nil {
+    for i, mail := range newPerson.Email {
+      if mail.Mail != "" {
+          //mail.Services = MailServices(mail.Mail)
+          mail.Valid = IsEmailValid(mail.Mail)
+          mail.Gmail = IsGmailAddress(mail.Mail)
+          mail.ValidGmail = IsValidGmailAddress(mail.Mail)
+          mail.Services = MailServicesHandler(DefaultMailServices,mail.Mail)
+      } else {
+        log.Println("nil mail field")
+      }
+      newPerson.Email[i] = mail
+    }
+  } else {
+    log.Println("nil email" + newPerson.ID)
+  }
+  return newPerson
+}
+func postPeopleNoAccounts(people DataBase, c *gin.Context) { // you only get a person noy people
 	var newPerson person
 
 	if err := c.BindJSON(&newPerson); err != nil {
 		return
 	}
+
+  newPerson = CheckMail(newPerson)
 	if !checkPersonExists(people, newPerson.ID) {
 		// Add the new person to the slice.
 		people[newPerson.ID] = newPerson

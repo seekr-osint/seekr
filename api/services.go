@@ -17,6 +17,31 @@ import (
 	"strings"
 )
 
+
+// type Accounts map[string]Account
+type Accounts []Account
+type Account struct {
+	Service   string   `json:"service"`  // example: GitHub
+	Id        string   `json:"id"`       // example: 1224234
+	Username  string   `json:"username"` // example: 9glenda
+	Url       string   `json:"url"`      // example: https://github.com/9glenda
+	Picture   []string `json:"profilePicture"`
+	ImgHash   []uint64 `json:"imgHash"`
+	Bio       []string `json:"bio"`       // example: pro hacka
+	Firstname string   `json:"firstname"` // example: Glenda
+	Lastname  string   `json:"lastname"`  // example: Belov
+	Location  string   `json:"location"`  // example: Moscow
+	Created   string   `json:"created"`   // example: 2020-07-31T13:04:48Z
+	Updated   string   `json:"updated"`
+	Blog      string   `json:"blog"`
+	Followers int      `json:"followers"`
+	Following int      `json:"following"`
+}
+
+type GetInfoFunc func(string, Service) Account // (username)
+type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
+
+
 var DefaultServices = Services{
 	Service{
 		Name:           "GitHub",
@@ -431,29 +456,6 @@ type Service struct {
 	Pattern        string
 	BlockedPattern string
 }
-
-// type Accounts map[string]Account
-type Accounts []Account
-type Account struct {
-	Service   string   `json:"service"`  // example: GitHub
-	Id        string   `json:"id"`       // example: 1224234
-	Username  string   `json:"username"` // example: 9glenda
-	Url       string   `json:"url"`      // example: https://github.com/9glenda
-	Picture   []string `json:"profilePicture"`
-	ImgHash   []uint64 `json:"imgHash"`
-	Bio       []string `json:"bio"`       // example: pro hacka
-	Firstname string   `json:"firstname"` // example: Glenda
-	Lastname  string   `json:"lastname"`  // example: Belov
-	Location  string   `json:"location"`  // example: Moscow
-	Created   string   `json:"created"`   // example: 2020-07-31T13:04:48Z
-	Updated   string   `json:"updated"`
-	Blog      string   `json:"blog"`
-	Followers int      `json:"followers"`
-	Following int      `json:"following"`
-}
-
-type GetInfoFunc func(string, Service) Account // (username)
-type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 
 func SimpleUserExistsCheck(service Service, username string) bool {
 	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)

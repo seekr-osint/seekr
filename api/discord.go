@@ -21,7 +21,7 @@ type discordResponse struct {
 	} `json:"errors"`
 }
 
-func Discord(email string) bool {
+func Discord(mailService MailService, email string) bool {
 	var endpoint = "https://discord.com/api/v9/auth/register"
 
 	var jsonStr = []byte(`{"email":"` + email + `","username":"asdsadsad","password":"q1e31e12r13*","invite":null,"consent":true,"date_of_birth":"1973-05-09","gift_code_sku_id":null,"captcha_key":null,"promotional_email_opt_in":false}`)
