@@ -22,6 +22,7 @@ var content embed.FS
 var people = make(api.DataBase)
 
 func main() {
+
 	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost:5050", "Ip to serve the web server on")
@@ -47,6 +48,7 @@ func main() {
 	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
+  go api.Seekrd(api.DefaultSeekrdServices,30) // run every 30 minutes
 	go api.ServeApi(people, *apiIp, *data)
 	RunWebServer(config)
 }

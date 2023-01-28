@@ -18,29 +18,43 @@ import (
 )
 
 
-// type Accounts map[string]Account
-type Accounts []Account
-type Account struct {
-	Service   string   `json:"service"`  // example: GitHub
-	Id        string   `json:"id"`       // example: 1224234
-	Username  string   `json:"username"` // example: 9glenda
-	Url       string   `json:"url"`      // example: https://github.com/9glenda
-	Picture   []string `json:"profilePicture"`
-	ImgHash   []uint64 `json:"imgHash"`
-	Bio       []string `json:"bio"`       // example: pro hacka
-	Firstname string   `json:"firstname"` // example: Glenda
-	Lastname  string   `json:"lastname"`  // example: Belov
-	Location  string   `json:"location"`  // example: Moscow
-	Created   string   `json:"created"`   // example: 2020-07-31T13:04:48Z
-	Updated   string   `json:"updated"`
-	Blog      string   `json:"blog"`
-	Followers int      `json:"followers"`
-	Following int      `json:"following"`
+type Services []Service
+type Service struct {
+	Name           string         // example: "GitHub"
+	UserExistsFunc UserExistsFunc // example: SimpleUserExistsCheck()
+	GetInfoFunc    GetInfoFunc    // example: EmptyAccountInfo()
+	BaseUrl        string         // example: "https://github.com"
+	AvatarUrl      string
+	Check          string // example: "status_code"
+	HtmlUrl        string
+	Pattern        string
+	BlockedPattern string
 }
+
+
 
 type GetInfoFunc func(string, Service) Account // (username)
 type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 
+
+func ServicesHandler(servicesToCheck Services, username string) Accounts {
+	wg := &sync.WaitGroup{}
+
+	var accounts Accounts
+	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
+		wg.Add(1)
+		go func(i int) {
+			// Do something
+			service := servicesToCheck[i]                  // current service
+			if service.UserExistsFunc(service, username) { // if service exisits
+				accounts = append(accounts, service.GetInfoFunc(username, service)) // add service to accounts
+			}
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
+	return accounts
+}
 
 var DefaultServices = Services{
 	Service{
@@ -444,19 +458,6 @@ var DefaultServices = Services{
 	},
 }
 
-type Services []Service
-type Service struct {
-	Name           string         // example: "GitHub"
-	UserExistsFunc UserExistsFunc // example: SimpleUserExistsCheck()
-	GetInfoFunc    GetInfoFunc    // example: EmptyAccountInfo()
-	BaseUrl        string         // example: "https://github.com"
-	AvatarUrl      string
-	Check          string // example: "status_code"
-	HtmlUrl        string
-	Pattern        string
-	BlockedPattern string
-}
-
 func SimpleUserExistsCheck(service Service, username string) bool {
 	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	log.Println("check:" + BaseUrl)
@@ -517,24 +518,6 @@ func HttpRequest(url string) string {
 	return ""
 }
 
-func ServicesHandler(servicesToCheck Services, username string) Accounts {
-	wg := &sync.WaitGroup{}
-
-	var accounts Accounts
-	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
-		wg.Add(1)
-		go func(i int) {
-			// Do something
-			service := servicesToCheck[i]                  // current service
-			if service.UserExistsFunc(service, username) { // if service exisits
-				accounts = append(accounts, service.GetInfoFunc(username, service)) // add service to accounts
-			}
-			wg.Done()
-		}(i)
-	}
-	wg.Wait()
-	return accounts
-}
 
 func getImg(img string) image.Image {
 	reader := strings.NewReader(img)
