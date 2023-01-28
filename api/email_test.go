@@ -25,6 +25,9 @@ func TestIsEmailValid(t *testing.T) {
 	// Test cases
 	testCases := []TestCase{
 		{"user@example.com", true},
+		{"user@example.ru", true},
+		{"user@fbi.gov", true},
+		{"user@subdomain.fbi.gov", true},
 		{"user.name@example.com", true},
 		{"user_name@example.com", true},
 		{"user-name@example.com", true},
