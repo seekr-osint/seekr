@@ -16,9 +16,48 @@ type SeekrdFunc func(DataBase) DataBase
 
 var DefaultSeekrdServices = SeekrdServices{
 	SeekrdService{
-		Name:     "test",
-		Function: func(db DataBase) DataBase { log.Println("test seekrd"); return db },
+		Name:     "birthday",
+		//Function: func(db DataBase) DataBase { log.Println("test seekrd"); return db },
+    Function: Birthday,
 	},
+}
+
+func IsValidDate(dateString string) (bool, time.Time) {
+	dateFormats := []string{
+		//"2006-01-02",
+		//"02-01-2006",
+		//"01/02/2006",
+		"01.02.2006",
+	}
+	var err error
+	var date time.Time
+	for _, format := range dateFormats {
+		date, err = time.Parse(format, dateString)
+		if err != nil {
+			return false, time.Now()
+		}
+	}
+	return true, date
+}
+
+func Birthday(db DataBase) DataBase {
+	for i, person := range db {
+		if person.Birthday != "" {
+			value, date := IsValidDate(person.Birthday)
+			if value {
+				now := time.Now()
+				age := now.Year() - date.Year()
+				if now.YearDay() < date.YearDay() {
+					age--
+				}
+        log.Println(person.Birthday)
+        log.Println(age)
+        person.Age = age
+			}
+		}
+    db[i] = person
+	}
+	return db
 }
 
 func Seekrd(seekrdServices SeekrdServices, interval int) { // Seekrd(DefaultSeekrdServices,30) 30 is in minutes
