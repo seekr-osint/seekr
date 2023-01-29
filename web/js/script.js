@@ -121,38 +121,45 @@ async function main() {
           // Email
 
           document.querySelector('.v-email-base').style.display = "block";
+          document.getElementById('v-space-maker').style.display = "block";
 
           console.log(obj.email.length);
+          console.log(obj.email[0].mail);
 
           if (obj.email.length >= 1) {
-            let emailContainer = document.querySelector('.v-email-base');
+            if (obj.email[0].mail != "" && obj.email[0].mail != null && obj.email[0].mail != undefined) {
+              
+              let emailContainer = document.querySelector('.v-email-base');
 
-            obj.email.forEach(function(email) {
-              let container = document.createElement("div");
-              container.className = "v-email-container";
-  
-              let email_input = document.createElement("input");
-              email_input.className = "form-input v-mail";
-              email_input.id = "v-e-mail";
-              email_input.type = "email";
-              email_input.placeholder = "Enter email address";
-              email_input.spellcheck = "false";
-              email_input.maxLength = "30";
-              email_input.required = "true";
-              email_input.value = email.mail;
-  
-  
-              let infoBtn = document.createElement("div");
-              infoBtn.className = "v-info-btn";
-  
-              let icon = document.createElement("ion-icon");
-              icon.setAttribute("name", "information-outline");
-  
-              infoBtn.appendChild(icon);
-              container.appendChild(email_input);
-              container.appendChild(infoBtn);
-              emailContainer.appendChild(container);
-            });
+              obj.email.forEach(function(email) {
+                let container = document.createElement("div");
+                container.className = "v-email-container";
+    
+                let email_input = document.createElement("input");
+                email_input.className = "form-input v-mail";
+                email_input.id = "v-e-mail";
+                email_input.type = "email";
+                email_input.placeholder = "Enter email address";
+                email_input.spellcheck = "false";
+                email_input.maxLength = "30";
+                email_input.required = "true";
+                email_input.value = email.mail;
+    
+    
+                let infoBtn = document.createElement("div");
+                infoBtn.className = "v-info-btn";
+    
+                let icon = document.createElement("ion-icon");
+                icon.setAttribute("name", "information-outline");
+    
+                infoBtn.appendChild(icon);
+                container.appendChild(email_input);
+                container.appendChild(infoBtn);
+                emailContainer.appendChild(container);
+              });
+            } else {
+              document.getElementById('v-space-maker').style.display = "none";
+            }
           } else {
             document.getElementById('v-space-maker').style.display = "none";
           }
