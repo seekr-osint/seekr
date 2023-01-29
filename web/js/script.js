@@ -294,6 +294,9 @@ async function main() {
             obj.email.forEach(function(email) {
               const container = document.createElement("div");
               container.className = "email-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "email-subcontainer";
   
               const email_input = document.createElement("input");
               email_input.className = "form-input e-mail";
@@ -304,7 +307,6 @@ async function main() {
               email_input.maxLength = "30";
               email_input.required = "true";
               email_input.value = email.mail;
-  
   
               const infoBtn = document.createElement("div");
               infoBtn.className = "e-info-btn";
@@ -319,16 +321,47 @@ async function main() {
               del_btn.name = "remove-outline";
   
               infoBtn.appendChild(icon);
-              container.appendChild(email_input);
-              container.appendChild(infoBtn);
+              container.appendChild(subContainer);
+              subContainer.appendChild(email_input);
+              subContainer.appendChild(infoBtn);
               emailContainer.appendChild(container);
-              container.appendChild(del_btn_div);
+              subContainer.appendChild(del_btn_div);
               del_btn_div.appendChild(del_btn);
 
 
               del_btn.onclick = function () {
                 container.remove();
               }
+
+              infoBtn.onclick = function () {
+                if (email.services != undefined && email.services != null) {
+                  const infoDiv = container.querySelector(".info-div");
+              
+                  if (!infoDiv) {
+                    console.log(email.services);
+              
+                    const infoDiv = document.createElement("div");
+                    infoDiv.className = "info-div";
+              
+                    email.services.forEach(function(service) {
+                      const iconDiv = document.createElement("div");
+                      iconDiv.className = "service-icon-div";
+              
+                      const icon = document.createElement("img");
+                      icon.className = "service-icon";
+                      icon.src = service.icon;
+              
+                      infoDiv.appendChild(iconDiv);
+                      iconDiv.appendChild(icon);
+                    });
+              
+                    container.appendChild(infoDiv);
+                  } else {
+                    container.removeChild(infoDiv);
+                  }
+                }
+              }
+              
             });
           }
 
@@ -339,6 +372,9 @@ async function main() {
 
             const email_container = document.createElement("div");
             email_container.className = "email-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "email-subcontainer";
 
             const email_input = document.createElement("input");
             email_input.className = "form-input e-mail";
@@ -362,10 +398,11 @@ async function main() {
             del_btn.name = "remove-outline";
 
             email_base.appendChild(email_container);
-            email_container.appendChild(email_input);
-            email_container.appendChild(info_btn_div);
+            email_container.appendChild(subContainer);
+            subContainer.appendChild(email_input);
+            subContainer.appendChild(info_btn_div);
             info_btn_div.appendChild(info_btn);
-            email_container.appendChild(del_btn_div);
+            subContainer.appendChild(del_btn_div);
             del_btn_div.appendChild(del_btn);
 
             del_btn_div.onclick = function () {
@@ -729,12 +766,6 @@ async function main() {
     email_input.maxLength = "30";
     email_input.autocomplete = "off";
 
-    const info_btn_div = document.createElement("div");
-    info_btn_div.className = "info-btn";
-
-    const info_btn = document.createElement("ion-icon");
-    info_btn.name = "information-outline";
-
     const del_btn_div = document.createElement("div");
     del_btn_div.className = "del-btn";
 
@@ -743,8 +774,6 @@ async function main() {
 
     email_base.appendChild(email_container);
     email_container.appendChild(email_input);
-    email_container.appendChild(info_btn_div);
-    info_btn_div.appendChild(info_btn);
     email_container.appendChild(del_btn_div);
     del_btn_div.appendChild(del_btn);
 

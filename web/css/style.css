@@ -29,11 +29,28 @@ html {
   }
 }
 
+.email-subcontainer {
+  display: flex;
+}
+
+.service-icon {
+  width: 3.3rem;
+  height: 2.5rem;
+  margin: 1rem;
+  margin-bottom: 0;
+}
+
+.info-div {
+  display: block;
+}
+
 .email-container,
 .c-email-container,
 .v-email-container {
-  display: flex;
   margin-bottom: 1.5rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  padding: 1rem;
+  border-radius: 1rem;
 }
 
 .info-btn,
