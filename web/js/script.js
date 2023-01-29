@@ -122,8 +122,6 @@ async function main() {
 
           document.querySelector('.v-email-base').style.display = "block";
 
-          console.log(obj.email.length);
-
           if (obj.email.length >= 1) {
             let emailContainer = document.querySelector('.v-email-base');
 
@@ -859,9 +857,7 @@ async function main() {
     let emailAddresses = [];
 
     emailContainers.forEach(function(container) {
-      console.log("d");
       if (container.querySelector('input').value != "" && container.querySelector('input').value != " ") {
-        console.log("f");
         let emailInput = container.querySelector('input');
         emailAddresses.push(emailInput.value);
       }
@@ -873,8 +869,6 @@ async function main() {
         "src": "manual"
       };
     });
-
-    console.log(formattedEmails);
 
     fetch('http://localhost:8080/people/noAccounts', {
       method: 'POST',
