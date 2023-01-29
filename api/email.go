@@ -41,17 +41,19 @@ func IsGitHubMail(email string) bool {
 	return match
 }
 
-func MailServicesHandler(servicesToCheck MailServices, email string) []string {
+func MailServicesHandler(servicesToCheck MailServices, email string) []EmailServiceEnum {
 	wg := &sync.WaitGroup{}
 
-	var services []string
+	var services []EmailServiceEnum
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {
 			// Do something
 			service := servicesToCheck[i]               // current service
 			if service.UserExistsFunc(service, email) { // if service exisits
-				services = append(services, service.Name) // add service to accounts
+				services = append(services, EmailServiceEnum{
+          Name: service.Name,
+        }) // add service to accounts
 			}
 			wg.Done()
 		}(i)

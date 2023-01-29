@@ -35,14 +35,19 @@ type person struct {
 type DataBase map[string]person
 type Relation map[string][]string
 
+type EmailServiceEnum struct {
+	Name     string `json:"name"`
+	Link     string `json:"link"`
+	Username string `json:"username"`
+}
 type Email []struct {
-	Mail       string   `json:"mail"`
-	Value      int      `json:"value"`
-	Src        string   `json:"src"`
-	Services   []string `json:"services"`
-	Valid      bool     `json:"valid"`
-	Gmail      bool     `json:"gmail"`
-	ValidGmail bool     `json:"validGmail"`
+	Mail       string             `json:"mail"`
+	Value      int                `json:"value"`
+	Src        string             `json:"src"`
+	Services   []EmailServiceEnum `json:"services"`
+	Valid      bool               `json:"valid"`
+	Gmail      bool               `json:"gmail"`
+	ValidGmail bool               `json:"validGmail"`
 }
 
 // type Accounts map[string]Account
