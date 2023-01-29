@@ -121,17 +121,15 @@ async function main() {
           // Email
 
           document.querySelector('.v-email-base').style.display = "block";
-          document.getElementById('v-space-maker').style.display = "block";
 
           console.log(obj.email.length);
-          console.log(obj.email[0].mail);
 
           if (obj.email.length >= 1) {
-            if (obj.email[0].mail != "" && obj.email[0].mail != null && obj.email[0].mail != undefined) {
-              
-              let emailContainer = document.querySelector('.v-email-base');
+            let emailContainer = document.querySelector('.v-email-base');
 
-              obj.email.forEach(function(email) {
+            obj.email.forEach(function(email) {
+              if (email.mail != "" && email.mail != null && email.mail != undefined) {
+                document.getElementById('v-space-maker').style.display = "block";
                 let container = document.createElement("div");
                 container.className = "v-email-container";
     
@@ -156,10 +154,8 @@ async function main() {
                 container.appendChild(email_input);
                 container.appendChild(infoBtn);
                 emailContainer.appendChild(container);
-              });
-            } else {
-              document.getElementById('v-space-maker').style.display = "none";
-            }
+              }
+            });
           } else {
             document.getElementById('v-space-maker').style.display = "none";
           }
