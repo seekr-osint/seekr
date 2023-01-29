@@ -49,6 +49,7 @@ type Email []struct {
 	Valid      bool               `json:"valid"`
 	Gmail      bool               `json:"gmail"`
 	ValidGmail bool               `json:"validGmail"`
+	Provider   string             `json:"provider"`
 }
 
 // type Accounts map[string]Account
