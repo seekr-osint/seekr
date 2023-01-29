@@ -14,7 +14,7 @@ type person struct {
 	Civilstatus    string             `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`
-	Email          Email              `json:"email"`
+  Email          EmailsType             `json:"email"`
 	Occupation     string             `json:"occupation"`
 	Prevoccupation string             `json:"prevoccupation"`
 	Education      string             `json:"education"`
@@ -41,7 +41,9 @@ type EmailServiceEnum struct {
 	Username string `json:"username"`
 	Icon     string `json:"icon"`
 }
-type Email []struct {
+
+type EmailsType []Email
+type Email struct {
 	Mail       string             `json:"mail"`
 	Value      int                `json:"value"`
 	Src        string             `json:"src"`

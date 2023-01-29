@@ -13,7 +13,7 @@ import (
 	//"github.com/go-git/go-git/v5/plumbing"
 )
 
-func GithubInfoDeep(username string, fork bool) []string {
+func GithubInfoDeep(username string, fork bool) EmailsType {
 	log.Println("github")
 	var data []struct {
 		//Id     string `json:"id"`
@@ -86,9 +86,19 @@ func GithubInfoDeep(username string, fork bool) []string {
 		Check(err)
 
 	}
-	var foundEmailArray []string
+	var foundEmailArray EmailsType
 	for c := range foundEmail {
-		foundEmailArray = append(foundEmailArray, c)
+		foundEmailArray = append(foundEmailArray, Email{
+      Mail: c,
+      Src: "github",
+      Services: []EmailServiceEnum{
+        {
+        Name: "GitHub",
+        Link: fmt.Sprintf("https://github.com/%s",username),
+        Icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+      },
+      },
+    })
 	}
 	//}
 	return foundEmailArray

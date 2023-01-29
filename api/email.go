@@ -16,8 +16,9 @@ type MailUserExistsFunc func(MailService, string) bool // (BaseUrl,email)
 var DefaultMailServices = MailServices{
 	MailService{
 		Name:           "Discord",
-		UserExistsFunc: Discord,
-		Icon:           "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png",
+		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
+    UserExistsFunc: Discord,
+		Icon:           "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png",
 	},
 }
 

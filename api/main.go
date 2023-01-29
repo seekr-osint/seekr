@@ -34,6 +34,7 @@ func ServeApi(people DataBase, ip string, databaseFile string) {
 	router.GET("/names", handler(getNamesRequest, people))
 	router.GET("/names/list", handler(getNamesListRequest, people))
 	router.GET("/github/:username/mail", handler(getGithubEmail, people))
+  router.GET("/github/:username/addMail/:id", handler(addGithubEmail, people))
 	router.GET("/names/list/len", handler(getNamesListLenRequest, people))
 	router.GET("/people/:id", handler(getPersonByIDRequest, people))
 	router.GET("/people/:id/accounts", handler(getPersonByIDRequestAccount, people))
@@ -139,6 +140,24 @@ func postPeople(people DataBase, c *gin.Context) { // c.BindJSON is a person not
 	SaveJson(people)
 }
 
+func rm(indexes []int, strs []EmailServiceEnum) []EmailServiceEnum { // TODO write test
+    // Create a map to keep track of which indexes to remove
+    remove := make(map[int]bool)
+    for _, i := range indexes {
+        remove[i] = true
+    }
+
+    // Iterate through the input EmailServiceEnums and only append to the result
+    // if the current index is not in the map of indexes to remove
+    result := make([]EmailServiceEnum, 0, len(strs)-len(indexes))
+    for i, s := range strs {
+        if !remove[i] {
+            result = append(result, s)
+        }
+    }
+    return result
+}
+
 func CheckMail(newPerson person) person {
 	if newPerson.Email != nil {
 		log.Println("email not nil")
@@ -152,7 +171,27 @@ func CheckMail(newPerson person) person {
 				mail.Valid = IsEmailValid(mail.Mail)
 				mail.Gmail = IsGmailAddress(mail.Mail)
 				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
-				mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
+        if mail.Services == nil {
+				  mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
+
+        } else {
+          registerd := []string{}
+          flagged := []int{}
+          for i,service := range mail.Services {
+            isFlagged := false
+            for _,registerdService := range registerd {
+              if service.Name == registerdService {
+                isFlagged = true
+              }
+            }
+            if isFlagged {
+              flagged = append(flagged,i)
+            }
+            registerd = append(registerd,service.Name)
+          }
+          mail.Services = rm(flagged,mail.Services) // remove the duplicates
+          mail.Services = append(mail.Services,MailServicesHandler(DefaultMailServices, mail.Mail)[:]...)
+        }
 			} else {
 				log.Println("nil mail field")
 			}
@@ -163,6 +202,7 @@ func CheckMail(newPerson person) person {
 	}
 	return newPerson
 }
+
 func postPeopleNoAccounts(people DataBase, c *gin.Context) { // you only get a person noy people
 	var newPerson person
 
@@ -282,9 +322,23 @@ func getAccountsRequest(people DataBase, c *gin.Context) {
 }
 
 func getGithubEmail(people DataBase, c *gin.Context) {
-	//if c.Param("username") != "" {
+	if c.Param("username") != "" {
 	c.IndentedJSON(http.StatusOK, GithubInfoDeep(c.Param("username"), true))
-	//}
+	}
+}
+
+func addGithubEmail(people DataBase, c *gin.Context) {
+	if c.Param("username") != "" {
+    //people[c.Param("id")].Email = append(getPersonByID(people, c.Param("id")).Email,GithubInfoDeep(c.Param("username"),true)[:]...)
+   if entry, ok := people[c.Param("id")]; ok {
+       entry.Email = append(getPersonByID(people, c.Param("id")).Email,GithubInfoDeep(c.Param("username"),true)[:]...)
+       entry = CheckMail(entry)
+       people[c.Param("id")] = entry
+   }
+    //people[c.Param("id")].Email = getPersonByID(people, c.Param("id")).Email
+	  //c.IndentedJSON(http.StatusOK, GithubInfoDeep(c.Param("username"), true))
+    SaveJson(people)
+	}
 }
 
 func getPersonByID(people DataBase, id string) person {
