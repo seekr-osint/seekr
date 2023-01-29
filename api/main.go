@@ -141,13 +141,13 @@ func postPeople(people DataBase, c *gin.Context) { // c.BindJSON is a person not
 
 func CheckMail(newPerson person) person {
 	if newPerson.Email != nil {
-    log.Println("email not nil")
-    if len(newPerson.Email) == 0 {
-      log.Println("empty list")
-    }
+		log.Println("email not nil")
+		if len(newPerson.Email) == 0 {
+			log.Println("empty list")
+		}
 		for i, mail := range newPerson.Email {
 			if mail.Mail != "" {
-        log.Println("email not \"\"")
+				log.Println("email not \"\"")
 				//mail.Services = MailServices(mail.Mail)
 				mail.Valid = IsEmailValid(mail.Mail)
 				mail.Gmail = IsGmailAddress(mail.Mail)
