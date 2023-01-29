@@ -291,13 +291,13 @@ async function main() {
           // Email
 
           if (obj.email.length >= 1) {
-            let emailContainer = document.querySelector('.email-base');
+            const emailContainer = document.querySelector('.email-base');
 
             obj.email.forEach(function(email) {
-              let container = document.createElement("div");
+              const container = document.createElement("div");
               container.className = "email-container";
   
-              let email_input = document.createElement("input");
+              const email_input = document.createElement("input");
               email_input.className = "form-input e-mail";
               email_input.id = "e-mail";
               email_input.type = "email";
@@ -308,16 +308,29 @@ async function main() {
               email_input.value = email.mail;
   
   
-              let infoBtn = document.createElement("div");
+              const infoBtn = document.createElement("div");
               infoBtn.className = "e-info-btn";
   
-              let icon = document.createElement("ion-icon");
+              const icon = document.createElement("ion-icon");
               icon.setAttribute("name", "information-outline");
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
   
               infoBtn.appendChild(icon);
               container.appendChild(email_input);
               container.appendChild(infoBtn);
               emailContainer.appendChild(container);
+              container.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
             });
           }
 
