@@ -8,6 +8,7 @@ import (
 type MailService struct {
 	Name           string             // example: "GitHub"
 	UserExistsFunc MailUserExistsFunc // example: Discord()
+	Icon           string             // example: https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png
 }
 type MailServices []MailService
 type MailUserExistsFunc func(MailService, string) bool // (BaseUrl,email)
@@ -16,6 +17,7 @@ var DefaultMailServices = MailServices{
 	MailService{
 		Name:           "Discord",
 		UserExistsFunc: Discord,
+		Icon:           "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png",
 	},
 }
 
@@ -53,6 +55,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string) []EmailServ
 			if service.UserExistsFunc(service, email) { // if service exisits
 				services = append(services, EmailServiceEnum{
 					Name: service.Name,
+					Icon: service.Icon,
 				}) // add service to accounts
 			}
 			wg.Done()

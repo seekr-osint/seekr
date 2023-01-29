@@ -39,6 +39,7 @@ type EmailServiceEnum struct {
 	Name     string `json:"name"`
 	Link     string `json:"link"`
 	Username string `json:"username"`
+	Icon     string `json:"icon"`
 }
 type Email []struct {
 	Mail       string             `json:"mail"`
