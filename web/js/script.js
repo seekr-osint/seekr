@@ -142,6 +142,7 @@ async function main() {
                 email_input.maxLength = "30";
                 email_input.required = "true";
                 email_input.value = email.mail;
+                email_input.disabled = "true";
     
     
                 let infoBtn = document.createElement("div");
