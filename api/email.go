@@ -52,8 +52,8 @@ func MailServicesHandler(servicesToCheck MailServices, email string) []EmailServ
 			service := servicesToCheck[i]               // current service
 			if service.UserExistsFunc(service, email) { // if service exisits
 				services = append(services, EmailServiceEnum{
-          Name: service.Name,
-        }) // add service to accounts
+					Name: service.Name,
+				}) // add service to accounts
 			}
 			wg.Done()
 		}(i)

@@ -37,5 +37,4 @@ func Openbrowser(url string) {
 	default:
 	}
 	Check(err)
-
 }
