@@ -7,7 +7,7 @@ import (
 )
 
 func SaveJson(people DataBase) {
-	jsonBytes, err := json.MarshalIndent(people,"","\t")
+	jsonBytes, err := json.MarshalIndent(people, "", "\t")
 
 	if err != nil {
 		fmt.Println("error:", err)
