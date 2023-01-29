@@ -28,6 +28,7 @@ type person struct {
 	Relations      Relation           `json:"relations"`
 	Sources        []string           `json:"sources"`
 	Accounts       Accounts           `json:"accounts"`
+	Tags           []string           `json:"tags"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
 }
 
