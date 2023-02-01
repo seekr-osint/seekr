@@ -1,9 +1,10 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-  "os"
+	"os"
 
 	"encoding/json"
 	"io/ioutil"
@@ -45,6 +46,7 @@ func ServeApi(config ApiConfig) {
 }
 
 func GetPersonByID(config ApiConfig, id string) (bool, Person) {
+  fmt.Println(config)
 	if _, ok := config.DataBase[id]; ok {
 		return true, config.DataBase[id]
 	}
@@ -69,17 +71,21 @@ func DeletePerson(config ApiConfig, c *gin.Context) {
 }
 
 func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.HandlerFunc {
-	config = LoadJson(config)
 	handlerFunc := func(c *gin.Context) {
 		if config.SetCORSHeader {
 			c.Header("Access-Control-Allow-Origin", "*")
 		}
-		function(config, c)
+	config = LoadJson(config)
+		function(config, c)config
 	}
 	return gin.HandlerFunc(handlerFunc)
 }
 func LoadJson(config ApiConfig) ApiConfig {
-	file, err := os.Open(config.DataBaseFile)
+	file, err := os.Open("data.json")
+  if err != nil {
+    log.Println(err)
+    fmt.Println(err)
+  }
   CheckAndLog(err,"error opening database file",config)
 	defer file.Close()
 
@@ -103,10 +109,13 @@ func LoadJson(config ApiConfig) ApiConfig {
 }
 
 func GetDataBase(config ApiConfig, c *gin.Context) {
+	config = LoadJson(config)
 	c.IndentedJSON(http.StatusOK, config.DataBase)
 }
 
 func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person not people
+	config = LoadJson(config)
+  fmt.Println(config)
 	var newPerson Person
 
 	// exit if the json is invalid
@@ -116,7 +125,8 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	// newPerson = CheckMail(newPerson) // FIXME
 
 	log.Println(config)
-	exsits, _ := GetPersonByID(config, c.Param("id")) // check rather the person Exsts
+	exsits, _ := GetPersonByID(LoadJson(config), c.Param("id")) // check rather the person Exsts
+  fmt.Println(exsits)
 	if !exsits {
 		// Add the new person to the database.
 		if config.DataBase != nil {
