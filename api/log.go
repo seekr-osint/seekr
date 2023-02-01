@@ -13,7 +13,7 @@ func SetupLogger(config ApiConfig) {
 	}
 
 	log.SetOutput(f)
-	defer f.Close()
+	//defer f.Close()
 
 	log.Printf("opening log file: %s", config.LogFile)
 }

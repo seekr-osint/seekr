@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 	"net/http"
+  "os"
 
 	"encoding/json"
 	"io/ioutil"
@@ -24,19 +25,22 @@ type ApiConfig struct {
 }
 
 func DefaultSaveJson(config ApiConfig) {
-	jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
+	log.Println("Saving json to file")
+	//jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
+	jsonBytes, err := json.Marshal(config.DataBase)
 	CheckAndLog(err, "error saving the database to file", config)
 	ioutil.WriteFile(config.DataBaseFile, jsonBytes, 0644)
 }
 
 func ServeApi(config ApiConfig) {
+  config = LoadJson(config)
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
-	config.GinRouter.GET("/", handler(GetDataBase, config))                    // return entire database
-	config.GinRouter.GET("/people/:id", handler(GetPersonByIDRequest, config)) // return person obj
-	config.GinRouter.DELETE("/people/:id", handler(DeletePerson, config))      // delete person
-	config.GinRouter.POST("/person", handler(PostPerson, config))              // post person
-	config.GinRouter.GET("/people/:id/delete", handler(DeletePerson, config))  // delete person
+	config.GinRouter.GET("/", Handler(GetDataBase, config))                    // return entire database
+	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config)) // return person obj
+	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))      // delete person
+	config.GinRouter.POST("/person", Handler(PostPerson, config))              // post person
+	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))  // delete person
 	config.GinRouter.Run(config.Ip)
 }
 
@@ -64,17 +68,38 @@ func DeletePerson(config ApiConfig, c *gin.Context) {
 	config.SaveJsonFunc(config)
 }
 
-func handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.HandlerFunc {
+func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.HandlerFunc {
+	config = LoadJson(config)
 	handlerFunc := func(c *gin.Context) {
 		if config.SetCORSHeader {
 			c.Header("Access-Control-Allow-Origin", "*")
 		}
-		file, _ := ioutil.ReadFile(config.DataBaseFile)
-		err := json.Unmarshal(file, &config.DataBase)
-		CheckAndLog(err, "error opening databaseFile", config)
 		function(config, c)
 	}
 	return gin.HandlerFunc(handlerFunc)
+}
+func LoadJson(config ApiConfig) ApiConfig {
+	file, err := os.Open(config.DataBaseFile)
+  CheckAndLog(err,"error opening database file",config)
+	defer file.Close()
+
+	err = json.NewDecoder(file).Decode(&config.DataBase)
+  CheckAndLog(err,"error decoding",config)
+
+
+
+//	var LoadedDataBase DataBase
+	log.Println("loading json database from file")
+//	//file, err := ioutil.ReadFile(config.DataBaseFile)
+//
+//	file, err := ioutil.ReadFile("data.json")
+//  CheckAndLog(err,"error openign database file",config)
+//	err = json.Unmarshal(file, &LoadedDataBase)
+//	config.DataBase = LoadedDataBase
+	log.Println(config)
+//  log.Println("loaded:" ,LoadedDataBase)
+//	CheckAndLog(err, "error loading Json", config)
+	return config
 }
 
 func GetDataBase(config ApiConfig, c *gin.Context) {
@@ -90,14 +115,25 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	}
 	// newPerson = CheckMail(newPerson) // FIXME
 
+	log.Println(config)
 	exsits, _ := GetPersonByID(config, c.Param("id")) // check rather the person Exsts
 	if !exsits {
 		// Add the new person to the database.
-		config.DataBase[newPerson.ID] = newPerson
+		if config.DataBase != nil {
+			config.DataBase[newPerson.ID] = newPerson
+		} else {
+			config.DataBase = DataBase{}
+			config.DataBase[newPerson.ID] = newPerson
+		}
 		c.IndentedJSON(http.StatusCreated, newPerson)
 	} else {
 		log.Printf("overwritten person %s", newPerson.ID)
-		config.DataBase[newPerson.ID] = newPerson
+		if config.DataBase != nil {
+			config.DataBase[newPerson.ID] = newPerson
+		} else {
+			config.DataBase = DataBase{}
+			config.DataBase[newPerson.ID] = newPerson
+		}
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
 	config.SaveJsonFunc(config)
