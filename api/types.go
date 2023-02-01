@@ -1,10 +1,11 @@
 package api
 
 // main data set
-type person struct {
+type person Person // legacy stuff
+type Person struct {
 	ID             string             `json:"id"`
 	Name           string             `json:"name"`
-	Pictures       []string           `json:"pictures"`
+	Pictures       Pictures           `json:"pictures"`
 	Maidenname     string             `json:"maidenname"`
 	Age            int                `json:"age"`
 	Birthday       string             `json:"bday"`
@@ -14,7 +15,7 @@ type person struct {
 	Civilstatus    string             `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`
-  Email          EmailsType             `json:"email"`
+	Email          EmailsType         `json:"email"`
 	Occupation     string             `json:"occupation"`
 	Prevoccupation string             `json:"prevoccupation"`
 	Education      string             `json:"education"`
@@ -26,33 +27,43 @@ type person struct {
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
 	Relations      Relation           `json:"relations"`
-	Sources        []string           `json:"sources"`
+	Sources        Sources            `json:"sources"`
 	Accounts       Accounts           `json:"accounts"`
-	Tags           []string           `json:"tags"`
+	Tags           Tags               `json:"tags"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
 }
 
-type DataBase map[string]person
+type DataBase map[string]Person
 type Relation map[string][]string
-
+type Sources map[string]Source
+type Source struct {
+	Url string `json:"url"`
+}
+type Tags []Tag
+type Tag struct {
+	Name string `json:"name"`
+}
 type EmailServiceEnum struct {
 	Name     string `json:"name"`
 	Link     string `json:"link"`
 	Username string `json:"username"`
 	Icon     string `json:"icon"`
 }
-
+type Pictures []Picture
+type Picture struct {
+	Img string `json:"img"`
+}
 type EmailsType []Email
 type EmailServiceEnums []EmailServiceEnum
 type Email struct {
-	Mail       string             `json:"mail"`
-	Value      int                `json:"value"`
-	Src        string             `json:"src"`
-	Services   EmailServiceEnums  `json:"services"`
-	Valid      bool               `json:"valid"`
-	Gmail      bool               `json:"gmail"`
-	ValidGmail bool               `json:"validGmail"`
-	Provider   string             `json:"provider"`
+	Mail       string            `json:"mail"`
+	Value      int               `json:"value"`
+	Src        string            `json:"src"`
+	Services   EmailServiceEnums `json:"services"`
+	Valid      bool              `json:"valid"`
+	Gmail      bool              `json:"gmail"`
+	ValidGmail bool              `json:"validGmail"`
+	Provider   string            `json:"provider"`
 }
 
 // type Accounts map[string]Account
