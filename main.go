@@ -19,7 +19,7 @@ import (
 //go:embed web/*
 var content embed.FS
 
-var people = make(api.DataBase)
+var dataBase = make(api.DataBase)
 
 func main() {
 
@@ -40,8 +40,9 @@ func main() {
 		Ip:            *apiIp,
 		LogFile:       "seekr.log",
 		DataBaseFile:  *data,
-		DataBase:      people,
+		DataBase:      dataBase,
 		SetCORSHeader: true,
+		SaveJsonFunc:  api.DefaultSaveJson,
 	}
 	var config = webServer.WebServerConfig{
 		Content: content,
