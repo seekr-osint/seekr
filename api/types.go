@@ -43,11 +43,12 @@ type EmailServiceEnum struct {
 }
 
 type EmailsType []Email
+type EmailServiceEnums []EmailServiceEnum
 type Email struct {
 	Mail       string             `json:"mail"`
 	Value      int                `json:"value"`
 	Src        string             `json:"src"`
-	Services   []EmailServiceEnum `json:"services"`
+	Services   EmailServiceEnums  `json:"services"`
 	Valid      bool               `json:"valid"`
 	Gmail      bool               `json:"gmail"`
 	ValidGmail bool               `json:"validGmail"`

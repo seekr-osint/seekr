@@ -40,7 +40,7 @@
 
             # vendorSha256 = pkgs.lib.fakeSha256;
 
-            vendorSha256 = "sha256-3+YiQasZmb0AUEFud9pPstENTVCnraIl76ghRGE63HA=";
+            vendorSha256 = "sha256-iCNYSZYotAkcejbx5ZelX+vZsq7sTD3Fzk82vOztH1Y=";
           };
         });
 
