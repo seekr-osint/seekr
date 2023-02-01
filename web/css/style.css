@@ -29,19 +29,28 @@ html {
   }
 }
 
-.email-subcontainer {
+.email-subcontainer,
+.c-email-subcontainer {
   display: flex;
 }
 
-.service-icon {
+.service-icon,
+.valid-icon {
   width: 3.3rem;
   height: 2.5rem;
   margin: 1rem;
   margin-bottom: 0;
+  display: flex;
 }
 
-.info-div {
-  display: block;
+.service-icon-div,
+.valid-icon-div {
+  display: flex;
+}
+
+.info-div,
+.v-info-div {
+  display: flex;
 }
 
 .email-container,

@@ -123,15 +123,18 @@ async function main() {
           document.querySelector('.v-email-base').style.display = "block";
 
           if (obj.email.length >= 1) {
-            let emailContainer = document.querySelector('.v-email-base');
+            const emailContainer = document.querySelector('.v-email-base');
 
             obj.email.forEach(function(email) {
               if (email.mail != "" && email.mail != null && email.mail != undefined) {
                 document.getElementById('v-space-maker').style.display = "block";
-                let container = document.createElement("div");
+                const container = document.createElement("div");
                 container.className = "v-email-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "email-subcontainer";
     
-                let email_input = document.createElement("input");
+                const email_input = document.createElement("input");
                 email_input.className = "form-input v-mail";
                 email_input.id = "v-e-mail";
                 email_input.type = "email";
@@ -143,16 +146,68 @@ async function main() {
                 email_input.disabled = "true";
     
     
-                let infoBtn = document.createElement("div");
+                const infoBtn = document.createElement("div");
                 infoBtn.className = "v-info-btn";
     
-                let icon = document.createElement("ion-icon");
+                const icon = document.createElement("ion-icon");
                 icon.setAttribute("name", "information-outline");
     
+                container.appendChild(subContainer);
                 infoBtn.appendChild(icon);
-                container.appendChild(email_input);
-                container.appendChild(infoBtn);
+                subContainer.appendChild(email_input);
+                subContainer.appendChild(infoBtn);
                 emailContainer.appendChild(container);
+
+                infoBtn.onclick = function () {
+                  const infoDiv = container.querySelector(".v-info-div");
+
+                  if (!infoDiv) {
+                    const infoDiv = document.createElement("div");
+                    infoDiv.className = "v-info-div";
+
+                    container.appendChild(infoDiv);
+
+                    if (email.valid == true) {
+                      const iconDivValid = document.createElement("div");
+                      iconDivValid.className = "valid-icon-div";
+              
+                      const iconValid = document.createElement("img");
+                      iconValid.className = "valid-icon";
+                      iconValid.src = "./images/valid.png";
+              
+                      infoDiv.appendChild(iconDivValid);
+                      iconDivValid.appendChild(iconValid);
+                    } else if (email.valid == false) {
+                      const iconDivValid = document.createElement("div");
+                      iconDivValid.className = "valid-icon-div";
+              
+                      const iconValid = document.createElement("img");
+                      iconValid.className = "valid-icon";
+                      iconValid.src = "./images/invalid.png";
+              
+                      infoDiv.appendChild(iconDivValid);
+                      iconDivValid.appendChild(iconValid);
+                    }
+
+                    if (email.services != undefined && email.services != null) {
+                      email.services.forEach(function(service) {
+                        const iconDiv = document.createElement("div");
+                        iconDiv.className = "service-icon-div";
+                
+                        const icon = document.createElement("img");
+                        icon.className = "service-icon";
+                        icon.src = service.icon;
+                
+                        infoDiv.appendChild(iconDiv);
+                        iconDiv.appendChild(icon);
+                      });
+                
+                      container.appendChild(infoDiv);
+                    }
+                  } else {
+                    container.removeChild(infoDiv);
+                  }
+                }
               }
             });
           } else {
@@ -334,15 +389,37 @@ async function main() {
               }
 
               infoBtn.onclick = function () {
-                if (email.services != undefined && email.services != null) {
-                  const infoDiv = container.querySelector(".info-div");
-              
-                  if (!infoDiv) {
-                    console.log(email.services);
-              
-                    const infoDiv = document.createElement("div");
-                    infoDiv.className = "info-div";
-              
+                const infoDiv = container.querySelector(".info-div");
+
+                if (!infoDiv) {
+                  const infoDiv = document.createElement("div");
+                  infoDiv.className = "info-div";
+
+                  container.appendChild(infoDiv);
+
+                  if (email.valid == true) {
+                    const iconDivValid = document.createElement("div");
+                    iconDivValid.className = "valid-icon-div";
+            
+                    const iconValid = document.createElement("img");
+                    iconValid.className = "valid-icon";
+                    iconValid.src = "./images/valid.png";
+            
+                    infoDiv.appendChild(iconDivValid);
+                    iconDivValid.appendChild(iconValid);
+                  } else if (email.valid == false) {
+                    const iconDivValid = document.createElement("div");
+                    iconDivValid.className = "valid-icon-div";
+            
+                    const iconValid = document.createElement("img");
+                    iconValid.className = "valid-icon";
+                    iconValid.src = "./images/invalid.png";
+            
+                    infoDiv.appendChild(iconDivValid);
+                    iconDivValid.appendChild(iconValid);
+                  }
+
+                  if (email.services != undefined && email.services != null) {
                     email.services.forEach(function(service) {
                       const iconDiv = document.createElement("div");
                       iconDiv.className = "service-icon-div";
@@ -356,12 +433,11 @@ async function main() {
                     });
               
                     container.appendChild(infoDiv);
-                  } else {
-                    container.removeChild(infoDiv);
                   }
+                } else {
+                  container.removeChild(infoDiv);
                 }
               }
-              
             });
           }
 
@@ -757,6 +833,9 @@ async function main() {
     const email_container = document.createElement("div");
     email_container.className = "c-email-container";
 
+    const subContainer = document.createElement("div");
+    subContainer.className = "c-email-subcontainer";
+
     const email_input = document.createElement("input");
     email_input.className = "form-input e-mail";
     email_input.id = "c-e-mail";
@@ -780,6 +859,11 @@ async function main() {
     del_btn_div.onclick = function () {
       email_container.remove();
     }
+
+    email_container.appendChild(subContainer);
+    subContainer.appendChild(email_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
   }
 
   // CREATE
