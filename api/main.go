@@ -1,6 +1,8 @@
 package api
 
 import (
+	//"fmt"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -27,8 +29,7 @@ type ApiConfig struct {
 
 func DefaultSaveJson(config ApiConfig) {
 	log.Println("Saving json to file")
-	//jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
-	jsonBytes, err := json.Marshal(config.DataBase)
+	jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
 	CheckAndLog(err, "error saving the database to file", config)
 	ioutil.WriteFile(config.DataBaseFile, jsonBytes, 0644)
 }
@@ -52,7 +53,6 @@ func ServeApi(config ApiConfig) {
 }
 
 func GetPersonByID(config ApiConfig, id string) (bool, Person) {
-  fmt.Println(config)
 	if _, ok := config.DataBase[id]; ok {
 		return true, config.DataBase[id]
 	}
@@ -69,7 +69,6 @@ func GetPersonByIDRequest(config ApiConfig, c *gin.Context) {
 }
 
 func DeletePerson(config ApiConfig, c *gin.Context) {
-	//exsits, _ := GetPersonByID(config, c.Param("id")) // check rather the person Exsts
 	if CheckPersonExists(config,c.Param("id")){
 		delete(config.DataBase, c.Param("id"))
 	}
@@ -87,10 +86,14 @@ func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.Handl
 	return gin.HandlerFunc(handlerFunc)
 }
 func LoadJson(config ApiConfig) ApiConfig {
-	file, err := os.Open("data.json")
+  if _, err := os.Stat(config.DataBaseFile); errors.Is(err, os.ErrNotExist) {
+    log.Printf("creating %s DataBaseFile",config.DataBaseFile)
+    err := os.WriteFile(config.DataBaseFile, []byte("{}"), 0755)
+    CheckAndLog(err,fmt.Sprintf("error creating DataBaseFile: %s",config.DataBaseFile),config)
+  }
+	file, err := os.Open(config.DataBaseFile)
   if err != nil {
     log.Println(err)
-    fmt.Println(err)
   }
   CheckAndLog(err,"error opening database file",config)
 	defer file.Close()
@@ -98,19 +101,8 @@ func LoadJson(config ApiConfig) ApiConfig {
 	err = json.NewDecoder(file).Decode(&config.DataBase)
   CheckAndLog(err,"error decoding",config)
 
-
-
-//	var LoadedDataBase DataBase
 	log.Println("loading json database from file")
-//	//file, err := ioutil.ReadFile(config.DataBaseFile)
-//
-//	file, err := ioutil.ReadFile("data.json")
-//  CheckAndLog(err,"error openign database file",config)
-//	err = json.Unmarshal(file, &LoadedDataBase)
-//	config.DataBase = LoadedDataBase
 	log.Println(config)
-//  log.Println("loaded:" ,LoadedDataBase)
-//	CheckAndLog(err, "error loading Json", config)
 	return config
 }
 
@@ -119,9 +111,9 @@ func GetDataBase(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, config.DataBase)
 }
 
-func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person not people
-	config = LoadJson(config)
-  fmt.Println(config)
+// THIS HAS NO C.PARAM("id") 
+// THIS IS THE WORST PEICE OF BAD CODE I EVER WROTE
+func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person not people (POST "localhost:8080/person")
 	var newPerson Person
 
 	// exit if the json is invalid
@@ -129,11 +121,10 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		return
 	}
 	// newPerson = CheckMail(newPerson) // FIXME
-
 	log.Println(config)
-	exsits, _ := GetPersonByID(LoadJson(config), c.Param("id")) // check rather the person Exsts
-  fmt.Println(exsits)
-	if !exsits {
+  // DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
+	exsits, _ := GetPersonByID(config, newPerson.ID) // check rather the person Exsts
+  if !exsits {
 		// Add the new person to the database.
 		if config.DataBase != nil {
 			config.DataBase[newPerson.ID] = newPerson
