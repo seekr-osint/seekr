@@ -34,3 +34,50 @@ curl localhost:8080/people/1/delete
 ```
 ### Post person
 If the json is invalid there will be no response.
+
+To post a person:
+```sh
+curl --request "POST" --data '{"id": "1","name": "test"}' localhost:8080/person
+```
+```json
+{
+    "id": "1",
+    "name": "test",
+    "pictures": null,
+    "maidenname": "",
+    "age": 0,
+    "bday": "",
+    "address": "",
+    "phone": "",
+    "ssn": "",
+    "civilstatus": "",
+    "kids": "",
+    "hobbies": "",
+    "email": null,
+    "occupation": "",
+    "prevoccupation": "",
+    "education": "",
+    "military": "",
+    "religion": "",
+    "pets": "",
+    "club": "",
+    "legal": "",
+    "political": "",
+    "notes": "",
+    "relations": null,
+    "sources": null,
+    "accounts": null,
+    "tags": null,
+    "notaccounts": null
+}
+```
+To overwrite a person simply do the same:
+```sh
+curl --request "POST" --data '{"id": "1","name": "test"}' localhost:8080/person
+```
+```json
+{
+    "message": "overwritten person"
+}
+```
+```
