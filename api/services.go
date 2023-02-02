@@ -541,8 +541,7 @@ func GetAvatar(avatar_url string, account Account) Account {
 
 	if GetStatusCode(avatar_url) == 200 {
 		avatar := HttpRequest(avatar_url)
-		account.Picture = []string{EncodeBase64(avatar)} // img := HttpRequest(url)
-		account.ImgHash = []uint64{MkImgHash(getImg(avatar))}
+		account.Picture["1"] = Picture { Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar)) }
 	}
 	return account
 }
@@ -626,9 +625,11 @@ func GithubInfo(username string, service Service) Account {
 		Username:  username,
 		Url:       data.Url,
 		Id:        strconv.Itoa(data.Id),
-		Bio:       []string{data.Bio},
-		Picture:   []string{EncodeBase64(avatar)},
-		ImgHash:   []uint64{MkImgHash(getImg(avatar))},
+		Bio:       Bios{ "1": Bio{ Bio: data.Bio, }, },
+    Picture: Pictures {
+
+      "1": { Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar)), },
+  },
 		Location:  data.Location,
 		Created:   data.Created_at,
 		Updated:   data.Updated_at,
@@ -660,7 +661,7 @@ func LichessInfo(username string, service Service) Account {
 		Username:  username,
 		Id:        data.Id,
 		Url:       "https://lichess.org/@/" + username,
-		Bio:       []string{data.Profile.Bio},
+		Bio:       Bios{ "1": Bio{ Bio: data.Profile.Bio, }, },
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,
 	}

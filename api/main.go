@@ -266,50 +266,6 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 //	return result
 //}
 //
-//func CheckMail(newPerson person) person {
-//	if newPerson.Email != nil {
-//		log.Println("email not nil")
-//		if len(newPerson.Email) == 0 {
-//			log.Println("empty list")
-//		}
-//		for i, mail := range newPerson.Email {
-//			if mail.Mail != "" {
-//				log.Println("email not \"\"")
-//				//mail.Services = MailServices(mail.Mail)
-//				mail.Valid = IsEmailValid(mail.Mail)
-//				mail.Gmail = IsGmailAddress(mail.Mail)
-//				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
-//				if mail.Services == nil {
-//					mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
-//
-//				} else {
-//					registerd := []string{}
-//					flagged := []int{}
-//					for i, service := range mail.Services {
-//						isFlagged := false
-//						for _, registerdService := range registerd {
-//							if service.Name == registerdService {
-//								isFlagged = true
-//							}
-//						}
-//						if isFlagged {
-//							flagged = append(flagged, i)
-//						}
-//						registerd = append(registerd, service.Name)
-//					}
-//					mail.Services = rm(flagged, mail.Services) // remove the duplicates
-//					mail.Services = append(mail.Services, MailServicesHandler(DefaultMailServices, mail.Mail)[:]...)
-//				}
-//			} else {
-//				log.Println("nil mail field")
-//			}
-//			newPerson.Email[i] = mail
-//		}
-//	} else {
-//		log.Println("nil email" + newPerson.ID)
-//	}
-//	return newPerson
-//}
 //
 //func postPeopleNoAccounts(people DataBase, c *gin.Context) { // you only get a person noy people
 //	var newPerson person
