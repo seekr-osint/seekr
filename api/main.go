@@ -33,6 +33,12 @@ func DefaultSaveJson(config ApiConfig) {
 	ioutil.WriteFile(config.DataBaseFile, jsonBytes, 0644)
 }
 
+
+func CheckPersonExists(config ApiConfig, id string) bool {
+	_, ok := config.DataBase[id]
+	return ok
+}
+
 func ServeApi(config ApiConfig) {
   config = LoadJson(config)
 	SetupLogger(config)
@@ -63,8 +69,8 @@ func GetPersonByIDRequest(config ApiConfig, c *gin.Context) {
 }
 
 func DeletePerson(config ApiConfig, c *gin.Context) {
-	exsits, _ := GetPersonByID(config, c.Param("id")) // check rather the person Exsts
-	if exsits {
+	//exsits, _ := GetPersonByID(config, c.Param("id")) // check rather the person Exsts
+	if CheckPersonExists(config,c.Param("id")){
 		delete(config.DataBase, c.Param("id"))
 	}
 	config.SaveJsonFunc(config)
@@ -75,8 +81,8 @@ func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.Handl
 		if config.SetCORSHeader {
 			c.Header("Access-Control-Allow-Origin", "*")
 		}
-	config = LoadJson(config)
-		function(config, c)config
+	  config = LoadJson(config)
+		function(config, c)
 	}
 	return gin.HandlerFunc(handlerFunc)
 }
