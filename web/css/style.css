@@ -261,6 +261,7 @@ a {
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .acc-search-icon {
@@ -333,9 +334,14 @@ a {
   display: flex;
   flex-direction: row;
   height: 9rem;
+  width: 67rem;
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  margin-left: 1.37rem;
+  margin-bottom: 1rem;
 }
 
 .serviceName {
