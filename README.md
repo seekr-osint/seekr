@@ -13,11 +13,13 @@
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
 </p>
 
-
 ## Introduction
 Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. The backend is written in Go and offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, seekr makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
 
 Check the wiki for setup guide, etc.
+
+<img src="/images/seekr.gif"/>
+
 ## Why use seekr over my current tool ?
 Seekr combines note taking and OSINT in one application. Seekr can be used alongside your current tools.
 Seekr is desingned with OSINT in mind and optimized for real world usecases.
