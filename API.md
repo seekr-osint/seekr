@@ -21,17 +21,21 @@ curl localhost:8080/people/1
 ```json
 null
 ```
-### Delete person by it's id
+### Delete account of person
 There are 2 ways to delete a person by it's id both not giving any response back.
 #### DELETE request
 ```sh
-curl --request "DELETE" localhost:8080/people/1
+curl --request "DELETE" localhost:8080/people/:id/accounts/:account
 ``` 
+```sh
+curl --request "DELETE" localhost:8080/people/1/accounts/GitHub-9glenda
+```
 #### GET request
 In some cases it's simpler to use a `GET` request.
 ```sh
-curl localhost:8080/people/1/delete
+curl localhost:8080/people/:id/accounts/:account/delete
 ```
+
 ### Post person
 If the json is invalid there will be no response.
 
