@@ -41,17 +41,17 @@ func CheckPersonExists(config ApiConfig, id string) bool {
 
 func ServeApi(config ApiConfig) {
 	config = LoadJson(config)
-  fmt.Printf("%+v\n", config.DataBase)
+	fmt.Printf("%+v\n", config.DataBase)
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
-	config.GinRouter.GET("/", Handler(GetDataBase, config))                    // return entire database
-	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config)) // return person obj
-	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))      // delete person
-	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))  // delete person
-  config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))      // delete account
-  config.GinRouter.POST("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config))      // delete account
-	config.GinRouter.POST("/person", Handler(PostPerson, config))              // post person
-  config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))              // get accounts
+	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
+	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
+	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
+	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
+	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
+	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
+	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
+	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config.GinRouter.Run(config.Ip)
 }
 
@@ -122,29 +122,29 @@ func GetDataBase(config ApiConfig, c *gin.Context) {
 }
 
 func ParsePerson(newPerson Person) Person {
-  newPerson = ReplaceNil(newPerson)
-  newPerson = CheckMail(newPerson)
-  return newPerson
+	newPerson = ReplaceNil(newPerson)
+	newPerson = CheckMail(newPerson)
+	return newPerson
 }
 
-func GetAccounts(config ApiConfig,username string) Accounts {
-  return ServicesHandler(DefaultServices, username)
+func GetAccounts(config ApiConfig, username string) Accounts {
+	return ServicesHandler(DefaultServices, username)
 }
 
-func GetAccountsRequest(config ApiConfig,c *gin.Context) {
-  c.IndentedJSON(http.StatusOK,GetAccounts(config,c.Param("username")))
+func GetAccountsRequest(config ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, GetAccounts(config, c.Param("username")))
 }
 func ReplaceNil(newPerson Person) Person {
-  if newPerson.Pictures == nil {
-    newPerson.Pictures = Pictures{}
-  }
-  if newPerson.Accounts == nil {
-    newPerson.Accounts = Accounts{}
-  }
-  if newPerson.Sources == nil {
-    newPerson.Sources = Sources{}
-  }
-  return newPerson
+	if newPerson.Pictures == nil {
+		newPerson.Pictures = Pictures{}
+	}
+	if newPerson.Accounts == nil {
+		newPerson.Accounts = Accounts{}
+	}
+	if newPerson.Sources == nil {
+		newPerson.Sources = Sources{}
+	}
+	return newPerson
 }
 
 // THIS HAS NO C.PARAM("id")
