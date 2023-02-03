@@ -19,7 +19,7 @@ import (
 //go:embed web/*
 var content embed.FS
 
-var people = make(api.DataBase)
+var dataBase = make(api.DataBase)
 
 func main() {
 
@@ -36,6 +36,14 @@ func main() {
 		openbrowser(*ip)
 	}
 
+	var apiConfig = api.ApiConfig{
+		Ip:            *apiIp,
+		LogFile:       "seekr.log",
+		DataBaseFile:  *data,
+		DataBase:      dataBase,
+		SetCORSHeader: true,
+		SaveJsonFunc:  api.DefaultSaveJson,
+	}
 	var config = webServer.WebServerConfig{
 		Content: content,
 		Dir:     *dir,
@@ -49,7 +57,7 @@ func main() {
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
-	go api.ServeApi(people, *apiIp, *data)
+	go api.ServeApi(apiConfig)
 	RunWebServer(config)
 }
 
