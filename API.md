@@ -98,6 +98,91 @@ curl --request "POST" --data '{"id": "1","name": "test"}' localhost:8080/person
     "message": "overwritten person"
 }
 ```
+### Example 
+```sh
+curl --request "POST" localhost:8080/person --data '
+{
+    "id": "10",
+    "name": "test",
+    "pictures": null,
+    "maidenname": "",
+    "age": 0,
+    "bday": "",
+    "address": "",
+    "phone": "",
+    "ssn": "",
+    "civilstatus": "",
+    "kids": "",
+    "hobbies": "",
+    "email": { "hacker@gmail.com" : { "mail": "hacker@gmail.com" } },
+    "occupation": "",
+    "prevoccupation": "",
+    "education": "",
+    "military": "",
+    "religion": "",
+    "pets": "",
+    "club": "",
+    "legal": "",
+    "political": "",
+    "notes": "",
+    "relations": null,
+    "sources": null,
+    "accounts": null,
+    "tags": null,
+    "notaccounts": null
+}
+'
+```
+```json
+{
+    "id": "10",
+    "name": "test",
+    "pictures": {},
+    "maidenname": "",
+    "age": 0,
+    "bday": "",
+    "address": "",
+    "phone": "",
+    "ssn": "",
+    "civilstatus": "",
+    "kids": "",
+    "hobbies": "",
+    "email": {
+        "hacker@gmail.com": {
+            "mail": "hacker@gmail.com",
+            "value": 0,
+            "src": "",
+            "services": {
+                "Discord": {
+                    "name": "Discord",
+                    "link": "",
+                    "username": "",
+                    "icon": "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png"
+                }
+            },
+            "valid": true,
+            "gmail": true,
+            "validGmail": true,
+            "provider": ""
+        }
+    },
+    "occupation": "",
+    "prevoccupation": "",
+    "education": "",
+    "military": "",
+    "religion": "",
+    "pets": "",
+    "club": "",
+    "legal": "",
+    "political": "",
+    "notes": "",
+    "relations": null,
+    "sources": {},
+    "accounts": {},
+    "tags": null,
+    "notaccounts": null
+}
+```
 #### Get accounts
 To get all accounts of a Username:
 ```sh
