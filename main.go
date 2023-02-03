@@ -5,6 +5,7 @@ import (
 	"flag"
 	"os/exec"
 	"runtime"
+  "plugin"
 
 	//"fmt"
 	//"log"
@@ -20,9 +21,11 @@ import (
 var content embed.FS
 
 var dataBase = make(api.DataBase)
-
+func Plugin(path string) {
+  _,_ = plugin.Open(path)
+}
 func main() {
-
+  
 	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost:5050", "Ip to serve the web server on")

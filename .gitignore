@@ -16,3 +16,4 @@ dist/
 
 dist/
 seekr.log
+cmd/seekr-cli
