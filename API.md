@@ -36,6 +36,20 @@ In some cases it's simpler to use a `GET` request.
 curl localhost:8080/people/:id/accounts/:account/delete
 ```
 
+### Delete person by id
+There are 2 ways to delete a person by it's id both not giving any response back.
+#### DELETE request
+```sh
+curl --request "DELETE" localhost:8080/people/:id
+``` 
+```sh
+curl --request "DELETE" localhost:8080/people/1
+```
+#### GET request
+In some cases it's simpler to use a `GET` request.
+```sh
+curl localhost:8080/people/:id/delete
+```
 ### Post person
 If the json is invalid there will be no response.
 
