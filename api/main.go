@@ -41,7 +41,6 @@ func CheckPersonExists(config ApiConfig, id string) bool {
 
 func ServeApi(config ApiConfig) {
 	config = LoadJson(config)
-	fmt.Printf("%+v\n", config.DataBase)
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
