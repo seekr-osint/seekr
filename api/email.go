@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+	"log"
 	"regexp"
 	"sync"
 )
@@ -47,7 +49,7 @@ func IsGitHubMail(email string) bool {
 func MailServicesHandler(servicesToCheck MailServices, email string) EmailServiceEnums {
 	wg := &sync.WaitGroup{}
 
-	var services EmailServiceEnums
+  services := EmailServiceEnums{}
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {
@@ -65,47 +67,34 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 	wg.Wait()
 	return services
 }
-//func CheckMail(newPerson person) person { // FIXME TODO
-//	if newPerson.Email != nil {
-//		log.Println("email not nil")
-//		if len(newPerson.Email) == 0 {
-//			log.Println("empty list")
-//		}
-//		for i, mail := range newPerson.Email {
-//			if mail.Mail != "" {
-//				log.Println("email not \"\"")
-//				//mail.Services = MailServices(mail.Mail)
-//				mail.Valid = IsEmailValid(mail.Mail)
-//				mail.Gmail = IsGmailAddress(mail.Mail)
-//				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
-//				if mail.Services == nil {
-//					mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
-//
-//				} else {
-//					registerd := []string{}
-//					flagged := []int{}
-//					for i, service := range mail.Services {
-//						isFlagged := false
-//						for _, registerdService := range registerd {
-//							if service.Name == registerdService {
-//								isFlagged = true
-//							}
-//						}
-//						if isFlagged {
-//							flagged = append(flagged, i)
-//						}
-//						registerd = append(registerd, service.Name)
-//					}
-//					mail.Services = rm(flagged, mail.Services) // remove the duplicates
-//					mail.Services = append(mail.Services, MailServicesHandler(DefaultMailServices, mail.Mail)[:]...)
-//				}
-//			} else {
-//				log.Println("nil mail field")
-//			}
-//			newPerson.Email[i] = mail
-//		}
-//	} else {
-//		log.Println("nil email" + newPerson.ID)
-//	}
-//	return newPerson
-//}
+
+func CheckMail(newPerson Person) Person { // FIXME TODO
+  fmt.Println(newPerson)
+  if newPerson.Email == nil {
+    log.Println("nil newPerson.Email")
+    newPerson.Email = EmailsType{}
+  }
+		log.Println("email not nil")
+		if len(newPerson.Email) == 0 {
+			log.Println("empty list")
+		} else {
+    fmt.Println("here1")
+		for i, mail := range newPerson.Email {
+			if mail.Mail != "" {
+				log.Println("email not \"\"")
+				//mail.Services = MailServices(mail.Mail)
+				mail.Valid = IsEmailValid(mail.Mail)
+				mail.Gmail = IsGmailAddress(mail.Mail)
+				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
+				if mail.Services == nil {
+          mail.Services = EmailServiceEnums{}
+					mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
+				}
+			} else {
+				log.Println("nil mail field")
+			}
+			newPerson.Email[i] = mail
+	}
+}
+	return newPerson
+}

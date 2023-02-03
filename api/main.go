@@ -34,20 +34,21 @@ func DefaultSaveJson(config ApiConfig) {
 	ioutil.WriteFile(config.DataBaseFile, jsonBytes, 0644)
 }
 
-
 func CheckPersonExists(config ApiConfig, id string) bool {
 	_, ok := config.DataBase[id]
 	return ok
 }
 
 func ServeApi(config ApiConfig) {
-  config = LoadJson(config)
+	config = LoadJson(config)
+  fmt.Printf("%+v\n", config.DataBase)
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                    // return entire database
 	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config)) // return person obj
 	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))      // delete person
 	config.GinRouter.POST("/person", Handler(PostPerson, config))              // post person
+  config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))              // get accounts
 	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))  // delete person
 	config.GinRouter.Run(config.Ip)
 }
@@ -69,7 +70,7 @@ func GetPersonByIDRequest(config ApiConfig, c *gin.Context) {
 }
 
 func DeletePerson(config ApiConfig, c *gin.Context) {
-	if CheckPersonExists(config,c.Param("id")){
+	if CheckPersonExists(config, c.Param("id")) {
 		delete(config.DataBase, c.Param("id"))
 	}
 	config.SaveJsonFunc(config)
@@ -80,29 +81,29 @@ func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.Handl
 		if config.SetCORSHeader {
 			c.Header("Access-Control-Allow-Origin", "*")
 		}
-	  config = LoadJson(config)
+		config = LoadJson(config)
 		function(config, c)
 	}
 	return gin.HandlerFunc(handlerFunc)
 }
+
 func LoadJson(config ApiConfig) ApiConfig {
-  if _, err := os.Stat(config.DataBaseFile); errors.Is(err, os.ErrNotExist) {
-    log.Printf("creating %s DataBaseFile",config.DataBaseFile)
-    err := os.WriteFile(config.DataBaseFile, []byte("{}"), 0755)
-    CheckAndLog(err,fmt.Sprintf("error creating DataBaseFile: %s",config.DataBaseFile),config)
-  }
+	if _, err := os.Stat(config.DataBaseFile); errors.Is(err, os.ErrNotExist) {
+		log.Printf("creating %s DataBaseFile", config.DataBaseFile)
+		err := os.WriteFile(config.DataBaseFile, []byte("{}"), 0755)
+		CheckAndLog(err, fmt.Sprintf("error creating DataBaseFile: %s", config.DataBaseFile), config)
+	}
 	file, err := os.Open(config.DataBaseFile)
-  if err != nil {
-    log.Println(err)
-  }
-  CheckAndLog(err,"error opening database file",config)
+	if err != nil {
+		log.Println(err)
+	}
+	CheckAndLog(err, "error opening database file", config)
 	defer file.Close()
 
 	err = json.NewDecoder(file).Decode(&config.DataBase)
-  CheckAndLog(err,"error decoding",config)
+	CheckAndLog(err, "error decoding", config)
 
 	log.Println("loading json database from file")
-	log.Println(config)
 	return config
 }
 
@@ -111,7 +112,33 @@ func GetDataBase(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, config.DataBase)
 }
 
-// THIS HAS NO C.PARAM("id") 
+func ParsePerson(newPerson Person) Person {
+  newPerson = ReplaceNil(newPerson)
+  newPerson = CheckMail(newPerson)
+  return newPerson
+}
+
+func GetAccounts(config ApiConfig,username string) Accounts {
+  return ServicesHandler(DefaultServices, username)
+}
+
+func GetAccountsRequest(config ApiConfig,c *gin.Context) {
+  c.IndentedJSON(http.StatusOK,GetAccounts(config,c.Param("username")))
+}
+func ReplaceNil(newPerson Person) Person {
+  if newPerson.Pictures == nil {
+    newPerson.Pictures = Pictures{}
+  }
+  if newPerson.Accounts == nil {
+    newPerson.Accounts = Accounts{}
+  }
+  if newPerson.Sources == nil {
+    newPerson.Sources = Sources{}
+  }
+  return newPerson
+}
+
+// THIS HAS NO C.PARAM("id")
 // THIS IS THE WORST PEICE OF BAD CODE I EVER WROTE
 func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person not people (POST "localhost:8080/person")
 	var newPerson Person
@@ -121,10 +148,10 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		return
 	}
 	// newPerson = CheckMail(newPerson) // FIXME
-	log.Println(config)
-  // DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
+	newPerson = ParsePerson(newPerson)
+	// DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
 	exsits, _ := GetPersonByID(config, newPerson.ID) // check rather the person Exsts
-  if !exsits {
+	if !exsits {
 		// Add the new person to the database.
 		if config.DataBase != nil {
 			config.DataBase[newPerson.ID] = newPerson

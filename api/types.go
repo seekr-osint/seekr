@@ -26,7 +26,7 @@ type Person struct {
 	Legal          string             `json:"legal"`
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
-	Relations      Relation           `json:"relations"`
+	Relations      Relation           `json:"relations"` // FIXME
 	Sources        Sources            `json:"sources"`
 	Accounts       Accounts           `json:"accounts"`
 	Tags           Tags               `json:"tags"`
@@ -72,7 +72,7 @@ type Email struct {
 }
 
 // type Accounts map[string]Account
-type Accounts []Account
+type Accounts map[string]Account
 type Account struct {
 	Service   string   `json:"service"`  // example: GitHub
 	Id        string   `json:"id"`       // example: 1224234

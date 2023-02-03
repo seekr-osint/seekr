@@ -80,4 +80,94 @@ curl --request "POST" --data '{"id": "1","name": "test"}' localhost:8080/person
     "message": "overwritten person"
 }
 ```
+#### Get accounts
+To get all accounts of a Username:
+```sh
+curl localhost:8080/getAccounts/:username
+```
+##### Example
+```sh
+curl localhost:8080/getAccounts/9glenda
+```
+```json
+{
+    "GitHub-9glenda": {
+        "service": "GitHub",
+        "id": "69043370",
+        "username": "9glenda",
+        "url": "https://github.com/9glenda",
+        "profilePicture": {
+            "1": {
+                "img": "base64",
+                "img_hash": 164
+            }
+        },
+        "bio": {
+            "1": {
+                "bio": "18yo Russian linux enthusiast"
+            }
+        },
+        "firstname": "",
+        "lastname": "",
+        "location": "bell labs",
+        "created": "2020-07-31T13:04:48Z",
+        "updated": "2023-01-28T20:34:05Z",
+        "blog": "9glenda.github.io",
+        "followers": 0,
+        "following": 0
+    },
+    "Linktree-9glenda": {
+        "service": "Linktree",
+        "id": "",
+        "username": "9glenda",
+        "url": "https://linktr.ee/9glenda",
+        "profilePicture": null,
+        "bio": null,
+        "firstname": "",
+        "lastname": "",
+        "location": "",
+        "created": "",
+        "updated": "",
+        "blog": "",
+        "followers": 0,
+        "following": 0
+    },
+    "SlideShare-9glenda": {
+        "service": "SlideShare",
+        "id": "",
+        "username": "9glenda",
+        "url": "https://slideshare.net/9glenda",
+        "profilePicture": {
+            "1": {
+                "img": "base64",
+                "img_hash": 164
+            }
+        },
+        "bio": null,
+        "firstname": "",
+        "lastname": "",
+        "location": "",
+        "created": "",
+        "updated": "",
+        "blog": "",
+        "followers": 0,
+        "following": 0
+    },
+    "Twitter-9glenda": {
+        "service": "Twitter",
+        "id": "",
+        "username": "9glenda",
+        "url": "https://twitter.com/9glenda",
+        "profilePicture": null,
+        "bio": null,
+        "firstname": "",
+        "lastname": "",
+        "location": "",
+        "created": "",
+        "updated": "",
+        "blog": "",
+        "followers": 0,
+        "following": 0
+    }
+}
 ```
