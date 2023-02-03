@@ -538,6 +538,36 @@ async function main() {
 
                 base_div.appendChild(deep_btn);
                 deep_btn.appendChild(deep_btn_txt);
+
+                const del_btn_div = document.createElement("div");
+                del_btn_div.className = "delAccBtn-deep btn btn-secondary";
+
+                const del_btn = document.createElement("ion-icon");
+                del_btn.name = "remove-outline";
+                
+                base_div.appendChild(del_btn_div);
+                del_btn_div.appendChild(del_btn);
+
+                del_btn_div.onclick = function () {
+                  
+
+                  // TODO Add stuff here
+                }
+              } else {
+                const del_btn_div = document.createElement("div");
+                del_btn_div.className = "delAccBtn btn btn-secondary";
+
+                const del_btn = document.createElement("ion-icon");
+                del_btn.name = "remove-outline";
+                
+                base_div.appendChild(del_btn_div);
+                del_btn_div.appendChild(del_btn);
+
+                del_btn_div.onclick = function () {
+                  
+
+                  // TODO Add stuff here
+                }
               }
 
               if (accObj.bio != null) {
