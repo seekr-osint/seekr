@@ -49,7 +49,7 @@ func IsGitHubMail(email string) bool {
 func MailServicesHandler(servicesToCheck MailServices, email string) EmailServiceEnums {
 	wg := &sync.WaitGroup{}
 
-  services := EmailServiceEnums{}
+	services := EmailServiceEnums{}
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {
@@ -69,16 +69,16 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 }
 
 func CheckMail(newPerson Person) Person { // FIXME TODO
-  fmt.Println(newPerson)
-  if newPerson.Email == nil {
-    log.Println("nil newPerson.Email")
-    newPerson.Email = EmailsType{}
-  }
-		log.Println("email not nil")
-		if len(newPerson.Email) == 0 {
-			log.Println("empty list")
-		} else {
-    fmt.Println("here1")
+	fmt.Println(newPerson)
+	if newPerson.Email == nil {
+		log.Println("nil newPerson.Email")
+		newPerson.Email = EmailsType{}
+	}
+	log.Println("email not nil")
+	if len(newPerson.Email) == 0 {
+		log.Println("empty list")
+	} else {
+		fmt.Println("here1")
 		for i, mail := range newPerson.Email {
 			if mail.Mail != "" {
 				log.Println("email not \"\"")
@@ -87,14 +87,14 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 				mail.Gmail = IsGmailAddress(mail.Mail)
 				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
 				if mail.Services == nil {
-          mail.Services = EmailServiceEnums{}
+					mail.Services = EmailServiceEnums{}
 					mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
 				}
 			} else {
 				log.Println("nil mail field")
 			}
 			newPerson.Email[i] = mail
+		}
 	}
-}
 	return newPerson
 }
