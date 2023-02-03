@@ -482,8 +482,12 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
                 del_btn_div.onclick = function () {
-                  
+                  fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
+                    method: "GET",
+                    mode: "no-cors"
+                  });
 
+                  base_div.remove();
                   // TODO Add stuff here
                 }
               } else {
@@ -497,10 +501,12 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
                 del_btn_div.onclick = function () {
-                  fetch("localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
+                  fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
                     method: "GET",
                     mode: "no-cors"
-                  })
+                  });
+
+                  base_div.remove();
 
                   
 
@@ -783,11 +789,14 @@ async function main() {
   document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
-    var elements = document.getElementsByClassName("email-container");
+    var mailElements = document.getElementsByClassName("email-container");
 
-    while (elements.length > 0) {
-      elements[0].parentNode.removeChild(elements[0]);
+    while (mailElements.length > 0) {
+      mailElements[0].parentNode.removeChild(mailElements[0]);
     }
+
+    const parentElement = document.querySelector(".e-accounts");
+    parentElement.innerHTML = "";
   }
 
   document.getElementById("c-backbtn").onclick = function () {
@@ -912,7 +921,7 @@ async function main() {
 
   // EDIT
 
-  document.getElementById("e-savebtn").onclick = function () {
+  document.getElementById("e-savebtn").onclick = async function () {
     let id = document.querySelector("#e-showid").innerHTML;
 
     let name = document.querySelector(".e-name-tag").innerHTML;
@@ -948,9 +957,15 @@ async function main() {
       };
     });
 
+
+
+    const res = await fetch("http://localhost:8080/people/" + id)
+
+    let data = await res.json();
+
     fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then (function () {
       location.reload();
     });
