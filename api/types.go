@@ -51,14 +51,14 @@ type EmailServiceEnum struct {
 }
 type Pictures map[string]Picture
 type Picture struct {
-	Img string `json:"img"`
-  ImgHash uint64 `json:"img_hash"`
+	Img     string `json:"img"`
+	ImgHash uint64 `json:"img_hash"`
 }
 type EmailsType map[string]Email
 type EmailServiceEnums map[string]EmailServiceEnum
 type Bios map[string]Bio
 type Bio struct {
-  Bio string `json:"bio"`
+	Bio string `json:"bio"`
 }
 type Email struct {
 	Mail       string            `json:"mail"`
@@ -78,7 +78,7 @@ type Account struct {
 	Id        string   `json:"id"`       // example: 1224234
 	Username  string   `json:"username"` // example: 9glenda
 	Url       string   `json:"url"`      // example: https://github.com/9glenda
-	Picture   Pictures  `json:"profilePicture"`
+	Picture   Pictures `json:"profilePicture"`
 	Bio       Bios     `json:"bio"`       // example: pro hacka
 	Firstname string   `json:"firstname"` // example: Glenda
 	Lastname  string   `json:"lastname"`  // example: Belov

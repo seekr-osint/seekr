@@ -86,19 +86,19 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 		Check(err)
 
 	}
-  foundEmailArray := EmailsType{}
+	foundEmailArray := EmailsType{}
 	for c := range foundEmail {
 		foundEmailArray[c] = Email{
 			Mail: c,
 			Src:  "github",
 			Services: EmailServiceEnums{
-        "github": {
+				"github": {
 					Name: "GitHub",
 					Link: fmt.Sprintf("https://github.com/%s", username),
 					Icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
 				},
 			},
-    }
+		}
 	}
 	//}
 	return foundEmailArray
