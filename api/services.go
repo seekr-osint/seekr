@@ -358,7 +358,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Linktree",
-		Check:          "status_code",
+		Check:          "", // FIXME this service sucks
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://linktr.ee/{username}",
