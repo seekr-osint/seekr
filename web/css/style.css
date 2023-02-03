@@ -29,19 +29,28 @@ html {
   }
 }
 
-.email-subcontainer {
+.email-subcontainer,
+.c-email-subcontainer {
   display: flex;
 }
 
-.service-icon {
+.service-icon,
+.valid-icon {
   width: 3.3rem;
   height: 2.5rem;
   margin: 1rem;
   margin-bottom: 0;
+  display: flex;
 }
 
-.info-div {
-  display: block;
+.service-icon-div,
+.valid-icon-div {
+  display: flex;
+}
+
+.info-div,
+.v-info-div {
+  display: flex;
 }
 
 .email-container,
@@ -252,6 +261,7 @@ a {
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .acc-search-icon {
@@ -324,9 +334,13 @@ a {
   display: flex;
   flex-direction: row;
   height: 9rem;
+  width: 67rem;
   margin-top: 0.5rem;
-  display: flex;
   align-items: center;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  margin-left: 1.37rem;
+  margin-bottom: 1rem;
 }
 
 .serviceName {
@@ -455,12 +469,31 @@ a {
 
 /*  BUTTONS  */
 
+.delAccBtn-deep,
+.delAccBtn {
+  width: 4rem !important;
+  height: 4rem !important;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+  margin-right: 0;
+  font-size: 2rem;
+}
+
+.delAccBtn {
+  margin-left: 23rem !important;
+}
+
+.deepInvBtnTxt {
+  text-align: center;
+}
+
 #deepInvBtn {
   float: right;
-  width: 18rem;
+  width: 13rem;
   margin: 4rem;
+  margin-right: 0;
   margin-bottom: 3rem;
-  margin-left: 12rem;
+  margin-left: 8rem;
 }
 
 #newbtn {

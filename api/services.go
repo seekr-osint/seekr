@@ -301,7 +301,7 @@ var DefaultServices = Services{
 		BaseUrl:        "https://giphy.com/{username}",
 	},
 	Service{
-		Name:           "Gavatar",
+		Name:           "Gravatar",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
