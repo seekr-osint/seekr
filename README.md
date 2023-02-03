@@ -18,7 +18,10 @@ Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sl
 
 Check the wiki for setup guide, etc.
 
-<img src="/images/seekr.gif"/>
+<video>
+  <source src="images/seekr.mp4" type="video/mp4">
+  Your browser does not support HTML video.
+</video>
 
 ## Why use seekr over my current tool ?
 Seekr combines note taking and OSINT in one application. Seekr can be used alongside your current tools.
