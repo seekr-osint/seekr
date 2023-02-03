@@ -39,14 +39,14 @@ type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	wg := &sync.WaitGroup{}
 
-  accounts := Accounts{}
+	accounts := Accounts{}
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {
 			// Do something
 			service := servicesToCheck[i]                  // current service
 			if service.UserExistsFunc(service, username) { // if service exisits
-				accounts[fmt.Sprintf("%s-%s",servicesToCheck[i].Name,username)] = service.GetInfoFunc(username, service) // add service to accounts
+				accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = service.GetInfoFunc(username, service) // add service to accounts
 			}
 			wg.Done()
 		}(i)
@@ -542,9 +542,9 @@ func GetAvatar(avatar_url string, account Account) Account {
 	log.Printf("avatar_url: %s", avatar_url)
 	if GetStatusCode(avatar_url) == 200 {
 		avatar := HttpRequest(avatar_url)
-  account.Picture = Pictures{
-    "1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
-  }
+		account.Picture = Pictures{
+			"1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
+		}
 	}
 	return account
 }
