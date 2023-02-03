@@ -363,22 +363,14 @@ async function main() {
               email_input.required = "true";
               email_input.value = email.mail;
   
-              const infoBtn = document.createElement("div");
-              infoBtn.className = "e-info-btn";
-  
-              const icon = document.createElement("ion-icon");
-              icon.setAttribute("name", "information-outline");
-
               const del_btn_div = document.createElement("div");
               del_btn_div.className = "del-btn";
 
               const del_btn = document.createElement("ion-icon");
               del_btn.name = "remove-outline";
   
-              infoBtn.appendChild(icon);
               container.appendChild(subContainer);
               subContainer.appendChild(email_input);
-              subContainer.appendChild(infoBtn);
               emailContainer.appendChild(container);
               subContainer.appendChild(del_btn_div);
               del_btn_div.appendChild(del_btn);
@@ -386,57 +378,6 @@ async function main() {
 
               del_btn.onclick = function () {
                 container.remove();
-              }
-
-              infoBtn.onclick = function () {
-                const infoDiv = container.querySelector(".info-div");
-
-                if (!infoDiv) {
-                  const infoDiv = document.createElement("div");
-                  infoDiv.className = "info-div";
-
-                  container.appendChild(infoDiv);
-
-                  if (email.valid == true) {
-                    const iconDivValid = document.createElement("div");
-                    iconDivValid.className = "valid-icon-div";
-            
-                    const iconValid = document.createElement("img");
-                    iconValid.className = "valid-icon";
-                    iconValid.src = "./images/valid.png";
-            
-                    infoDiv.appendChild(iconDivValid);
-                    iconDivValid.appendChild(iconValid);
-                  } else if (email.valid == false) {
-                    const iconDivValid = document.createElement("div");
-                    iconDivValid.className = "valid-icon-div";
-            
-                    const iconValid = document.createElement("img");
-                    iconValid.className = "valid-icon";
-                    iconValid.src = "./images/invalid.png";
-            
-                    infoDiv.appendChild(iconDivValid);
-                    iconDivValid.appendChild(iconValid);
-                  }
-
-                  if (email.services != undefined && email.services != null) {
-                    email.services.forEach(function(service) {
-                      const iconDiv = document.createElement("div");
-                      iconDiv.className = "service-icon-div";
-              
-                      const icon = document.createElement("img");
-                      icon.className = "service-icon";
-                      icon.src = service.icon;
-              
-                      infoDiv.appendChild(iconDiv);
-                      iconDiv.appendChild(icon);
-                    });
-              
-                    container.appendChild(infoDiv);
-                  }
-                } else {
-                  container.removeChild(infoDiv);
-                }
               }
             });
           }
@@ -461,12 +402,6 @@ async function main() {
             email_input.maxLength = "30";
             email_input.required = "true";
 
-            const info_btn_div = document.createElement("div");
-            info_btn_div.className = "info-btn";
-
-            const info_btn = document.createElement("ion-icon");
-            info_btn.name = "information-outline";
-
             const del_btn_div = document.createElement("div");
             del_btn_div.className = "del-btn";
 
@@ -476,8 +411,6 @@ async function main() {
             email_base.appendChild(email_container);
             email_container.appendChild(subContainer);
             subContainer.appendChild(email_input);
-            subContainer.appendChild(info_btn_div);
-            info_btn_div.appendChild(info_btn);
             subContainer.appendChild(del_btn_div);
             del_btn_div.appendChild(del_btn);
 
@@ -564,7 +497,7 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
                 del_btn_div.onclick = function () {
-                  
+
 
                   // TODO Add stuff here
                 }
