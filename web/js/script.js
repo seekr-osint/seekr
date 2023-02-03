@@ -217,8 +217,8 @@ async function main() {
 
           // Accounts
 
-          if (obj.accounts != null) {
-            for (const accObj of obj.accounts) {
+          if (obj.accounts != {} && obj.accounts != null) {
+            for (const [_, accObj] of Object.entries(obj.accounts)) {
               //let accObj = obj.accounts[i];
   
               // Creating elements
@@ -230,7 +230,7 @@ async function main() {
               pfp_img.className = "userPfp";
 
               if (accObj.profilePicture != null) {
-                pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+                pfp_img.src = "data:image/png;base64," + accObj.profilePicture["1"].img;
               } else {
                 pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
               }
@@ -260,7 +260,7 @@ async function main() {
               if (accObj.bio != null) {
                 const bio_p = document.createElement("p");
                 bio_p.className = "userBio";
-                bio_p.innerHTML = accObj.bio[0];
+                bio_p.innerHTML = accObj.bio["1"].bio;
 
                 info_div.appendChild(bio_p);
               }
