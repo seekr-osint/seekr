@@ -1,7 +1,7 @@
 ---
 name: Bug report api
 about: Bug report api
-title: "[BUG]"
+title: "[API BUG]"
 labels: api, bug
 assignees: 9glenda
 

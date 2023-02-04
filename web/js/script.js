@@ -3,7 +3,7 @@ import { delay, SaveAsFile } from "./framework.js";
 const element = document.getElementById("searchbar");
 
 async function main() {
-  const res = await fetch("http://localhost:8080/people")
+  const res = await fetch("http://localhost:8080/")
 
   let data = await res.json();
   
@@ -122,10 +122,10 @@ async function main() {
 
           document.querySelector('.v-email-base').style.display = "block";
 
-          if (obj.email.length >= 1) {
+          if (Object.keys(obj.email).length >= 1) {
             const emailContainer = document.querySelector('.v-email-base');
 
-            obj.email.forEach(function(email) {
+            for (const [_, email] of Object.entries(obj.email)) {
               if (email.mail != "" && email.mail != null && email.mail != undefined) {
                 document.getElementById('v-space-maker').style.display = "block";
                 const container = document.createElement("div");
@@ -190,7 +190,7 @@ async function main() {
                     }
 
                     if (email.services != undefined && email.services != null) {
-                      email.services.forEach(function(service) {
+                      for (const [_, service] of Object.entries(email.services)) {
                         const iconDiv = document.createElement("div");
                         iconDiv.className = "service-icon-div";
                 
@@ -200,7 +200,7 @@ async function main() {
                 
                         infoDiv.appendChild(iconDiv);
                         iconDiv.appendChild(icon);
-                      });
+                      };
                 
                       container.appendChild(infoDiv);
                     }
@@ -209,7 +209,7 @@ async function main() {
                   }
                 }
               }
-            });
+            };
           } else {
             document.getElementById('v-space-maker').style.display = "none";
           }
@@ -217,8 +217,8 @@ async function main() {
 
           // Accounts
 
-          if (obj.accounts != null) {
-            for (const accObj of obj.accounts) {
+          if (obj.accounts != {} && obj.accounts != null) {
+            for (const [_, accObj] of Object.entries(obj.accounts)) {
               //let accObj = obj.accounts[i];
   
               // Creating elements
@@ -230,7 +230,7 @@ async function main() {
               pfp_img.className = "userPfp";
 
               if (accObj.profilePicture != null) {
-                pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+                pfp_img.src = "data:image/png;base64," + accObj.profilePicture["1"].img;
               } else {
                 pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
               }
@@ -260,7 +260,7 @@ async function main() {
               if (accObj.bio != null) {
                 const bio_p = document.createElement("p");
                 bio_p.className = "userBio";
-                bio_p.innerHTML = accObj.bio[0];
+                bio_p.innerHTML = accObj.bio["1"].bio;
 
                 info_div.appendChild(bio_p);
               }
@@ -343,10 +343,10 @@ async function main() {
 
           // Email
 
-          if (obj.email.length >= 1) {
+          if (Object.keys(obj.email).length >= 1) {
             const emailContainer = document.querySelector('.email-base');
 
-            obj.email.forEach(function(email) {
+            for (const [_, email] of Object.entries(obj.email)) {
               const container = document.createElement("div");
               container.className = "email-container";
 
@@ -379,7 +379,7 @@ async function main() {
               del_btn.onclick = function () {
                 container.remove();
               }
-            });
+            };
           }
 
           
@@ -421,8 +421,8 @@ async function main() {
 
           // Accounts
 
-          if (obj.accounts != null) {
-            for (const accObj of obj.accounts) {
+          if (obj.accounts != {} && obj.accounts != null) {
+            for (const [_, accObj] of Object.entries(obj.accounts)) {
               //let accObj = obj.accounts[i];
   
               // Creating elements
@@ -434,7 +434,7 @@ async function main() {
               pfp_img.className = "userPfp";
 
               if (accObj.profilePicture != null) {
-                pfp_img.src = "data:image/png;base64," + accObj.profilePicture[0];
+                pfp_img.src = "data:image/png;base64," + accObj.profilePicture["1"].img;
               } else {
                 pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
               }
@@ -482,8 +482,12 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
                 del_btn_div.onclick = function () {
-                  
+                  fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
+                    method: "GET",
+                    mode: "no-cors"
+                  });
 
+                  base_div.remove();
                   // TODO Add stuff here
                 }
               } else {
@@ -497,7 +501,14 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
                 del_btn_div.onclick = function () {
+                  fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
+                    method: "GET",
+                    mode: "no-cors"
+                  });
 
+                  base_div.remove();
+
+                  
 
                   // TODO Add stuff here
                 }
@@ -506,7 +517,7 @@ async function main() {
               if (accObj.bio != null) {
                 const bio_p = document.createElement("p");
                 bio_p.className = "userBio";
-                bio_p.innerHTML = accObj.bio[0];
+                bio_p.innerHTML = accObj.bio["1"].bio;
 
                 info_div.appendChild(bio_p);
               }
@@ -542,7 +553,7 @@ async function main() {
           fetch("http://localhost:8080/people/" + obj.id + "/delete", {
             method: "GET",
             mode: "no-cors"
-          }).then (function () {
+          }).then(function () {
             location.reload();
           });
         }
@@ -620,7 +631,7 @@ async function main() {
               user_pfp.className = "userPfp";
         
               if (accObj.profilePicture != null) {
-                user_pfp.src = "data:image/png;base64," + accObj.profilePicture[0];
+                user_pfp.src = "data:image/png;base64," + accObj.profilePicture["1"].img;
               } else {
                 user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
               }
@@ -649,7 +660,7 @@ async function main() {
               if (accObj.bio != null) {
                 const user_bio = document.createElement("p");
                 user_bio.className = "userBio";
-                user_bio.innerHTML = accObj.bio[0];
+                user_bio.innerHTML = accObj.bio["1"].bio;
         
                 info_container.appendChild(user_bio);
               }
@@ -682,10 +693,16 @@ async function main() {
               accept_btn.onclick = async function () {
                 // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
                 let getId = document.getElementById("e-showid").innerHTML
+
+                const res = await fetch("http://localhost:8080/people/" + getId)
+
+                let data = await res.json();
+
+                data.accounts[accObj.service + "-" + accObj.username] = accObj;
   
-                fetch("http://localhost:8080/people/" +  getId + "/addAccount", {
+                fetch("http://localhost:8080/person", {
                   method: 'POST',
-                  body: JSON.stringify(accObj)
+                  body: JSON.stringify(data)
                 });
   
                 accept_p.innerHTML = "Accepted!";
@@ -772,11 +789,14 @@ async function main() {
   document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
-    var elements = document.getElementsByClassName("email-container");
+    var mailElements = document.getElementsByClassName("email-container");
 
-    while (elements.length > 0) {
-      elements[0].parentNode.removeChild(elements[0]);
+    while (mailElements.length > 0) {
+      mailElements[0].parentNode.removeChild(mailElements[0]);
     }
+
+    const parentElement = document.querySelector(".e-accounts");
+    parentElement.innerHTML = "";
   }
 
   document.getElementById("c-backbtn").onclick = function () {
@@ -878,24 +898,21 @@ async function main() {
     let notes = document.querySelector(".c-notes").innerHTML;
 
     let emailContainers = document.querySelectorAll('.c-email-container');
-    let emailAddresses = [];
+    let emailAddresses = {};
 
     emailContainers.forEach(function(container) {
       let emailInput = container.querySelector('input');
-      emailAddresses.push(emailInput.value);
-    });
-
-    let formattedEmails = emailAddresses.map(function(email) {
-      return {
-        "mail": email,
+      emailAddresses[emailInput.value] = {
+        "mail": emailInput.value,
         "src": "manual"
       };
     });
+    
 
 
-    fetch('http://localhost:8080/people', {
+    fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": formattedEmails, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then (function () {
       location.reload();
     });
@@ -904,7 +921,7 @@ async function main() {
 
   // EDIT
 
-  document.getElementById("e-savebtn").onclick = function () {
+  document.getElementById("e-savebtn").onclick = async function () {
     let id = document.querySelector("#e-showid").innerHTML;
 
     let name = document.querySelector(".e-name-tag").innerHTML;
@@ -930,25 +947,25 @@ async function main() {
     let notes = document.querySelector(".e-notes").innerHTML;
 
     let emailContainers = document.querySelectorAll('.email-container');
-    let emailAddresses = [];
+    let emailAddresses = {};
 
     emailContainers.forEach(function(container) {
-      if (container.querySelector('input').value != "" && container.querySelector('input').value != " ") {
-        let emailInput = container.querySelector('input');
-        emailAddresses.push(emailInput.value);
-      }
-    });
-
-    let formattedEmails = emailAddresses.map(function(email) {
-      return {
-        "mail": email,
+      let emailInput = container.querySelector('input');
+      emailAddresses[emailInput.value] = {
+        "mail": emailInput.value,
         "src": "manual"
       };
     });
 
-    fetch('http://localhost:8080/people/noAccounts', {
+
+
+    const res = await fetch("http://localhost:8080/people/" + id)
+
+    let data = await res.json();
+
+    fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": formattedEmails, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then (function () {
       location.reload();
     });

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"image"
 	"image/png"
 	"io/ioutil"
@@ -38,14 +39,14 @@ type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
 	wg := &sync.WaitGroup{}
 
-	var accounts Accounts
+	accounts := Accounts{}
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {
 			// Do something
 			service := servicesToCheck[i]                  // current service
 			if service.UserExistsFunc(service, username) { // if service exisits
-				accounts = append(accounts, service.GetInfoFunc(username, service)) // add service to accounts
+				accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = service.GetInfoFunc(username, service) // add service to accounts
 			}
 			wg.Done()
 		}(i)
@@ -357,7 +358,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Linktree",
-		Check:          "status_code",
+		Check:          "", // FIXME this service sucks
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://linktr.ee/{username}",
@@ -488,7 +489,6 @@ func EmptyAccountInfo(username string, service Service) Account {
 	return Account{
 		Service:  service.Name,
 		Username: username,
-		Bio:      nil,
 	}
 }
 
@@ -540,11 +540,11 @@ func EncodeBase64(img string) string {
 
 func GetAvatar(avatar_url string, account Account) Account {
 	log.Printf("avatar_url: %s", avatar_url)
-
 	if GetStatusCode(avatar_url) == 200 {
 		avatar := HttpRequest(avatar_url)
-		account.Picture = []string{EncodeBase64(avatar)} // img := HttpRequest(url)
-		account.ImgHash = []uint64{MkImgHash(getImg(avatar))}
+		account.Picture = Pictures{
+			"1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
+		}
 	}
 	return account
 }
@@ -624,13 +624,15 @@ func GithubInfo(username string, service Service) Account {
 	}
 	avatar := HttpRequest(data.Avatar_url)
 	account := Account{
-		Service:   service.Name,
-		Username:  username,
-		Url:       data.Url,
-		Id:        strconv.Itoa(data.Id),
-		Bio:       []string{data.Bio},
-		Picture:   []string{EncodeBase64(avatar)},
-		ImgHash:   []uint64{MkImgHash(getImg(avatar))},
+		Service:  service.Name,
+		Username: username,
+		Url:      data.Url,
+		Id:       strconv.Itoa(data.Id),
+		Bio:      Bios{"1": Bio{Bio: data.Bio}},
+		Picture: Pictures{
+
+			"1": {Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
+		},
 		Location:  data.Location,
 		Created:   data.Created_at,
 		Updated:   data.Updated_at,
@@ -662,7 +664,7 @@ func LichessInfo(username string, service Service) Account {
 		Username:  username,
 		Id:        data.Id,
 		Url:       "https://lichess.org/@/" + username,
-		Bio:       []string{data.Profile.Bio},
+		Bio:       Bios{"1": Bio{Bio: data.Profile.Bio}},
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,
 	}

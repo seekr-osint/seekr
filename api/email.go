@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+	"log"
 	"regexp"
 	"sync"
 )
@@ -15,9 +17,9 @@ type MailUserExistsFunc func(MailService, string) bool // (BaseUrl,email)
 
 var DefaultMailServices = MailServices{
 	MailService{
-		Name:           "Discord",
+		Name: "Discord",
 		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
-    UserExistsFunc: Discord,
+		UserExistsFunc: Discord,
 		Icon:           "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png",
 	},
 }
@@ -44,24 +46,55 @@ func IsGitHubMail(email string) bool {
 	return match
 }
 
-func MailServicesHandler(servicesToCheck MailServices, email string) []EmailServiceEnum {
+func MailServicesHandler(servicesToCheck MailServices, email string) EmailServiceEnums {
 	wg := &sync.WaitGroup{}
 
-	var services []EmailServiceEnum
+	services := EmailServiceEnums{}
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {
 			// Do something
 			service := servicesToCheck[i]               // current service
 			if service.UserExistsFunc(service, email) { // if service exisits
-				services = append(services, EmailServiceEnum{
+				services[service.Name] = EmailServiceEnum{
 					Name: service.Name,
 					Icon: service.Icon,
-				}) // add service to accounts
+				} // add service to accounts
 			}
 			wg.Done()
 		}(i)
 	}
 	wg.Wait()
 	return services
+}
+
+func CheckMail(newPerson Person) Person { // FIXME TODO
+	fmt.Println(newPerson)
+	if newPerson.Email == nil {
+		log.Println("nil newPerson.Email")
+		newPerson.Email = EmailsType{}
+	}
+	log.Println("email not nil")
+	if len(newPerson.Email) == 0 {
+		log.Println("empty list")
+	} else {
+		fmt.Println("here1")
+		for i, mail := range newPerson.Email {
+			if mail.Mail != "" {
+				log.Println("email not \"\"")
+				//mail.Services = MailServices(mail.Mail)
+				mail.Valid = IsEmailValid(mail.Mail)
+				mail.Gmail = IsGmailAddress(mail.Mail)
+				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
+				if mail.Services == nil {
+					mail.Services = EmailServiceEnums{}
+					mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
+				}
+			} else {
+				log.Println("nil mail field")
+			}
+			newPerson.Email[i] = mail
+		}
+	}
+	return newPerson
 }
