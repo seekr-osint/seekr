@@ -5,6 +5,7 @@ data.json
 data.json.example
 .direnv
 seekr
+seekr.log
 main
 main.c
 main.h
