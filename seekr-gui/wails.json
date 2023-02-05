@@ -1,0 +1,10 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "seekr-gui",
+  "outputfilename": "seekr-gui",
+  "frontend:dev:serverUrl": "127.0.0.1",
+  "author": {
+    "name": "9glenda",
+    "email": "plan9git@proton.me"
+  }
+}

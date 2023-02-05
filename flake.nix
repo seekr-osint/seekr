@@ -64,6 +64,7 @@
             nixpkgsFor.${system}.jq
             nixpkgsFor.${system}.maigret
             nixpkgsFor.${system}.goreleaser
+            nixpkgsFor.${system}.wails
             self.packages.${system}.seekr
           ];
         };
