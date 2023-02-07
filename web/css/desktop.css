@@ -1,0 +1,11 @@
+.frame-container {
+  position: relative;
+  
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-top: 10px solid black;
+}
