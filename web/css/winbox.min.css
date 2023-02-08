@@ -1,0 +1,310 @@
+@keyframes wb-fade-in {
+  0% {
+    opacity: 0
+  }
+
+  to {
+    opacity: .85
+  }
+}
+
+.winbox {
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-height: 68rem;
+  min-width: 85rem;
+  background: #0050ff;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  transition: width .3s, height .3s, left .3s, top .3s;
+  transition-timing-function: cubic-bezier(.3, 1, .3, 1);
+  contain: layout size;
+  text-align: left;
+  touch-action: none
+}
+
+.wb-body,
+.wb-header {
+  position: absolute;
+  left: 0
+}
+
+.wb-header {
+  top: 0;
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  color: #fff;
+  overflow: hidden;
+  z-index: 1
+}
+
+.wb-body {
+  top: 35px;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  will-change: contents;
+  background: #fff;
+  margin-top: 0 !important;
+  contain: strict;
+  z-index: 0;
+}
+
+.wb-control *,
+.wb-icon {
+  background-repeat: no-repeat
+}
+
+body>.wb-body {
+  position: relative;
+  display: inline-block;
+  visibility: hidden;
+  contain: none
+}
+
+.wb-drag {
+  height: 100%;
+  padding-left: 10px;
+  cursor: move
+}
+
+.wb-title {
+  font-family: Arial, sans-serif;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: bold;
+  color: #6d5dfc;
+  text-overflow: ellipsis
+}
+
+.wb-icon {
+  display: none;
+  width: 20px;
+  height: 100%;
+  margin: -1px 8px 0-3px;
+  float: left;
+  background-size: 100%;
+  background-position: center
+}
+
+.wb-e,
+.wb-w {
+  width: 10px;
+  top: 0
+}
+
+.wb-n,
+.wb-s {
+  left: 0;
+  height: 10px;
+  position: absolute
+}
+
+.wb-n {
+  top: -5px;
+  right: 0;
+  cursor: n-resize;
+  z-index: 2
+}
+
+.wb-e {
+  position: absolute;
+  right: -5px;
+  bottom: 0;
+  cursor: w-resize;
+  z-index: 2
+}
+
+.wb-s {
+  bottom: -5px;
+  right: 0;
+  cursor: n-resize;
+  z-index: 2
+}
+
+.wb-nw,
+.wb-sw,
+.wb-w {
+  left: -5px
+}
+
+.wb-w {
+  position: absolute;
+  bottom: 0;
+  cursor: w-resize;
+  z-index: 2
+}
+
+.wb-ne,
+.wb-nw,
+.wb-sw {
+  width: 15px;
+  height: 15px;
+  z-index: 2;
+  position: absolute
+}
+
+.wb-nw {
+  top: -5px;
+  cursor: nw-resize
+}
+
+.wb-ne,
+.wb-sw {
+  cursor: ne-resize
+}
+
+.wb-ne {
+  top: -5px;
+  right: -5px
+}
+
+.wb-se,
+.wb-sw {
+  bottom: -5px
+}
+
+.wb-se {
+  position: absolute;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  cursor: nw-resize;
+  z-index: 2
+}
+
+.wb-control {
+  float: right;
+  height: 100%;
+  max-width: 100%;
+  text-align: center
+}
+
+.wb-control * {
+  display: inline-block;
+  width: 30px;
+  height: 100%;
+  max-width: 100%;
+  background-position: center;
+  cursor: pointer
+}
+
+.no-close .wb-close,
+.no-full .wb-full,
+.no-header .wb-header,
+.no-max .wb-max,
+.no-min .wb-min,
+.no-resize .wb-body~div,
+.wb-body .wb-hide,
+.wb-show,
+.winbox.hide,
+.winbox.min .wb-body>*,
+.winbox.min .wb-full,
+.winbox.min .wb-min,
+.winbox.modal .wb-full,
+.winbox.modal .wb-max,
+.winbox.modal .wb-min {
+  display: none
+}
+
+.winbox.max .wb-drag,
+.winbox.min .wb-drag {
+  cursor: default
+}
+
+.wb-min {
+  background-image: url("../images/window-min.png");
+  background-size: 14px auto;
+  background-position: center calc(50% + 6px)
+}
+
+.wb-max {
+  background-image: url("../images/window-max.png");
+  background-size: 17px auto
+}
+
+.wb-close {
+  background-image: url("../images/window-close.png");
+  background-size: 15px auto;
+  background-position: 5px center
+}
+
+.wb-full {
+  background-image: url("../images/window-full.png");
+  background-size: 16px auto
+}
+
+.winbox.max .wb-body~div,
+.winbox.min .wb-body~div,
+.winbox.modal .wb-body~div,
+.winbox.modal .wb-drag,
+body.wb-lock iframe {
+  pointer-events: none
+}
+
+.winbox.max {
+  box-shadow: none
+}
+
+.winbox.max .wb-body {
+  margin: 0 !important
+}
+
+.winbox iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 0
+}
+
+body.wb-lock .winbox {
+  will-change: left, top, width, height;
+  transition: none
+}
+
+.winbox.modal:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  border-radius: inherit
+}
+
+.winbox.modal:after {
+  content: "";
+  position: absolute;
+  top: -50vh;
+  left: -50vw;
+  right: -50vw;
+  bottom: -50vh;
+  background: #0d1117;
+  animation: wb-fade-in .2s ease-out forwards;
+  z-index: -1
+}
+
+.no-animation {
+  transition: none
+}
+
+.no-shadow {
+  box-shadow: none
+}
+
+.no-header .wb-body {
+  top: 0
+}
+
+.no-move:not(.min) .wb-title {
+  pointer-events: none
+}
+
+.wb-body .wb-show {
+  display: revert
+}
