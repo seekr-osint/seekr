@@ -27,6 +27,24 @@ type ApiConfig struct {
 	GinRouter     *gin.Engine
 }
 
+func SetupApi(config ApiConfig) ApiConfig {
+	config = LoadJson(config)
+	SetupLogger(config)
+	config.GinRouter = gin.Default()
+	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
+	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
+	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
+	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
+	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
+	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
+	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
+	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
+  return config
+}
+
+func ServeApi(config ApiConfig) {
+	config.GinRouter.Run(config.Ip)
+}
 func DefaultSaveJson(config ApiConfig) {
 	log.Println("Saving json to file")
 	jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
@@ -39,20 +57,6 @@ func CheckPersonExists(config ApiConfig, id string) bool {
 	return ok
 }
 
-func ServeApi(config ApiConfig) {
-	config = LoadJson(config)
-	SetupLogger(config)
-	config.GinRouter = gin.Default()
-	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
-	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
-	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
-	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
-	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
-	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
-	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
-	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
-	config.GinRouter.Run(config.Ip)
-}
 
 func GetPersonByID(config ApiConfig, id string) (bool, Person) {
 	if _, ok := config.DataBase[id]; ok {

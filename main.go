@@ -5,13 +5,13 @@ import (
 	"flag"
 	"os/exec"
 	"runtime"
-  "plugin"
 
 	//"fmt"
 	//"log"
 	//"strconv"
 
 	api "github.com/seekr-osint/seekr/api"
+  plugin "github.com/seekr-osint/seekr/plugin"
 	webServer "github.com/seekr-osint/seekr/webServer"
 )
 
@@ -21,10 +21,8 @@ import (
 var content embed.FS
 
 var dataBase = make(api.DataBase)
-func Plugin(path string) {
-  _,_ = plugin.Open(path)
-}
 func main() {
+
   
 	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	dir := flag.String("dir", "./web", "dir where the html source code is located")
@@ -59,6 +57,8 @@ func main() {
 	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
+  apiConfig = api.SetupApi(apiConfig)
+  apiConfig = plugin.Load("./cmd/seekr-cli/seekr-cli.so", apiConfig)
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
 	go api.ServeApi(apiConfig)
 	RunWebServer(config)
