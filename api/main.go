@@ -44,6 +44,7 @@ func ServeApi(config ApiConfig) {
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
+  config.GinRouter.GET("/google/:query", Handler(GoogleRequest, config))                                      // get results from google
 	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
 	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
 	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
@@ -118,6 +119,10 @@ func LoadJson(config ApiConfig) ApiConfig {
 func GetDataBase(config ApiConfig, c *gin.Context) {
 	config = LoadJson(config)
 	c.IndentedJSON(http.StatusOK, config.DataBase)
+}
+
+func GoogleRequest(config ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, SearchString(c.Param("query")))
 }
 
 func ParsePerson(newPerson Person) Person {
