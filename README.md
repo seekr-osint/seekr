@@ -78,6 +78,6 @@ This tool is intended for legitimate and lawful use only. It is provided for edu
 ## Thanks to
 [![Stargazers repo roster for @seekr-osint/seekr](https://reporoster.com/stars/seekr-osint/seekr)](https://github.com/seekr-osint/seekr/stargazers)
 
-https://github.com/nextapps-de/winbox
-https://github.com/niutech/x-frame-bypass
-https://github.com/alpkeskin/wau/blob/main/cmd/apps/discord.go
+- https://github.com/nextapps-de/winbox
+- https://github.com/niutech/x-frame-bypass
+- https://github.com/alpkeskin/wau/blob/main/cmd/apps/discord.go
