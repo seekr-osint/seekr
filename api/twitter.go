@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-
 )
 
 type twitterResponse struct {
@@ -34,11 +33,11 @@ func Twitter(mailService MailService, email string) bool {
 		var response twitterResponse
 		json.Unmarshal(body, &response)
 		if response.Taken {
-      return true
+			return true
 		} else {
-        return false
+			return false
 		}
 	} else {
-    return false
+		return false
 	}
 }
