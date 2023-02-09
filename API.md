@@ -278,7 +278,7 @@ curl localhost:8080/getAccounts/9glenda
 
 To get results from google:
 ```sh
-curl "localhost:8080/google/seekr-osint"
+curl "localhost:8080/search/google/seekr-osint"
 ```
 ```json
 [
@@ -323,4 +323,30 @@ curl "localhost:8080/google/seekr-osint"
         "title": "Open Source Intelligence and Cyber Crime: Social Media Analytics"
     }
 ]
+```
+### GitHub deep investigation
+GitHub deep investigation checks rather git leaked any email adresses.
+```sh
+curl localhost:8080/deep/github/9glenda
+```
+```json
+{
+    "plan9git@proton.me": {
+        "mail": "plan9git@proton.me",
+        "value": 0,
+        "src": "github",
+        "services": {
+            "github": {
+                "name": "GitHub",
+                "link": "https://github.com/9glenda",
+                "username": "9glenda",
+                "icon": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            }
+        },
+        "valid": false,
+        "gmail": false,
+        "validGmail": false,
+        "provider": ""
+    }
+}
 ```
