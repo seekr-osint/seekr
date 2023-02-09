@@ -7,3 +7,59 @@
 #seekr-window {
   border-radius: 1rem;
 }
+
+.shortcut-menu {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8vh;
+  height: 8vh;
+  border-top-left-radius: 50%;
+  box-shadow: .3rem .3rem .6rem var(--greyLight-2), -.2rem -.2rem .5rem var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--greyDark);
+  transition: all .5s ease;
+}
+
+.shortcut-menu:hover {
+  color: var(--primary);
+}
+
+.shortcut-menu:active {
+  box-shadow: inset .2rem .2rem .5rem var(--greyLight-2), inset -.2rem -.2rem .5rem var(--white);;
+  color: var(--primary);
+}
+
+.menu-icon {
+  font-size: 2.5rem;
+}
+
+.app-bar {
+  position: absolute;
+  right: 0;
+  margin: 1vh;
+  width: 7vh;
+  height: 89vh;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  display: flex;
+  margin-left: 1.37rem;
+}
+
+.app-shortcut {
+  position: relative;
+  width: 5vh;
+  height: 5vh;
+  margin: 1vh;
+  border-radius: 50%;
+  box-shadow: .3rem .3rem .6rem var(--greyLight-2), -.2rem -.2rem .5rem var(--white);
+  display: flex;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--greyDark);
+  transition: all .5s ease;
+}

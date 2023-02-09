@@ -12,8 +12,8 @@
   position: fixed;
   left: 0;
   top: 0;
-  min-height: 68rem;
-  min-width: 85rem;
+  min-height: 67rem;
+  min-width: 84rem;
   background: #0050ff;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
   transition: width .3s, height .3s, left .3s, top .3s;
