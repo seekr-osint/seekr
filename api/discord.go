@@ -54,5 +54,4 @@ func Discord(mailService MailService, email string) bool {
 		//("Too many requests to Discord!")
 	}
 	return false
-
 }

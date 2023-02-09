@@ -38,15 +38,11 @@
             # in the Nix store.
             src = ./.;
 
-            # vendorSha256 = pkgs.lib.fakeSha256;
-
-            vendorSha256 = "sha256-ZOsUyBb9H+en2wmkXmr0yRw3gEsaexsYNsq3AFJkCTE=";
+            #vendorSha256 = pkgs.lib.fakeSha256;
+            vendorSha256 = "sha256-uX6ZEunOybLoTwThQnm0OLvHXR+Rc6Jo2Yg1c2WsRa8=";
           };
         });
 
-      # The default package for 'nix build'. This makes sense if the
-      # flake provides only one package or there is a clear "main"
-      # package.
       apps = forAllSystems (system: {
         default = {
           type = "app";

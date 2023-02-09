@@ -6,6 +6,7 @@ import (
 	//"fmt"
 	"log"
 	"os"
+  "strings"
 
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
@@ -73,11 +74,12 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 				if err != nil {
 					log.Println(err)
 				}
-				if commitInfo.Author.Name == username {
+        log.Printf("Author: %s\nUsername: %s\n",commitInfo.Author.Name,username)
+				if strings.EqualFold(commitInfo.Author.Name, username) { // check username
 					log.Println("found:")
 					log.Println(c.Author.Email)
+				  foundEmail[c.Author.Email] = true
 				}
-				foundEmail[c.Author.Email] = true
 			}
 			contributors[c.Author.Email] = true
 			//log.Println(c.Hash.String())
@@ -94,6 +96,7 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 			Services: EmailServiceEnums{
 				"github": {
 					Name: "GitHub",
+          Username: username,
 					Link: fmt.Sprintf("https://github.com/%s", username),
 					Icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
 				},
