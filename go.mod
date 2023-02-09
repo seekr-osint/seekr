@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-git/go-git/v5 v5.5.2
+	github.com/likexian/whois v1.14.4
 	github.com/rocketlaunchr/google-search v1.1.5
 )
 
