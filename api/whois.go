@@ -1,6 +1,6 @@
 package api
 import (
-    "github.com/likexian/whois"
+    whois "github.com/likexian/whois"
 )
 
 func Whois(url string,config ApiConfig) string {

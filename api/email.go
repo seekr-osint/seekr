@@ -28,6 +28,12 @@ var DefaultMailServices = MailServices{
 		UserExistsFunc: Spotify,
 		Icon:           "https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png",
 	},
+	MailService{
+		Name: "Twitter",
+		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
+		UserExistsFunc: Twitter,
+		Icon:           "https://www.freepnglogos.com/uploads/spotify-logo-png/file-spotify-logo-png-4.png",
+	},
 }
 
 func IsGmailAddress(email string) bool {
