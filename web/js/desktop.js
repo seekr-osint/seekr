@@ -39,11 +39,15 @@ new WinBox("SETTINGS", {
 });
 }
 
-function toggleAppBar() {
-  var appBar = document.querySelector(".app-bar");
-  if (appBar.style.display === "none") {
-    appBar.style.display = "block";
-  } else {
-    appBar.style.display = "none";
-  }
-}
+
+// const appIcon = document.querySelector('.app-icon');
+// const seekrIcon = document.querySelector('.seekr-icon');
+// appIcon.addEventListener("hover", function() {
+//   appIcon.src = "./img/seekr-icon.png";
+// });
+
+const shortcutMenu = document.querySelector('.shortcut-menu');
+const appBar = document.querySelector('.app-bar');
+shortcutMenu.addEventListener('click', function() {
+  appBar.classList.toggle('clicked');
+});
