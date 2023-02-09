@@ -30,13 +30,16 @@
 
   <body>
     <div class="app-bar">
-      <div class="app-shortcut"></div>
-      <div class="app-shortcut"></div>
+      <!--<button onclick="createSeekrWindow()" class="app-shortcut"></button> -->
+      <div class="app-shortcut" onclick="createSeekrWindow()">
+      </div>
+      <div class="app-shortcut">
+      </div>
       <div class="app-shortcut"></div>
       <div class="app-shortcut"></div>
     </div>
 
-    <div class="shortcut-menu">
+    <div class="shortcut-menu" onclick="toggleAppBar()">
       <ion-icon name="grid-outline" class="menu-icon"></ion-icon>
     </div>
   </body>

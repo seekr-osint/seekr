@@ -1,5 +1,6 @@
 const frame = document.querySelector('.frame');
 
+function createSeekrWindow() {
 new WinBox("SEEKR", {
   id: "seekr-window",
   html: '<iframe class="frame" src="./index.html"></iframe>',
@@ -11,3 +12,12 @@ new WinBox("SEEKR", {
   bottom: 0,
   left: 10,
 });
+}
+function toggleAppBar() {
+  var appBar = document.querySelector(".app-bar");
+  if (appBar.style.display === "none") {
+    appBar.style.display = "block";
+  } else {
+    appBar.style.display = "none";
+  }
+}
