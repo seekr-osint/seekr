@@ -1,5 +1,5 @@
-
 package api
+
 // https://github.com/alpkeskin/wau/blob/main/cmd/apps/spotify.go
 
 import (
@@ -65,11 +65,11 @@ func Spotify(mailService MailService, email string) bool {
 		var response spotifyResponse
 		json.Unmarshal(body, &response)
 		if response.Status == 20 {
-      return true
+			return true
 		} else {
-      return false
+			return false
 		}
 	} else {
-      return false
+		return false
 	}
 }
