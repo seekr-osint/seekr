@@ -47,6 +47,7 @@
   border-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
   display: flex;
+  flex-direction: column;
   margin-left: 1.37rem;
 }
 
@@ -63,3 +64,13 @@
   color: var(--greyDark);
   transition: all .5s ease;
 }
+
+.app-shortcut:hover {
+  color: var(--primary);
+}
+
+.app-shortcut:active {
+  box-shadow: inset .2rem .2rem .5rem var(--greyLight-2), inset -.2rem -.2rem .5rem var(--white);;
+  color: var(--primary);
+}
+
