@@ -26,7 +26,7 @@ function createWhoisWindow() {
   });
 }
 function createSeekrSettingsWindow() {
-new WinBox("SEEKR SETTINGS", {
+new WinBox("SETTINGS", {
   id: "seekr-window",
   html: '<iframe class="frame" src="./settings.html"></iframe>',
   background: "#E4EBF5",
