@@ -28,6 +28,8 @@ type Service struct {
 	GetInfoFunc       GetInfoFunc    // example: EmptyAccountInfo()
 	ImageFunc         ImageFunc
 	ExternalImageFunc bool
+  ScrapeImage       bool
+  Scrape            ScrapeStruct
 	BaseUrl           string // example: "https://github.com"
 	AvatarUrl         string
 	Check             string // example: "status_code"
@@ -35,7 +37,10 @@ type Service struct {
 	Pattern           string
 	BlockedPattern    string
 }
-
+type ScrapeStruct struct{
+  FindElement string
+  Attr        string 
+}
 type GetInfoFunc func(string, Service) Account // (username)
 type ImageFunc func(string, Service) string    // (username)
 type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
@@ -299,7 +304,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "Giphy",
-		Check:          "status_code",
+		Check:          "status_code", // FIXME gives a topic
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://giphy.com/{username}",
@@ -309,30 +314,37 @@ var DefaultServices = Services{
 		Check:             "status_code",
 		UserExistsFunc:    SimpleUserExistsCheck,
 		GetInfoFunc:       SimpleAccountInfo,
-		ExternalImageFunc: true,
-		ImageFunc:         GravatarImage,
+    ScrapeImage:        true,
+    Scrape:             ScrapeStruct{
+      FindElement: ".photo-0",
+      Attr:        "href",
+    },
 		BaseUrl:           "http://en.gravatar.com/{username}",
 	},
 	Service{
 		Name:           "HackTheBox",
-		Check:          "status_code",
+		Check:          "", // FIXME site down kinda
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://forum.hackthebox.eu/profile/{username}",
 	},
 	Service{
-		Name:           "LeetCode",
-		Check:          "status_code",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
-		BaseUrl:        "https://leetcode.com/{username}",
+		Name:              "LeetCode",
+		Check:             "status_code",
+		UserExistsFunc:    SimpleUserExistsCheck,
+		GetInfoFunc:       SimpleAccountInfo,
+		ExternalImageFunc: true,
+		ImageFunc:         LeetCodeImage,
+		BaseUrl:           "https://leetcode.com/{username}",
 	},
 	Service{
-		Name:           "Asciinema",
-		Check:          "status_code",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
-		BaseUrl:        "https://asciinema.org/~{username}",
+		Name:              "Asciinema",
+		Check:             "status_code",
+		UserExistsFunc:    SimpleUserExistsCheck,
+		GetInfoFunc:       SimpleAccountInfo,
+		ExternalImageFunc: true,
+		ImageFunc:         AsciinemaImage,
+		BaseUrl:           "https://asciinema.org/~{username}",
 	},
 	Service{
 		Name:           "Ask Fedora",
@@ -571,6 +583,22 @@ func SimpleAccountInfo(username string, service Service) Account {
 	if service.ExternalImageFunc {
 		service.AvatarUrl = service.ImageFunc(username, service)
 	}
+  if service.ScrapeImage {
+
+	doc, err := goquery.NewDocument(strings.ReplaceAll(service.BaseUrl, "{username}", username))
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Select the <a> element with class "photo-0"
+	link := doc.Find(service.Scrape.FindElement).First()
+
+	// Get the value of the href attribute
+	res, exists := link.Attr(service.Scrape.Attr)
+  if exists {
+    service.AvatarUrl = res
+  }
+  }
 	if service.AvatarUrl != "" {
 		avatar_url := strings.ReplaceAll(service.AvatarUrl, "{username}", username)
 		account = GetAvatar(avatar_url, account)
@@ -679,19 +707,35 @@ func LichessInfo(username string, service Service) Account {
 	}
 }
 
-func GravatarImage(username string, service Service) string {
-	doc, err := goquery.NewDocument("http://en.gravatar.com/" + username)
+func LeetCodeImage(username string, service Service) string {
+	doc, err := goquery.NewDocument(strings.ReplaceAll(service.BaseUrl, "{username}", username))
 	if err != nil {
 		log.Println(err)
 	}
 
 	// Select the <a> element with class "photo-0"
-	link := doc.Find(".photo-0").First()
+	link := doc.Find("img.rounded-lg").First()
 
 	// Get the value of the href attribute
-	href, exists := link.Attr("href")
+	href, exists := link.Attr("src")
 	if exists {
 		return href
+	}
+	return ""
+}
+func AsciinemaImage(username string, service Service) string {
+	doc, err := goquery.NewDocument(strings.ReplaceAll(service.BaseUrl, "{username}", username))
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Select the <a> element with class "photo-0"
+	link := doc.Find("img.avatar").First()
+
+	// Get the value of the href attribute
+	href, exists := link.Attr("src")
+	if exists {
+		return "https:" + href
 	}
 	return ""
 }
