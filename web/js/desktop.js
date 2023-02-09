@@ -25,6 +25,19 @@ function createWhoisWindow() {
     left: 10,
   });
 }
+function createSeekrSettingsWindow() {
+new WinBox("SEEKR SETTINGS", {
+  id: "seekr-window",
+  html: '<iframe class="frame" src="./settings.html"></iframe>',
+  background: "#E4EBF5",
+  header: 45,
+  // viewport boundaries:
+  top: 10,
+  right: 10,
+  bottom: 0,
+  left: 10,
+});
+}
 
 function toggleAppBar() {
   var appBar = document.querySelector(".app-bar");
