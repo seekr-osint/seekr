@@ -46,6 +46,7 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
 	config.GinRouter.GET("/deep/github/:username", Handler(GithubInfoDeepRequest, config))                       // deep investigation of github account
 	config.GinRouter.GET("/search/google/:query", Handler(GoogleRequest, config))                       // get results from google
+	config.GinRouter.GET("/search/whois/:query", Handler(WhoisRequest, config))                       // get whois of domain
 	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
 	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
 	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
@@ -131,6 +132,9 @@ func GetDataBase(config ApiConfig, c *gin.Context) {
 
 func GoogleRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, SearchString(c.Param("query")))
+}
+func WhoisRequest(config ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, Whois(c.Param("query"),config))
 }
 
 func ParsePerson(newPerson Person) Person {
