@@ -421,6 +421,8 @@ var DefaultServices = Services{
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
+    ExternalImageFunc: true,
+    ImageFunc: BitbucketImage,
 		BaseUrl:        "https://bitbucket.org/{username}/",
 		// AvatarUrl:      "https://bitbucket.org/workspaces/{username}/avatar/", // FIXME
 	},
@@ -737,5 +739,25 @@ func AsciinemaImage(username string, service Service) string {
 	if exists {
 		return "https:" + href
 	}
+	return ""
+}
+func BitbucketImage(username string, service Service) string { // FIXME
+	doc, err := goquery.NewDocument(strings.ReplaceAll(service.BaseUrl, "{username}", username))
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Select the <a> element with class "photo-0"
+
+// Select the <span> element with class "css-ob4lje"
+span := doc.Find("span.css-ob4lje").First()
+
+// Get the value of the "background-image" style property
+    style, exists := span.Attr("style")
+    if exists {
+    // Extract the URL from the style property value
+    url := strings.TrimPrefix(strings.TrimSuffix(strings.Split(style, ":")[1], ";"), " url(\"")
+    return url
+}
 	return ""
 }
