@@ -15,6 +15,7 @@ import (
 	"net/http"
 
 	//"os"
+	"github.com/PuerkitoBio/goquery"
 	_ "image/jpeg"
 	"strconv"
 	"strings"
@@ -22,18 +23,21 @@ import (
 
 type Services []Service
 type Service struct {
-	Name           string         // example: "GitHub"
-	UserExistsFunc UserExistsFunc // example: SimpleUserExistsCheck()
-	GetInfoFunc    GetInfoFunc    // example: EmptyAccountInfo()
-	BaseUrl        string         // example: "https://github.com"
-	AvatarUrl      string
-	Check          string // example: "status_code"
-	HtmlUrl        string
-	Pattern        string
-	BlockedPattern string
+	Name              string         // example: "GitHub"
+	UserExistsFunc    UserExistsFunc // example: SimpleUserExistsCheck()
+	GetInfoFunc       GetInfoFunc    // example: EmptyAccountInfo()
+	ImageFunc         ImageFunc
+	ExternalImageFunc bool
+	BaseUrl           string // example: "https://github.com"
+	AvatarUrl         string
+	Check             string // example: "status_code"
+	HtmlUrl           string
+	Pattern           string
+	BlockedPattern    string
 }
 
 type GetInfoFunc func(string, Service) Account // (username)
+type ImageFunc func(string, Service) string    // (username)
 type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
 
 func ServicesHandler(servicesToCheck Services, username string) Accounts {
@@ -301,11 +305,13 @@ var DefaultServices = Services{
 		BaseUrl:        "https://giphy.com/{username}",
 	},
 	Service{
-		Name:           "Gravatar",
-		Check:          "status_code",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
-		BaseUrl:        "http://en.gravatar.com/{username}",
+		Name:              "Gravatar",
+		Check:             "status_code",
+		UserExistsFunc:    SimpleUserExistsCheck,
+		GetInfoFunc:       SimpleAccountInfo,
+		ExternalImageFunc: true,
+		ImageFunc:         GravatarImage,
+		BaseUrl:           "http://en.gravatar.com/{username}",
 	},
 	Service{
 		Name:           "HackTheBox",
@@ -562,6 +568,9 @@ func SimpleAccountInfo(username string, service Service) Account {
 		account.Url = strings.ReplaceAll(service.HtmlUrl, "{username}", username)
 	}
 
+	if service.ExternalImageFunc {
+		service.AvatarUrl = service.ImageFunc(username, service)
+	}
 	if service.AvatarUrl != "" {
 		avatar_url := strings.ReplaceAll(service.AvatarUrl, "{username}", username)
 		account = GetAvatar(avatar_url, account)
@@ -668,4 +677,21 @@ func LichessInfo(username string, service Service) Account {
 		Firstname: data.Profile.Firstname,
 		Lastname:  data.Profile.Lastname,
 	}
+}
+
+func GravatarImage(username string, service Service) string {
+	doc, err := goquery.NewDocument("http://en.gravatar.com/" + username)
+	if err != nil {
+		log.Println(err)
+	}
+
+	// Select the <a> element with class "photo-0"
+	link := doc.Find(".photo-0").First()
+
+	// Get the value of the href attribute
+	href, exists := link.Attr("href")
+	if exists {
+		return href
+	}
+	return ""
 }
