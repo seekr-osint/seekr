@@ -38,6 +38,13 @@
   font-size: 2.5rem;
 }
 
+.app-icon {
+  display: flex;
+  width: 4vh;
+  height: 4vh;
+  align-self: center;
+}
+
 .app-bar {
   position: absolute;
   right: 0;
@@ -52,6 +59,7 @@
 }
 
 .app-shortcut {
+  justify-content: center;
   position: relative;
   width: 5vh;
   height: 5vh;

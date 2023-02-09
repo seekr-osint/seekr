@@ -19,21 +19,23 @@
 
     <link rel="stylesheet" href="./css/desktop.css">
 
+    <script src="./js/desktop.js" defer></script>
+
     <title>SEEKR</title>
 
     <!-- WinBox -->
     <link rel="stylesheet" href="./css/winbox.min.css">
     <script src="./js/winbox.min.js"></script>
-
-    <script src="./js/desktop.js" defer></script>
   </head>
 
   <body>
     <div class="app-bar">
       <!--<button onclick="createSeekrWindow()" class="app-shortcut"></button> -->
       <div class="app-shortcut" onclick="createSeekrWindow()">
+        <img src="./images/seekr.png" alt="SEEKR" class="app-icon">
       </div>
-      <div class="app-shortcut">
+      <div class="app-shortcut" onclick="createWhoisWindow()">
+        <img src="./images/whois.png" alt="WhoIs" class="app-icon">
       </div>
       <div class="app-shortcut"></div>
       <div class="app-shortcut"></div>
