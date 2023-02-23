@@ -1,6 +1,3 @@
-document.getElementById("bg-img-logo").ondragstart = function() { return false; };
-
-
 function createSeekrWindow() {
   new WinBox("SEEKR", {
     id: "seekr-window",
