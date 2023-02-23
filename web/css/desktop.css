@@ -8,6 +8,18 @@
   border-radius: 1rem;
 }
 
+.bg-img-logo {
+  width: 18vh;
+  height: 18vh;
+  opacity: 0.2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); /* IE 9 */
+  -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+}
+
 .shortcut-menu {
   position: absolute;
   bottom: 0;
@@ -59,7 +71,7 @@
   display: flex;
   flex-direction: column;
   margin-left: 1.37rem;
-  animation: rollOut 0.5s ease-in-out forwards;
+  animation: rollOut 0.4s ease-in-out forwards;
 }
 
 @keyframes rollOut {
@@ -72,7 +84,7 @@
 }
 
 .app-bar.clicked {
-  animation: rollIn 0.5s ease-in-out forwards;
+  animation: rollIn 0.4s ease-in-out forwards;
 }
 
 @keyframes rollIn {
