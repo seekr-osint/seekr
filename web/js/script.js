@@ -479,54 +479,30 @@ async function main() {
                 
                 base_div.appendChild(del_btn_div);
                 del_btn_div.appendChild(del_btn);
+
+
+
+
                 // Deep investigation
               deep_btn.onclick = async function () {
                 // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
                 
-                console.log("btn clicked")
-                console.log(accObj)
                 let getId = document.getElementById("e-showid").innerHTML
 
 
-                const res = await fetch("http://localhost:8080/people/" + getId)
-
+                const res = await fetch("http://localhost:8080/deep/github/" + username)
                 let data = await res.json();
-                const res2 = await fetch("http://localhost:8080/deep/github/" + accObj.username)
-                let data2 = await res2.json();
-                console.log(data2)
+                console.log(data)
 
                 //data.accounts[accObj.service + "-" + accObj.username] = accObj;
-  
-                fetch("http://localhost:8080/person", {
+
+                fetch("http://localhost:8080/person", { // REMOVE MAYBE
                   method: 'POST',
                   body: JSON.stringify(data)
                 });
   
               }
 
-                // Deep investigation
-                deep_btn.onclick = async function () {
-                  // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-
-                  console.log("btn clicked")
-                  console.log(accObj)
-                  let getId = document.getElementById("e-showid").innerHTML
-
-
-                  const res = await fetch("http://localhost:8080/people/" + getId)
-
-                  let data = await res.json();
-                  const res2 = await fetch("http://localhost:8080/deep/github/" + accObj.username)
-                  let data2 = await res2.json();
-                  console.log(data2)
-
-                  //data.accounts[accObj.service + "-" + accObj.username] = accObj;
-
-                  fetch("http://localhost:8080/person", {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                  });
-                }
 
                 del_btn_div.onclick = function () {
                   fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
@@ -874,6 +850,9 @@ async function main() {
     email_input.placeholder = "Enter email address";
     email_input.spellcheck = "false";
     email_input.maxLength = "30";
+
+
+
     email_input.autocomplete = "off";
 
     const del_btn_div = document.createElement("div");
