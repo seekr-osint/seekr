@@ -65,6 +65,7 @@ func IsGitHubMail(email string) bool {
 }
 
 func MailServicesHandler(servicesToCheck MailServices, email string) EmailServiceEnums {
+	var mailMutex = sync.RWMutex{}
 	wg := &sync.WaitGroup{}
 
 	services := EmailServiceEnums{}
@@ -74,10 +75,14 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 			// Do something
 			service := servicesToCheck[i]               // current service
 			if service.UserExistsFunc(service, email) { // if service exisits
-				services[service.Name] = EmailServiceEnum{
-					Name: service.Name,
-					Icon: service.Icon,
-				} // add service to accounts
+				go func() {
+					mailMutex.Lock()
+					services[service.Name] = EmailServiceEnum{
+						Name: service.Name,
+						Icon: service.Icon,
+					} // add service to accounts
+					mailMutex.Unlock()
+				}()
 			}
 			wg.Done()
 		}(i)
@@ -87,6 +92,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 }
 
 func CheckMail(newPerson Person) Person { // FIXME TODO
+	var mailMutex = sync.RWMutex{}
 	fmt.Println(newPerson)
 	if newPerson.Email == nil {
 		log.Println("nil newPerson.Email")
@@ -106,9 +112,14 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
 				}
-        for key, value :=  range MailServicesHandler(DefaultMailServices, mail.Mail) {
-					mail.Services[key] = value 
-        }
+				for key, value := range MailServicesHandler(DefaultMailServices, mail.Mail) {
+
+					go func(key string, value EmailServiceEnum) {
+						mailMutex.Lock()
+						mail.Services[key] = value
+						mailMutex.Unlock()
+					}(key, value)
+				}
 			} else {
 				log.Println("nil mail field")
 			}
