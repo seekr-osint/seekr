@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"encoding/json"
 	"io/ioutil"
@@ -137,7 +138,7 @@ func GetAccounts(config ApiConfig, username string) Accounts {
 }
 
 func GetAccountsRequest(config ApiConfig, c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, GetAccounts(config, c.Param("username")))
+	c.IndentedJSON(http.StatusOK, GetAccounts(config, strings.ToLower(c.Param("username"))))
 }
 func ReplaceNil(newPerson Person) Person {
 	if newPerson.Pictures == nil {
