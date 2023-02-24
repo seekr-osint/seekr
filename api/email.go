@@ -96,7 +96,6 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 	if len(newPerson.Email) == 0 {
 		log.Println("empty list")
 	} else {
-		fmt.Println("here1")
 		for i, mail := range newPerson.Email {
 			if mail.Mail != "" {
 				log.Println("email not \"\"")
@@ -106,8 +105,10 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
-					mail.Services = MailServicesHandler(DefaultMailServices, mail.Mail)
 				}
+        for key, value :=  range MailServicesHandler(DefaultMailServices, mail.Mail) {
+					mail.Services[key] = value 
+        }
 			} else {
 				log.Println("nil mail field")
 			}
