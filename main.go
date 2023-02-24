@@ -16,7 +16,7 @@ import (
 
 // Web server content
 //
-//go:embed web/*
+//go:embed all:web
 var content embed.FS
 
 var dataBase = make(api.DataBase)
