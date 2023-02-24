@@ -1013,22 +1013,30 @@ async function main() {
     let emailAddresses = {};
 
     emailContainers.forEach(function(container) {
-      let hiddenElement = container.querySelector(".hidden-email-save");
+      if (container.querySelector(".hidden-email-save")) {
+        let hiddenElement = container.querySelector(".hidden-email-save");
 
-      let hiddenElementVal;
-
-      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null) {
-        hiddenElementVal = JSON.parse(container.querySelector(".hidden-email-save").innerHTML);
+        let hiddenElementVal;
+  
+        if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null) {
+          hiddenElementVal = JSON.parse(container.querySelector(".hidden-email-save").innerHTML);
+        }
+  
+        console.log(hiddenElementVal);
+  
+        let emailInput = container.querySelector('input');
+        emailAddresses[emailInput.value] = {
+          "mail": emailInput.value,
+          "src": "manual",
+          "services": hiddenElementVal
+        };
+      } else {
+        let emailInput = container.querySelector('input');
+        emailAddresses[emailInput.value] = {
+          "mail": emailInput.value,
+          "src": "manual"
+        };
       }
-
-      console.log(hiddenElementVal);
-
-      let emailInput = container.querySelector('input');
-      emailAddresses[emailInput.value] = {
-        "mail": emailInput.value,
-        "src": "manual",
-        "services": hiddenElementVal
-      };
     });
 
     const res = await fetch("http://localhost:8080/people/" + id)
