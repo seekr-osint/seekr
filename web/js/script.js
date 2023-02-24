@@ -483,9 +483,8 @@ async function main() {
 
                 // Deep investigation
                 deep_btn.onclick = async function () {
+                  console.log("Deep investigation button clicked");
                   // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-                  
-                  let getId = document.getElementById("e-showid").innerHTML
 
 
                   const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
