@@ -32,6 +32,12 @@ html {
   }
 }
 
+.hidden-email-save {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
 .email-subcontainer,
 .c-email-subcontainer {
   display: flex;

@@ -481,8 +481,6 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
 
-
-
                 // Deep investigation
                 deep_btn.onclick = async function () {
                   // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
@@ -493,7 +491,54 @@ async function main() {
                   const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
                   let data = await res.json();
                   console.log(data);
-              }
+
+                  if (data != null) {
+                    for (const [i, _] of Object.entries(data)) {
+                      let obj = data[i];
+
+                      const email_base = document.querySelector(".email-base");
+
+                      const email_container = document.createElement("div");
+                      email_container.className = "email-container";
+  
+                      const subContainer = document.createElement("div");
+                      subContainer.className = "email-subcontainer";
+  
+                      const email_input = document.createElement("input");
+                      email_input.className = "form-input e-mail";
+                      email_input.id = "e-mail";
+                      email_input.type = "email";
+                      email_input.placeholder = "Enter email address";
+                      email_input.spellcheck = "false";
+                      email_input.maxLength = "30";
+                      email_input.required = "true";
+  
+                      email_input.value = obj.mail;
+  
+                      const del_btn_div = document.createElement("div");
+                      del_btn_div.className = "del-btn";
+  
+                      const del_btn = document.createElement("ion-icon");
+                      del_btn.name = "remove-outline";
+
+                      const hidden_email_save = document.createElement("p");
+                      hidden_email_save.className = "hidden-email-save";
+
+                      hidden_email_save.innerHTML = JSON.stringify(obj.services); 
+
+                      email_base.appendChild(email_container);
+                      email_container.appendChild(subContainer);
+                      subContainer.appendChild(email_input);
+                      subContainer.appendChild(del_btn_div);
+                      del_btn_div.appendChild(del_btn);
+                      email_container.appendChild(hidden_email_save);
+
+                      del_btn_div.onclick = function () {
+                        email_container.remove();
+                      }
+                    }
+                  }
+                }
 
 
                 del_btn_div.onclick = function () {
@@ -969,10 +1014,21 @@ async function main() {
     let emailAddresses = {};
 
     emailContainers.forEach(function(container) {
+      let hiddenElement = container.querySelector(".hidden-email-save");
+
+      let hiddenElementVal;
+
+      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null) {
+        hiddenElementVal = JSON.parse(container.querySelector(".hidden-email-save").innerHTML);
+      }
+
+      console.log(hiddenElementVal);
+
       let emailInput = container.querySelector('input');
       emailAddresses[emailInput.value] = {
         "mail": emailInput.value,
-        "src": "manual"
+        "src": "manual",
+        "services": hiddenElementVal
       };
     });
 
