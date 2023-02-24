@@ -1032,8 +1032,6 @@ async function main() {
       };
     });
 
-
-
     const res = await fetch("http://localhost:8080/people/" + id)
 
     let data = await res.json();
