@@ -109,10 +109,14 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 				mail.Valid = IsEmailValid(mail.Mail)
 				mail.Gmail = IsGmailAddress(mail.Mail)
 				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
+
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
 				}
 				for key, value := range MailServicesHandler(DefaultMailServices, mail.Mail) {
+					if mail.Services == nil {
+						mail.Services = EmailServiceEnums{}
+					}
 
 					go func(key string, value EmailServiceEnum) {
 						mailMutex.Lock()
