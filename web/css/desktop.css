@@ -8,12 +8,24 @@
   border-radius: 1rem;
 }
 
+.bg-img-logo {
+  width: 18vh;
+  height: 18vh;
+  opacity: 0.2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); /* IE 9 */
+  -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */
+}
+
 .shortcut-menu {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 8vh;
-  height: 8vh;
+  width: 7vh;
+  height: 7vh;
   border-top-left-radius: 50%;
   box-shadow: .3rem .3rem .6rem var(--greyLight-2), -.2rem -.2rem .5rem var(--white);
   display: flex;
@@ -38,19 +50,54 @@
   font-size: 2.5rem;
 }
 
+.app-icon {
+  display: flex;
+  width: 4vh;
+  height: 4vh;
+  align-self: center;
+  transition: all .5s ease;
+}
+
 .app-bar {
   position: absolute;
   right: 0;
   margin: 1vh;
+  margin-right: 0;
   width: 7vh;
-  height: 89vh;
-  border-radius: 1rem;
+  height: 90vh;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
   display: flex;
+  flex-direction: column;
   margin-left: 1.37rem;
+  animation: rollOut 0.4s ease-in-out forwards;
+}
+
+@keyframes rollOut {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.app-bar.clicked {
+  animation: rollIn 0.4s ease-in-out forwards;
+}
+
+@keyframes rollIn {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .app-shortcut {
+  justify-content: center;
   position: relative;
   width: 5vh;
   height: 5vh;
@@ -63,3 +110,13 @@
   color: var(--greyDark);
   transition: all .5s ease;
 }
+
+.app-shortcut:hover {
+  color: var(--primary);
+}
+
+.app-shortcut:active {
+  box-shadow: inset .2rem .2rem .5rem var(--greyLight-2), inset -.2rem -.2rem .5rem var(--white);;
+  color: var(--primary);
+}
+

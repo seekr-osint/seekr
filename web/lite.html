@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title>SEEKR</title>
+
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/f0601b0fb2.js" crossorigin="anonymous"></script>
+    <script type='module' src='https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js'></script>
+    <script nomodule='' src='https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js'></script>
+    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="module" src="./js/framework.js" defer></script>
+    <script type="module" src="./js/script.js" defer></script>
+  </head>
+
+  <body>
+    <!-- partial:index.partial.html -->
+
+    <div class="main">
+      <div class="components">
+        <div class="search">
+          <input type="text" id="searchbar" class="search-input" autocomplete="off" spellcheck="false" placeholder="Search...">
+          <div class="search-icon">
+            <ion-icon name="search"></ion-icon>
+          </div>
+        </div>
+
+        <div id="base-no-results">
+          <p id="base-no-results-text">No results found...</p>
+        </div>
+
+        <ul id="list-holder"></ul>
+
+        <div class="btn btn-secondary" id="exportbtn"><p>Export</p></div>
+        <div class="btn btn-secondary" id="newbtn"><p>New</p></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <p id="v-showid"></p>
+
+      <div class="components">
+        <div class="chip">
+          <div class="text-container">
+            <p class="name-tag">Name</p>
+          </div>
+        </div>
+        
+        <div class="scroll-box" id="view-box">
+          <p class="viewtag tag maidenname">Maiden name: x</p>
+          <p class="viewtag tag age">Age: x</p>
+          <p class="viewtag tag bday">Birthday: x</p>
+          <p class="viewtag tag address">Address: x</p>
+          <p class="viewtag tag phone">Phone number: x</p>
+          <p class="viewtag tag ssn">SSN: x</p>
+          <p class="viewtag tag civilstatus">Civil status: x</p>
+          <p class="viewtag tag kids">Kids: x</p>
+          <p class="viewtag tag hobbies">Hobbies: x</p>
+          <div class="chip" id="v-space-maker">
+            <p id="v-notes-header">E-Mail</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-email-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="viewtag tag occupation">Occupation: x</p>
+          <p class="viewtag tag prevoccupation">Previous occupations: x</p>
+          <p class="viewtag tag education">Education: x</p>
+          <p class="viewtag tag military">Military stand: x</p>
+          <p class="viewtag tag religion">Religion: x</p>
+          <p class="viewtag tag pets">Pets: x</p>
+          <p class="viewtag tag club">Club: x</p>
+          <p class="viewtag tag legal">Legal: x</p>
+          <p class="viewtag tag political">Political: x</p>
+          <div class="chip" id="space-maker">
+            <p id="notes-header">Notes</p>
+
+            <div class="table">
+              <div class="form"><span type="text" id="notes" class="form-input notes" role="textbox" spellcheck="false"></span></div>
+            </div>
+          </div>
+
+          <div class="accounts"></div>
+        </div>
+        
+        <div class="btn btn-secondary" id="backbtn"><p>Back</p></div>
+        <div class="btn btn-secondary" id="savetxtbtn"><p>save as .txt</p></div>
+      
+        <!-- <div class="form">
+          <input type="text" class="form-input" placeholder="Type anything...">
+        </div> -->
+      </div>
+    </div>
+
+    <div class="edit-container">
+      <p id="e-showid"></p>
+
+      <div class="components">
+        <div class="chip">
+          <div class="text-container">
+            <p id="e-name-tag" class="e-name-tag" spellcheck="false" contenteditable>The Name</p>
+          </div>
+        </div>
+        
+        <div class="scroll-box">
+          <div class="table">
+            <p class="tag">Maiden name: </p>
+            <div class="form"><span type="text" class="form-input e-maidenname" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Age: </p>
+            <div class="form"><span type="text" class="form-input e-age" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+          
+          <div class="table">
+            <p class="tag">Birthday: </p>
+            <div class="form"><span type="text" class="form-input e-bday" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Address: </p>
+            <div class="form"><span type="text" class="form-input e-address" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Phone number: </p>
+            <div class="form"><span type="text" class="form-input e-phone" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">SSN: </p>
+            <div class="form"><span type="text" class="form-input e-ssn" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Civil status: </p>
+            <div class="form"><span type="text" class="form-input e-civilstatus" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Kids: </p>
+            <div class="form"><span type="text" class="form-input e-kids" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Hobbies: </p>
+            <div class="form"><span type="text" class="form-input e-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">E-Mail</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="email-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+
+                <div id="add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="table">
+            <p class="tag">Occupation: </p>
+            <div class="form"><span type="text" class="form-input e-occupation" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Previous occupation: </p>
+            <div class="form"><span type="text" class="form-input e-prevoccupation" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Education: </p>
+            <div class="form"><span type="text" class="form-input e-education" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Military stand: </p>
+            <div class="form"><span type="text" class="form-input e-military" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Religion: </p>
+            <div class="form"><span type="text" class="form-input e-religion" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Pets: </p>
+            <div class="form"><span type="text" class="form-input e-pets" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Club: </p>
+            <div class="form"><span type="text" class="form-input e-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Legal: </p>
+            <div class="form"><span type="text" class="form-input e-legal" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Political: </p>
+            <div class="form"><span type="text" class="form-input e-political" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Notes</p>
+
+            <div class="table">
+              <div class="form"><span type="text" id="e-notes" class="form-input e-notes" role="textbox" spellcheck="false" contenteditable></span></div>
+            </div>
+          </div>
+
+          <div class="e-accounts"></div>
+        </div>
+        
+        <div class="btn btn-secondary" id="e-backbtn"><p>Back</p></div>
+        <div class="btn btn-secondary" id="e-savebtn"><p id="e-savebtn-p">Save</p></div>
+      </div>
+    </div>
+
+
+    <div class="create-container">
+      <div class="components">
+        <div class="chip">
+          <div class="text-container">
+            <p id="c-name-tag" class="c-name-tag" spellcheck="false" contenteditable>The Name</p>
+          </div>
+        </div>
+        
+        <div class="scroll-box">
+          <div class="table">
+            <p class="tag">Maiden name: </p>
+            <div class="form"><span type="text" class="form-input c-maidenname" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Age: </p>
+            <div class="form"><span type="text" class="form-input c-age" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+          
+          <div class="table">
+            <p class="tag">Birthday: </p>
+            <div class="form"><span type="text" class="form-input c-bday" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Address: </p>
+            <div class="form"><span type="text" class="form-input c-address" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Phone number: </p>
+            <div class="form"><span type="text" class="form-input c-phone" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">SSN: </p>
+            <div class="form"><span type="text" class="form-input c-ssn" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Civil status: </p>
+            <div class="form"><span type="text" class="form-input c-civilstatus" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Kids: </p>
+            <div class="form"><span type="text" class="form-input c-kids" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Hobbies: </p>
+            <div class="form"><span type="text" class="form-input c-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">E-Mail</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-email-base"></div>
+
+                <div id="c-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Occupation: </p>
+            <div class="form"><span type="text" class="form-input c-occupation" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Previous occupation: </p>
+            <div class="form"><span type="text" class="form-input c-prevoccupation" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Education: </p>
+            <div class="form"><span type="text" class="form-input c-education" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Military stand: </p>
+            <div class="form"><span type="text" class="form-input c-military" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Religion: </p>
+            <div class="form"><span type="text" class="form-input c-religion" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Pets: </p>
+            <div class="form"><span type="text" class="form-input c-pets" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Club: </p>
+            <div class="form"><span type="text" class="form-input c-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Legal: </p>
+            <div class="form"><span type="text" class="form-input c-legal" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="table">
+            <p class="tag">Political: </p>
+            <div class="form"><span type="text" class="form-input c-political" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Notes</p>
+
+            <div class="table">
+              <div class="form"><span type="text" id="c-notes" class="form-input c-notes" role="textbox" spellcheck="false" contenteditable></span></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="btn btn-secondary" id="c-backbtn"><p>Back</p></div>
+        <div class="btn btn-secondary" id="c-savebtn"><p id="c-savebtn-p">Save</p></div>
+      </div>
+    </div>
+
+    <div class="acc-container">
+      <div class="components">
+        <div class="acc-header">
+
+          <div class="chip" id="acc-chip">
+            <div class="text-container">
+              <input type="text" id="acc-name-tag" class="acc-name-tag" spellcheck="false" autocomplete="off" placeholder="Enter username..."></input>
+            </div>
+          </div>
+          
+          <div class="search-chip" id="acc-search-chip">
+            <div class="search-container">
+              <div class="btn btn-secondary" id="acc-searchbtn"><ion-icon class="acc-search-icon" name="search-outline"></ion-icon></div>
+            </div>
+          </div>
+
+          <div class="neu" id="loading-spinner">
+            <div class="neu_shape">
+              <div class="neu_inner">
+                <div class="neu_ball"></div>
+                <div class="neu_ball"></div>
+                <div class="neu_ball"></div>
+                <div class="neu_ball"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="acc-no-results">
+          <p id="acc-no-results-text">No accounts found...</p>
+        </div>
+
+        <div id="acc-scroll-box">
+          <div id="accounts">
+          </div>
+        </div>
+        
+        <div class="btn btn-secondary" id="acc-backbtn"><p>Back</p></div>
+      </div>
+    </div>
+  </body>
+</html>

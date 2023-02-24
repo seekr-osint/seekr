@@ -1,0 +1,134 @@
+:root {
+  --primary-light: #8abdff;
+  --primary: #6d5dfc;
+  --primary-dark: #5b0eeb;
+  --white: #FFFFFF;
+  --greyLight-1: #E4EBF5;
+  --greyLight-2: #c8d0e7;
+  --greyLight-3: #bec8e4;
+  --greyDark: #9baacf;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  background: var(--greyLight-1);
+}
+
+@media screen and (min-width: 900px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+
+
+.hub-menu-div {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  width: 58rem;
+  height: 33rem;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+.hub-headline {
+  margin: 1rem;
+  text-align: center;
+  color: var(--primary);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.hub-choice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.hub-desktop-div,
+.hub-lite-div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+  height: 25rem;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+.hub-desktop-title, 
+.hub-lite-title {
+  margin: 1rem;
+  text-align: center;
+  color: var(--primary);
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+
+.hub-desktop-ul,
+.hub-lite-ul {
+  margin: 1rem;
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.hub-desktop-ul li,
+.hub-lite-ul li {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+.hub-desktop-btn,
+.hub-lite-btn {
+  width: 10rem;
+  height: 4rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  align-self: center;
+  position: absolute;
+  bottom: 0;
+  align-content: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.hub-desktop-btn:hover p,
+.hub-lite-btn:hover p {
+  color: var(--primary);
+  font-size: 1.6rem;
+}
+
+.hub-desktop-btn:active,
+.hub-lite-btn:active {
+  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-2), inset -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+.hub-desktop-btn p,
+.hub-lite-btn p {
+  font-size: 1.6rem;
+  color: var(--greyDark);
+  transition: 0.3s ease;
+}
