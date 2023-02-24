@@ -19,24 +19,33 @@
 
     <link rel="stylesheet" href="./css/desktop.css">
 
+    <script src="./js/desktop.js" defer></script>
+
     <title>SEEKR</title>
 
     <!-- WinBox -->
     <link rel="stylesheet" href="./css/winbox.min.css">
     <script src="./js/winbox.min.js"></script>
-
-    <script src="./js/desktop.js" defer></script>
   </head>
 
   <body>
-    <div class="app-bar">
-      <div class="app-shortcut"></div>
-      <div class="app-shortcut"></div>
-      <div class="app-shortcut"></div>
-      <div class="app-shortcut"></div>
+    <img class="bg-img-logo" src="./images/seekr-gray.png" draggable="false">
+    
+
+    <div class="app-bar clicked">
+      <!--<button onclick="createSeekrWindow()" class="app-shortcut"></button> -->
+      <div class="app-shortcut seekr-icon" onclick="createSeekrWindow()">
+        <img src="./images/seekr-gray.png" alt="SEEKR" class="app-icon">
+      </div>
+      <div class="app-shortcut whois-icon" onclick="createWhoisWindow()">
+        <img src="./images/whois-gray.png" alt="WhoIs" class="app-icon">
+      </div>
+      <div class="app-shortcut settings-icon" onclick="createSeekrSettingsWindow()">
+        <img src="./images/settings-gray.png" alt="Settings" class="app-icon">
+      </div>
     </div>
 
-    <div class="shortcut-menu">
+    <div class="shortcut-menu" onclick="toggleAppBar()">
       <ion-icon name="grid-outline" class="menu-icon"></ion-icon>
     </div>
   </body>

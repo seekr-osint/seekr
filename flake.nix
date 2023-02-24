@@ -26,28 +26,22 @@
     {
 
       # Provide some binary packages for selected system types.
-      packages = forAllSystems
-        (system:
-          let
-            pkgs = nixpkgsFor.${system};
-          in
-          {
-            seekr = pkgs.buildGoModule
-              {
-                pname = "seekr";
-                inherit version;
-                # In 'nix develop', we don't need a copy of the source tree
-                # in the Nix store.
-                src = ./.;
+      packages = forAllSystems (system:
+        let
+          pkgs = nixpkgsFor.${system};
+        in
+        {
+          seekr = pkgs.buildGoModule {
+            pname = "seekr";
+            inherit version;
+            # In 'nix develop', we don't need a copy of the source tree
+            # in the Nix store.
+            src = ./.;
 
-                #vendorSha256 = pkgs.lib.fakeSha256;
-                #vendorSha256 = "sha256-CiMlpBGfq3LZ3HjeqVDjkG2DO08X397KgRKJmJqBO6k=";
-
-                vendorSha256 = "sha256-E99E58EQGFG57YqCeB7VggrODzndCfz8t2UATKrN+PQ=";
-
-
-              };
-          });
+            #vendorSha256 = pkgs.lib.fakeSha256;
+            vendorSha256 = "sha256-E99E58EQGFG57YqCeB7VggrODzndCfz8t2UATKrN+PQ=";
+          };
+        });
 
       apps = forAllSystems (system: {
         default = {
