@@ -2,9 +2,13 @@
   description = "A simple Go package";
 
   # Nixpkgs / NixOS version to use.
-  inputs.nixpkgs.url = "github:Nixos/nixpkgs/nixpkgs-unstable";
+  inputs = {
+    nixpkgs.url = "github:Nixos/nixpkgs/nixpkgs-unstable";
+    naersk.url = "github:nix-community/naersk/master";
+  };
 
-  outputs = { self, nixpkgs }:
+
+  outputs = { self, nixpkgs, naersk }:
     let
 
       # to work with older version of flakes
@@ -54,6 +58,9 @@
 
       devShells = forAllSystems (system: {
         default = nixpkgsFor.${system}.mkShell {
+          buildInputs = with nixpkgsFor.${system}; [ cargo rustc rustfmt pre-commit rustPackages.clippy ];
+          RUST_SRC_PATH = nixpkgsFor.${system}.rustPlatform.rustLibSrc;
+
           packages = [
             nixpkgsFor.${system}.go
             # jq is useful to debug the database
