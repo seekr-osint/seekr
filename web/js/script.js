@@ -375,6 +375,15 @@ async function main() {
               subContainer.appendChild(del_btn_div);
               del_btn_div.appendChild(del_btn);
 
+              if (email.services != undefined && email.services != null && email.services != "") {
+                const hidden_email_save = document.createElement("p");
+                hidden_email_save.className = "hidden-email-save";
+  
+                hidden_email_save.innerHTML = JSON.stringify(email.services);
+                container.appendChild(hidden_email_save);
+              }
+              
+
               del_btn.onclick = function () {
                 container.remove();
               }
@@ -412,6 +421,10 @@ async function main() {
             subContainer.appendChild(email_input);
             subContainer.appendChild(del_btn_div);
             del_btn_div.appendChild(del_btn);
+
+            const hidden_email_save = document.createElement("p");
+            hidden_email_save.className = "hidden-email-save";
+            email_container.appendChild(hidden_email_save);
 
             del_btn_div.onclick = function () {
               email_container.remove();
@@ -1013,30 +1026,22 @@ async function main() {
     let emailAddresses = {};
 
     emailContainers.forEach(function(container) {
-      if (container.querySelector(".hidden-email-save")) {
-        let hiddenElement = container.querySelector(".hidden-email-save");
+      let hiddenElement = container.querySelector(".hidden-email-save");
 
-        let hiddenElementVal;
-  
-        if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null) {
-          hiddenElementVal = JSON.parse(container.querySelector(".hidden-email-save").innerHTML);
-        }
-  
-        console.log(hiddenElementVal);
-  
-        let emailInput = container.querySelector('input');
-        emailAddresses[emailInput.value] = {
-          "mail": emailInput.value,
-          "src": "manual",
-          "services": hiddenElementVal
-        };
-      } else {
-        let emailInput = container.querySelector('input');
-        emailAddresses[emailInput.value] = {
-          "mail": emailInput.value,
-          "src": "manual"
-        };
+      let hiddenElementVal = null;
+
+      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
+        hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
       }
+
+      console.log(hiddenElementVal);
+
+      let emailInput = container.querySelector('input');
+      emailAddresses[emailInput.value] = {
+        "mail": emailInput.value,
+        "src": "manual",
+        "services": hiddenElementVal
+      };
     });
 
     const res = await fetch("http://localhost:8080/people/" + id)
