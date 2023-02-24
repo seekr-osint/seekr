@@ -1,7 +1,7 @@
 function createSeekrWindow() {
   new WinBox("SEEKR", {
     id: "seekr-window",
-    html: '<iframe class="frame" src="./index.html"></iframe>',
+    html: '<iframe class="frame" src="./lite.html"></iframe>',
     background: "#E4EBF5",
     header: 45,
     // viewport boundaries:
