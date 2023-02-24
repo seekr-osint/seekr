@@ -1,4 +1,7 @@
 package api
+import (
+	"github.com/gin-gonic/gin"
+)
 
 // main data set
 type person Person // legacy stuff
@@ -89,3 +92,25 @@ type Account struct {
 	Followers int      `json:"followers"`
 	Following int      `json:"following"`
 }
+
+type SaveJsonFunc func(ApiConfig)
+type ApiConfig struct {
+  Ip            string       `json:"ip"`
+  LogFile       string       `json:"log_file"`
+  DataBaseFile  string       `json:"data_base_file"`
+  DataBase      DataBase     `json:"data_base"`
+  SetCORSHeader bool         `json:"set_CORS_header"`
+  SaveJsonFunc  SaveJsonFunc `json:"save_json_func"`
+  GinRouter     *gin.Engine  `json:"gin_router"`
+  ApiKeysComplex       ApiKeys   `json:"api_keys_complex"`
+  ApiKeysSimple     ApiKeysSimple `json:"api_keys"`
+}
+type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
+type ApiKeys struct{
+  Github ApiKeyEnum `json:"github"`
+}
+type ApiKeyEnum map[string]ApiKey
+type ApiKey struct {
+}
+
+
