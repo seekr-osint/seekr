@@ -375,6 +375,14 @@ async function main() {
               subContainer.appendChild(del_btn_div);
               del_btn_div.appendChild(del_btn);
 
+              if (email.services != undefined && email.services != null && email.services != "") {
+                const hidden_email_save = document.createElement("p");
+                hidden_email_save.className = "hidden-email-save";
+  
+                hidden_email_save.innerHTML = JSON.stringify(email.services);
+                container.appendChild(hidden_email_save);
+              }
+              
 
               del_btn.onclick = function () {
                 container.remove();
@@ -413,6 +421,10 @@ async function main() {
             subContainer.appendChild(email_input);
             subContainer.appendChild(del_btn_div);
             del_btn_div.appendChild(del_btn);
+
+            const hidden_email_save = document.createElement("p");
+            hidden_email_save.className = "hidden-email-save";
+            email_container.appendChild(hidden_email_save);
 
             del_btn_div.onclick = function () {
               email_container.remove();
@@ -480,30 +492,66 @@ async function main() {
                 
                 base_div.appendChild(del_btn_div);
                 del_btn_div.appendChild(del_btn);
+
+
                 // Deep investigation
-              deep_btn.onclick = async function () {
-                // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-                
-                console.log("btn clicked")
-                console.log(accObj)
-                let getId = document.getElementById("e-showid").innerHTML
+                deep_btn.onclick = async function () {
+                  console.log("Deep investigation button clicked");
+                  // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
 
 
-                const res = await fetch("http://localhost:8080/people/" + getId)
+                  const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
+                  let data = await res.json();
+                  console.log(data);
 
-                let data = await res.json();
-                const res2 = await fetch("http://localhost:8080/deep/github/" + accObj.username)
-                let data2 = await res2.json();
-                console.log(data2)
+                  if (data != null) {
+                    for (const [i, _] of Object.entries(data)) {
+                      let obj = data[i];
 
-                //data.accounts[accObj.service + "-" + accObj.username] = accObj;
+                      const email_base = document.querySelector(".email-base");
+
+                      const email_container = document.createElement("div");
+                      email_container.className = "email-container";
   
-                fetch("http://localhost:8080/person", {
-                  method: 'POST',
-                  body: JSON.stringify(data)
-                });
+                      const subContainer = document.createElement("div");
+                      subContainer.className = "email-subcontainer";
   
-              }
+                      const email_input = document.createElement("input");
+                      email_input.className = "form-input e-mail";
+                      email_input.id = "e-mail";
+                      email_input.type = "email";
+                      email_input.placeholder = "Enter email address";
+                      email_input.spellcheck = "false";
+                      email_input.maxLength = "30";
+                      email_input.required = "true";
+  
+                      email_input.value = obj.mail;
+  
+                      const del_btn_div = document.createElement("div");
+                      del_btn_div.className = "del-btn";
+  
+                      const del_btn = document.createElement("ion-icon");
+                      del_btn.name = "remove-outline";
+
+                      const hidden_email_save = document.createElement("p");
+                      hidden_email_save.className = "hidden-email-save";
+
+                      hidden_email_save.innerHTML = JSON.stringify(obj.services); 
+
+                      email_base.appendChild(email_container);
+                      email_container.appendChild(subContainer);
+                      subContainer.appendChild(email_input);
+                      subContainer.appendChild(del_btn_div);
+                      del_btn_div.appendChild(del_btn);
+                      email_container.appendChild(hidden_email_save);
+
+                      del_btn_div.onclick = function () {
+                        email_container.remove();
+                      }
+                    }
+                  }
+                }
+
 
                 del_btn_div.onclick = function () {
                   fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
@@ -851,6 +899,9 @@ async function main() {
     email_input.placeholder = "Enter email address";
     email_input.spellcheck = "false";
     email_input.maxLength = "30";
+
+
+
     email_input.autocomplete = "off";
 
     const del_btn_div = document.createElement("div");
@@ -975,14 +1026,23 @@ async function main() {
     let emailAddresses = {};
 
     emailContainers.forEach(function(container) {
+      let hiddenElement = container.querySelector(".hidden-email-save");
+
+      let hiddenElementVal = null;
+
+      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
+        hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
+      }
+
+      console.log(hiddenElementVal);
+
       let emailInput = container.querySelector('input');
       emailAddresses[emailInput.value] = {
         "mail": emailInput.value,
-        "src": "manual"
+        "src": "manual",
+        "services": hiddenElementVal
       };
     });
-
-
 
     const res = await fetch("http://localhost:8080/people/" + id)
 

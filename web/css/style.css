@@ -32,6 +32,12 @@ html {
   }
 }
 
+.hidden-email-save {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
 .email-subcontainer,
 .c-email-subcontainer {
   display: flex;
@@ -39,11 +45,18 @@ html {
 
 .service-icon,
 .valid-icon {
-  width: 3.3rem;
   height: 2.5rem;
   margin: 1rem;
   margin-bottom: 0;
   display: flex;
+}
+
+.service-icon {
+  width: 2.5rem;
+}
+
+.valid-icon {
+  width: 3.3rem;
 }
 
 .service-icon-div,
