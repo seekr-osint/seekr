@@ -35,12 +35,18 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 		Pushed_at  string `json:"pushed_at"`
 	}
 
-	jsonData := HttpRequest("https://api.github.com/users/" + username + "/repos")
+  fatal := false
+	jsonData,err := HttpRequest("https://api.github.com/users/" + username + "/repos")
+  if err != nil {
+  log.Println(jsonData)
+  fatal = true
+}
 
-	err := json.Unmarshal([]byte(jsonData), &data)
+	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
-	}
+    fatal = true
+	} else {
 
 	contributors := make(map[string]bool)
 	foundEmail := make(map[string]bool)
@@ -68,11 +74,16 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 					Author Author `json:"author"`
 				}
 
-				jsonData := HttpRequest(fmt.Sprintf("https://api.github.com/repos/%s/git/commits/%s", repo.FullName, c.Hash.String()))
+				jsonData,err := HttpRequest(fmt.Sprintf("https://api.github.com/repos/%s/git/commits/%s", repo.FullName, c.Hash.String()))
+        if err != nil {
+          fatal = true
+        } else {
+        
 
-				err := json.Unmarshal([]byte(jsonData), &commitInfo)
+				err = json.Unmarshal([]byte(jsonData), &commitInfo)
 				if err != nil {
 					log.Println(err)
+          fatal = true
 				}
 				log.Printf("Author: %s\nUsername: %s\n", commitInfo.Author.Name, username)
 				if strings.EqualFold(commitInfo.Author.Name, username) { // check username
@@ -82,12 +93,16 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 				}
 			}
 			contributors[c.Author.Email] = true
+    }
 			//log.Println(c.Hash.String())
 			return nil
 		})
 		Check(err)
 
 	}
+  if fatal {
+    return EmailsType{}
+  }
 	foundEmailArray := EmailsType{}
 	for c := range foundEmail {
 		foundEmailArray[c] = Email{
@@ -105,6 +120,8 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 	}
 	//}
 	return foundEmailArray
+}
+  return EmailsType{}
 }
 
 func Exists(path string) bool {

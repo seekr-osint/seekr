@@ -480,6 +480,30 @@ async function main() {
                 
                 base_div.appendChild(del_btn_div);
                 del_btn_div.appendChild(del_btn);
+                // Deep investigation
+              deep_btn.onclick = async function () {
+                // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
+                
+                console.log("btn clicked")
+                console.log(accObj)
+                let getId = document.getElementById("e-showid").innerHTML
+
+
+                const res = await fetch("http://localhost:8080/people/" + getId)
+
+                let data = await res.json();
+                const res2 = await fetch("http://localhost:8080/deep/github/" + accObj.username)
+                let data2 = await res2.json();
+                console.log(data2)
+
+                //data.accounts[accObj.service + "-" + accObj.username] = accObj;
+  
+                fetch("http://localhost:8080/person", {
+                  method: 'POST',
+                  body: JSON.stringify(data)
+                });
+  
+              }
 
                 del_btn_div.onclick = function () {
                   fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
@@ -689,6 +713,7 @@ async function main() {
               accept_btn.appendChild(accept_p);
   
               
+
         
               accept_btn.onclick = async function () {
                 // Check if accObj.service and accObj.username are also in accounts object at obj.accounts

@@ -4,21 +4,21 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"image"
 	"image/png"
 	"io/ioutil"
-	"sync"
-
-	//"io"
 	"log"
 	"net/http"
+	"sync"
 
 	//"os"
-	"github.com/PuerkitoBio/goquery"
 	_ "image/jpeg"
 	"strconv"
 	"strings"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 type Services []Service
@@ -28,8 +28,8 @@ type Service struct {
 	GetInfoFunc       GetInfoFunc    // example: EmptyAccountInfo()
 	ImageFunc         ImageFunc
 	ExternalImageFunc bool
-  ScrapeImage       bool
-  Scrape            ScrapeStruct
+	ScrapeImage       bool
+	Scrape            ScrapeStruct
 	BaseUrl           string // example: "https://github.com"
 	AvatarUrl         string
 	Check             string // example: "status_code"
@@ -37,15 +37,15 @@ type Service struct {
 	Pattern           string
 	BlockedPattern    string
 }
-type ScrapeStruct struct{
-  FindElement string
-  Attr        string 
+type ScrapeStruct struct {
+	FindElement string
+	Attr        string
 }
-type GetInfoFunc func(string, Service) Account // (username)
-type ImageFunc func(string, Service) string    // (username)
-type UserExistsFunc func(Service, string) bool // (BaseUrl,username)
+type GetInfoFunc func(string, Service, ApiConfig) Account // (username)
+type ImageFunc func(string, Service) string               // (username)
+type UserExistsFunc func(Service, string, ApiConfig) bool // (service,username)
 
-func ServicesHandler(servicesToCheck Services, username string) Accounts {
+func ServicesHandler(servicesToCheck Services, username string, config ApiConfig) Accounts {
 	wg := &sync.WaitGroup{}
 
 	accounts := Accounts{}
@@ -53,9 +53,9 @@ func ServicesHandler(servicesToCheck Services, username string) Accounts {
 		wg.Add(1)
 		go func(i int) {
 			// Do something
-			service := servicesToCheck[i]                  // current service
-			if service.UserExistsFunc(service, username) { // if service exisits
-				accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = service.GetInfoFunc(username, service) // add service to accounts
+			service := servicesToCheck[i] // current service
+			if service.UserExistsFunc(service, username, config) {
+				accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = service.GetInfoFunc(username, service, config) // add service to accounts
 			}
 			wg.Done()
 		}(i)
@@ -310,16 +310,16 @@ var DefaultServices = Services{
 		BaseUrl:        "https://giphy.com/{username}",
 	},
 	Service{
-		Name:              "Gravatar",
-		Check:             "status_code",
-		UserExistsFunc:    SimpleUserExistsCheck,
-		GetInfoFunc:       SimpleAccountInfo,
-    ScrapeImage:        true,
-    Scrape:             ScrapeStruct{
-      FindElement: ".photo-0",
-      Attr:        "href",
-    },
-		BaseUrl:           "http://en.gravatar.com/{username}",
+		Name:           "Gravatar",
+		Check:          "status_code",
+		UserExistsFunc: SimpleUserExistsCheck,
+		GetInfoFunc:    SimpleAccountInfo,
+		ScrapeImage:    true,
+		Scrape: ScrapeStruct{
+			FindElement: ".photo-0",
+			Attr:        "href",
+		},
+		BaseUrl: "http://en.gravatar.com/{username}",
 	},
 	Service{
 		Name:           "HackTheBox",
@@ -411,19 +411,19 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "BuyMeACoffee",
-		Check:          "status_code",
+		Check:          "status_code", // FIXME down
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://buymeacoff.ee/{username}",
 	},
 	Service{
-		Name:           "Bitbucket",
-		Check:          "status_code",
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
-    ExternalImageFunc: true,
-    ImageFunc: BitbucketImage,
-		BaseUrl:        "https://bitbucket.org/{username}/",
+		Name:              "Bitbucket",
+		Check:             "status_code",
+		UserExistsFunc:    SimpleUserExistsCheck,
+		GetInfoFunc:       SimpleAccountInfo,
+		ExternalImageFunc: true,
+		ImageFunc:         BitbucketImage,
+		BaseUrl:           "https://bitbucket.org/{username}/",
 		// AvatarUrl:      "https://bitbucket.org/workspaces/{username}/avatar/", // FIXME
 	},
 	Service{
@@ -477,25 +477,56 @@ var DefaultServices = Services{
 	},
 }
 
-func SimpleUserExistsCheck(service Service, username string) bool {
-	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
+func HttpRequest(url string) (string, error) {
+	log.Println("request to:" + url)
+	if url != "" {
+		resp, err := http.Get(url)
+		if err != nil {
+			log.Print("error http request")
+			log.Println(err)
+			return "", err
+		}
+		defer resp.Body.Close()
+
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Print("error http request")
+			log.Println(err)
+			return "", err
+		}
+		return string(body), nil
+	}
+
+	return "", errors.New("empty URL provided")
+}
+
+func UrlTemplate(url string, username string) string {
+	return strings.ReplaceAll(url, "{username}", username)
+}
+func SimpleUserExistsCheck(service Service, username string, config ApiConfig) bool { // tyoe UserExistsFunc
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
 	log.Println("check:" + BaseUrl)
 	exists := false
 	switch service.Check {
 	case "status_code":
 		exists = GetStatusCode(BaseUrl) == 200
 	case "pattern": // search for string on website
-		site := HttpRequest(BaseUrl)
-		// log.Println(site)
-		found := strings.Contains(site, strings.ReplaceAll(service.Pattern, "{username}", username)) // ! pattern was found
-		blocked := false
-		if service.BlockedPattern != "" {
-			blocked = strings.Contains(site, service.BlockedPattern)
-		}
-		if !blocked {
-			log.Println("found:", found)
-			if !found {
-				exists = true
+		site, err := HttpRequest(BaseUrl)
+		if err != nil {
+			exists = false
+			return false
+		} else {
+			// log.Println(site)
+			pattern_found := strings.Contains(site, UrlTemplate(service.Pattern, username)) // ! pattern was found
+			blocked := false
+			if service.BlockedPattern != "" {
+				blocked = strings.Contains(site, service.BlockedPattern)
+			}
+			if !blocked {
+				if !pattern_found {
+					log.Println("found pattern:", pattern_found)
+					exists = true
+				}
 			}
 		}
 		// the pattern is the not found text therefore it's true if no not found text was found
@@ -513,29 +544,10 @@ func EmptyAccountInfo(username string, service Service) Account {
 }
 
 // maybe remove
-func DefaultServicesHandler(username string) Accounts {
-	return ServicesHandler(DefaultServices, username)
-}
-
-func HttpRequest(url string) string {
-	log.Println("request to:" + url)
-	if url != "" {
-		resp, err := http.Get(url)
-		if err != nil {
-			log.Println(err)
-		}
-		defer resp.Body.Close()
-
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Println(err)
-		}
-		return string(body)
-	}
-
-	return ""
-}
-
+//
+//	func DefaultServicesHandler(username string) Accounts {
+//		return ServicesHandler(DefaultServices, username)
+//	}
 func getImg(img string) image.Image {
 	reader := strings.NewReader(img)
 	decodedImg, imgType, err := image.Decode(reader)
@@ -561,7 +573,10 @@ func EncodeBase64(img string) string {
 func GetAvatar(avatar_url string, account Account) Account {
 	log.Printf("avatar_url: %s", avatar_url)
 	if GetStatusCode(avatar_url) == 200 {
-		avatar := HttpRequest(avatar_url)
+		avatar, err := HttpRequest(avatar_url)
+		if err != nil {
+			return account
+		}
 		account.Picture = Pictures{
 			"1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
 		}
@@ -569,46 +584,47 @@ func GetAvatar(avatar_url string, account Account) Account {
 	return account
 }
 
-func SimpleAccountInfo(username string, service Service) Account {
-	log.Println(service.Name)
-	baseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
+func SimpleAccountInfo(username string, service Service, config ApiConfig) Account {
+	log.Println("simple account info:" + service.Name)
+	baseUrl := UrlTemplate(service.BaseUrl, username)
+	htmlUrl := UrlTemplate(service.HtmlUrl, username)
 	account := Account{
 		Service:  service.Name,
 		Username: username,
 	}
-	if service.HtmlUrl == "" {
+	if htmlUrl == "" {
 		account.Url = baseUrl
 	} else {
-		account.Url = strings.ReplaceAll(service.HtmlUrl, "{username}", username)
+		account.Url = htmlUrl
 	}
 
 	if service.ExternalImageFunc {
-		service.AvatarUrl = service.ImageFunc(username, service)
+		// no check for "" needed the check happenes later in the code
+		service.AvatarUrl = UrlTemplate(service.ImageFunc(username, service), username)
 	}
-  if service.ScrapeImage {
+	if service.ScrapeImage {
 
-	doc, err := goquery.NewDocument(strings.ReplaceAll(service.BaseUrl, "{username}", username))
-	if err != nil {
-		log.Println(err)
+		doc, err := goquery.NewDocument(baseUrl)
+		if err != nil {
+			log.Println(err)
+		}
+
+		// Select the <a> element with class "photo-0"
+		link := doc.Find(service.Scrape.FindElement).First()
+
+		// Get the value of the href attribute
+		res, exists := link.Attr(service.Scrape.Attr)
+		if exists {
+			service.AvatarUrl = res
+		}
 	}
-
-	// Select the <a> element with class "photo-0"
-	link := doc.Find(service.Scrape.FindElement).First()
-
-	// Get the value of the href attribute
-	res, exists := link.Attr(service.Scrape.Attr)
-  if exists {
-    service.AvatarUrl = res
-  }
-  }
 	if service.AvatarUrl != "" {
-		avatar_url := strings.ReplaceAll(service.AvatarUrl, "{username}", username)
-		account = GetAvatar(avatar_url, account)
+		account = GetAvatar(service.AvatarUrl, account) // TODO give service as argument
 	}
 	return account
 }
 
-func SlideshareInfo(username string, service Service) Account {
+func SlideshareInfo(username string, service Service, config ApiConfig) Account {
 	log.Println("slideshare")
 	baseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	avatar_url := strings.ReplaceAll(service.BaseUrl, "{username}", username)
@@ -620,7 +636,7 @@ func SlideshareInfo(username string, service Service) Account {
 	account = GetAvatar(avatar_url, account)
 	return account
 }
-func GithubInfo(username string, service Service) Account {
+func GithubInfo(username string, service Service, config ApiConfig) Account {
 	log.Println("github")
 	var data struct {
 		Id         int    `json:"id"`
@@ -643,9 +659,12 @@ func GithubInfo(username string, service Service) Account {
 		Documentation_url string `json:"documentation_url"`
 	}
 
-	jsonData := HttpRequest("https://api.github.com/users/" + username)
+	jsonData, err := HttpRequest("https://api.github.com/users/" + username)
+	if err != nil {
+		return EmptyAccountInfo(username, service)
+	}
 
-	err := json.Unmarshal([]byte(jsonData), &errData)
+	err = json.Unmarshal([]byte(jsonData), &errData)
 	if err != nil {
 		log.Println(err)
 	} else {
@@ -661,17 +680,13 @@ func GithubInfo(username string, service Service) Account {
 			}
 		}
 	}
-	avatar := HttpRequest(data.Avatar_url)
 	account := Account{
 		Service:  service.Name,
 		Username: username,
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
 		Bio:      Bios{"1": Bio{Bio: data.Bio}},
-		Picture: Pictures{
 
-			"1": {Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
-		},
 		Location:  data.Location,
 		Created:   data.Created_at,
 		Updated:   data.Updated_at,
@@ -679,10 +694,18 @@ func GithubInfo(username string, service Service) Account {
 		Followers: data.Followers,
 		Following: data.Following,
 	}
+	avatar, err := HttpRequest(data.Avatar_url)
+	if err != nil {
+		log.Println(err)
+	} else {
+		account.Picture = Pictures{
+			"1": {Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
+		}
+	}
 	return account
 }
 
-func LichessInfo(username string, service Service) Account {
+func LichessInfo(username string, service Service, config ApiConfig) Account {
 	log.Println("lichess")
 	var data struct {
 		Id      string `json:"id"`
@@ -693,8 +716,11 @@ func LichessInfo(username string, service Service) Account {
 			Lastname  string `json:"lastName"`
 		} `json:"profile"`
 	}
-	jsonData := HttpRequest("https://lichess.org/api/user/" + username)
-	err := json.Unmarshal([]byte(jsonData), &data)
+	jsonData, err := HttpRequest("https://lichess.org/api/user/" + username)
+	if err != nil {
+		return EmptyAccountInfo(username, service)
+	}
+	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
 	}
@@ -749,15 +775,15 @@ func BitbucketImage(username string, service Service) string { // FIXME
 
 	// Select the <a> element with class "photo-0"
 
-// Select the <span> element with class "css-ob4lje"
-span := doc.Find("span.css-ob4lje").First()
+	// Select the <span> element with class "css-ob4lje"
+	span := doc.Find("span.css-ob4lje").First()
 
-// Get the value of the "background-image" style property
-    style, exists := span.Attr("style")
-    if exists {
-    // Extract the URL from the style property value
-    url := strings.TrimPrefix(strings.TrimSuffix(strings.Split(style, ":")[1], ";"), " url(\"")
-    return url
-}
+	// Get the value of the "background-image" style property
+	style, exists := span.Attr("style")
+	if exists {
+		// Extract the URL from the style property value
+		url := strings.TrimPrefix(strings.TrimSuffix(strings.Split(style, ":")[1], ";"), " url(\"")
+		return url
+	}
 	return ""
 }
