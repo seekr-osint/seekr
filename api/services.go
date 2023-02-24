@@ -9,10 +9,9 @@ import (
 	"image/png"
 	"io/ioutil"
 	"sync"
-
-	//"io"
 	"log"
 	"net/http"
+  "errors"
 
 	//"os"
 	"github.com/PuerkitoBio/goquery"
@@ -411,7 +410,7 @@ var DefaultServices = Services{
 	},
 	Service{
 		Name:           "BuyMeACoffee",
-		Check:          "status_code",
+		Check:          "status_code", // FIXME down
 		UserExistsFunc: SimpleUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://buymeacoff.ee/{username}",
@@ -477,6 +476,30 @@ var DefaultServices = Services{
 	},
 }
 
+func HttpRequest(url string) (string, error) {
+  log.Println("request to:" + url)
+  if url != "" {
+    resp, err := http.Get(url)
+    if err != nil {
+      log.Print("error http request")
+      log.Println(err)
+      return "", err
+    }
+    defer resp.Body.Close()
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+      log.Print("error http request")
+      log.Println(err)
+      return "", err
+    }
+    return string(body), nil
+  }
+
+  return "", errors.New("empty URL provided")
+}
+
+
 func SimpleUserExistsCheck(service Service, username string) bool {
 	BaseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	log.Println("check:" + BaseUrl)
@@ -485,7 +508,10 @@ func SimpleUserExistsCheck(service Service, username string) bool {
 	case "status_code":
 		exists = GetStatusCode(BaseUrl) == 200
 	case "pattern": // search for string on website
-		site := HttpRequest(BaseUrl)
+		site, err := HttpRequest(BaseUrl)
+    if err != nil {
+      return false
+    }
 		// log.Println(site)
 		found := strings.Contains(site, strings.ReplaceAll(service.Pattern, "{username}", username)) // ! pattern was found
 		blocked := false
@@ -517,24 +543,6 @@ func DefaultServicesHandler(username string) Accounts {
 	return ServicesHandler(DefaultServices, username)
 }
 
-func HttpRequest(url string) string {
-	log.Println("request to:" + url)
-	if url != "" {
-		resp, err := http.Get(url)
-		if err != nil {
-			log.Println(err)
-		}
-		defer resp.Body.Close()
-
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			log.Println(err)
-		}
-		return string(body)
-	}
-
-	return ""
-}
 
 func getImg(img string) image.Image {
 	reader := strings.NewReader(img)
@@ -561,7 +569,10 @@ func EncodeBase64(img string) string {
 func GetAvatar(avatar_url string, account Account) Account {
 	log.Printf("avatar_url: %s", avatar_url)
 	if GetStatusCode(avatar_url) == 200 {
-		avatar := HttpRequest(avatar_url)
+		avatar,err := HttpRequest(avatar_url)
+    if err != nil {
+      return account
+    }
 		account.Picture = Pictures{
 			"1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
 		}
@@ -643,9 +654,12 @@ func GithubInfo(username string, service Service) Account {
 		Documentation_url string `json:"documentation_url"`
 	}
 
-	jsonData := HttpRequest("https://api.github.com/users/" + username)
+	jsonData,err := HttpRequest("https://api.github.com/users/" + username)
+  if err != nil {
+    return EmptyAccountInfo(username,service)
+  }
 
-	err := json.Unmarshal([]byte(jsonData), &errData)
+	err = json.Unmarshal([]byte(jsonData), &errData)
 	if err != nil {
 		log.Println(err)
 	} else {
@@ -661,17 +675,13 @@ func GithubInfo(username string, service Service) Account {
 			}
 		}
 	}
-	avatar := HttpRequest(data.Avatar_url)
 	account := Account{
 		Service:  service.Name,
 		Username: username,
 		Url:      data.Url,
 		Id:       strconv.Itoa(data.Id),
 		Bio:      Bios{"1": Bio{Bio: data.Bio}},
-		Picture: Pictures{
 
-			"1": {Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
-		},
 		Location:  data.Location,
 		Created:   data.Created_at,
 		Updated:   data.Updated_at,
@@ -679,6 +689,14 @@ func GithubInfo(username string, service Service) Account {
 		Followers: data.Followers,
 		Following: data.Following,
 	}
+	avatar,err := HttpRequest(data.Avatar_url)
+  if err != nil {
+    log.Println(err)
+  } else {
+	account.Picture = Pictures{
+			"1": {Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
+		}
+  }
 	return account
 }
 
@@ -693,8 +711,11 @@ func LichessInfo(username string, service Service) Account {
 			Lastname  string `json:"lastName"`
 		} `json:"profile"`
 	}
-	jsonData := HttpRequest("https://lichess.org/api/user/" + username)
-	err := json.Unmarshal([]byte(jsonData), &data)
+	jsonData,err := HttpRequest("https://lichess.org/api/user/" + username)
+  if err != nil {
+    return EmptyAccountInfo(username,service)
+  }
+	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
 	}
