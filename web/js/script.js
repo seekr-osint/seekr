@@ -484,23 +484,15 @@ async function main() {
 
 
                 // Deep investigation
-              deep_btn.onclick = async function () {
-                // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-                
-                let getId = document.getElementById("e-showid").innerHTML
+                deep_btn.onclick = async function () {
+                  // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
+                  
+                  let getId = document.getElementById("e-showid").innerHTML
 
 
-                const res = await fetch("http://localhost:8080/deep/github/" + username)
-                let data = await res.json();
-                console.log(data)
-
-                //data.accounts[accObj.service + "-" + accObj.username] = accObj;
-
-                fetch("http://localhost:8080/person", { // REMOVE MAYBE
-                  method: 'POST',
-                  body: JSON.stringify(data)
-                });
-  
+                  const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
+                  let data = await res.json();
+                  console.log(data);
               }
 
 
