@@ -19,3 +19,8 @@ dist/
 seekr.log
 cmd/seekr-cli/build.sh
 cmd/seekr-cli/seekr-cli.so
+
+
+# Added by cargo
+
+/target

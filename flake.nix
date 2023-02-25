@@ -33,6 +33,7 @@
       packages = forAllSystems (system:
         let
           pkgs = nixpkgsFor.${system};
+          naersk-lib = pkgs.callPackage naersk { };
         in
         {
           seekr = pkgs.buildGoModule {
@@ -45,7 +46,13 @@
             #vendorSha256 = pkgs.lib.fakeSha256;
             vendorSha256 = "sha256-E99E58EQGFG57YqCeB7VggrODzndCfz8t2UATKrN+PQ=";
           };
+          seekr-cli = naersk-lib.buildPackage {
+            src = ./.;
+            nativeBuildInputs = with pkgs; [ pkg-config ];
+            buildInputs = with pkgs; [ openssl ];
+          };
         });
+
 
       apps = forAllSystems (system: {
         default = {
