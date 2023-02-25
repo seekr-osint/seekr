@@ -6,13 +6,13 @@ async function main() {
   const res = await fetch("http://localhost:8080/")
 
   let data = await res.json();
-  
+
 
   element.addEventListener("keyup", search_users);
   search_users();
 
-  document.getElementById("exportbtn").onclick = function() {
-    SaveAsFile(JSON.stringify(data),"data.json","text/plain;charset=utf-8");
+  document.getElementById("exportbtn").onclick = function () {
+    SaveAsFile(JSON.stringify(data), "data.json", "text/plain;charset=utf-8");
   }
 
 
@@ -22,7 +22,7 @@ async function main() {
     let x = document.querySelector('#list-holder');
     x.innerHTML = ""
 
-    
+
 
     for (const [i, _] of Object.entries(data)) {
       let obj = data[i];
@@ -86,7 +86,7 @@ async function main() {
 
 
           let allObjectsAtStart = document.querySelectorAll(".viewtag");
-          
+
           allObjectsAtStart.forEach(object => {
             object.style.display = "flex";
           });
@@ -97,7 +97,7 @@ async function main() {
 
           // Loop through all the objects in the array
           for (let i = 0; i < allObjects.length; i++) {
-            
+
             // Store the current object's HTML in a variable called "item"
             let item = allObjects[i].innerHTML;
             // Get the text from the object's HTML and store it in a variable called "tempText"
@@ -116,8 +116,8 @@ async function main() {
           if (document.getElementById("notes").innerHTML.length <= 0) {
             document.getElementById("space-maker").style.display = "none";
           }
-          
-          
+
+
           // Email
 
           document.querySelector('.v-email-base').style.display = "block";
@@ -133,7 +133,7 @@ async function main() {
 
                 const subContainer = document.createElement("div");
                 subContainer.className = "email-subcontainer";
-    
+
                 const email_input = document.createElement("input");
                 email_input.className = "form-input v-mail";
                 email_input.id = "v-e-mail";
@@ -144,14 +144,14 @@ async function main() {
                 email_input.required = "true";
                 email_input.value = email.mail;
                 email_input.disabled = "true";
-    
-    
+
+
                 const infoBtn = document.createElement("div");
                 infoBtn.className = "v-info-btn";
-    
+
                 const icon = document.createElement("ion-icon");
                 icon.setAttribute("name", "information-outline");
-    
+
                 container.appendChild(subContainer);
                 infoBtn.appendChild(icon);
                 subContainer.appendChild(email_input);
@@ -170,21 +170,21 @@ async function main() {
                     if (email.valid == true) {
                       const iconDivValid = document.createElement("div");
                       iconDivValid.className = "valid-icon-div";
-              
+
                       const iconValid = document.createElement("img");
                       iconValid.className = "valid-icon";
                       iconValid.src = "./images/valid.png";
-              
+
                       infoDiv.appendChild(iconDivValid);
                       iconDivValid.appendChild(iconValid);
                     } else if (email.valid == false) {
                       const iconDivValid = document.createElement("div");
                       iconDivValid.className = "valid-icon-div";
-              
+
                       const iconValid = document.createElement("img");
                       iconValid.className = "valid-icon";
                       iconValid.src = "./images/invalid.png";
-              
+
                       infoDiv.appendChild(iconDivValid);
                       iconDivValid.appendChild(iconValid);
                     }
@@ -193,15 +193,15 @@ async function main() {
                       for (const [_, service] of Object.entries(email.services)) {
                         const iconDiv = document.createElement("div");
                         iconDiv.className = "service-icon-div";
-                
+
                         const icon = document.createElement("img");
                         icon.className = "service-icon";
                         icon.src = service.icon;
-                
+
                         infoDiv.appendChild(iconDiv);
                         iconDiv.appendChild(icon);
                       };
-                
+
                       container.appendChild(infoDiv);
                     }
                   } else {
@@ -220,7 +220,7 @@ async function main() {
           if (obj.accounts != {} && obj.accounts != null) {
             for (const [_, accObj] of Object.entries(obj.accounts)) {
               //let accObj = obj.accounts[i];
-  
+
               // Creating elements
 
               const base_div = document.createElement("div"); // Outer div
@@ -270,15 +270,15 @@ async function main() {
 
         document.getElementById("savetxtbtn").onclick = async function () {
           let textToSave = "";
-        
+
           let getId = document.getElementById("v-showid").innerHTML;
-        
-          const res = await fetch("http://localhost:8080/people/"+ getId)
-        
+
+          const res = await fetch("http://localhost:8080/people/" + getId)
+
           data = await res.json();
-        
+
           // For each item in data: check if the field is empty, if not, add item to textToSave
-            // For each item in data: check if the field is empty, if not, add item to textToSave
+          // For each item in data: check if the field is empty, if not, add item to textToSave
           if (data.name) {
             textToSave += `Name: ${data.name}\n`;
           }
@@ -301,11 +301,11 @@ async function main() {
           }
 
           var textToSave1 = textToSave.replace(/<br>/g, "\n       ");
-          
-        
-          SaveAsFile(textToSave1, data.name.toLowerCase().replace(/ /g, "") + ".txt","text/plain;charset=utf-8");
+
+
+          SaveAsFile(textToSave1, data.name.toLowerCase().replace(/ /g, "") + ".txt", "text/plain;charset=utf-8");
         }
-        
+
 
         const e_icon_div = document.createElement("div"); // Icon div
         e_icon_div.className = "chip-edit";
@@ -352,7 +352,7 @@ async function main() {
 
               const subContainer = document.createElement("div");
               subContainer.className = "email-subcontainer";
-  
+
               const email_input = document.createElement("input");
               email_input.className = "form-input e-mail";
               email_input.id = "e-mail";
@@ -362,13 +362,13 @@ async function main() {
               email_input.maxLength = "30";
               email_input.required = "true";
               email_input.value = email.mail;
-  
+
               const del_btn_div = document.createElement("div");
               del_btn_div.className = "del-btn";
 
               const del_btn = document.createElement("ion-icon");
               del_btn.name = "remove-outline";
-  
+
               container.appendChild(subContainer);
               subContainer.appendChild(email_input);
               emailContainer.appendChild(container);
@@ -378,11 +378,11 @@ async function main() {
               if (email.services != undefined && email.services != null && email.services != "") {
                 const hidden_email_save = document.createElement("p");
                 hidden_email_save.className = "hidden-email-save";
-  
+
                 hidden_email_save.innerHTML = JSON.stringify(email.services);
                 container.appendChild(hidden_email_save);
               }
-              
+
 
               del_btn.onclick = function () {
                 container.remove();
@@ -390,7 +390,7 @@ async function main() {
             };
           }
 
-          
+
 
           document.getElementById("add-btn").onclick = function () {
             const email_base = document.querySelector(".email-base");
@@ -436,7 +436,7 @@ async function main() {
           if (obj.accounts != {} && obj.accounts != null) {
             for (const [_, accObj] of Object.entries(obj.accounts)) {
               //let accObj = obj.accounts[i];
-  
+
               // Creating elements
 
               const base_div = document.createElement("div"); // Outer div
@@ -454,6 +454,9 @@ async function main() {
               const info_div = document.createElement("div"); // Info div
               info_div.className = "info-container";
 
+              const icon_space = document.createElement("div");
+              icon_space.className = "icon-space";
+
               const service_p = document.createElement("a");
               service_p.className = "serviceName";
               service_p.innerHTML = accObj.service;
@@ -469,10 +472,11 @@ async function main() {
               document.querySelector(".e-accounts").appendChild(base_div);
               base_div.appendChild(pfp_img);
               base_div.appendChild(info_div);
+              base_div.appendChild(icon_space);
               info_div.appendChild(service_p);
               info_div.appendChild(name_p);
 
-              if(accObj.service.toLowerCase() == "github") { // If the service is github, add a deep investigation button
+              if (accObj.service.toLowerCase() == "github") { // If the service is github, add a deep investigation button
                 const deep_btn = document.createElement("div");
                 deep_btn.className = "deepInvBtn btn btn-secondary";
                 deep_btn.id = "deepInvBtn";
@@ -489,18 +493,50 @@ async function main() {
 
                 const del_btn = document.createElement("ion-icon");
                 del_btn.name = "remove-outline";
-                
+
                 base_div.appendChild(del_btn_div);
                 del_btn_div.appendChild(del_btn);
 
 
                 // Deep investigation
                 deep_btn.onclick = async function () {
+                  const loadingSpinner = document.createElement("div");
+                  loadingSpinner.className = "neu";
+                  loadingSpinner.id = "deepInvLoadingSpinner";
+                  loadingSpinner.style.display = "flex";
+
+                  const loadingSpinnerShape = document.createElement("div");
+                  loadingSpinnerShape.className = "neu_shape";
+
+                  const loadingSpinnerInner = document.createElement("div");
+                  loadingSpinnerInner.className = "neu_inner";
+
+                  const loadingSpinnerBall = document.createElement("div");
+                  loadingSpinnerBall.className = "neu_ball";
+
+
+                  icon_space.appendChild(loadingSpinner)
+                  loadingSpinner.appendChild(loadingSpinnerShape);
+                  loadingSpinnerShape.appendChild(loadingSpinnerInner);
+                  loadingSpinnerInner.appendChild(loadingSpinnerBall);
+                  loadingSpinnerInner.appendChild(loadingSpinnerBall.cloneNode());
+                  loadingSpinnerInner.appendChild(loadingSpinnerBall.cloneNode());
+                  loadingSpinnerInner.appendChild(loadingSpinnerBall.cloneNode());
+
 
                   const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
                   let data = await res.json();
 
-                  if (data != null) {
+                  loadingSpinner.remove();
+
+                  const deepInvResIcon = document.createElement("img");
+                  deepInvResIcon.className = "deepInvResIcon";
+
+                  icon_space.appendChild(deepInvResIcon);
+
+                  if (data != null && data != {}) {
+                    deepInvResIcon.src = "./images/checkmark.png";
+
                     for (const [i, _] of Object.entries(data)) {
                       let obj = data[i];
 
@@ -508,10 +544,10 @@ async function main() {
 
                       const email_container = document.createElement("div");
                       email_container.className = "email-container";
-  
+
                       const subContainer = document.createElement("div");
                       subContainer.className = "email-subcontainer";
-  
+
                       const email_input = document.createElement("input");
                       email_input.className = "form-input e-mail";
                       email_input.id = "e-mail";
@@ -520,19 +556,19 @@ async function main() {
                       email_input.spellcheck = "false";
                       email_input.maxLength = "30";
                       email_input.required = "true";
-  
+
                       email_input.value = obj.mail;
-  
+
                       const del_btn_div = document.createElement("div");
                       del_btn_div.className = "del-btn";
-  
+
                       const del_btn = document.createElement("ion-icon");
                       del_btn.name = "remove-outline";
 
                       const hidden_email_save = document.createElement("p");
                       hidden_email_save.className = "hidden-email-save";
 
-                      hidden_email_save.innerHTML = JSON.stringify(obj.services); 
+                      hidden_email_save.innerHTML = JSON.stringify(obj.services);
 
                       email_base.appendChild(email_container);
                       email_container.appendChild(subContainer);
@@ -545,6 +581,8 @@ async function main() {
                         email_container.remove();
                       }
                     }
+                  } else {
+                    deepInvResIcon.src = "./images/checkmark.png";
                   }
                 }
 
@@ -564,7 +602,7 @@ async function main() {
 
                 const del_btn = document.createElement("ion-icon");
                 del_btn.name = "remove-outline";
-                
+
                 base_div.appendChild(del_btn_div);
                 del_btn_div.appendChild(del_btn);
 
@@ -575,8 +613,6 @@ async function main() {
                   });
 
                   base_div.remove();
-
-                  
 
                   // TODO Add stuff here
                 }
@@ -634,7 +670,7 @@ async function main() {
 
         document.getElementById("acc-search-chip").onclick = search;
 
-        document.getElementById("acc-name-tag").onkeypress = function(event) {
+        document.getElementById("acc-name-tag").onkeypress = function (event) {
           // Check if the pressed key is the Enter key
           if (event.key === "Enter") {
             event.preventDefault();
@@ -666,10 +702,10 @@ async function main() {
           // Set the flag to indicate that a request is in progress
           const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").value);
           const data = await response.json();
-      
+
           const term_container = document.createElement("div");
           term_container.className = "term-container";
-      
+
           const term_header = document.createElement("p");
           term_header.className = "term-header";
           term_header.innerHTML = document.getElementById("acc-name-tag").value;
@@ -688,35 +724,35 @@ async function main() {
 
             for (const [i, _] of Object.entries(data)) {
               let accObj = data[i];
-        
+
               const manage_acc_chip = document.createElement("div");
               manage_acc_chip.className = "manage-acc-chip"
-        
+
               const outer_div = document.createElement("div");
               outer_div.className = "acc-chip";
-        
+
               const user_pfp = document.createElement("img");
               user_pfp.className = "userPfp";
-        
+
               if (accObj.profilePicture != null) {
                 user_pfp.src = "data:image/png;base64," + accObj.profilePicture["1"].img;
               } else {
                 user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
               }
-        
+
               const info_container = document.createElement("div");
               info_container.className = "info-container";
-        
+
               const service_name = document.createElement("p");
               service_name.className = "serviceName";
               service_name.innerHTML = accObj.service;
-        
+
               const user_name = document.createElement("a");
               user_name.className = "userName";
               user_name.innerHTML = accObj.username;
               user_name.href = accObj.url;
               user_name.target = "_blank";
-        
+
               row_div.appendChild(term_container);
               term_container.appendChild(manage_acc_chip);
               manage_acc_chip.appendChild(outer_div);
@@ -724,41 +760,41 @@ async function main() {
               outer_div.appendChild(info_container);
               info_container.appendChild(service_name);
               info_container.appendChild(user_name);
-        
+
               if (accObj.bio != null) {
                 const user_bio = document.createElement("p");
                 user_bio.className = "userBio";
                 user_bio.innerHTML = accObj.bio["1"].bio;
-        
+
                 info_container.appendChild(user_bio);
               }
-        
+
               const btn_container = document.createElement("div");
               btn_container.className = "manage-btn-container";
-        
+
               const reject_btn = document.createElement("div");
               reject_btn.id = "acc-rejectbtn";
               reject_btn.className = "btn btn-secondary";
-        
+
               const reject_p = document.createElement("p");
               reject_p.innerHTML = "Reject";
-        
+
               const accept_btn = document.createElement("div");
               accept_btn.id = "acc-acceptbtn";
               accept_btn.className = "btn btn-secondary";
-        
+
               const accept_p = document.createElement("p");
               accept_p.innerHTML = "Accept";
-        
+
               manage_acc_chip.appendChild(btn_container);
               btn_container.appendChild(reject_btn);
               btn_container.appendChild(accept_btn);
               reject_btn.appendChild(reject_p);
               accept_btn.appendChild(accept_p);
-  
-              
 
-        
+
+
+
               accept_btn.onclick = async function () {
                 // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
                 let getId = document.getElementById("e-showid").innerHTML
@@ -768,18 +804,18 @@ async function main() {
                 let data = await res.json();
 
                 data.accounts[accObj.service + "-" + accObj.username] = accObj;
-  
+
                 fetch("http://localhost:8080/person", {
                   method: 'POST',
                   body: JSON.stringify(data)
                 });
-  
+
                 accept_p.innerHTML = "Accepted!";
               }
-  
+
               reject_btn.onclick = async function () {
                 let elementCount = term_container.childElementCount;
-  
+
                 if (elementCount > 2) {
                   manage_acc_chip.remove();
                 } else {
@@ -972,20 +1008,20 @@ async function main() {
     let emailContainers = document.querySelectorAll('.c-email-container');
     let emailAddresses = {};
 
-    emailContainers.forEach(function(container) {
+    emailContainers.forEach(function (container) {
       let emailInput = container.querySelector('input');
       emailAddresses[emailInput.value] = {
         "mail": emailInput.value,
         "src": "manual"
       };
     });
-    
+
 
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
-    }).then (function () {
+    }).then(function () {
       location.reload();
     });
   }
@@ -1021,7 +1057,7 @@ async function main() {
     let emailContainers = document.querySelectorAll('.email-container');
     let emailAddresses = {};
 
-    emailContainers.forEach(function(container) {
+    emailContainers.forEach(function (container) {
       let hiddenElement = container.querySelector(".hidden-email-save");
 
       let hiddenElementVal = null;
@@ -1044,8 +1080,8 @@ async function main() {
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({"id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
-    }).then (function () {
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+    }).then(function () {
       location.reload();
     });
   }

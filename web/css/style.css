@@ -32,6 +32,18 @@ html {
   }
 }
 
+.deepInvResIcon {
+  width: 4rem;
+  height: 4rem;
+  filter: drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) 
+          drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));
+}
+
+.icon-space {
+  width: 4rem;
+  margin-left: 3rem;
+}
+
 .hidden-email-save {
   width: 0;
   height: 0;
@@ -500,13 +512,14 @@ a {
   width: 4rem !important;
   height: 4rem !important;
   margin-bottom: 1rem;
+  margin-top: 1rem !important;
   margin-left: 2rem;
   margin-right: 0;
   font-size: 2rem;
 }
 
 .delAccBtn {
-  margin-left: 23rem !important;
+  margin-left: 17rem !important;
 }
 
 .deepInvBtnTxt {
@@ -518,8 +531,7 @@ a {
   width: 13rem;
   margin: 4rem;
   margin-right: 0;
-  margin-bottom: 3rem;
-  margin-left: 8rem;
+  margin-left: 2rem;
 }
 
 #newbtn {
@@ -747,6 +759,10 @@ a {
 .info-container {
   max-width: 29rem;
   width: 29rem;
+}
+
+#deepInvLoadingSpinner {
+  top: 0;
 }
 
 .neu {
