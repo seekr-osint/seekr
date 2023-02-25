@@ -62,7 +62,7 @@ async function main() {
 
           document.querySelector("#v-showid").innerHTML = obj.id;
 
-          document.querySelector(".name-tag").innerHTML = obj.name;
+          document.querySelector(".name-tag").value = obj.name;
 
           document.querySelector(".maidenname").innerHTML = "Maiden name: " + obj.maidenname;
           document.querySelector(".age").innerHTML = "Age: " + obj.age;
@@ -319,7 +319,7 @@ async function main() {
 
           document.querySelector("#e-showid").innerHTML = obj.id;
 
-          document.querySelector(".e-name-tag").innerHTML = obj.name;
+          document.querySelector(".e-name-tag").value = obj.name;
 
           document.querySelector(".e-maidenname").innerHTML = obj.maidenname;
           document.querySelector(".e-age").innerHTML = obj.age;
@@ -496,13 +496,9 @@ async function main() {
 
                 // Deep investigation
                 deep_btn.onclick = async function () {
-                  console.log("Deep investigation button clicked");
-                  // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-
 
                   const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
                   let data = await res.json();
-                  console.log(data);
 
                   if (data != null) {
                     for (const [i, _] of Object.entries(data)) {
@@ -676,7 +672,7 @@ async function main() {
       
           const term_header = document.createElement("p");
           term_header.className = "term-header";
-          term_header.innerHTML = document.getElementById("acc-name-tag").innerHTML;
+          term_header.innerHTML = document.getElementById("acc-name-tag").value;
 
           term_container.appendChild(term_header);
 
@@ -951,7 +947,7 @@ async function main() {
 
     let id = checkId(preId);
 
-    let name = document.querySelector(".c-name-tag").innerHTML;
+    let name = document.querySelector(".c-name-tag").value;
 
     let maidenname = document.querySelector(".c-maidenname").innerHTML;
     let age = parseInt(document.querySelector(".c-age").innerHTML);
@@ -1000,7 +996,7 @@ async function main() {
   document.getElementById("e-savebtn").onclick = async function () {
     let id = document.querySelector("#e-showid").innerHTML;
 
-    let name = document.querySelector(".e-name-tag").innerHTML;
+    let name = document.querySelector(".e-name-tag").value;
 
     let maidenname = document.querySelector(".e-maidenname").innerHTML;
     let age = parseInt(document.querySelector(".e-age").innerHTML);
@@ -1033,8 +1029,6 @@ async function main() {
       if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
         hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
       }
-
-      console.log(hiddenElementVal);
 
       let emailInput = container.querySelector('input');
       emailAddresses[emailInput.value] = {
