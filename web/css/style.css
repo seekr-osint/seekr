@@ -32,6 +32,12 @@ html {
   }
 }
 
+.hidden-email-save {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
 .email-subcontainer,
 .c-email-subcontainer {
   display: flex;
@@ -39,11 +45,18 @@ html {
 
 .service-icon,
 .valid-icon {
-  width: 3.3rem;
   height: 2.5rem;
   margin: 1rem;
   margin-bottom: 0;
   display: flex;
+}
+
+.service-icon {
+  width: 2.5rem;
+}
+
+.valid-icon {
+  width: 3.3rem;
 }
 
 .service-icon-div,
@@ -380,6 +393,16 @@ a {
   font-size: 1.7rem;
   color: var(--greyDark);
   outline: none;
+  width: 100%;
+  margin-right: 1rem;
+  background: transparent;
+  border: none;
+}
+
+.e-name-tag::placeholder,
+.c-name-tag::placeholder,
+.acc-name-tag::placeholder {
+  color: var(--greyDark);
 }
 
 #acc-name-tag {

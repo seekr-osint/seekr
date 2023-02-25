@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"encoding/json"
 	"io/ioutil"
@@ -15,17 +16,6 @@ import (
 )
 
 var DatabaseFile string
-
-type SaveJsonFunc func(ApiConfig)
-type ApiConfig struct {
-	Ip            string       `json:"ip"`
-	LogFile       string       `json:"log_file"`
-	DataBaseFile  string       `json:"data_base_file"`
-	DataBase      DataBase     `json:"data_base"`
-	SetCORSHeader bool         `json:"set_CORS_header"`
-	SaveJsonFunc  SaveJsonFunc `json:"save_json_func"`
-	GinRouter     *gin.Engine  `json:"gin_router"`
-}
 
 func DefaultSaveJson(config ApiConfig) {
 	log.Println("Saving json to file")
@@ -132,6 +122,7 @@ func GetDataBase(config ApiConfig, c *gin.Context) {
 func GoogleRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, SearchString(c.Param("query")))
 }
+
 func WhoisRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, Whois(c.Param("query"), config))
 }
@@ -143,11 +134,11 @@ func ParsePerson(newPerson Person) Person {
 }
 
 func GetAccounts(config ApiConfig, username string) Accounts {
-	return ServicesHandler(DefaultServices, username)
+	return ServicesHandler(DefaultServices, username, config)
 }
 
 func GetAccountsRequest(config ApiConfig, c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, GetAccounts(config, c.Param("username")))
+	c.IndentedJSON(http.StatusOK, GetAccounts(config, strings.ToLower(c.Param("username"))))
 }
 func ReplaceNil(newPerson Person) Person {
 	if newPerson.Pictures == nil {
