@@ -5,7 +5,6 @@ import (
 	"fmt"
 	//"fmt"
 	"log"
-	"os"
 	"strings"
 
 	git "github.com/go-git/go-git/v5"
@@ -46,7 +45,9 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
+		log.Println("propably rate limited")
 		fatal = true
+		return EmailsType{"fatal": Email{}}
 	} else {
 
 		contributors := make(map[string]bool)
@@ -122,27 +123,4 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 		return foundEmailArray
 	}
 	return EmailsType{}
-}
-
-func Exists(path string) bool {
-	_, err := os.Stat(path)
-	return err == nil
-}
-
-func Remove(path string) {
-	if Exists(path) {
-		err := os.RemoveAll(path)
-		if err != nil {
-			log.Println(err)
-		}
-	}
-}
-
-func Mkdir(path string) {
-	if !Exists(path) {
-		err := os.Mkdir(path, 0755)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 }
