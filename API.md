@@ -356,8 +356,7 @@ There will only be one one item.
 I don't care for people using fatal as email.
 ```
 {
-	"fatal": {
-  }
+	"fatal": "error message"
 }
 ```
 ```sh
