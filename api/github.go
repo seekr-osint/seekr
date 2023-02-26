@@ -1,21 +1,48 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
+	//"errors"
+	"errors"
 	"fmt"
 
 	//"fmt"
-	"log"
-	"os"
-	"strings"
-
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/go-git/go-git/v5/storage/memory"
+	"github.com/gofri/go-github-ratelimit/github_ratelimit"
+	"github.com/google/go-github/v50/github"
+	"log"
+	"os"
+	"strings"
 	//"github.com/go-git/go-git/v5/plumbing"
 )
 
-func GithubInfoDeep(username string, fork bool) EmailsType {
+func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, error) {
+
+	rateLimiter, err := github_ratelimit.NewRateLimitWaiterClient(nil)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return EmailsType{}, err
+	}
+
+	client := github.NewClient(rateLimiter)
+
+	// arbitrary usage of the client
+	organizations, _, err := client.Organizations.List(context.Background(), username, nil)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return EmailsType{}, errors.New("test")
+	}
+
+	for i, organization := range organizations {
+		fmt.Printf("%v. %v\n", i+1, organization.GetLogin())
+	}
+
+	return EmailsType{}, nil
+}
+func GithubInfoDeep2(username string, fork bool) EmailsType {
 	log.Println("github")
 	var data []struct {
 		//Id     string `json:"id"`
