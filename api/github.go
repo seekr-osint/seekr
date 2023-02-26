@@ -41,14 +41,16 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 	if err != nil {
 		log.Println(jsonData)
 		fatal = true
+		return EmailsType{"fatal": Email{}}
 	}
 
 	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
+		log.Println("propably rate limited")
 		fatal = true
+		return EmailsType{"fatal": Email{}}
 	} else {
-
 		contributors := make(map[string]bool)
 		foundEmail := make(map[string]bool)
 		for _, repo := range data {
