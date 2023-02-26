@@ -101,7 +101,7 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 
 		}
 		if fatal {
-			return EmailsType{}
+			return EmailsType{"fatal": Email{}}
 		}
 		foundEmailArray := EmailsType{}
 		for c := range foundEmail {
