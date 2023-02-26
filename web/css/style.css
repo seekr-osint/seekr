@@ -32,6 +32,15 @@ html {
   }
 }
 
+.dd-nav-bar {
+  position: absolute;
+  top: 0;
+  height: 8vh;
+  width: 100%;
+  background-color: var(--greyLight-1);
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+}
+
 .deepInvResIcon {
   width: 4rem;
   height: 4rem;
