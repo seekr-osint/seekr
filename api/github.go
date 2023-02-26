@@ -35,93 +35,93 @@ func GithubInfoDeep(username string, fork bool) EmailsType {
 		Pushed_at  string `json:"pushed_at"`
 	}
 
-  fatal := false
-	jsonData,err := HttpRequest("https://api.github.com/users/" + username + "/repos")
-  if err != nil {
-  log.Println(jsonData)
-  fatal = true
-}
+	fatal := false
+	jsonData, err := HttpRequest("https://api.github.com/users/" + username + "/repos")
+	if err != nil {
+		log.Println(jsonData)
+		fatal = true
+		return EmailsType{"fatal": Email{}}
+	}
 
 	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
-    fatal = true
+		fatal = true
 	} else {
 
-	contributors := make(map[string]bool)
-	foundEmail := make(map[string]bool)
-	for _, repo := range data {
-		//if repo.Fork == fork || repo.Fork {
-		log.Println(repo.Name)
+		contributors := make(map[string]bool)
+		foundEmail := make(map[string]bool)
+		for _, repo := range data {
+			//if repo.Fork == fork || repo.Fork {
+			log.Println(repo.Name)
 
-		r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
-			URL: repo.CloneUrl,
-		})
-		Check(err)
-		//head, err := r.Head()
-		//Check(err)
-		//commitIter, err := r.Log(&git.LogOptions{From: head.Hash()})
+			r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
+				URL: repo.CloneUrl,
+			})
+			Check(err)
+			//head, err := r.Head()
+			//Check(err)
+			//commitIter, err := r.Log(&git.LogOptions{From: head.Hash()})
 
-		commitIter, err := r.Log(&git.LogOptions{})
-		Check(err)
-		err = commitIter.ForEach(func(c *object.Commit) error {
-			if !contributors[c.Author.Email] && !IsGitHubMail(c.Author.Email) {
-				type Author struct {
-					Name  string `json:"name"`
-					Email string `json:"email"`
+			commitIter, err := r.Log(&git.LogOptions{})
+			Check(err)
+			err = commitIter.ForEach(func(c *object.Commit) error {
+				if !contributors[c.Author.Email] && !IsGitHubMail(c.Author.Email) {
+					type Author struct {
+						Name  string `json:"name"`
+						Email string `json:"email"`
+					}
+					var commitInfo struct {
+						Author Author `json:"author"`
+					}
+
+					jsonData, err := HttpRequest(fmt.Sprintf("https://api.github.com/repos/%s/git/commits/%s", repo.FullName, c.Hash.String()))
+					if err != nil {
+						fatal = true
+					} else {
+
+						err = json.Unmarshal([]byte(jsonData), &commitInfo)
+						if err != nil {
+							log.Println(err)
+							fatal = true
+						}
+						log.Printf("Author: %s\nUsername: %s\n", commitInfo.Author.Name, username)
+						if strings.EqualFold(commitInfo.Author.Name, username) { // check username
+							log.Println("found:")
+							log.Println(c.Author.Email)
+							foundEmail[c.Author.Email] = true
+						}
+					}
+					contributors[c.Author.Email] = true
 				}
-				var commitInfo struct {
-					Author Author `json:"author"`
-				}
+				//log.Println(c.Hash.String())
+				return nil
+			})
+			Check(err)
 
-				jsonData,err := HttpRequest(fmt.Sprintf("https://api.github.com/repos/%s/git/commits/%s", repo.FullName, c.Hash.String()))
-        if err != nil {
-          fatal = true
-        } else {
-        
-
-				err = json.Unmarshal([]byte(jsonData), &commitInfo)
-				if err != nil {
-					log.Println(err)
-          fatal = true
-				}
-				log.Printf("Author: %s\nUsername: %s\n", commitInfo.Author.Name, username)
-				if strings.EqualFold(commitInfo.Author.Name, username) { // check username
-					log.Println("found:")
-					log.Println(c.Author.Email)
-					foundEmail[c.Author.Email] = true
-				}
-			}
-			contributors[c.Author.Email] = true
-    }
-			//log.Println(c.Hash.String())
-			return nil
-		})
-		Check(err)
-
-	}
-  if fatal {
-    return EmailsType{}
-  }
-	foundEmailArray := EmailsType{}
-	for c := range foundEmail {
-		foundEmailArray[c] = Email{
-			Mail: c,
-			Src:  "github",
-			Services: EmailServiceEnums{
-				"github": {
-					Name:     "GitHub",
-					Username: username,
-					Link:     fmt.Sprintf("https://github.com/%s", username),
-					Icon:     "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-				},
-			},
 		}
+		if fatal {
+			return EmailsType{}
+		}
+		foundEmailArray := EmailsType{}
+		for c := range foundEmail {
+			foundEmailArray[c] = Email{
+				Mail: c,
+				Src:  "github",
+				Services: EmailServiceEnums{
+					"github": {
+						Name:     "GitHub",
+						Username: username,
+						Link:     fmt.Sprintf("https://github.com/%s", username),
+						Icon:     "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+					},
+				},
+			}
+		}
+		//}
+		return foundEmailArray
 	}
-	//}
-	return foundEmailArray
-}
-  return EmailsType{}
+	return EmailsType{}
 }
 
 func Exists(path string) bool {
