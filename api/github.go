@@ -20,6 +20,7 @@ import (
 )
 
 func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, error) {
+	ctx := context.Background()
 
 	rateLimiter, err := github_ratelimit.NewRateLimitWaiterClient(nil)
 	if err != nil {
@@ -30,16 +31,12 @@ func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, e
 	client := github.NewClient(rateLimiter)
 
 	// arbitrary usage of the client
-	organizations, _, err := client.Organizations.List(context.Background(), username, nil)
-	err = errors.New("test")
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return EmailsType{}, err
+	repos, _, err := client.Repositories.List(ctx, username, nil)
+	if _, ok := err.(*github.RateLimitError); ok {
+		log.Println("hit rate limit")
+		return EmailsType{}, errors.New("rate limited")
 	}
-
-	for i, organization := range organizations {
-		fmt.Printf("%v. %v\n", i+1, organization.GetLogin())
-	}
+	fmt.Println(repos)
 
 	return EmailsType{}, nil
 }
