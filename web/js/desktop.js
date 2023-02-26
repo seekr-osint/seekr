@@ -39,6 +39,7 @@ function createWhoisWindow() {
     left: 10,
   });
 }
+
 function createSeekrSettingsWindow() {
 new WinBox("SETTINGS", {
   id: "seekr-window",

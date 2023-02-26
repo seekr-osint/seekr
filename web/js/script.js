@@ -500,6 +500,10 @@ async function main() {
 
                 // Deep investigation
                 deep_btn.onclick = async function () {
+                  if (icon_space.firstChild) {
+                    icon_space.firstChild.remove();
+                  }
+
                   const loadingSpinner = document.createElement("div");
                   loadingSpinner.className = "neu";
                   loadingSpinner.id = "deepInvLoadingSpinner";
@@ -534,8 +538,9 @@ async function main() {
 
                   icon_space.appendChild(deepInvResIcon);
 
-                  if (data != null && data != {}) {
+                  if (data != null && data != {} && res.status == 200) {
                     deepInvResIcon.src = "./images/checkmark.png";
+                    deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
 
                     for (const [i, _] of Object.entries(data)) {
                       let obj = data[i];
@@ -581,8 +586,12 @@ async function main() {
                         email_container.remove();
                       }
                     }
+                  } else if (res.status == 403 && data["fatal"] == "rate limited") {
+                    deepInvResIcon.src = "./images/limited.png";
+                    deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.15rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
                   } else {
-                    deepInvResIcon.src = "./images/checkmark.png";
+                    deepInvResIcon.src = "./images/cross.png";
+                    deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
                   }
                 }
 
