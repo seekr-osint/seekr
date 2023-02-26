@@ -90,10 +90,12 @@ func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, e
 	ch := make(chan string)
 
 	//var wg sync.WaitGroup
+	contributors := map[string]bool{}
+	seen := map[string]bool{}
 	for _, repo := range repos {
 		//wg.Add(1)
 		func(repo github.Repository) {
-			err := CheckRepo(repo, fork, ch, username, client, config)
+			contributors, seen, err = CheckRepo(repo, fork, username, client, contributors, seen, config)
 			fmt.Println("done:")
 			if err != nil {
 				log.Println(err)
@@ -126,24 +128,68 @@ func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, e
 	return foundEmails, nil
 }
 
-func CheckRepo(repo github.Repository, fork bool, ch chan<- string, username string, client *github.Client, config ApiConfig) error {
+// func CheckRepo(repo github.Repository, fork bool, ch chan<- string, username string, client *github.Client, config ApiConfig) error {
+// 	if *repo.Fork == fork || !*repo.Fork {
+// 		fmt.Println(*repo.Name)
+// 		// Clone the repo
+// 		r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
+// 			URL: *repo.HTMLURL,
+// 		})
+// 		if err != nil {
+// 			return err
+// 		}
+// 		// get the refs
+// 		commitIter, err := r.Log(&git.LogOptions{})
+// 		if err != nil {
+// 			return err
+// 		}
+// 		seen := make(map[string]bool)
+// 		err = commitIter.ForEach(func(c *object.Commit) error {
+// 			if !IsGitHubMail(c.Author.Email) && !seen[c.Author.Email] {
+// 				commit, _, err := client.Git.GetCommit(context.Background(), *repo.Owner.Login, *repo.Name, c.Hash.String())
+// 				if err != nil {
+// 					return err
+// 				}
+
+// 				// Get the author information from the commit object
+// 				cusername := strings.ToLower(*commit.Author.Name)
+// 				fmt.Println(cusername)
+
+// 				if cusername == username {
+// 					fmt.Println("found:" + cusername)
+// 					ch <- c.Author.Email // FIXME stuck forever
+// 					fmt.Println("f")
+// 				}
+// 				seen[c.Author.Email] = true
+// 			}
+// 			return nil
+// 		})
+// 		if err != nil {
+// 			return err
+// 		}
+// 	}
+// 	return nil
+// }
+
+func CheckRepo(repo github.Repository, fork bool, username string, client *github.Client, contributors map[string]bool, seen map[string]bool, config ApiConfig) (map[string]bool, map[string]bool, error) {
 	if *repo.Fork == fork || !*repo.Fork {
 		fmt.Println(*repo.Name)
 		// Clone the repo
 		r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
-			URL: *repo.HTMLURL,
+			URL: *repo.GitURL,
 		})
 		if err != nil {
-			return err
+			return contributors, seen, err
 		}
 		// get the refs
 		commitIter, err := r.Log(&git.LogOptions{})
 		if err != nil {
-			return err
+			return contributors, seen, err
 		}
-		seen := make(map[string]bool)
 		err = commitIter.ForEach(func(c *object.Commit) error {
-			if !IsGitHubMail(c.Author.Email) && !seen[c.Author.Email] {
+			fmt.Println("r")
+			if !contributors[c.Author.Email] && !seen[c.Author.Email] && !IsGitHubMail(c.Author.Email) {
+				fmt.Println(c.Author.Email)
 				commit, _, err := client.Git.GetCommit(context.Background(), *repo.Owner.Login, *repo.Name, c.Hash.String())
 				if err != nil {
 					return err
@@ -155,51 +201,21 @@ func CheckRepo(repo github.Repository, fork bool, ch chan<- string, username str
 
 				if cusername == username {
 					fmt.Println("found:" + cusername)
-					ch <- c.Author.Email // FIXME stuck forever
-					fmt.Println("f")
+					contributors[c.Author.Email] = true
 				}
 				seen[c.Author.Email] = true
+
 			}
+			//log.Println(c.Hash.String())
 			return nil
 		})
 		if err != nil {
-			return err
+			return contributors, seen, err
 		}
+		fmt.Println(contributors)
 	}
-	return nil
+	return contributors, seen, nil
 }
-
-//	func CheckRepo(repo github.Repository, fork bool, contributors map[string]bool, config ApiConfig) (map[string]bool, error) {
-//		if *repo.Fork == fork || !*repo.Fork {
-//			fmt.Println(*repo.Name)
-//			// Clone the repo
-//			r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
-//				URL: *repo.GitURL,
-//			})
-//			if err != nil {
-//				return contributors, err
-//			}
-//			// get the refs
-//			commitIter, err := r.Log(&git.LogOptions{})
-//			if err != nil {
-//				return contributors, err
-//			}
-//			err = commitIter.ForEach(func(c *object.Commit) error {
-//				fmt.Println("r")
-//				if !contributors[c.Author.Email] && !IsGitHubMail(c.Author.Email) {
-//					fmt.Println(c.Author.Email)
-//					contributors[c.Author.Email] = true
-//				}
-//				//log.Println(c.Hash.String())
-//				return nil
-//			})
-//			if err != nil {
-//				return contributors, err
-//			}
-//			fmt.Println(contributors)
-//		}
-//		return contributors, nil
-//	}
 func GithubInfoDeep2(username string, fork bool) EmailsType {
 	log.Println("github")
 	var data []struct {
