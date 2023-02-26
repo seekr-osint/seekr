@@ -31,9 +31,10 @@ func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, e
 
 	// arbitrary usage of the client
 	organizations, _, err := client.Organizations.List(context.Background(), username, nil)
+	err = errors.New("test")
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
-		return EmailsType{}, errors.New("test")
+		return EmailsType{}, err
 	}
 
 	for i, organization := range organizations {

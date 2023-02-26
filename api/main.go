@@ -51,7 +51,7 @@ func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 	if c.Param("username") != "" {
     githubInfo, err := GithubInfoDeep(c.Param("username"), true,config)
     if err != nil {
-      c.IndentedJSON(http.StatusForbidden, map[string]bool{"fatal":true})
+      c.IndentedJSON(http.StatusForbidden, map[string]string{"fatal":fmt.Sprintf("%s",err)})
     } else {
 		  c.IndentedJSON(http.StatusOK, githubInfo)
     }
