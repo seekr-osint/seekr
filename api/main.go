@@ -17,6 +17,24 @@ import (
 
 var DatabaseFile string
 
+func TestApi(dataBase DataBase) {
+	var apiConfig = ApiConfig{
+		Ip:            "localhost:8080",
+		LogFile:       "seekr.log",
+		DataBaseFile:  "test-data.json",
+		DataBase:      dataBase,
+		SetCORSHeader: true,
+		SaveJsonFunc:  DefaultSaveJson,
+	}
+	DefaultSaveJson(apiConfig)
+
+	// Start the background Seekrd service
+	go Seekrd(DefaultSeekrdServices, 30) // run every 30 minutes
+
+	// Start the API server
+	go ServeApi(apiConfig)
+}
+
 func DefaultSaveJson(config ApiConfig) {
 	log.Println("Saving json to file")
 	jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
@@ -34,7 +52,7 @@ func ServeApi(config ApiConfig) {
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
-	config.GinRouter.GET("/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account
+	config.GinRouter.GET("/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account // FIXME
 	config.GinRouter.GET("/search/google/:query", Handler(GoogleRequest, config))                // get results from google
 	config.GinRouter.GET("/search/whois/:query", Handler(WhoisRequest, config))                  // get whois of domain
 	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
@@ -44,7 +62,14 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
+  runningFile, err := os.Create("/tmp/running")
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer os.Remove("/tmp/running")
+  defer runningFile.Close()
 	config.GinRouter.Run(config.Ip)
+  
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
