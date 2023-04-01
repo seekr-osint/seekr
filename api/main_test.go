@@ -84,7 +84,7 @@ func writeDocs() {
 	for _, value := range requests {
 		postData, _ := json.Marshal(value.PostData)
 
-		requestStr := fmt.Sprintf("**Curl Request:**\n\n```\ncurl -X %s %s", value.RequestType, value.URL)
+		requestStr := fmt.Sprintf("**Curl Request:**\n\n```sh\ncurl -X %s %s", value.RequestType, value.URL)
 		if value.RequestType != "GET" {
 			requestStr += fmt.Sprintf(" \\\n-H 'Content-Type: application/json' \\\n-d '%s'", postData)
 		}
