@@ -52,7 +52,7 @@ func Birthday(db DataBase) DataBase {
 				}
 				log.Println(person.Birthday)
 				log.Println(age)
-				person.Age = age
+				person.Age = float64(age)
 			}
 		}
 		db[i] = person
