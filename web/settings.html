@@ -16,10 +16,33 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script type="module" src="./js/framework.js" defer></script>
+    <link rel="stylesheet" href="./css/settings.css">
+
+    <script type="module" src="./js/settings.js" defer></script>
+
+    <script type="text/javascript" defer>
+      // Check local storage for dark mode setting
+
+      if (localStorage.getItem("isDarkMode") == "true") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
   </head>
 
   <body>
-
+    <div class="chip" id="settings-table">
+      <div class="settings-option">
+        <div class="flex-option-container">
+          <div class="darkMode-switch">
+            <input id="darkMode-switch" type="checkbox" class="darkMode-switch-input">
+            <label for="darkMode-switch" class="darkMode-switch-label"></label>
+          </div>
+  
+          <p class="option-text">Darkmode</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
