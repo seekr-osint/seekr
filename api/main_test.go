@@ -97,7 +97,7 @@ func writeDocs() {
 		// write the markdown strings to the file
 		_, err = file.WriteString(markdownStr)
 		if err != nil {
-			fmt.Println("Error writing to file:", err)
+			fmt.Printf("Error when writing to file: %e\n", err)
 			return
 		}
 
