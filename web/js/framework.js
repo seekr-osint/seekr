@@ -14,8 +14,6 @@ function SaveAsFile(t, f, m) {
 }
 
 
-
-
 document.querySelectorAll("span").forEach(function (element) {
   element.addEventListener('paste', function (e) {
     // Prevent the default action

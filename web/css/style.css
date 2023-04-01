@@ -54,6 +54,7 @@
   padding: 0;
   box-sizing: inherit;
   font-family: "Poppins", sans-serif;
+  transition: 0.15s ease;
 }
 
 body {

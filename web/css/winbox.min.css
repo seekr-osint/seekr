@@ -77,7 +77,7 @@ body>.wb-body {
   white-space: nowrap;
   overflow: hidden;
   font-weight: bold;
-  color: var(--bg);
+  color: var(--textColor-1);
   text-overflow: ellipsis
 }
 
