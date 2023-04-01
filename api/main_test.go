@@ -31,6 +31,7 @@ var requests = Requests{
 		URL:              "http://localhost:8080/person",
 		PostData:         map[string]interface{}{"id": "1"},
 		ExpectedResponse: map[string]interface{}{"message": "overwritten person"},
+		StatusCode:       202,
 	},
 	"postPerson": {
 		RequestType:      "POST",
@@ -38,6 +39,7 @@ var requests = Requests{
 		URL:              "http://localhost:8080/person",
 		PostData:         map[string]interface{}{"id": "2"},
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "2", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": interface{}(nil)},
+		StatusCode:       201,
 	},
 	"getPerson": {
 		RequestType:      "GET",
@@ -45,6 +47,7 @@ var requests = Requests{
 		URL:              "http://localhost:8080/people/1",
 		PostData:         nil,
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "1", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": interface{}(nil)},
+		StatusCode:       200,
 	},
 	"getPersonNotExisting": {
 		RequestType:      "GET",
@@ -52,6 +55,7 @@ var requests = Requests{
 		URL:              "http://localhost:8080/people/100",
 		PostData:         nil,
 		ExpectedResponse: nil,
+		StatusCode:       404,
 	},
 }
 
@@ -61,6 +65,7 @@ type Requests = map[string]struct {
 	URL              string
 	PostData         interface{}
 	ExpectedResponse interface{}
+	StatusCode       int
 }
 
 func toJsonString(data interface{}) string {
@@ -79,14 +84,15 @@ func writeDocs() {
 	for _, value := range requests {
 		postData, _ := json.Marshal(value.PostData)
 
-		requestStr := fmt.Sprintf("**Curl Request**:\n\n```\ncurl -X %s %s", value.RequestType, value.URL)
+		requestStr := fmt.Sprintf("**Curl Request:**\n\n```\ncurl -X %s %s", value.RequestType, value.URL)
 		if value.RequestType != "GET" {
 			requestStr += fmt.Sprintf(" \\\n-H 'Content-Type: application/json' \\\n-d '%s'", postData)
 		}
 		requestStr += "\n```\n\n"
 
 		responseStr := fmt.Sprintf("**Response:**\n\n```json\n%s\n```\n\n", toJsonString(value.ExpectedResponse))
-		markdownStr := fmt.Sprintf("## %s\n\n%s%s\n", value.Name, requestStr, responseStr)
+		statusCodeStr := fmt.Sprintf("**Status Code:** %d\n\n", value.StatusCode)
+		markdownStr := fmt.Sprintf("## %s\n\n%s%s%s\n", value.Name, requestStr, responseStr, statusCodeStr)
 
 		// write the markdown strings to the file
 		_, err = file.WriteString(markdownStr)
@@ -144,6 +150,9 @@ func TestAPI(t *testing.T) {
 			t.Fatalf("[%s] %v", name, err)
 		}
 
+		if resp.StatusCode != req.StatusCode {
+			t.Errorf("[%s] Unexpected Status Code: %d\nExpected %d", name, resp.StatusCode, req.StatusCode)
+		}
 		// Compare the response body to the expected value
 		if !reflect.DeepEqual(req.ExpectedResponse, respBody) {
 			t.Errorf("[%s] Unexpected response body: %#v\nExpected %#v", name, respBody, req.ExpectedResponse)

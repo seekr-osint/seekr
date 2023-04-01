@@ -69,7 +69,6 @@ func ServeApi(config ApiConfig) {
   defer os.Remove("/tmp/running")
   defer runningFile.Close()
 	config.GinRouter.Run(config.Ip)
-  
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
