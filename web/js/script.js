@@ -983,7 +983,7 @@ async function main() {
 
     let id = checkId(preId);
 
-    let name = document.querySelector(".c-name-tag").value;
+    let name = document.querySelector(".c-name-tag").innerHTML;
 
     let maidenname = document.querySelector(".c-maidenname").innerHTML;
     let age = parseInt(document.querySelector(".c-age").innerHTML);
