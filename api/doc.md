@@ -1,0 +1,124 @@
+## Post Person
+
+**Curl Request**:
+
+```
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{"id":"2"}'
+```
+
+**Response:**
+
+```json
+{
+    "accounts": {},
+    "address": "",
+    "age": 0,
+    "bday": "",
+    "civilstatus": "",
+    "club": "",
+    "education": "",
+    "email": {},
+    "hobbies": "",
+    "id": "2",
+    "kids": "",
+    "legal": "",
+    "maidenname": "",
+    "military": "",
+    "name": "",
+    "notaccounts": null,
+    "notes": "",
+    "occupation": "",
+    "pets": "",
+    "phone": "",
+    "pictures": {},
+    "political": "",
+    "prevoccupation": "",
+    "relations": null,
+    "religion": "",
+    "sources": {},
+    "ssn": "",
+    "tags": null
+}
+```
+
+
+## Get Person by ID
+
+**Curl Request**:
+
+```
+curl -X GET http://localhost:8080/people/1
+```
+
+**Response:**
+
+```json
+{
+    "accounts": {},
+    "address": "",
+    "age": 0,
+    "bday": "",
+    "civilstatus": "",
+    "club": "",
+    "education": "",
+    "email": {},
+    "hobbies": "",
+    "id": "1",
+    "kids": "",
+    "legal": "",
+    "maidenname": "",
+    "military": "",
+    "name": "",
+    "notaccounts": null,
+    "notes": "",
+    "occupation": "",
+    "pets": "",
+    "phone": "",
+    "pictures": {},
+    "political": "",
+    "prevoccupation": "",
+    "relations": null,
+    "religion": "",
+    "sources": {},
+    "ssn": "",
+    "tags": null
+}
+```
+
+
+## Get Person which does not exsist
+
+**Curl Request**:
+
+```
+curl -X GET http://localhost:8080/people/100
+```
+
+**Response:**
+
+```json
+null
+```
+
+
+## Overwrite Person
+
+**Curl Request**:
+
+```
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{"id":"1"}'
+```
+
+**Response:**
+
+```json
+{
+    "message": "overwritten person"
+}
+```
+
+
