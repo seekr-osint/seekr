@@ -235,37 +235,14 @@ curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
-	"address": "",
 	"age": 10,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
 	"email": {
 		"has_discord_account@gmail.com": {
 			"mail": "has_discord_account@gmail.com"
 		}
 	},
-	"hobbies": "",
 	"id": "11",
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "Email test",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": "",
-	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
-	"relations": null,
-	"religion": "",
-	"sources": null,
-	"ssn": "",
-	"tags": null
+	"name": "Email test"
 }'
 ```
 
