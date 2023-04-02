@@ -10,13 +10,12 @@ import (
 var RANDOM_USERNAME = "AAAANSUhEUgAAAgAAAA"
 var RANDOM_PASSWORD = "64,iVBORw0KGgoAAAA$1"
 
-
 var DefaultMailServices = MailServices{
 	MailService{
 		Name: "Discord",
 		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
 		UserExistsFunc: Discord,
-		Icon:           "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png",
+		Icon:           "./images/mail/discord.png",
 	},
 	//MailService{
 	//	Name: "Spotify",
@@ -54,7 +53,7 @@ func IsGitHubMail(email string) bool {
 	return match
 }
 
-func MailServicesHandler(servicesToCheck MailServices, email string,config ApiConfig) EmailServiceEnums {
+func MailServicesHandler(servicesToCheck MailServices, email string, config ApiConfig) EmailServiceEnums {
 	var mailMutex = sync.RWMutex{}
 	wg := &sync.WaitGroup{}
 
@@ -64,32 +63,32 @@ func MailServicesHandler(servicesToCheck MailServices, email string,config ApiCo
 		wg.Add(1)
 		go func(i int) {
 			// Do something
-			service := servicesToCheck[i]               // current service
-      err, userExsits := service.UserExistsFunc(service, email,config)
-      if err != nil {
-        log.Printf("error in service: %s,%e",service.Name,err)
-      } else {
-			if  userExsits { // if service exisits
-          log.Printf("User %s on %s exsits",email,service.Name)
+			service := servicesToCheck[i] // current service
+			err, userExsits := service.UserExistsFunc(service, email, config)
+			if err != nil {
+				log.Printf("error in service: %s,%e", service.Name, err)
+			} else {
+				if userExsits { // if service exisits
+					log.Printf("User %s on %s exsits", email, service.Name)
 					mailMutex.Lock()
 					services[service.Name] = EmailServiceEnum{
 						Name: service.Name,
 						Icon: service.Icon,
 					} // add service to accounts
 					mailMutex.Unlock()
-			} else {
-        log.Printf("User %s on %s does not exsit",email,service.Name)
-      }
-    }
+				} else {
+					log.Printf("User %s on %s does not exsit", email, service.Name)
+				}
+			}
 			wg.Done()
 		}(i)
 	}
 	wg.Wait()
-  log.Println(len(services))
+	log.Println(len(services))
 	return services
 }
 
-func CheckMail(newPerson Person,config ApiConfig) Person { // FIXME TODO
+func CheckMail(newPerson Person, config ApiConfig) Person { // FIXME TODO
 	var mailMutex = sync.RWMutex{}
 	fmt.Println(newPerson)
 	if newPerson.Email == nil {
@@ -111,11 +110,11 @@ func CheckMail(newPerson Person,config ApiConfig) Person { // FIXME TODO
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
 				}
-        retMailServices := MailServicesHandler(DefaultMailServices, mail.Mail,config)
-        log.Printf("found %d services",len(retMailServices))
-				for key, value := range  retMailServices {
+				retMailServices := MailServicesHandler(DefaultMailServices, mail.Mail, config)
+				log.Printf("found %d services", len(retMailServices))
+				for key, value := range retMailServices {
 					go func(key string, value EmailServiceEnum) {
-            log.Printf("%s = %s",key,value)
+						log.Printf("%s = %s", key, value)
 						mailMutex.Lock()
 						mail.Services[key] = value
 						mailMutex.Unlock()

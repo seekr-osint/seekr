@@ -23,6 +23,12 @@ type discordResponse struct {
 }
 
 func Discord(mailService MailService, email string, config ApiConfig) (error, bool) {
+  if config.Testing {
+    if email == "has_no_discord_account@gmail.com" {
+      return nil,true
+    }
+    return nil,true
+  }
 	log.Println("Checking Discord email")
 	var endpoint = "https://discord.com/api/v9/auth/register"
 
