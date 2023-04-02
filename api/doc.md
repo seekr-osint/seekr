@@ -1,20 +1,3 @@
-## Get Person which does not exsist
-
-**Curl Request:**
-
-```sh
-curl -X GET http://localhost:8080/people/100
-```
-
-**Response:**
-
-```json
-null
-```
-
-**Status Code:** 404
-
-
 ## Overwrite Person
 
 **Curl Request:**
@@ -224,5 +207,22 @@ curl -X POST http://localhost:8080/person \
 ```
 
 **Status Code:** 201
+
+
+## Get Person which does not exsist
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/people/100
+```
+
+**Response:**
+
+```json
+null
+```
+
+**Status Code:** 404
 
 

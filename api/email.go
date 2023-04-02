@@ -87,7 +87,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 }
 
 func CheckMail(newPerson Person) Person { // FIXME TODO
-	var mailMutex = sync.RWMutex{}
+	//var mailMutex = sync.RWMutex{} // FIXME Netwoking
 	fmt.Println(newPerson)
 	if newPerson.Email == nil {
 		log.Println("nil newPerson.Email")
@@ -108,17 +108,19 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
 				}
-				for key, value := range MailServicesHandler(DefaultMailServices, mail.Mail) {
-					if mail.Services == nil {
-						mail.Services = EmailServiceEnums{}
-					}
 
-					go func(key string, value EmailServiceEnum) {
-						mailMutex.Lock()
-						mail.Services[key] = value
-						mailMutex.Unlock()
-					}(key, value)
-				}
+				// FIXME Netwoking
+				//for key, value := range MailServicesHandler(DefaultMailServices, mail.Mail) {
+				//	if mail.Services == nil {
+				//		mail.Services = EmailServiceEnums{}
+				//	}
+
+				//	go func(key string, value EmailServiceEnum) {
+				//		mailMutex.Lock()
+				//		mail.Services[key] = value
+				//		mailMutex.Unlock()
+				//	}(key, value)
+				//}
 			} else {
 				log.Println("nil mail field")
 			}
