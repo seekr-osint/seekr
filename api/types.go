@@ -105,6 +105,7 @@ type ApiConfig struct {
 	GinRouter      *gin.Engine   `json:"gin_router"`
 	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
+	Testing        bool          `json:"testing"`
 }
 type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
 type ApiKeys struct {
