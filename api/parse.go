@@ -1,6 +1,5 @@
 package api
 
-
 func ParsePerson(newPerson Person) Person {
 	newPerson = ReplaceNil(newPerson)
 	newPerson = CheckMail(newPerson)

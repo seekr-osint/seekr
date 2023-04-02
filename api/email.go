@@ -20,7 +20,7 @@ var DefaultMailServices = MailServices{
 		Name: "Discord",
 		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
 		UserExistsFunc: Discord,
-    Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAAAXNSR0IArs4c6QAAIABJ",
+		Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAAAXNSR0IArs4c6QAAIABJ",
 	},
 	MailService{
 		Name: "Spotify",
@@ -63,6 +63,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 	wg := &sync.WaitGroup{}
 
 	services := EmailServiceEnums{}
+	// FIXME EMAIL SERVICE SCANNING
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
 		go func(i int) {

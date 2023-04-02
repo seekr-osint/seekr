@@ -29,8 +29,8 @@ func Discord(mailService MailService, email string) bool {
 	client := &http.Client{}
 	r, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonStr)) // URL-encoded payload
 	if err != nil {
-    log.Println(err)
-    return false
+		log.Println(err)
+		return false
 	}
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
@@ -38,8 +38,8 @@ func Discord(mailService MailService, email string) bool {
 
 	res, err := client.Do(r)
 	if err != nil {
-    log.Println(err)
-    return false
+		log.Println(err)
+		return false
 	}
 	defer res.Body.Close()
 	if res.StatusCode == 400 {
@@ -54,8 +54,8 @@ func Discord(mailService MailService, email string) bool {
 		}
 	} else if res.StatusCode == 429 {
 		//("Too many requests to Discord!")
-    log.Println("to many requests")
-    return false
+		log.Println("to many requests")
+		return false
 	}
 	return false
 }
