@@ -30,10 +30,12 @@ func TcTestHandlerPerson(t *testing.T, testCases []TestCasePerson, testFunc func
 func TestParsePerson(t *testing.T) {
 	testCases := []TestCasePerson{
 		{Person{
-			ID:       "1",
-			Pictures: nil,
-			Accounts: nil,
-			Sources:  nil,
+			ID:        "1",
+			Pictures:  nil,
+			Accounts:  nil,
+			Sources:   nil,
+			Relations: nil,
+			Tags:      nil,
 		}, Person{
 			ID: "1",
 		}},
