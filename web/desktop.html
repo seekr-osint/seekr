@@ -23,6 +23,16 @@
 
     <title>SEEKR</title>
 
+    <script type="text/javascript" defer>
+      // Check local storage for dark mode setting
+
+      if (localStorage.getItem("isDarkMode") == "true") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
+
     <!-- WinBox -->
     <link rel="stylesheet" href="./css/winbox.min.css">
     <script src="./js/winbox.min.js"></script>

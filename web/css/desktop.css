@@ -1,3 +1,7 @@
+html {
+  background: var(--bg);
+} 
+
 .frame {
   position: absolute;
   top: 0;
@@ -27,23 +31,23 @@
   width: 7vh;
   height: 7vh;
   border-top-left-radius: 50%;
-  box-shadow: .3rem .3rem .6rem var(--greyLight-2), -.2rem -.2rem .5rem var(--white);
+  box-shadow: .3rem .3rem .6rem var(--shadow-1), -.2rem -.2rem .5rem var(--shadow-2);
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
   cursor: pointer;
-  color: var(--greyDark);
+  color: var(--textColor-1);
   transition: all .5s ease;
 }
 
 .shortcut-menu:hover {
-  color: var(--primary);
+  color: var(--textColor-hover);
 }
 
 .shortcut-menu:active {
-  box-shadow: inset .2rem .2rem .5rem var(--greyLight-2), inset -.2rem -.2rem .5rem var(--white);;
-  color: var(--primary);
+  box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
+  color: var(--textColor-hover);
 }
 
 .menu-icon {
@@ -67,7 +71,7 @@
   height: 90vh;
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
   display: flex;
   flex-direction: column;
   margin-left: 1.37rem;
@@ -103,7 +107,7 @@
   height: 5vh;
   margin: 1vh;
   border-radius: 50%;
-  box-shadow: .3rem .3rem .6rem var(--greyLight-2), -.2rem -.2rem .5rem var(--white);
+  box-shadow: .3rem .3rem .6rem var(--shadow-1), -.2rem -.2rem .5rem var(--shadow-2);
   display: flex;
   font-size: 2rem;
   cursor: pointer;
@@ -116,7 +120,6 @@
 }
 
 .app-shortcut:active {
-  box-shadow: inset .2rem .2rem .5rem var(--greyLight-2), inset -.2rem -.2rem .5rem var(--white);;
+  box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
   color: var(--primary);
 }
-
