@@ -7,33 +7,29 @@ import (
 	"sync"
 )
 
-type MailService struct {
-	Name           string             // example: "GitHub"
-	UserExistsFunc MailUserExistsFunc // example: Discord()
-	Icon           string             // example: https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png
-}
-type MailServices []MailService
-type MailUserExistsFunc func(MailService, string) bool // (BaseUrl,email)
+var RANDOM_USERNAME = "AAAANSUhEUgAAAgAAAA"
+var RANDOM_PASSWORD = "64,iVBORw0KGgoAAAA$1"
+
 
 var DefaultMailServices = MailServices{
 	MailService{
 		Name: "Discord",
 		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
 		UserExistsFunc: Discord,
-		Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAAAXNSR0IArs4c6QAAIABJ",
+		Icon:           "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png",
 	},
-	MailService{
-		Name: "Spotify",
-		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
-		UserExistsFunc: Spotify,
-		Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB9AAAAfQCAYAAACaOMR5AAAgAElEQVR4nOzdebRsaVn",
-	},
-	MailService{
-		Name: "Twitter",
-		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
-		UserExistsFunc: Twitter,
-		Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gAAAPoCAYAAABNo9TkAAAAAXNSR0IArs4c6QAAIABJR",
-	},
+	//MailService{
+	//	Name: "Spotify",
+	//	//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
+	//	UserExistsFunc: Spotify,
+	//	Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB9AAAAfQCAYAAACaOMR5AAAgAElEQVR4nOzdebRsaVn",
+	//},
+	//MailService{
+	//	Name: "Twitter",
+	//	//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
+	//	UserExistsFunc: Twitter,
+	//	Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gAAAPoCAYAAABNo9TkAAAAAXNSR0IArs4c6QAAIABJR",
+	//},
 }
 
 func IsGmailAddress(email string) bool {
@@ -58,7 +54,7 @@ func IsGitHubMail(email string) bool {
 	return match
 }
 
-func MailServicesHandler(servicesToCheck MailServices, email string) EmailServiceEnums {
+func MailServicesHandler(servicesToCheck MailServices, email string,config ApiConfig) EmailServiceEnums {
 	var mailMutex = sync.RWMutex{}
 	wg := &sync.WaitGroup{}
 
@@ -69,25 +65,32 @@ func MailServicesHandler(servicesToCheck MailServices, email string) EmailServic
 		go func(i int) {
 			// Do something
 			service := servicesToCheck[i]               // current service
-			if service.UserExistsFunc(service, email) { // if service exisits
-				go func() {
+      err, userExsits := service.UserExistsFunc(service, email,config)
+      if err != nil {
+        log.Printf("error in service: %s,%e",service.Name,err)
+      } else {
+			if  userExsits { // if service exisits
+          log.Printf("User %s on %s exsits",email,service.Name)
 					mailMutex.Lock()
 					services[service.Name] = EmailServiceEnum{
 						Name: service.Name,
 						Icon: service.Icon,
 					} // add service to accounts
 					mailMutex.Unlock()
-				}()
-			}
+			} else {
+        log.Printf("User %s on %s does not exsit",email,service.Name)
+      }
+    }
 			wg.Done()
 		}(i)
 	}
 	wg.Wait()
+  log.Println(len(services))
 	return services
 }
 
-func CheckMail(newPerson Person) Person { // FIXME TODO
-	//var mailMutex = sync.RWMutex{} // FIXME Netwoking
+func CheckMail(newPerson Person,config ApiConfig) Person { // FIXME TODO
+	var mailMutex = sync.RWMutex{}
 	fmt.Println(newPerson)
 	if newPerson.Email == nil {
 		log.Println("nil newPerson.Email")
@@ -108,19 +111,16 @@ func CheckMail(newPerson Person) Person { // FIXME TODO
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
 				}
-
-				// FIXME Netwoking
-				//for key, value := range MailServicesHandler(DefaultMailServices, mail.Mail) {
-				//	if mail.Services == nil {
-				//		mail.Services = EmailServiceEnums{}
-				//	}
-
-				//	go func(key string, value EmailServiceEnum) {
-				//		mailMutex.Lock()
-				//		mail.Services[key] = value
-				//		mailMutex.Unlock()
-				//	}(key, value)
-				//}
+        retMailServices := MailServicesHandler(DefaultMailServices, mail.Mail,config)
+        log.Printf("found %d services",len(retMailServices))
+				for key, value := range  retMailServices {
+					go func(key string, value EmailServiceEnum) {
+            log.Printf("%s = %s",key,value)
+						mailMutex.Lock()
+						mail.Services[key] = value
+						mailMutex.Unlock()
+					}(key, value)
+				}
 			} else {
 				log.Println("nil mail field")
 			}

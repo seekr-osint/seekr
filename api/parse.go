@@ -1,19 +1,19 @@
 package api
 
-func ParsePerson(newPerson Person) Person {
-	newPerson = ReplaceNil(newPerson)
-	newPerson = CheckMail(newPerson)
+
+func ParsePerson(newPerson Person,config ApiConfig) Person {
+	newPerson = ReplaceNil(newPerson,config)
+	newPerson = CheckMail(newPerson,config)
 	return newPerson
 }
 
-func ReplaceNil(newPerson Person) Person {
+func ReplaceNil(newPerson Person,config ApiConfig) Person {
 	if newPerson.Pictures == nil {
 		newPerson.Pictures = Pictures{}
 	}
 	if newPerson.Accounts == nil {
 		newPerson.Accounts = Accounts{}
 	}
-
 	if newPerson.Tags == nil {
 		newPerson.Tags = Tags{}
 	}

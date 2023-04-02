@@ -5,6 +5,7 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -21,16 +22,17 @@ type discordResponse struct {
 	} `json:"errors"`
 }
 
-func Discord(mailService MailService, email string) bool {
+func Discord(mailService MailService, email string, config ApiConfig) (error, bool) {
+	log.Println("Checking Discord email")
 	var endpoint = "https://discord.com/api/v9/auth/register"
 
-	var jsonStr = []byte(`{"email":"` + email + `","username":"` + RandomString(10) + `","password":"` + RandomString(10) + `","invite":null,"consent":true,"date_of_birth":"1973-05-09","gift_code_sku_id":null,"captcha_key":null,"promotional_email_opt_in":false}`)
+	var jsonStr = []byte(`{"email":"` + email + `","username":"` + RANDOM_USERNAME + `","password":"` + RANDOM_PASSWORD + `","invite":null,"consent":true,"date_of_birth":"1973-05-09","gift_code_sku_id":null,"captcha_key":null,"promotional_email_opt_in":false}`)
 
 	client := &http.Client{}
 	r, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonStr)) // URL-encoded payload
 	if err != nil {
 		log.Println(err)
-		return false
+		return err, false
 	}
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
@@ -39,7 +41,7 @@ func Discord(mailService MailService, email string) bool {
 	res, err := client.Do(r)
 	if err != nil {
 		log.Println(err)
-		return false
+		return err, false
 	}
 	defer res.Body.Close()
 	if res.StatusCode == 400 {
@@ -48,14 +50,13 @@ func Discord(mailService MailService, email string) bool {
 		json.Unmarshal(body, &response)
 		if len(response.Errors.Email.Errors) > 0 {
 			if response.Errors.Email.Errors[0].Code == "EMAIL_ALREADY_REGISTERED" {
-				return true
+				return nil, true
 			}
-
 		}
 	} else if res.StatusCode == 429 {
 		//("Too many requests to Discord!")
 		log.Println("to many requests")
-		return false
+		return errors.New("to many requests"), false
 	}
-	return false
+	return nil, false
 }
