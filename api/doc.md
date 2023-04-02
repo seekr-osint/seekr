@@ -1,171 +1,3 @@
-## Post person with included email
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"accounts": null,
-	"address": "",
-	"age": 10,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
-	"email": {
-		"fsdfadsfasdfasdf@gmail.com": {
-			"mail": "fsdfadsfasdfasdf@gmail.com"
-		}
-	},
-	"hobbies": "",
-	"id": "10",
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "Email test",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": "",
-	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
-	"relations": null,
-	"religion": "",
-	"sources": null,
-	"ssn": "",
-	"tags": null
-}'
-```
-
-**Response:**
-
-```json
-{
-	"accounts": {},
-	"address": "",
-	"age": 10,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
-	"email": {
-		"fsdfadsfasdfasdf@gmail.com": {
-			"gmail": true,
-			"mail": "fsdfadsfasdfasdf@gmail.com",
-			"provider": "",
-			"services": {},
-			"src": "",
-			"valid": true,
-			"validGmail": true,
-			"value": 0
-		}
-	},
-	"hobbies": "",
-	"id": "10",
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "Email test",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": "",
-	"pictures": {},
-	"political": "",
-	"prevoccupation": "",
-	"relations": {},
-	"religion": "",
-	"sources": {},
-	"ssn": "",
-	"tags": []
-}
-```
-
-**Status Code:** 201
-
-
-## Post person with included email detecting only discord as a services
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"accounts": null,
-	"age": 10,
-	"email": {
-		"has_discord_account@gmail.com": {
-			"mail": "has_discord_account@gmail.com"
-		}
-	},
-	"id": "11",
-	"name": "Email test"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"accounts": {},
-	"address": "",
-	"age": 10,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
-	"email": {
-		"has_discord_account@gmail.com": {
-			"gmail": true,
-			"mail": "has_discord_account@gmail.com",
-			"provider": "",
-			"services": {
-				"Discord": {
-					"icon": "./images/mail/discord.png",
-					"link": "",
-					"name": "Discord",
-					"username": ""
-				}
-			},
-			"src": "",
-			"valid": true,
-			"validGmail": false,
-			"value": 0
-		}
-	},
-	"hobbies": "",
-	"id": "11",
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "Email test",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": "",
-	"pictures": {},
-	"political": "",
-	"prevoccupation": "",
-	"relations": {},
-	"religion": "",
-	"sources": {},
-	"ssn": "",
-	"tags": []
-}
-```
-
-**Status Code:** 201
-
-
 ## Post person with included email detecting all services
 
 **Curl Request:**
@@ -388,5 +220,173 @@ curl -X GET http://localhost:8080/people/2
 ```
 
 **Status Code:** 200
+
+
+## Post person with included email
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"accounts": null,
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"fsdfadsfasdfasdf@gmail.com": {
+			"mail": "fsdfadsfasdfasdf@gmail.com"
+		}
+	},
+	"hobbies": "",
+	"id": "10",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": null,
+	"ssn": "",
+	"tags": null
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"fsdfadsfasdfasdf@gmail.com": {
+			"gmail": true,
+			"mail": "fsdfadsfasdfasdf@gmail.com",
+			"provider": "",
+			"services": {},
+			"src": "",
+			"valid": true,
+			"validGmail": true,
+			"value": 0
+		}
+	},
+	"hobbies": "",
+	"id": "10",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post person with included email detecting only discord as a services
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"accounts": null,
+	"age": 10,
+	"email": {
+		"has_discord_account@gmail.com": {
+			"mail": "has_discord_account@gmail.com"
+		}
+	},
+	"id": "11",
+	"name": "Email test"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"has_discord_account@gmail.com": {
+			"gmail": true,
+			"mail": "has_discord_account@gmail.com",
+			"provider": "",
+			"services": {
+				"Discord": {
+					"icon": "./images/mail/discord.png",
+					"link": "",
+					"name": "Discord",
+					"username": ""
+				}
+			},
+			"src": "",
+			"valid": true,
+			"validGmail": false,
+			"value": 0
+		}
+	},
+	"hobbies": "",
+	"id": "11",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
 
 
