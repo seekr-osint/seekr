@@ -20,11 +20,12 @@ var DatabaseFile string
 func TestApi(dataBase DataBase) {
 	var apiConfig = ApiConfig{
 		Ip:            "localhost:8080",
-		LogFile:       "seekr.log",
+		LogFile:       "/tmp/seekr.log",
 		DataBaseFile:  "test-data.json",
 		DataBase:      dataBase,
 		SetCORSHeader: true,
 		SaveJsonFunc:  DefaultSaveJson,
+    Testing: true,
 	}
 	DefaultSaveJson(apiConfig)
 

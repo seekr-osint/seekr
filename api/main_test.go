@@ -66,15 +66,15 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	//"emailServices": { // ID 11
-	//	RequestType:                "POST",
-	//	Name:                       "Post person with included email detecting services",
-	//	URL:                        "http://localhost:8080/person",
-	//	PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"support@gmail.com": map[string]interface{}{"mail": "support@gmail.com"}}, "hobbies": "", "id": "11", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": interface{}(nil), "ssn": "", "tags": interface{}(nil)},
-	//	ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"gmail": true, "mail": "fsdfadsfasdfasdf@gmail.com", "provider": "", "services": map[string]interface{}{}, "src": "", "valid": true, "validGmail": true, "value": float64(0)}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": interface{}(nil)},
-	//	StatusCode:                 201,
-	//	RequiresInternetConnection: true,
-	//},
+	"emailServices": { // ID 11
+		RequestType:                "POST",
+		Name:                       "Post person with included email detecting services",
+		URL:                        "http://localhost:8080/person",
+		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"has_discord_account@gmail.com": map[string]interface{}{"mail": "has_discord_account@gmail.com"}}, "hobbies": "", "id": "11", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": interface{}(nil), "ssn": "", "tags": interface{}(nil)},
+		ExpectedResponse:            map[string]interface {}{"accounts":map[string]interface {}{}, "address":"", "age":float64(10), "bday":"", "civilstatus":"", "club":"", "education":"", "email":map[string]interface {}{"has_discord_account@gmail.com":map[string]interface {}{"gmail":true, "mail":"has_discord_account@gmail.com", "provider":"", "services":map[string]interface {}{"Discord":map[string]interface {}{"icon":"./images/mail/discord.png", "link":"", "name":"Discord", "username":""}}, "src":"", "valid":true, "validGmail":false, "value":float64(0)}}, "hobbies":"", "id":"11", "kids":"", "legal":"", "maidenname":"", "military":"", "name":"Email test", "notaccounts":interface {}(nil), "notes":"", "occupation":"", "pets":"", "phone":"", "pictures":map[string]interface {}{}, "political":"", "prevoccupation":"", "relations":map[string]interface {}{}, "religion":"", "sources":map[string]interface {}{}, "ssn":"", "tags":[]interface {}{}},
+		StatusCode:                 201,
+		RequiresInternetConnection: true,
+	},
 }
 
 type Requests = map[string]struct {
@@ -173,7 +173,7 @@ func TestAPI(t *testing.T) {
 			t.Errorf("[%s] Unexpected Status Code: %d\nExpected %d", name, resp.StatusCode, req.StatusCode)
 		}
 		// Compare the response body to the expected value
-		if !reflect.DeepEqual(req.ExpectedResponse, respBody) {
+		if !reflect.DeepEqual(respBody,req.ExpectedResponse) {
 			t.Errorf("[%s] Unexpected response body: %#v\nExpected %#v", name, respBody, req.ExpectedResponse)
 		}
 	}

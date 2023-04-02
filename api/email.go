@@ -95,13 +95,13 @@ func CheckMail(newPerson Person, config ApiConfig) Person { // FIXME TODO
 		log.Println("nil newPerson.Email")
 		newPerson.Email = EmailsType{}
 	}
-	log.Println("email not nil")
 	if len(newPerson.Email) == 0 {
-		log.Println("empty list")
+		log.Printf("newPerson.Email (ID=%s) is a empty list", newPerson.ID)
 	} else {
+		log.Println()
 		for i, mail := range newPerson.Email {
 			if mail.Mail != "" {
-				log.Println("email not \"\"")
+				log.Printf("Checking %s", mail.Mail)
 				//mail.Services = MailServices(mail.Mail)
 				mail.Valid = IsEmailValid(mail.Mail)
 				mail.Gmail = IsGmailAddress(mail.Mail)
@@ -109,20 +109,21 @@ func CheckMail(newPerson Person, config ApiConfig) Person { // FIXME TODO
 
 				if mail.Services == nil {
 					mail.Services = EmailServiceEnums{}
+					log.Printf("mail.Services == nil (%s)", mail.Mail)
 				}
 				retMailServices := MailServicesHandler(DefaultMailServices, mail.Mail, config)
 				log.Printf("found %d services", len(retMailServices))
 				for key, value := range retMailServices {
-					go func(key string, value EmailServiceEnum) {
-						log.Printf("%s = %s", key, value)
-						mailMutex.Lock()
-						mail.Services[key] = value
-						mailMutex.Unlock()
-					}(key, value)
+					log.Printf("%s = %s", key, value)
+					mailMutex.Lock()
+					log.Printf("mail.Services[%s] = %#v", key, value)
+					mail.Services[key] = value
+					mailMutex.Unlock()
 				}
 			} else {
 				log.Println("nil mail field")
 			}
+			log.Printf("%#v", mail)
 			newPerson.Email[i] = mail
 		}
 	}

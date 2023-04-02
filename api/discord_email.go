@@ -8,6 +8,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"log"
+  "fmt"
 	"net/http"
 )
 
@@ -24,10 +25,13 @@ type discordResponse struct {
 
 func Discord(mailService MailService, email string, config ApiConfig) (error, bool) {
   if config.Testing {
-    if email == "has_no_discord_account@gmail.com" {
+    if email == "has_discord_account@gmail.com" || email == "discord@gmail.com" {
+      fmt.Println("has_discord_account testing case true")
       return nil,true
     }
-    return nil,true
+
+    fmt.Println("has_discord_account testing case true")
+    return nil,false
   }
 	log.Println("Checking Discord email")
 	var endpoint = "https://discord.com/api/v9/auth/register"
