@@ -43,6 +43,9 @@ func main() {
 		DataBase:      dataBase,
 		SetCORSHeader: true,
 		SaveJsonFunc:  api.DefaultSaveJson,
+		ApiKeysSimple: api.ApiKeysSimple{
+			"github": []string{"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"},
+		},
 	}
 	var config = webServer.WebServerConfig{
 		Content: content,
