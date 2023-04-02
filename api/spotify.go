@@ -50,14 +50,16 @@ func Spotify(mailService MailService, email string) bool {
 	client := &http.Client{}
 	r, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode())) // URL-encoded payload
 	if err != nil {
-		log.Fatal(err)
+    log.Println(err)
+    return false
 	}
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	r.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
 
 	res, err := client.Do(r)
 	if err != nil {
-		log.Fatal(err)
+    log.Println(err)
+    return false
 	}
 	defer res.Body.Close()
 	if res.StatusCode == 200 {
