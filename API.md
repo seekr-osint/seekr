@@ -350,6 +350,16 @@ curl localhost:8080/deep/github/9glenda
     }
 }
 ```
+#### Rate limitation
+In case of rate limitation there will be a single email only called `fatal`
+There will only be one one item.
+I don't care for people using fatal as email.
+The status code will be `403`
+```
+{
+	"fatal": "rate limited"
+}
+```
 ```sh
 curl localhost:8080/search/whois/google.com
 ```
