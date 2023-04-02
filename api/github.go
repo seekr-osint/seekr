@@ -137,12 +137,3 @@ func Remove(path string) {
 		}
 	}
 }
-
-func Mkdir(path string) {
-	if !Exists(path) {
-		err := os.Mkdir(path, 0755)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-}
