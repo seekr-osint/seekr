@@ -33,7 +33,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"message": "overwritten person"},
 		StatusCode:       202,
 	},
-	"postPerson": {
+	"postPerson": { // ID 2
 		RequestType:      "POST",
 		Name:             "Post Person",
 		URL:              "http://localhost:8080/person",
@@ -41,7 +41,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "2", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": interface{}(nil)},
 		StatusCode:       201,
 	},
-	"getPerson": { // ID
+	"getPerson": { // ID 1
 		RequestType:      "GET",
 		Name:             "Get Person by ID",
 		URL:              "http://localhost:8080/people/1",
@@ -66,6 +66,15 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
+	//"emailServices": { // ID 11
+	//	RequestType:                "POST",
+	//	Name:                       "Post person with included email detecting services",
+	//	URL:                        "http://localhost:8080/person",
+	//	PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"support@gmail.com": map[string]interface{}{"mail": "support@gmail.com"}}, "hobbies": "", "id": "11", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": interface{}(nil), "ssn": "", "tags": interface{}(nil)},
+	//	ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"gmail": true, "mail": "fsdfadsfasdfasdf@gmail.com", "provider": "", "services": map[string]interface{}{}, "src": "", "valid": true, "validGmail": true, "value": float64(0)}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": interface{}(nil)},
+	//	StatusCode:                 201,
+	//	RequiresInternetConnection: true,
+	//},
 }
 
 type Requests = map[string]struct {
@@ -79,7 +88,7 @@ type Requests = map[string]struct {
 }
 
 func toJsonString(data interface{}) string {
-	jsonBytes, _ := json.MarshalIndent(data, "", "    ")
+	jsonBytes, _ := json.MarshalIndent(data, "", "\t")
 	return string(jsonBytes)
 }
 
@@ -92,7 +101,7 @@ func writeDocs() {
 	defer file.Close()
 
 	for _, value := range requests {
-		postData, _ := json.Marshal(value.PostData)
+		postData, _ := json.MarshalIndent(value.PostData, "", "\t")
 
 		requestStr := fmt.Sprintf("**Curl Request:**\n\n```sh\ncurl -X %s %s", value.RequestType, value.URL)
 		if value.RequestType != "GET" {

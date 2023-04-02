@@ -1,108 +1,3 @@
-## Get Person by ID
-
-**Curl Request:**
-
-```sh
-curl -X GET http://localhost:8080/people/1
-```
-
-**Response:**
-
-```json
-{
-    "accounts": {},
-    "address": "",
-    "age": 0,
-    "bday": "",
-    "civilstatus": "",
-    "club": "",
-    "education": "",
-    "email": {},
-    "hobbies": "",
-    "id": "1",
-    "kids": "",
-    "legal": "",
-    "maidenname": "",
-    "military": "",
-    "name": "",
-    "notaccounts": null,
-    "notes": "",
-    "occupation": "",
-    "pets": "",
-    "phone": "",
-    "pictures": {},
-    "political": "",
-    "prevoccupation": "",
-    "relations": null,
-    "religion": "",
-    "sources": {},
-    "ssn": "",
-    "tags": null
-}
-```
-
-**Status Code:** 200
-
-
-## Overwrite Person
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{"accounts":null,"address":"","age":10,"bday":"","civilstatus":"","club":"","education":"","email":{"fsdfadsfasdfasdf@gmail.com":{"mail":"fsdfadsfasdfasdf@gmail.com"}},"hobbies":"","id":"10","kids":"","legal":"","maidenname":"","military":"","name":"Email test","notaccounts":null,"notes":"","occupation":"","pets":"","phone":"","pictures":null,"political":"","prevoccupation":"","relations":null,"religion":"","sources":null,"ssn":"","tags":null}'
-```
-
-**Response:**
-
-```json
-{
-    "accounts": {},
-    "address": "",
-    "age": 10,
-    "bday": "",
-    "civilstatus": "",
-    "club": "",
-    "education": "",
-    "email": {
-        "fsdfadsfasdfasdf@gmail.com": {
-            "gmail": true,
-            "mail": "fsdfadsfasdfasdf@gmail.com",
-            "provider": "",
-            "services": {},
-            "src": "",
-            "valid": true,
-            "validGmail": true,
-            "value": 0
-        }
-    },
-    "hobbies": "",
-    "id": "10",
-    "kids": "",
-    "legal": "",
-    "maidenname": "",
-    "military": "",
-    "name": "Email test",
-    "notaccounts": null,
-    "notes": "",
-    "occupation": "",
-    "pets": "",
-    "phone": "",
-    "pictures": {},
-    "political": "",
-    "prevoccupation": "",
-    "relations": null,
-    "religion": "",
-    "sources": {},
-    "ssn": "",
-    "tags": null
-}
-```
-
-**Status Code:** 201
-
-
 ## Get Person which does not exsist
 
 **Curl Request:**
@@ -127,14 +22,16 @@ null
 ```sh
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
--d '{"id":"1"}'
+-d '{
+	"id": "1"
+}'
 ```
 
 **Response:**
 
 ```json
 {
-    "message": "overwritten person"
+	"message": "overwritten person"
 }
 ```
 
@@ -148,41 +45,181 @@ curl -X POST http://localhost:8080/person \
 ```sh
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
--d '{"id":"2"}'
+-d '{
+	"id": "2"
+}'
 ```
 
 **Response:**
 
 ```json
 {
-    "accounts": {},
-    "address": "",
-    "age": 0,
-    "bday": "",
-    "civilstatus": "",
-    "club": "",
-    "education": "",
-    "email": {},
-    "hobbies": "",
-    "id": "2",
-    "kids": "",
-    "legal": "",
-    "maidenname": "",
-    "military": "",
-    "name": "",
-    "notaccounts": null,
-    "notes": "",
-    "occupation": "",
-    "pets": "",
-    "phone": "",
-    "pictures": {},
-    "political": "",
-    "prevoccupation": "",
-    "relations": null,
-    "religion": "",
-    "sources": {},
-    "ssn": "",
-    "tags": null
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {},
+	"hobbies": "",
+	"id": "2",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": null
+}
+```
+
+**Status Code:** 201
+
+
+## Get Person by ID
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/people/1
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {},
+	"hobbies": "",
+	"id": "1",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": null
+}
+```
+
+**Status Code:** 200
+
+
+## Post person with included email
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"accounts": null,
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"fsdfadsfasdfasdf@gmail.com": {
+			"mail": "fsdfadsfasdfasdf@gmail.com"
+		}
+	},
+	"hobbies": "",
+	"id": "10",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": null,
+	"ssn": "",
+	"tags": null
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"fsdfadsfasdfasdf@gmail.com": {
+			"gmail": true,
+			"mail": "fsdfadsfasdfasdf@gmail.com",
+			"provider": "",
+			"services": {},
+			"src": "",
+			"valid": true,
+			"validGmail": true,
+			"value": 0
+		}
+	},
+	"hobbies": "",
+	"id": "10",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": null
 }
 ```
 

@@ -62,23 +62,23 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
-  runningFile, err := os.Create("/tmp/running")
-  if err != nil {
-    log.Fatal(err)
-  }
-  defer os.Remove("/tmp/running")
-  defer runningFile.Close()
+	runningFile, err := os.Create("/tmp/running")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer os.Remove("/tmp/running")
+	defer runningFile.Close()
 	config.GinRouter.Run(config.Ip)
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 	if c.Param("username") != "" {
-    githubInfo, err := GithubInfoDeep(c.Param("username"), true,config)
-    if err != nil {
-      c.IndentedJSON(http.StatusForbidden, map[string]string{"fatal":fmt.Sprintf("%s",err)})
-    } else {
-		  c.IndentedJSON(http.StatusOK, githubInfo)
-    }
+		githubInfo, err := GithubInfoDeep(c.Param("username"), true, config)
+		if err != nil {
+			c.IndentedJSON(http.StatusForbidden, map[string]string{"fatal": fmt.Sprintf("%s", err)})
+		} else {
+			c.IndentedJSON(http.StatusOK, githubInfo)
+		}
 	}
 }
 
@@ -156,30 +156,12 @@ func WhoisRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, Whois(c.Param("query"), config))
 }
 
-func ParsePerson(newPerson Person) Person {
-	newPerson = ReplaceNil(newPerson)
-	newPerson = CheckMail(newPerson)
-	return newPerson
-}
-
 func GetAccounts(config ApiConfig, username string) Accounts {
 	return ServicesHandler(DefaultServices, username, config)
 }
 
 func GetAccountsRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, GetAccounts(config, strings.ToLower(c.Param("username"))))
-}
-func ReplaceNil(newPerson Person) Person {
-	if newPerson.Pictures == nil {
-		newPerson.Pictures = Pictures{}
-	}
-	if newPerson.Accounts == nil {
-		newPerson.Accounts = Accounts{}
-	}
-	if newPerson.Sources == nil {
-		newPerson.Sources = Sources{}
-	}
-	return newPerson
 }
 
 // THIS HAS NO C.PARAM("id")
@@ -191,7 +173,6 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	if err := c.BindJSON(&newPerson); err != nil {
 		return
 	}
-	// newPerson = CheckMail(newPerson) // FIXME
 	newPerson = ParsePerson(newPerson)
 	// DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
 	exsits, _ := GetPersonByID(config, newPerson.ID) // check rather the person Exsts
