@@ -62,7 +62,7 @@
     width: 100%;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(330deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    background: linear-gradient(330deg, var(--bg) 0%, var(--textColor-1) 50%, var(--loadingColor-dark) 100%);
     opacity: 0;
     transition: all .4s ease;
 }
