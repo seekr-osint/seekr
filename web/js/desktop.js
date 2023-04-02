@@ -50,6 +50,20 @@ function createGuideWindow() {
   });
 }
 
+function createTempMailWindow() {
+  new WinBox("TEMPMAIL", {
+    id: "tempmail-window",
+    html: '<iframe class="frame" src="./tempmail.html"></iframe>',
+    background: bg_var,
+    header: 45,
+    // viewport boundaries:
+    top: 10,
+    right: 10,
+    bottom: 0,
+    left: 10,
+  });
+}
+
 function createWhoisWindow() {
   new WinBox("WHOIS", {
     id: "seekr-window",
