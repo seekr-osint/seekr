@@ -37,17 +37,17 @@ html {
   align-items: center;
   font-size: 2rem;
   cursor: pointer;
-  color: var(--greyDark);
+  color: var(--textColor-1);
   transition: all .5s ease;
 }
 
 .shortcut-menu:hover {
-  color: var(--primary);
+  color: var(--textColor-hover);
 }
 
 .shortcut-menu:active {
   box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
-  color: var(--primary);
+  color: var(--textColor-hover);
 }
 
 .menu-icon {
@@ -123,4 +123,3 @@ html {
   box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
   color: var(--primary);
 }
-

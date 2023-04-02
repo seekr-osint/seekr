@@ -77,5 +77,5 @@
 
 .darkMode-switch-input:checked ~ .darkMode-switch-label::after {
     left: 57%;
-    background: var(--greyLight-1);
+    background: var(--brightContrastColor);
 }
