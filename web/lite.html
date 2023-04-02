@@ -18,6 +18,16 @@
     <link rel="stylesheet" href="./css/style.css">
     <script type="module" src="./js/framework.js" defer></script>
     <script type="module" src="./js/script.js" defer></script>
+
+    <script type="text/javascript" defer>
+      // Check local storage for dark mode setting
+
+      if (localStorage.getItem("isDarkMode") == "true") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
   </head>
 
   <body>

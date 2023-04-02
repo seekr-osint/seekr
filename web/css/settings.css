@@ -1,0 +1,81 @@
+#settings-table {
+    display: block;
+    width: 97%;
+    height: auto;
+    margin: 1rem;
+}
+
+.settings-option {
+    display: block;
+}
+
+.flex-option-container {
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+.option-text {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--textColor-1);
+}
+
+
+
+
+
+
+
+/* Darkmode */
+
+.darkMode-switch {
+    width: 6rem;
+    margin: 1rem;
+}
+
+.darkMode-switch-label {
+    display: flex;
+    align-items: center;
+	width: 100%;
+    height: 3rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+    background: rgba(255,255,255,0);
+	position: relative;
+	cursor: pointer;
+	border-radius: 1.6rem;
+}
+
+.darkMode-switch-label::after {
+    content: "";
+    position: absolute;
+    left: .4rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: var(--textColor-1);
+    transition: all .4s ease;
+}
+
+.darkMode-switch-label::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(330deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    opacity: 0;
+    transition: all .4s ease;
+}
+
+.darkMode-switch-input {
+    display: none;
+}
+
+.darkMode-switch-input:checked ~ .darkMode-switch-label::before {
+    opacity: 1;
+}
+
+.darkMode-switch-input:checked ~ .darkMode-switch-label::after {
+    left: 57%;
+    background: var(--greyLight-1);
+}
