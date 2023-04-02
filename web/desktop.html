@@ -23,6 +23,16 @@
 
     <title>SEEKR</title>
 
+    <script type="text/javascript" defer>
+      // Check local storage for dark mode setting
+
+      if (localStorage.getItem("isDarkMode") == "true") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
+
     <!-- WinBox -->
     <link rel="stylesheet" href="./css/winbox.min.css">
     <script src="./js/winbox.min.js"></script>
@@ -37,6 +47,9 @@
       <div class="app-shortcut seekr-icon" onclick="createSeekrWindow()">
         <img src="./images/seekr-gray.png" alt="SEEKR" class="app-icon">
       </div>
+      <div class="app-shortcut guide-icon" onclick="createGuideWindow()">
+        <img src="./images/guide-gray.png" alt="Guide" class="app-icon">
+      </div>
       <div class="app-shortcut whois-icon" onclick="createWhoisWindow()">
         <img src="./images/whois-gray.png" alt="WhoIs" class="app-icon">
       </div>
@@ -45,7 +58,7 @@
       </div>
     </div>
 
-    <div class="shortcut-menu" onclick="toggleAppBar()">
+    <div class="shortcut-menu">
       <ion-icon name="grid-outline" class="menu-icon"></ion-icon>
     </div>
   </body>
