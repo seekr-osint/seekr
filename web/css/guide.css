@@ -1,9 +1,9 @@
 .dd-nav-bar {
-    position: absolute;
-    top: 0;
-    height: 8vh;
-    width: 100%;
-    background-color: var(--bg-bright);
-    background: linear-gradient(0deg, var(--bg-bright) 50%, var(--bg) 100%);
-    box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
-  }
+  position: absolute;
+  top: 0;
+  height: 8vh;
+  width: 100%;
+  background-color: var(--bg-bright);
+  background: linear-gradient(0deg, var(--bg-bright) 50%, var(--bg) 100%);
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+}

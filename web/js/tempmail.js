@@ -14,3 +14,38 @@ channel.addEventListener('message', (event) => {
     }
   }
 });
+
+
+
+
+
+
+const myBtn = document.querySelector(".create-mail-btn");
+const myPara = document.querySelector(".email-headline");
+
+myBtn.addEventListener("click", () => {
+  fetch("https://www.developermail.com/api/v1/mailbox", {
+    method: "PUT",
+    headers: {
+      "accept": "application/json"
+    },
+    mode: "no-cors", // Add this line to disable CORS
+    body: ""
+  })
+    .then(response => response.json()) // Parse the response as JSON
+    .then(data => {
+      // Check if the API call was successful and there are no errors
+      if (data.success && data.errors === null) {
+        // Set the text of the paragraph tag to the name and token values
+        myPara.textContent = `Name: ${data.result.name}, Token: ${data.result.token}`;
+      } else {
+        // Set the text of the paragraph tag to indicate an error occurred
+        myPara.textContent = "An error occurred.";
+      }
+    })
+    .catch(error => {
+      // Set the text of the paragraph tag to indicate an error occurred
+      myPara.textContent = "An error occurred.";
+      console.error(error);
+    });
+});
