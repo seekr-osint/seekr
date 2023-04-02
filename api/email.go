@@ -12,23 +12,20 @@ var RANDOM_PASSWORD = "64,iVBORw0KGgoAAAA$1"
 
 var DefaultMailServices = MailServices{
 	MailService{
-		Name: "Discord",
-		//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
+		Name:           "Discord",
 		UserExistsFunc: Discord,
 		Icon:           "./images/mail/discord.png",
 	},
-	//MailService{
-	//	Name: "Spotify",
-	//	//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
-	//	UserExistsFunc: Spotify,
-	//	Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB9AAAAfQCAYAAACaOMR5AAAgAElEQVR4nOzdebRsaVn",
-	//},
-	//MailService{
-	//	Name: "Twitter",
-	//	//UserExistsFunc: func(s MailService, str string) bool { return true }, // for testing useful
-	//	UserExistsFunc: Twitter,
-	//	Icon:           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA+gAAAPoCAYAAABNo9TkAAAAAXNSR0IArs4c6QAAIABJR",
-	//},
+	MailService{
+		Name:           "Spotify",
+		UserExistsFunc: Spotify,
+		Icon:           "./images/mail/spotify.png",
+	},
+	MailService{
+		Name:           "Twitter",
+		UserExistsFunc: Twitter,
+		Icon:           "./images/mail/twitter.png",
+	},
 }
 
 func IsGmailAddress(email string) bool {
