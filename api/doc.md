@@ -93,7 +93,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/people/1
+curl -X GET http://localhost:8080/people/2
 ```
 
 **Response:**
@@ -109,7 +109,7 @@ curl -X GET http://localhost:8080/people/1
 	"education": "",
 	"email": {},
 	"hobbies": "",
-	"id": "1",
+	"id": "2",
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
