@@ -1,131 +1,3 @@
-## Post person with included email detecting all services
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"accounts": null,
-	"age": 10,
-	"email": {
-		"all@gmail.com": {
-			"mail": "all@gmail.com"
-		}
-	},
-	"id": "12",
-	"name": "Email test"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"accounts": {},
-	"address": "",
-	"age": 10,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
-	"email": {
-		"all@gmail.com": {
-			"gmail": true,
-			"mail": "all@gmail.com",
-			"provider": "",
-			"services": {
-				"Discord": {
-					"icon": "./images/mail/discord.png",
-					"link": "",
-					"name": "Discord",
-					"username": ""
-				},
-				"Spotify": {
-					"icon": "./images/mail/spotify.png",
-					"link": "",
-					"name": "Spotify",
-					"username": ""
-				},
-				"Twitter": {
-					"icon": "./images/mail/twitter.png",
-					"link": "",
-					"name": "Twitter",
-					"username": ""
-				}
-			},
-			"src": "",
-			"valid": true,
-			"validGmail": true,
-			"value": 0
-		}
-	},
-	"hobbies": "",
-	"id": "12",
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "Email test",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": "",
-	"pictures": {},
-	"political": "",
-	"prevoccupation": "",
-	"relations": {},
-	"religion": "",
-	"sources": {},
-	"ssn": "",
-	"tags": []
-}
-```
-
-**Status Code:** 201
-
-
-## Get Person which does not exsist
-
-**Curl Request:**
-
-```sh
-curl -X GET http://localhost:8080/people/100
-```
-
-**Response:**
-
-```json
-null
-```
-
-**Status Code:** 404
-
-
-## Overwrite Person
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"id": "1"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"message": "overwritten person"
-}
-```
-
-**Status Code:** 202
-
-
 ## Post Person
 
 **Curl Request:**
@@ -176,6 +48,29 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
+## Overwrite Person
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "1"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "overwritten person"
+}
+```
+
+**Status Code:** 202
+
+
 ## Get Person by ID
 
 **Curl Request:**
@@ -220,6 +115,23 @@ curl -X GET http://localhost:8080/people/2
 ```
 
 **Status Code:** 200
+
+
+## Get Person which does not exsist
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/people/100
+```
+
+**Response:**
+
+```json
+null
+```
+
+**Status Code:** 404
 
 
 ## Post person with included email
@@ -366,6 +278,94 @@ curl -X POST http://localhost:8080/person \
 	},
 	"hobbies": "",
 	"id": "11",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post person with included email detecting all services
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"accounts": null,
+	"age": 10,
+	"email": {
+		"all@gmail.com": {
+			"mail": "all@gmail.com"
+		}
+	},
+	"id": "12",
+	"name": "Email test"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"all@gmail.com": {
+			"gmail": true,
+			"mail": "all@gmail.com",
+			"provider": "",
+			"services": {
+				"Discord": {
+					"icon": "./images/mail/discord.png",
+					"link": "",
+					"name": "Discord",
+					"username": ""
+				},
+				"Spotify": {
+					"icon": "./images/mail/spotify.png",
+					"link": "",
+					"name": "Spotify",
+					"username": ""
+				},
+				"Twitter": {
+					"icon": "./images/mail/twitter.png",
+					"link": "",
+					"name": "Twitter",
+					"username": ""
+				}
+			},
+			"src": "",
+			"valid": true,
+			"validGmail": true,
+			"value": 0
+		}
+	},
+	"hobbies": "",
+	"id": "12",
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
