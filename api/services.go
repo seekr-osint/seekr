@@ -579,6 +579,14 @@ func GetAvatar(avatar_url string, account Account, config ApiConfig) (error, Acc
 }
 
 func SimpleAccountInfo(username string, service Service, config ApiConfig) (error, Account) {
+	if config.Testing {
+		if username == fmt.Sprintf("%s-exsists", service.Name) {
+			return nil, EmptyAccountInfo(username, service)
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), EmptyAccountInfo(username, service)
+		}
+		return nil, EmptyAccountInfo(username, service)
+	}
 	log.Println("simple account info:" + service.Name)
 	baseUrl := UrlTemplate(service.BaseUrl, username)
 	htmlUrl := UrlTemplate(service.HtmlUrl, username)
