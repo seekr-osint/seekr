@@ -194,6 +194,7 @@ curl -X POST http://localhost:8080/person \
 			"mail": "fsdfadsfasdfasdf@gmail.com",
 			"provider": "",
 			"services": {},
+			"skipped_services": {},
 			"src": "",
 			"valid": true,
 			"validGmail": true,
@@ -270,6 +271,7 @@ curl -X POST http://localhost:8080/person \
 					"username": ""
 				}
 			},
+			"skipped_services": {},
 			"src": "",
 			"valid": true,
 			"validGmail": false,
@@ -358,6 +360,7 @@ curl -X POST http://localhost:8080/person \
 					"username": ""
 				}
 			},
+			"skipped_services": {},
 			"src": "",
 			"valid": true,
 			"validGmail": true,
@@ -366,6 +369,99 @@ curl -X POST http://localhost:8080/person \
 	},
 	"hobbies": "",
 	"id": "12",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post person with included email and discord check failing
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"accounts": null,
+	"address": "",
+	"age": 13,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"discord_error@gmail.com": {
+			"mail": "discord_error@gmail.com"
+		}
+	},
+	"hobbies": "",
+	"id": "13",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"sources": null,
+	"tags": null
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 13,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"discord_error@gmail.com": {
+			"gmail": true,
+			"mail": "discord_error@gmail.com",
+			"provider": "",
+			"services": {},
+			"skipped_services": {
+				"Discord": true
+			},
+			"src": "",
+			"valid": true,
+			"validGmail": false,
+			"value": 0
+		}
+	},
+	"hobbies": "",
+	"id": "13",
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
