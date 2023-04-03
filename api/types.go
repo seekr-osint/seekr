@@ -15,7 +15,7 @@ type Person struct {
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
 	Phone          string             `json:"phone"`
-	SSN            string             `json:"ssn"`
+	SSN            SSN                `json:"ssn"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`

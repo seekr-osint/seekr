@@ -634,3 +634,28 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 400
 
 
+## Post Person (invalid SSN)
+Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions 
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "18",
+	"ssn": "invalid"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "invalid SSN"
+}
+```
+
+**Status Code:** 400
+
+
