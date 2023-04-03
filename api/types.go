@@ -69,11 +69,13 @@ type Email struct {
 	Value      int               `json:"value"`
 	Src        string            `json:"src"`
 	Services   EmailServiceEnums `json:"services"`
+  SkippedServices          SkippedServicesEnum     `json:"skipped_services"`
 	Valid      bool              `json:"valid"`
 	Gmail      bool              `json:"gmail"`
 	ValidGmail bool              `json:"validGmail"`
 	Provider   string            `json:"provider"`
 }
+type SkippedServicesEnum map[string]bool
 
 // type Accounts map[string]Account
 type Accounts map[string]Account
