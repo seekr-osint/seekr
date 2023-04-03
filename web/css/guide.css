@@ -11,14 +11,46 @@
 }
 
 
+.ww,
+.us,
+.ca {
+  margin-bottom: 1rem;
+  justify-self: center;
+  width: auto;
+  height: 4rem;
+  border-radius: 1rem;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  display: flex;
+  align-items: center;
+  margin-left: 1.37rem;
+  margin-right: 1.37rem;
+}
 
 
+.link-list-holder {
+  column-count: 3;
+}
 
 .existing-info-form {
   margin-left: 3rem;
   display: flex;
 }
 
+.link-results {
+  margin-top: 10vh !important;
+  margin: 1vh;
+}
+
+.link-a {
+  color: var(--textColor-1);
+  font-size: 1.3rem;
+  width: 100%;
+  text-align: center;
+}
+
+.link-a:hover {
+  color: var(--textColor-hover);
+}
 
 
 /*  CHECKBOX  */

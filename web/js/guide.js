@@ -15,9 +15,8 @@ channel.addEventListener('message', (event) => {
   }
 });
 
-
 var x, i, j, l, ll, selElmnt, a, b, c;
-/*look for any elements with the class "custom-select":*/
+/*look for any elements with the class "country-select":*/
 x = document.getElementsByClassName("country-select");
 l = x.length;
 for (i = 0; i < l; i++) {
@@ -94,3 +93,68 @@ function closeAllSelect(elmnt) {
 /*if the user clicks anywhere outside the select box,
 then close all select boxes:*/
 document.addEventListener("click", closeAllSelect);
+
+
+
+
+
+
+
+
+
+
+
+
+
+// The actual stuff
+
+const countryDropdown = document.getElementById("country-select");
+const selectedValue = document.querySelector(".country-select select").value;
+
+const checkboxName = document.getElementById("checkbox_01");
+const checkboxAddress = document.getElementById("checkbox_02");
+const checkboxPhone = document.getElementById("checkbox_03");
+const checkboxVIN = document.getElementById("checkbox_04");
+const checkboxBusiness = document.getElementById("checkbox_05");
+const checkboxIP = document.getElementById("checkbox_06");
+const checkboxUsername = document.getElementById("checkbox_07");
+
+const linkItems = document.querySelectorAll("link-list-holder li");
+
+
+function filterAllItems() {
+  console.log("filtering all items");
+}
+
+
+const list_elements = document.querySelectorAll(".link-list-holder li");
+
+document.querySelector(".select-selected").addEventListener("DOMSubtreeModified", function() {
+  const selectedCountry = document.querySelector(".select-selected").innerHTML;
+  let currentCountry;
+
+  for (let i = 0; i < list_elements.length; i++) {
+    const element = list_elements[i];
+    element.style.display = "block";
+  }
+
+  if (selectedCountry !== "") {
+    if (selectedCountry == "Select country:" || selectedCountry == "WorldWide") {
+      currentCountry = "ww";
+    } else if (selectedCountry == "United States of America") {
+      currentCountry = "us";
+    } else if (selectedCountry == "Canada") {
+      currentCountry = "ca";
+    }
+    
+    for (let i = 0; i < list_elements.length; i++) {
+      const element = list_elements[i];
+
+      if (currentCountry == "ww") {
+        element.style.display = "block";
+      } else if (!element.classList.contains(currentCountry)) {
+        element.style.display = "none";
+      }
+    }
+  }
+});
