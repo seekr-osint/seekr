@@ -489,6 +489,14 @@ func UrlTemplate(url string, username string) string {
 }
 
 func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // tyoe UserExistsFunc
+	if config.Testing {
+		if username == fmt.Sprintf("%s-exsists", service.Name) {
+			return nil, true
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
 	BaseUrl := UrlTemplate(service.BaseUrl, username)
 	log.Println("checking:" + BaseUrl)
 	switch service.Check {
@@ -552,7 +560,7 @@ func EncodeBase64(img string) string {
 	return base64Img
 }
 
-func GetAvatar(avatar_url string, account Account) (error, Account) {
+func GetAvatar(avatar_url string, account Account, config ApiConfig) (error, Account) {
 	log.Printf("avatar_url: %s", avatar_url)
 	err, statusCode := GetStatusCodeNew(avatar_url, ApiConfig{}) // FIXME empty api config
 	if err != nil {
@@ -606,7 +614,7 @@ func SimpleAccountInfo(username string, service Service, config ApiConfig) (erro
 		}
 	}
 	if service.AvatarUrl != "" {
-		err, newAccount := GetAvatar(service.AvatarUrl, account) // TODO give service as argument
+		err, newAccount := GetAvatar(service.AvatarUrl, account, config) // TODO give service as argument
 		if err != nil {
 			return nil, account
 		}
@@ -624,7 +632,7 @@ func SlideshareInfo(username string, service Service, config ApiConfig) (error, 
 		Username: username,
 		Url:      baseUrl,
 	}
-	err, newAccount := GetAvatar(avatar_url, account)
+	err, newAccount := GetAvatar(avatar_url, account, config)
 	if err != nil {
 		return nil, account
 	}
