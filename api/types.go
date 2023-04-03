@@ -143,8 +143,8 @@ type ScrapeStruct struct {
 	FindElement string
 	Attr        string
 }
-type GetInfoFunc func(string, Service, ApiConfig) (error,Account) // (username)
-type ImageFunc func(string, Service) string               // (username)
-type UserExistsFunc func(Service, string, ApiConfig) (error,bool) // (service,username)
+type GetInfoFunc func(string, Service, ApiConfig) (error, Account) // (username)
+type ImageFunc func(string, Service) string                        // (username)
+type UserExistsFunc func(Service, string, ApiConfig) (error, bool) // (service,username)
 
 type MailUserExistsFunc func(MailService, string, ApiConfig) (error, bool) // (BaseUrl,email)
