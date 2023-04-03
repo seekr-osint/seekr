@@ -65,15 +65,15 @@ type Bio struct {
 	Bio string `json:"bio"`
 }
 type Email struct {
-	Mail       string            `json:"mail"`
-	Value      int               `json:"value"`
-	Src        string            `json:"src"`
-	Services   EmailServiceEnums `json:"services"`
-  SkippedServices          SkippedServicesEnum     `json:"skipped_services"`
-	Valid      bool              `json:"valid"`
-	Gmail      bool              `json:"gmail"`
-	ValidGmail bool              `json:"validGmail"`
-	Provider   string            `json:"provider"`
+	Mail            string              `json:"mail"`
+	Value           int                 `json:"value"`
+	Src             string              `json:"src"`
+	Services        EmailServiceEnums   `json:"services"`
+	SkippedServices SkippedServicesEnum `json:"skipped_services"`
+	Valid           bool                `json:"valid"`
+	Gmail           bool                `json:"gmail"`
+	ValidGmail      bool                `json:"validGmail"`
+	Provider        string              `json:"provider"`
 }
 type SkippedServicesEnum map[string]bool
 
@@ -120,6 +120,7 @@ type MailService struct {
 	Name           string             // example: "GitHub"
 	UserExistsFunc MailUserExistsFunc // example: Dis10cord()
 	Icon           string             // example: https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png
+	Url            string
 }
 type MailServices []MailService
-type MailUserExistsFunc func(MailService, string,ApiConfig) (error,bool) // (BaseUrl,email)
+type MailUserExistsFunc func(MailService, string, ApiConfig) (error, bool) // (BaseUrl,email)

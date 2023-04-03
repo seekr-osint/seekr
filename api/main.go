@@ -25,7 +25,7 @@ func TestApi(dataBase DataBase) {
 		DataBase:      dataBase,
 		SetCORSHeader: true,
 		SaveJsonFunc:  DefaultSaveJson,
-    Testing: true,
+		Testing:       true,
 	}
 	DefaultSaveJson(apiConfig)
 
@@ -174,7 +174,7 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	if err := c.BindJSON(&newPerson); err != nil {
 		return
 	}
-	newPerson = ParsePerson(newPerson,config)
+	newPerson = ParsePerson(newPerson, config)
 	// DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
 	exsits, _ := GetPersonByID(config, newPerson.ID) // check rather the person Exsts
 	if !exsits {

@@ -167,8 +167,6 @@ curl -X POST http://localhost:8080/person \
 	"pets": "",
 	"phone": "",
 	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
 	"relations": null,
 	"religion": "",
 	"sources": null,
@@ -357,6 +355,24 @@ curl -X POST http://localhost:8080/person \
 					"icon": "./images/mail/twitter.png",
 					"link": "",
 					"name": "Twitter",
+					"username": ""
+				},
+				"Ubuntu GPG": {
+					"icon": "https://ubuntu.com/favicon.ico",
+					"link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "Ubuntu GPG",
+					"username": ""
+				},
+				"keys.gnupg.net": {
+					"icon": "https://www.gnupg.org/favicon.ico",
+					"link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "keys.gnupg.net",
+					"username": ""
+				},
+				"keyserver.pgp.com": {
+					"icon": "https://pgp.com/favicon.ico",
+					"link": "https://keyserver.pgp.com/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "keyserver.pgp.com",
 					"username": ""
 				}
 			},
