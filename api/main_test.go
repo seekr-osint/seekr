@@ -25,15 +25,7 @@ func waitForFile() {
 }
 
 var requests = Requests{
-	"overwritePerson": {
-		RequestType:      "POST",
-		Name:             "Overwrite Person",
-		URL:              "http://localhost:8080/person",
-		PostData:         map[string]interface{}{"id": "1"},
-		ExpectedResponse: map[string]interface{}{"message": "overwritten person"},
-		StatusCode:       202,
-	},
-	"postPerson": { // ID 2
+	"1-postPerson": { // ID 2
 		RequestType:      "POST",
 		Name:             "Post Person",
 		URL:              "http://localhost:8080/person",
@@ -41,7 +33,15 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "2", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"getPerson": { // ID 1
+	"2-overwritePerson": {
+		RequestType:      "POST",
+		Name:             "Overwrite Person",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "1"},
+		ExpectedResponse: map[string]interface{}{"message": "overwritten person"},
+		StatusCode:       202,
+	},
+	"3-getPerson": { // ID 1
 		RequestType:      "GET",
 		Name:             "Get Person by ID",
 		URL:              "http://localhost:8080/people/2",
@@ -49,7 +49,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "2", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       200,
 	},
-	"getPersonNotExisting": { // ID 100 NOTFOUND
+	"4-getPersonNotExisting": { // ID 100 NOTFOUND
 		RequestType:      "GET",
 		Name:             "Get Person which does not exsist",
 		URL:              "http://localhost:8080/people/100",
@@ -57,7 +57,7 @@ var requests = Requests{
 		ExpectedResponse: nil,
 		StatusCode:       404,
 	},
-	"email": { // ID 10
+	"5-email": { // ID 10
 		RequestType:                "POST",
 		Name:                       "Post person with included email",
 		URL:                        "http://localhost:8080/person",
@@ -66,7 +66,7 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"emailServices": { // ID 11
+	"6-emailServices": { // ID 11
 		RequestType:                "POST",
 		Name:                       "Post person with included email detecting only discord as a services",
 		URL:                        "http://localhost:8080/person",
@@ -75,7 +75,7 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"allEmailServices": { // ID 11
+	"7-allEmailServices": { // ID 11
 		RequestType:                "POST",
 		Name:                       "Post person with included email detecting all services",
 		URL:                        "http://localhost:8080/person",
@@ -109,7 +109,8 @@ func writeDocs() {
 	}
 	defer file.Close()
 
-	for _, value := range requests {
+	for _, key := range SortMapKeys(requests) {
+		value := requests[key]
 		postData, _ := json.MarshalIndent(value.PostData, "", "\t")
 
 		requestStr := fmt.Sprintf("**Curl Request:**\n\n```sh\ncurl -X %s %s", value.RequestType, value.URL)
@@ -147,7 +148,8 @@ func TestAPI(t *testing.T) {
 	writeDocs()
 	// WRITE DOCS END
 
-	for name, req := range requests {
+	for _, name := range SortMapKeys(requests) {
+		req := requests[name]
 		// Convert post data to JSON if necessary
 		postDataJson := []byte{}
 		if req.PostData != nil {
