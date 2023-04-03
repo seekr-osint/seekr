@@ -50,11 +50,12 @@ func IsGitHubMail(email string) bool {
 	return match
 }
 
-func MailServicesHandler(servicesToCheck MailServices, email string, config ApiConfig) EmailServiceEnums {
+func MailServicesHandler(servicesToCheck MailServices, email string, config ApiConfig) (EmailServiceEnums, SkippedServicesEnum) {
 	var mailMutex = sync.RWMutex{}
 	wg := &sync.WaitGroup{}
 
 	services := EmailServiceEnums{}
+	skippedServices := SkippedServicesEnum{}
 	// FIXME EMAIL SERVICE SCANNING
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
@@ -64,6 +65,9 @@ func MailServicesHandler(servicesToCheck MailServices, email string, config ApiC
 			err, userExsits := service.UserExistsFunc(service, email, config)
 			if err != nil {
 				log.Printf("error in service: %s,%e", service.Name, err)
+				mailMutex.Lock()
+				skippedServices[service.Name] = true
+				mailMutex.Unlock()
 			} else {
 				if userExsits { // if service exisits
 					log.Printf("User %s on %s exsits", email, service.Name)
@@ -82,7 +86,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string, config ApiC
 	}
 	wg.Wait()
 	log.Println(len(services))
-	return services
+	return services, skippedServices
 }
 
 func CheckMail(newPerson Person, config ApiConfig) Person { // FIXME TODO
@@ -108,13 +112,25 @@ func CheckMail(newPerson Person, config ApiConfig) Person { // FIXME TODO
 					mail.Services = EmailServiceEnums{}
 					log.Printf("mail.Services == nil (%s)", mail.Mail)
 				}
-				retMailServices := MailServicesHandler(DefaultMailServices, mail.Mail, config)
+				// We always want to clear the skipped services
+				//if mail.SkippedServices == nil {
+				mail.SkippedServices = SkippedServicesEnum{}
+				//log.Printf("mail.SkippedServices == nil (%s)", mail.Mail)
+				//}
+				retMailServices, retSkippedMailServices := MailServicesHandler(DefaultMailServices, mail.Mail, config)
 				log.Printf("found %d services", len(retMailServices))
 				for key, value := range retMailServices {
 					log.Printf("%s = %s", key, value)
 					mailMutex.Lock()
 					log.Printf("mail.Services[%s] = %#v", key, value)
 					mail.Services[key] = value
+					mailMutex.Unlock()
+				}
+				for key, value := range retSkippedMailServices {
+					log.Printf("%s = %v", key, value)
+					mailMutex.Lock()
+					log.Printf("mail.SkippedServices[%s] = %#v", key, value)
+					mail.SkippedServices[key] = value
 					mailMutex.Unlock()
 				}
 			} else {

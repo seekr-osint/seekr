@@ -27,6 +27,8 @@ func Discord(mailService MailService, email string, config ApiConfig) (error, bo
     if email == "has_discord_account@gmail.com" || email == "discord@gmail.com" || email == "all@gmail.com" {
       log.Println("has_discord_account testing case true")
       return nil,true
+    } else if email == "discord_error@gmail.com" {
+      return errors.New("error"),false
     }
     log.Println("has_discord_account testing case false")
     return nil,false
