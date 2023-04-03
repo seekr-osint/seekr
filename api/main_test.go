@@ -75,7 +75,7 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"7-allEmailServices": { // ID 11
+	"7a-allEmailServices": { // ID 11
 		RequestType:                "POST",
 		Name:                       "Post person with included email detecting all services",
 		URL:                        "http://localhost:8080/person",
@@ -84,7 +84,7 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"8-email-error": { // ID 13
+	"7b-email-error": { // ID 13
 		RequestType:                "POST",
 		Name:                       "Post person with included email and discord check failing",
 		URL:                        "http://localhost:8080/person",
@@ -92,6 +92,15 @@ var requests = Requests{
 		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(13), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"discord_error@gmail.com": map[string]interface{}{"gmail": true, "mail": "discord_error@gmail.com", "provider": "", "services": map[string]interface{}{}, "skipped_services": map[string]interface{}{"Discord": true}, "src": "", "valid": true, "validGmail": false, "value": float64(0)}}, "hobbies": "", "id": "13", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
+	},
+	"8a-accounts": { // ID 15
+		RequestType: "GET",
+		Name:        "Post Person (civil status)",
+		//Comment:          "`tiktok` being the username not service",
+		URL:              "http://localhost:8080/getAccounts/snapchat-exsists",
+		PostData:         nil,
+		ExpectedResponse: map[string]interface{}{"Snapchat-snapchat-exsists": map[string]interface{}{"bio": interface{}(nil), "blog": "", "created": "", "firstname": "", "followers": float64(0), "following": float64(0), "id": "", "lastname": "", "location": "", "profilePicture": interface{}(nil), "service": "Snapchat", "updated": "", "url": "", "username": "snapchat-exsists"}},
+		StatusCode:       200,
 	},
 	"9a-postPerson": { // ID 15
 		RequestType:      "POST",
@@ -102,7 +111,6 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "Single", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "15", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-
 	"9b-postPerson": { // ID 16
 		RequestType:      "POST",
 		Name:             "Post Person (invalid civil status)",

@@ -489,8 +489,10 @@ func UrlTemplate(url string, username string) string {
 }
 
 func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // tyoe UserExistsFunc
+  log.Printf("checking: %s %s",service.Name,username)
 	if config.Testing {
-		if username == fmt.Sprintf("%s-exsists", service.Name) {
+		if username == strings.ToLower(fmt.Sprintf("%s-exsists", service.Name)) {
+      log.Printf("%s-exsists",service.Name)
 			return nil, true
 		} else if username == fmt.Sprintf("%s-error", service.Name) {
 			return errors.New("error"), false
@@ -580,7 +582,7 @@ func GetAvatar(avatar_url string, account Account, config ApiConfig) (error, Acc
 
 func SimpleAccountInfo(username string, service Service, config ApiConfig) (error, Account) {
 	if config.Testing {
-		if username == fmt.Sprintf("%s-exsists", service.Name) {
+		if username == strings.ToLower(fmt.Sprintf("%s-exsists", service.Name)) {
 			return nil, EmptyAccountInfo(username, service)
 		} else if username == fmt.Sprintf("%s-error", service.Name) {
 			return errors.New("error"), EmptyAccountInfo(username, service)
