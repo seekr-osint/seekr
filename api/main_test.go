@@ -61,7 +61,7 @@ var requests = Requests{
 		RequestType:                "POST",
 		Name:                       "Post person with included email",
 		URL:                        "http://localhost:8080/person",
-		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com"}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "political": "", "prevoccupation": "", "relations": interface{}(nil), "religion": "", "sources": interface{}(nil), "ssn": "", "tags": interface{}(nil)},
+		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com"}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "relations": interface{}(nil), "religion": "", "sources": interface{}(nil), "ssn": "", "tags": interface{}(nil)},
 		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"gmail": true, "mail": "fsdfadsfasdfasdf@gmail.com", "provider": "", "services": map[string]interface{}{}, "src": "", "valid": true, "validGmail": true, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
@@ -80,7 +80,7 @@ var requests = Requests{
 		Name:                       "Post person with included email detecting all services",
 		URL:                        "http://localhost:8080/person",
 		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(10), "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"mail": "all@gmail.com"}}, "id": "12", "name": "Email test"},
-		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"gmail": true, "mail": "all@gmail.com", "provider": "", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}, "Spotify": map[string]interface{}{"icon": "./images/mail/spotify.png", "link": "", "name": "Spotify", "username": ""}, "Twitter": map[string]interface{}{"icon": "./images/mail/twitter.png", "link": "", "name": "Twitter", "username": ""}}, "src": "", "valid": true, "validGmail": true, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": "", "id": "12", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"gmail": true, "mail": "all@gmail.com", "provider": "", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}, "Spotify": map[string]interface{}{"icon": "./images/mail/spotify.png", "link": "", "name": "Spotify", "username": ""}, "Twitter": map[string]interface{}{"icon": "./images/mail/twitter.png", "link": "", "name": "Twitter", "username": ""}, "Ubuntu GPG": map[string]interface{}{"icon": "https://ubuntu.com/favicon.ico", "link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index", "name": "Ubuntu GPG", "username": ""}, "keys.gnupg.net": map[string]interface{}{"icon": "https://www.gnupg.org/favicon.ico", "link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index", "name": "keys.gnupg.net", "username": ""}, "keyserver.pgp.com": map[string]interface{}{"icon": "https://pgp.com/favicon.ico", "link": "https://keyserver.pgp.com/pks/lookup?search=all@gmail.com&op=index", "name": "keyserver.pgp.com", "username": ""}}, "skipped_services": map[string]interface{}{}, "src": "", "valid": true, "validGmail": true, "value": float64(0)}}, "hobbies": "", "id": "12", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
@@ -93,6 +93,51 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
+	"9a-postPerson": { // ID 15
+		RequestType:      "POST",
+		Name:             "Post Person (civil status)",
+		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "15", "civilstatus": "Single"},
+		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "Single", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "15", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		StatusCode:       201,
+	},
+
+	"9b-postPerson": { // ID 16
+		RequestType:      "POST",
+		Name:             "Post Person (invalid civil status)",
+		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "16", "civilstatus": "Invalid"},
+		ExpectedResponse: map[string]interface{}{"message": "civil staus invalid"},
+		StatusCode:       400,
+	},
+	"9c-postPerson": { // ID 16
+		RequestType:      "POST",
+		Name:             "Post Person (missing id)",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{},
+		ExpectedResponse: map[string]interface{}{"message": "missing id"},
+		StatusCode:       400,
+	},
+	"9d-postPerson": { // ID 17
+		RequestType:      "POST",
+		Name:             "Post Person (invalid religion)",
+		Comment:          "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "17", "religion": "invalid"},
+		ExpectedResponse: map[string]interface{}{"message": "invalid religion"},
+		StatusCode:       400,
+	},
+	"9e-postPerson": { // ID 18
+		RequestType:      "POST",
+		Name:             "Post Person (invalid SSN)",
+		Comment:          "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "18", "ssn": "invalid"},
+		ExpectedResponse: map[string]interface{}{"message": "invalid SSN"},
+		StatusCode:       400,
+	},
 }
 
 type Requests = map[string]struct {
@@ -103,6 +148,7 @@ type Requests = map[string]struct {
 	ExpectedResponse           interface{}
 	StatusCode                 int
 	RequiresInternetConnection bool
+	Comment                    string
 }
 
 func toJsonString(data interface{}) string {
@@ -130,7 +176,7 @@ func writeDocs() {
 
 		responseStr := fmt.Sprintf("**Response:**\n\n```json\n%s\n```\n\n", toJsonString(value.ExpectedResponse))
 		statusCodeStr := fmt.Sprintf("**Status Code:** %d\n\n", value.StatusCode)
-		markdownStr := fmt.Sprintf("## %s\n\n%s%s%s\n", value.Name, requestStr, responseStr, statusCodeStr)
+		markdownStr := fmt.Sprintf("## %s\n%s\n\n%s%s%s\n", value.Name, value.Comment, requestStr, responseStr, statusCodeStr)
 
 		// write the markdown strings to the file
 		_, err = file.WriteString(markdownStr)

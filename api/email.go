@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"regexp"
+	"strings"
 	"sync"
 )
 
@@ -26,6 +27,37 @@ var DefaultMailServices = MailServices{
 		UserExistsFunc: Twitter,
 		Icon:           "./images/mail/twitter.png",
 	},
+	MailService{
+		Name:           "Ubuntu GPG",
+		UserExistsFunc: UbuntuGPGUserExists,
+		Icon:           "https://ubuntu.com/favicon.ico",
+		Url:            "https://keyserver.ubuntu.com/pks/lookup?search={{ email }}&op=index",
+	},
+	MailService{
+		Name:           "keys.gnupg.net",
+		UserExistsFunc: KeysGnuPGUserExists,
+		Icon:           "https://www.gnupg.org/favicon.ico",
+		Url:            "https://keys.gnupg.net/pks/lookup?search={{ email }}&op=index",
+	},
+
+	MailService{
+		Name:           "keyserver.pgp.com",
+		UserExistsFunc: KeyserverPGPUserExists,
+		Icon:           "https://pgp.com/favicon.ico",
+		Url:            "https://keyserver.pgp.com/pks/lookup?search={{ email }}&op=index",
+	},
+	//MailService{ // FIXME
+	//    Name: "pgp.mit.edu",
+	//    UserExistsFunc: PgpMitUserExists,
+	//    Icon: "https://pgp.mit.edu/favicon.ico",
+	//},
+
+	// MailService{ // FIXME
+	//
+	//	   Name: "pool.sks-keyservers.net",
+	//	   UserExistsFunc: PoolSKSUserExists,
+	//	   Icon: "https://sks-keyservers.net/favicon.ico",
+	//	},
 }
 
 func IsGmailAddress(email string) bool {
@@ -75,6 +107,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string, config ApiC
 					services[service.Name] = EmailServiceEnum{
 						Name: service.Name,
 						Icon: service.Icon,
+						Link: strings.ReplaceAll(service.Url, "{{ email }}", email),
 					} // add service to accounts
 					mailMutex.Unlock()
 				} else {

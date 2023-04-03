@@ -1,5 +1,6 @@
 ## Post Person
 
+
 **Curl Request:**
 
 ```sh
@@ -50,6 +51,7 @@ curl -X POST http://localhost:8080/person \
 
 ## Overwrite Person
 
+
 **Curl Request:**
 
 ```sh
@@ -72,6 +74,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Get Person by ID
+
 
 **Curl Request:**
 
@@ -119,6 +122,7 @@ curl -X GET http://localhost:8080/people/2
 
 ## Get Person which does not exsist
 
+
 **Curl Request:**
 
 ```sh
@@ -135,6 +139,7 @@ null
 
 
 ## Post person with included email
+
 
 **Curl Request:**
 
@@ -167,8 +172,6 @@ curl -X POST http://localhost:8080/person \
 	"pets": "",
 	"phone": "",
 	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
 	"relations": null,
 	"religion": "",
 	"sources": null,
@@ -228,6 +231,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post person with included email detecting only discord as a services
+
 
 **Curl Request:**
 
@@ -306,6 +310,7 @@ curl -X POST http://localhost:8080/person \
 
 ## Post person with included email detecting all services
 
+
 **Curl Request:**
 
 ```sh
@@ -358,6 +363,24 @@ curl -X POST http://localhost:8080/person \
 					"link": "",
 					"name": "Twitter",
 					"username": ""
+				},
+				"Ubuntu GPG": {
+					"icon": "https://ubuntu.com/favicon.ico",
+					"link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "Ubuntu GPG",
+					"username": ""
+				},
+				"keys.gnupg.net": {
+					"icon": "https://www.gnupg.org/favicon.ico",
+					"link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "keys.gnupg.net",
+					"username": ""
+				},
+				"keyserver.pgp.com": {
+					"icon": "https://pgp.com/favicon.ico",
+					"link": "https://keyserver.pgp.com/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "keyserver.pgp.com",
+					"username": ""
 				}
 			},
 			"skipped_services": {},
@@ -394,6 +417,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post person with included email and discord check failing
+
 
 **Curl Request:**
 
@@ -484,5 +508,154 @@ curl -X POST http://localhost:8080/person \
 ```
 
 **Status Code:** 201
+
+
+## Post Person (civil status)
+Possible values are: Single,Married,Widowed,Divorced,Separated
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"civilstatus": "Single",
+	"id": "15"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "Single",
+	"club": "",
+	"education": "",
+	"email": {},
+	"hobbies": "",
+	"id": "15",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post Person (invalid civil status)
+Possible values are: Single,Married,Widowed,Divorced,Separated
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"civilstatus": "Invalid",
+	"id": "16"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "civil staus invalid"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (missing id)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "missing id"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (invalid religion)
+Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions 
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "17",
+	"religion": "invalid"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "invalid religion"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (invalid SSN)
+Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions 
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "18",
+	"ssn": "invalid"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "invalid SSN"
+}
+```
+
+**Status Code:** 400
 
 
