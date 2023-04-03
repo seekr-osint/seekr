@@ -18,7 +18,7 @@ channel.addEventListener('message', (event) => {
 
 var x, i, j, l, ll, selElmnt, a, b, c;
 /*look for any elements with the class "custom-select":*/
-x = document.getElementsByClassName("custom-select");
+x = document.getElementsByClassName("country-select");
 l = x.length;
 for (i = 0; i < l; i++) {
   selElmnt = x[i].getElementsByTagName("select")[0];
