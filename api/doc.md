@@ -1,5 +1,6 @@
 ## Post Person
 
+
 **Curl Request:**
 
 ```sh
@@ -50,6 +51,7 @@ curl -X POST http://localhost:8080/person \
 
 ## Overwrite Person
 
+
 **Curl Request:**
 
 ```sh
@@ -72,6 +74,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Get Person by ID
+
 
 **Curl Request:**
 
@@ -119,6 +122,7 @@ curl -X GET http://localhost:8080/people/2
 
 ## Get Person which does not exsist
 
+
 **Curl Request:**
 
 ```sh
@@ -135,6 +139,7 @@ null
 
 
 ## Post person with included email
+
 
 **Curl Request:**
 
@@ -227,6 +232,7 @@ curl -X POST http://localhost:8080/person \
 
 ## Post person with included email detecting only discord as a services
 
+
 **Curl Request:**
 
 ```sh
@@ -303,6 +309,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post person with included email detecting all services
+
 
 **Curl Request:**
 
@@ -411,6 +418,7 @@ curl -X POST http://localhost:8080/person \
 
 ## Post person with included email and discord check failing
 
+
 **Curl Request:**
 
 ```sh
@@ -503,6 +511,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post Person (civil status)
+Possible values are: Single,Married,Widowed,Divorced,Separated
 
 **Curl Request:**
 
@@ -554,6 +563,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post Person (invalid civil status)
+Possible values are: Single,Married,Widowed,Divorced,Separated
 
 **Curl Request:**
 
@@ -578,6 +588,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post Person (missing id)
+
 
 **Curl Request:**
 

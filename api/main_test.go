@@ -158,7 +158,7 @@ func writeDocs() {
 
 		responseStr := fmt.Sprintf("**Response:**\n\n```json\n%s\n```\n\n", toJsonString(value.ExpectedResponse))
 		statusCodeStr := fmt.Sprintf("**Status Code:** %d\n\n", value.StatusCode)
-		markdownStr := fmt.Sprintf("## %s\n\n%s%s%s\n", value.Name, requestStr, responseStr, statusCodeStr)
+		markdownStr := fmt.Sprintf("## %s\n%s\n\n%s%s%s\n", value.Name, value.Comment, requestStr, responseStr, statusCodeStr)
 
 		// write the markdown strings to the file
 		_, err = file.WriteString(markdownStr)
