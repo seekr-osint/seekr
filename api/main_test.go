@@ -120,7 +120,6 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"message": "missing id"},
 		StatusCode:       400,
 	},
-
 	"9d-postPerson": { // ID 17
 		RequestType:      "POST",
 		Name:             "Post Person (invalid religion)",
@@ -128,6 +127,15 @@ var requests = Requests{
 		URL:              "http://localhost:8080/person",
 		PostData:         map[string]interface{}{"id": "17", "religion": "invalid"},
 		ExpectedResponse: map[string]interface{}{"message": "invalid religion"},
+		StatusCode:       400,
+	},
+	"9e-postPerson": { // ID 18
+		RequestType:      "POST",
+		Name:             "Post Person (invalid SSN)",
+		Comment:          "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "18", "ssn": "invalid"},
+		ExpectedResponse: map[string]interface{}{"message": "invalid SSN"},
 		StatusCode:       400,
 	},
 }

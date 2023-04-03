@@ -31,6 +31,9 @@ func CheckValid(newPerson Person, config ApiConfig) (bool, string) {
 	if !newPerson.Religion.IsValid() {
 		return false, "invalid religion"
 	}
+	if !newPerson.SSN.IsValid() {
+		return false, "invalid SSN"
+	}
 	if newPerson.ID == "" {
 		return false, "missing id"
 	}
