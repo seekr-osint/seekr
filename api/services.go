@@ -552,18 +552,22 @@ func EncodeBase64(img string) string {
 	return base64Img
 }
 
-func GetAvatar(avatar_url string, account Account) Account {
+func GetAvatar(avatar_url string, account Account) (error, Account) {
 	log.Printf("avatar_url: %s", avatar_url)
-	if GetStatusCode(avatar_url) == 200 {
+	err, statusCode := GetStatusCodeNew(avatar_url, ApiConfig{}) // FIXME empty api config
+	if err != nil {
+		return err, account
+	}
+	if statusCode == 200 {
 		avatar, err := HttpRequest(avatar_url)
 		if err != nil {
-			return account
+			return err, account
 		}
 		account.Picture = Pictures{
 			"1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
 		}
 	}
-	return account
+	return nil, account
 }
 
 func SimpleAccountInfo(username string, service Service, config ApiConfig) (error, Account) {
@@ -602,12 +606,16 @@ func SimpleAccountInfo(username string, service Service, config ApiConfig) (erro
 		}
 	}
 	if service.AvatarUrl != "" {
-		account = GetAvatar(service.AvatarUrl, account) // TODO give service as argument
+		err, newAccount := GetAvatar(service.AvatarUrl, account) // TODO give service as argument
+		if err != nil {
+			return nil, account
+		}
+		return nil, newAccount
 	}
 	return nil, account
 }
 
-func SlideshareInfo(username string, service Service, config ApiConfig) Account {
+func SlideshareInfo(username string, service Service, config ApiConfig) (error, Account) {
 	log.Println("slideshare")
 	baseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	avatar_url := strings.ReplaceAll(service.BaseUrl, "{username}", username)
@@ -616,8 +624,11 @@ func SlideshareInfo(username string, service Service, config ApiConfig) Account 
 		Username: username,
 		Url:      baseUrl,
 	}
-	account = GetAvatar(avatar_url, account)
-	return account
+	err, newAccount := GetAvatar(avatar_url, account)
+	if err != nil {
+		return nil, account
+	}
+	return nil, newAccount
 }
 func GithubInfo(username string, service Service, config ApiConfig) (error, Account) {
 	log.Println("github")
