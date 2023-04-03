@@ -175,11 +175,11 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid person"})
 		return
 	}
-  valid,message := CheckValid(newPerson,config)
-  if !valid {
+	valid, message := CheckValid(newPerson, config)
+	if !valid {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": message})
 		return
-  }
+	}
 	newPerson = ParsePerson(newPerson, config)
 	// DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
 	exsits, _ := GetPersonByID(config, newPerson.ID) // check rather the person Exsts

@@ -24,13 +24,15 @@ func ReplaceNil(newPerson Person, config ApiConfig) Person {
 	}
 	return newPerson
 }
-func CheckValid(newPerson Person, config ApiConfig) (bool,string) {
-  if !newPerson.Civilstatus.IsValid() {
-    return false, "civil staus invalid"
-  }
-  if newPerson.ID == "" {
-    return false, "missing id"
-  }
-  return true,""
+func CheckValid(newPerson Person, config ApiConfig) (bool, string) {
+	if !newPerson.Civilstatus.IsValid() {
+		return false, "civil staus invalid"
+	}
+	if !newPerson.Religion.IsValid() {
+		return false, "invalid religion"
+	}
+	if newPerson.ID == "" {
+		return false, "missing id"
+	}
+	return true, ""
 }
-
