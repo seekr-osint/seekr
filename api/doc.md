@@ -502,3 +502,99 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
+## Post Person (civil status)
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"civilstatus": "Single",
+	"id": "15"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "Single",
+	"club": "",
+	"education": "",
+	"email": {},
+	"hobbies": "",
+	"id": "15",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post Person (invalid civil status)
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"civilstatus": "Invalid",
+	"id": "16"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "civil staus invalid"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (missing id)
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "missing id"
+}
+```
+
+**Status Code:** 400
+
+

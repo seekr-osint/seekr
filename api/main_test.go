@@ -93,6 +93,33 @@ var requests = Requests{
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
+	"9a-postPerson": { // ID 15
+		RequestType:      "POST",
+		Name:             "Post Person (civil status)",
+		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "15", "civilstatus": "Single"},
+		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "Single", "club": "", "education": "", "email": map[string]interface{}{}, "hobbies": "", "id": "15", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		StatusCode:       201,
+	},
+
+	"9b-postPerson": { // ID 16
+		RequestType:      "POST",
+		Name:             "Post Person (invalid civil status)",
+		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "16", "civilstatus": "Invalid"},
+		ExpectedResponse: map[string]interface{}{"message": "civil staus invalid"},
+		StatusCode:       400,
+	},
+	"9c-postPerson": { // ID 16
+		RequestType:      "POST",
+		Name:             "Post Person (missing id)",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{},
+		ExpectedResponse: map[string]interface{}{"message": "missing id"},
+		StatusCode:       400,
+	},
 }
 
 type Requests = map[string]struct {
@@ -103,6 +130,7 @@ type Requests = map[string]struct {
 	ExpectedResponse           interface{}
 	StatusCode                 int
 	RequiresInternetConnection bool
+	Comment                    string
 }
 
 func toJsonString(data interface{}) string {
