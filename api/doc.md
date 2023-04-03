@@ -511,6 +511,41 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post Person (civil status)
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/getAccounts/snapchat-exsists
+```
+
+**Response:**
+
+```json
+{
+	"Snapchat-snapchat-exsists": {
+		"bio": null,
+		"blog": "",
+		"created": "",
+		"firstname": "",
+		"followers": 0,
+		"following": 0,
+		"id": "",
+		"lastname": "",
+		"location": "",
+		"profilePicture": null,
+		"service": "Snapchat",
+		"updated": "",
+		"url": "",
+		"username": "snapchat-exsists"
+	}
+}
+```
+
+**Status Code:** 200
+
+
+## Post Person (civil status)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 
 **Curl Request:**

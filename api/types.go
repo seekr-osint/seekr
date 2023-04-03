@@ -123,4 +123,28 @@ type MailService struct {
 	Url            string
 }
 type MailServices []MailService
+type Services []Service
+type Service struct {
+	Name              string         // example: "GitHub"
+	UserExistsFunc    UserExistsFunc // example: SimpleUserExistsCheck()
+	GetInfoFunc       GetInfoFunc    // example: EmptyAccountInfo()
+	ImageFunc         ImageFunc
+	ExternalImageFunc bool
+	ScrapeImage       bool
+	Scrape            ScrapeStruct
+	BaseUrl           string // example: "https://github.com"
+	AvatarUrl         string
+	Check             string // example: "status_code"
+	HtmlUrl           string
+	Pattern           string
+	BlockedPattern    string
+}
+type ScrapeStruct struct {
+	FindElement string
+	Attr        string
+}
+type GetInfoFunc func(string, Service, ApiConfig) (error, Account) // (username)
+type ImageFunc func(string, Service) string                        // (username)
+type UserExistsFunc func(Service, string, ApiConfig) (error, bool) // (service,username)
+
 type MailUserExistsFunc func(MailService, string, ApiConfig) (error, bool) // (BaseUrl,email)
