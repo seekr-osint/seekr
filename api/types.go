@@ -16,7 +16,7 @@ type Person struct {
 	Address        string             `json:"address"`
 	Phone          string             `json:"phone"`
 	SSN            string             `json:"ssn"`
-	Civilstatus    CivilStatus `json:"civilstatus"`
+	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`
 	Email          EmailsType         `json:"email"`
@@ -24,7 +24,7 @@ type Person struct {
 	Prevoccupation string             `json:"prevoccupation"`
 	Education      string             `json:"education"`
 	Military       string             `json:"military"`
-	Religion       string             `json:"religion"`
+	Religion       Religion           `json:"religion"`
 	Pets           string             `json:"pets"`
 	Club           string             `json:"club"`
 	Legal          string             `json:"legal"`
