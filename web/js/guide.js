@@ -135,7 +135,7 @@ document.querySelector(".select-selected").addEventListener("DOMSubtreeModified"
 
   for (let i = 0; i < list_elements.length; i++) {
     const element = list_elements[i];
-    element.style.display = "block";
+    element.style.display = "flex";
   }
 
   if (selectedCountry !== "") {
@@ -151,7 +151,7 @@ document.querySelector(".select-selected").addEventListener("DOMSubtreeModified"
       const element = list_elements[i];
 
       if (currentCountry == "ww") {
-        element.style.display = "block";
+        element.style.display = "flex";
       } else if (!element.classList.contains(currentCountry)) {
         element.style.display = "none";
       }
