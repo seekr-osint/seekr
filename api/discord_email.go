@@ -23,14 +23,16 @@ type discordResponse struct {
 }
 
 func Discord(mailService MailService, email string, config ApiConfig) (error, bool) {
-  if config.Testing {
-    if email == "has_discord_account@gmail.com" || email == "discord@gmail.com" || email == "all@gmail.com" {
-      log.Println("has_discord_account testing case true")
-      return nil,true
-    }
-    log.Println("has_discord_account testing case false")
-    return nil,false
-  }
+	if config.Testing {
+		if email == "has_discord_account@gmail.com" || email == "discord@gmail.com" || email == "all@gmail.com" {
+			log.Println("has_discord_account testing case true")
+			return nil, true
+		} else if email == "discord_error@gmail.com" {
+			return errors.New("error"), false
+		}
+		log.Println("has_discord_account testing case false")
+		return nil, false
+	}
 
 	log.Println("Checking Discord email")
 	var endpoint = "https://discord.com/api/v9/auth/register"
