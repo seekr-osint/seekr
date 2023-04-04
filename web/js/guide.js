@@ -129,14 +129,18 @@ function filterAllItems() {
 
 const list_elements = document.querySelectorAll(".link-list-holder li");
 
-document.querySelector(".select-selected").addEventListener("DOMSubtreeModified", function() {
-  const selectedCountry = document.querySelector(".select-selected").innerHTML;
-  let currentCountry;
-
+function resetAll() {
   for (let i = 0; i < list_elements.length; i++) {
     const element = list_elements[i];
     element.style.display = "flex";
   }
+}
+
+function checkCountry() {
+  const selectedCountry = document.querySelector(".select-selected").innerHTML;
+  let currentCountry;
+
+  resetAll();
 
   if (selectedCountry !== "") {
     if (selectedCountry == "Select country:" || selectedCountry == "WorldWide") {
@@ -149,12 +153,103 @@ document.querySelector(".select-selected").addEventListener("DOMSubtreeModified"
       currentCountry = "uk";
     }
     
+    return currentCountry;
+  }
+}
+
+function eliminateAllNoneCountry() {
+  const currentCountry = checkCountry();
+
+  for (let i = 0; i < list_elements.length; i++) {
+    const element = list_elements[i];
+
+    if (!element.classList.contains(currentCountry)) {
+      element.style.display = "none";
+    }
+  }
+}
+
+
+document.querySelector(".select-selected").addEventListener("DOMSubtreeModified", function() {
+  eliminateAllNoneCountry();
+});
+
+checkboxName.addEventListener('change', function() {
+  if (this.checked) {
     for (let i = 0; i < list_elements.length; i++) {
       const element = list_elements[i];
 
-      if (!element.classList.contains(currentCountry)) {
+      if (!element.classList.contains("name")) {
         element.style.display = "none";
       }
     }
+  } else {
+    for (let i = 0; i < list_elements.length; i++) {
+      const element = list_elements[i];
+
+      if (!element.classList.contains("name")) {
+        element.style.display = "flex";
+      }
+    }
+  }
+});
+
+checkboxAddress.addEventListener('change', function() {
+  if (this.checked) {
+    for (let i = 0; i < list_elements.length; i++) {
+      const element = list_elements[i];
+
+      if (!element.classList.contains("address")) {
+        element.style.display = "none";
+      }
+    }
+  } else {
+    for (let i = 0; i < list_elements.length; i++) {
+      const element = list_elements[i];
+
+      if (!element.classList.contains("address")) {
+        element.style.display = "flex";
+      }
+    }
+  }
+});
+
+checkboxPhone.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("Checkbox is checked..");
+  } else {
+    console.log("Checkbox is not checked..");
+  }
+});
+
+checkboxVIN.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("Checkbox is checked..");
+  } else {
+    console.log("Checkbox is not checked..");
+  }
+});
+
+checkboxBusiness.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("Checkbox is checked..");
+  } else {
+    console.log("Checkbox is not checked..");
+  }
+});
+
+checkboxIP.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("Checkbox is checked..");
+  } else {
+    console.log("Checkbox is not checked..");
+  }
+});
+
+checkboxUsername.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("Checkbox is checked..");
+  } else {
+    console.log("Checkbox is not checked..");
   }
 });
