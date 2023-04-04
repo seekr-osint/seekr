@@ -10,10 +10,14 @@
   align-items: center;
 }
 
+body {
+  overflow: hidden;
+}
 
 .ww,
 .us,
-.ca {
+.ca,
+.uk {
   margin-bottom: 1rem;
   justify-self: center;
   width: auto;
@@ -26,13 +30,23 @@
   margin-right: 1.37rem;
 }
 
-
 li {
   break-inside: avoid-column;
 }
 
 .link-list-holder {
   column-count: 3;
+}
+
+.link-results::-webkit-scrollbar {
+  width: 12px;
+  -webkit-appearance: none;
+}
+
+.link-results::-webkit-scrollbar-thumb {
+  background: var(--bg);
+  border-radius: 3rem;
+  box-shadow: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
 }
 
 .existing-info-form {
@@ -43,6 +57,10 @@ li {
 .link-results {
   margin-top: 10vh !important;
   margin: 1vh;
+  height: 55.5rem;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-bottom: 1rem;
 }
 
 .link-a {
