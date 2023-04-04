@@ -39,9 +39,17 @@ type spotifyResponse struct {
 	PushNotifications bool `json:"push-notifications"`
 }
 
-func Spotify(mailService MailService, email string) bool {
+func Spotify(mailService MailService, email string, config ApiConfig) (error, bool) {
 
-	var endpoint string = "https://spclient.wg.spotify.com/signup/public/v1/account"
+	if config.Testing {
+		if email == "has_spotify_account@gmail.com" || email == "spotify@gmail.com" || email == "all@gmail.com" {
+			log.Println("has_spotify_account testing case true")
+			return nil, true
+		}
+		log.Println("has_spotify_account testing case false")
+		return nil, false
+	}
+	var endpoint = "https://spclient.wg.spotify.com/signup/public/v1/account"
 
 	data := url.Values{}
 	data.Set("validate", "1")
@@ -50,14 +58,16 @@ func Spotify(mailService MailService, email string) bool {
 	client := &http.Client{}
 	r, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode())) // URL-encoded payload
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return err, false
 	}
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	r.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
 
 	res, err := client.Do(r)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return err, false
 	}
 	defer res.Body.Close()
 	if res.StatusCode == 200 {
@@ -65,11 +75,11 @@ func Spotify(mailService MailService, email string) bool {
 		var response spotifyResponse
 		json.Unmarshal(body, &response)
 		if response.Status == 20 {
-			return true
+			return nil, true
 		} else {
-			return false
+			return nil, false
 		}
 	} else {
-		return false
+		return nil, false
 	}
 }

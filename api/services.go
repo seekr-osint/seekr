@@ -21,30 +21,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type Services []Service
-type Service struct {
-	Name              string         // example: "GitHub"
-	UserExistsFunc    UserExistsFunc // example: SimpleUserExistsCheck()
-	GetInfoFunc       GetInfoFunc    // example: EmptyAccountInfo()
-	ImageFunc         ImageFunc
-	ExternalImageFunc bool
-	ScrapeImage       bool
-	Scrape            ScrapeStruct
-	BaseUrl           string // example: "https://github.com"
-	AvatarUrl         string
-	Check             string // example: "status_code"
-	HtmlUrl           string
-	Pattern           string
-	BlockedPattern    string
-}
-type ScrapeStruct struct {
-	FindElement string
-	Attr        string
-}
-type GetInfoFunc func(string, Service, ApiConfig) Account // (username)
-type ImageFunc func(string, Service) string               // (username)
-type UserExistsFunc func(Service, string, ApiConfig) bool // (service,username)
-
 func ServicesHandler(servicesToCheck Services, username string, config ApiConfig) Accounts {
 	wg := &sync.WaitGroup{}
 
@@ -54,8 +30,16 @@ func ServicesHandler(servicesToCheck Services, username string, config ApiConfig
 		go func(i int) {
 			// Do something
 			service := servicesToCheck[i] // current service
-			if service.UserExistsFunc(service, username, config) {
-				accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = service.GetInfoFunc(username, service, config) // add service to accounts
+			err, exists := service.UserExistsFunc(service, username, config)
+			if err != nil {
+				// FIXME add skipped accounts
+			} else if exists {
+				err, account := service.GetInfoFunc(username, service, config) // add service to accounts
+				if err != nil {
+					// Skipping account info
+					accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = EmptyAccountInfo(username, service)
+				}
+				accounts[fmt.Sprintf("%s-%s", servicesToCheck[i].Name, username)] = account
 			}
 			wg.Done()
 		}(i)
@@ -503,37 +487,45 @@ func HttpRequest(url string) (string, error) {
 func UrlTemplate(url string, username string) string {
 	return strings.ReplaceAll(url, "{username}", username)
 }
-func SimpleUserExistsCheck(service Service, username string, config ApiConfig) bool { // tyoe UserExistsFunc
+
+func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // tyoe UserExistsFunc
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("%s-exsists", service.Name)) {
+			log.Printf("%s-exsists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
 	BaseUrl := UrlTemplate(service.BaseUrl, username)
-	log.Println("check:" + BaseUrl)
-	exists := false
+	log.Println("checking:" + BaseUrl)
 	switch service.Check {
 	case "status_code":
-		exists = GetStatusCode(BaseUrl) == 200
+		err, status_code := GetStatusCodeNew(BaseUrl, config)
+		return err, status_code == 200
 	case "pattern": // search for string on website
 		site, err := HttpRequest(BaseUrl)
 		if err != nil {
-			exists = false
-			return false
+			return err, false
 		} else {
 			// log.Println(site)
 			pattern_found := strings.Contains(site, UrlTemplate(service.Pattern, username)) // ! pattern was found
-			blocked := false
 			if service.BlockedPattern != "" {
-				blocked = strings.Contains(site, service.BlockedPattern)
-			}
-			if !blocked {
-				if !pattern_found {
-					log.Println("found pattern:", pattern_found)
-					exists = true
+				blocked := strings.Contains(site, service.BlockedPattern)
+				if blocked {
+					return errors.New("blocked"), false
 				}
 			}
+			if !pattern_found {
+				log.Println("found anti_pattern:", pattern_found)
+				return nil, true
+			}
 		}
-		// the pattern is the not found text therefore it's true if no not found text was found
-		// BUG you can put the not found text into your bio
 	}
 
-	return exists
+	return nil, false
 }
 
 func EmptyAccountInfo(username string, service Service) Account {
@@ -570,21 +562,33 @@ func EncodeBase64(img string) string {
 	return base64Img
 }
 
-func GetAvatar(avatar_url string, account Account) Account {
+func GetAvatar(avatar_url string, account Account, config ApiConfig) (error, Account) {
 	log.Printf("avatar_url: %s", avatar_url)
-	if GetStatusCode(avatar_url) == 200 {
+	err, statusCode := GetStatusCodeNew(avatar_url, ApiConfig{}) // FIXME empty api config
+	if err != nil {
+		return err, account
+	}
+	if statusCode == 200 {
 		avatar, err := HttpRequest(avatar_url)
 		if err != nil {
-			return account
+			return err, account
 		}
 		account.Picture = Pictures{
 			"1": Picture{Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
 		}
 	}
-	return account
+	return nil, account
 }
 
-func SimpleAccountInfo(username string, service Service, config ApiConfig) Account {
+func SimpleAccountInfo(username string, service Service, config ApiConfig) (error, Account) {
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("%s-exsists", service.Name)) {
+			return nil, EmptyAccountInfo(username, service)
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), EmptyAccountInfo(username, service)
+		}
+		return nil, EmptyAccountInfo(username, service)
+	}
 	log.Println("simple account info:" + service.Name)
 	baseUrl := UrlTemplate(service.BaseUrl, username)
 	htmlUrl := UrlTemplate(service.HtmlUrl, username)
@@ -607,6 +611,7 @@ func SimpleAccountInfo(username string, service Service, config ApiConfig) Accou
 		doc, err := goquery.NewDocument(baseUrl)
 		if err != nil {
 			log.Println(err)
+			return err, EmptyAccountInfo(username, service)
 		}
 
 		// Select the <a> element with class "photo-0"
@@ -619,12 +624,16 @@ func SimpleAccountInfo(username string, service Service, config ApiConfig) Accou
 		}
 	}
 	if service.AvatarUrl != "" {
-		account = GetAvatar(service.AvatarUrl, account) // TODO give service as argument
+		err, newAccount := GetAvatar(service.AvatarUrl, account, config) // TODO give service as argument
+		if err != nil {
+			return nil, account
+		}
+		return nil, newAccount
 	}
-	return account
+	return nil, account
 }
 
-func SlideshareInfo(username string, service Service, config ApiConfig) Account {
+func SlideshareInfo(username string, service Service, config ApiConfig) (error, Account) {
 	log.Println("slideshare")
 	baseUrl := strings.ReplaceAll(service.BaseUrl, "{username}", username)
 	avatar_url := strings.ReplaceAll(service.BaseUrl, "{username}", username)
@@ -633,10 +642,13 @@ func SlideshareInfo(username string, service Service, config ApiConfig) Account 
 		Username: username,
 		Url:      baseUrl,
 	}
-	account = GetAvatar(avatar_url, account)
-	return account
+	err, newAccount := GetAvatar(avatar_url, account, config)
+	if err != nil {
+		return nil, account
+	}
+	return nil, newAccount
 }
-func GithubInfo(username string, service Service, config ApiConfig) Account {
+func GithubInfo(username string, service Service, config ApiConfig) (error, Account) {
 	log.Println("github")
 	var data struct {
 		Id         int    `json:"id"`
@@ -655,30 +667,19 @@ func GithubInfo(username string, service Service, config ApiConfig) Account {
 		Updated_at string `json:"updated_at"`
 		Company    string `jons:"company"`
 	}
-	var errData struct {
-		Documentation_url string `json:"documentation_url"`
-	}
-
 	jsonData, err := HttpRequest("https://api.github.com/users/" + username)
 	if err != nil {
-		return EmptyAccountInfo(username, service)
+		return err, EmptyAccountInfo(username, service)
+	}
+	err = json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		return err, EmptyAccountInfo(username, service)
 	}
 
-	err = json.Unmarshal([]byte(jsonData), &errData)
+	log.Println("no api limitation")
+	log.Printf("avatar_url: %s", data.Avatar_url)
 	if err != nil {
-		log.Println(err)
-	} else {
-		if errData.Documentation_url == "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting" {
-			log.Println("api request limitied")
-		} else {
-
-			log.Println("no api limitation")
-			err = json.Unmarshal([]byte(jsonData), &data)
-			log.Printf("avatar_url: %s", data.Avatar_url)
-			if err != nil {
-				log.Println(err)
-			}
-		}
+		return err, EmptyAccountInfo(username, service)
 	}
 	account := Account{
 		Service:  service.Name,
@@ -702,10 +703,10 @@ func GithubInfo(username string, service Service, config ApiConfig) Account {
 			"1": {Img: EncodeBase64(avatar), ImgHash: MkImgHash(getImg(avatar))},
 		}
 	}
-	return account
+	return nil, account
 }
 
-func LichessInfo(username string, service Service, config ApiConfig) Account {
+func LichessInfo(username string, service Service, config ApiConfig) (error, Account) {
 	log.Println("lichess")
 	var data struct {
 		Id      string `json:"id"`
@@ -718,13 +719,14 @@ func LichessInfo(username string, service Service, config ApiConfig) Account {
 	}
 	jsonData, err := HttpRequest("https://lichess.org/api/user/" + username)
 	if err != nil {
-		return EmptyAccountInfo(username, service)
+		return err, EmptyAccountInfo(username, service)
 	}
 	err = json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		log.Println(err)
+		return err, EmptyAccountInfo(username, service)
 	}
-	return Account{
+	return nil, Account{
 		Service:   service.Name,
 		Username:  username,
 		Id:        data.Id,

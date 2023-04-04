@@ -1,4 +1,5 @@
 package api
+
 import (
 	"github.com/gin-gonic/gin"
 )
@@ -14,8 +15,8 @@ type Person struct {
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
 	Phone          string             `json:"phone"`
-	SSN            string             `json:"ssn"`
-	Civilstatus    string             `json:"civilstatus"`
+	SSN            SSN                `json:"ssn"`
+	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`
 	Email          EmailsType         `json:"email"`
@@ -23,7 +24,7 @@ type Person struct {
 	Prevoccupation string             `json:"prevoccupation"`
 	Education      string             `json:"education"`
 	Military       string             `json:"military"`
-	Religion       string             `json:"religion"`
+	Religion       Religion           `json:"religion"`
 	Pets           string             `json:"pets"`
 	Club           string             `json:"club"`
 	Legal          string             `json:"legal"`
@@ -64,15 +65,17 @@ type Bio struct {
 	Bio string `json:"bio"`
 }
 type Email struct {
-	Mail       string            `json:"mail"`
-	Value      int               `json:"value"`
-	Src        string            `json:"src"`
-	Services   EmailServiceEnums `json:"services"`
-	Valid      bool              `json:"valid"`
-	Gmail      bool              `json:"gmail"`
-	ValidGmail bool              `json:"validGmail"`
-	Provider   string            `json:"provider"`
+	Mail            string              `json:"mail"`
+	Value           int                 `json:"value"`
+	Src             string              `json:"src"`
+	Services        EmailServiceEnums   `json:"services"`
+	SkippedServices SkippedServicesEnum `json:"skipped_services"`
+	Valid           bool                `json:"valid"`
+	Gmail           bool                `json:"gmail"`
+	ValidGmail      bool                `json:"validGmail"`
+	Provider        string              `json:"provider"`
 }
+type SkippedServicesEnum map[string]bool
 
 // type Accounts map[string]Account
 type Accounts map[string]Account
@@ -95,22 +98,53 @@ type Account struct {
 
 type SaveJsonFunc func(ApiConfig)
 type ApiConfig struct {
-  Ip            string       `json:"ip"`
-  LogFile       string       `json:"log_file"`
-  DataBaseFile  string       `json:"data_base_file"`
-  DataBase      DataBase     `json:"data_base"`
-  SetCORSHeader bool         `json:"set_CORS_header"`
-  SaveJsonFunc  SaveJsonFunc `json:"save_json_func"`
-  GinRouter     *gin.Engine  `json:"gin_router"`
-  ApiKeysComplex       ApiKeys   `json:"api_keys_complex"`
-  ApiKeysSimple     ApiKeysSimple `json:"api_keys"`
+	Ip             string        `json:"ip"`
+	LogFile        string        `json:"log_file"`
+	DataBaseFile   string        `json:"data_base_file"`
+	DataBase       DataBase      `json:"data_base"`
+	SetCORSHeader  bool          `json:"set_CORS_header"`
+	SaveJsonFunc   SaveJsonFunc  `json:"save_json_func"`
+	GinRouter      *gin.Engine   `json:"gin_router"`
+	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
+	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
+	Testing        bool          `json:"testing"`
 }
 type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
-type ApiKeys struct{
-  Github ApiKeyEnum `json:"github"`
+type ApiKeys struct {
+	Github ApiKeyEnum `json:"github"`
 }
 type ApiKeyEnum map[string]ApiKey
 type ApiKey struct {
 }
+type MailService struct {
+	Name           string             // example: "GitHub"
+	UserExistsFunc MailUserExistsFunc // example: Dis10cord()
+	Icon           string             // example: https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png
+	Url            string
+}
+type MailServices []MailService
+type Services []Service
+type Service struct {
+	Name              string         // example: "GitHub"
+	UserExistsFunc    UserExistsFunc // example: SimpleUserExistsCheck()
+	GetInfoFunc       GetInfoFunc    // example: EmptyAccountInfo()
+	ImageFunc         ImageFunc
+	ExternalImageFunc bool
+	ScrapeImage       bool
+	Scrape            ScrapeStruct
+	BaseUrl           string // example: "https://github.com"
+	AvatarUrl         string
+	Check             string // example: "status_code"
+	HtmlUrl           string
+	Pattern           string
+	BlockedPattern    string
+}
+type ScrapeStruct struct {
+	FindElement string
+	Attr        string
+}
+type GetInfoFunc func(string, Service, ApiConfig) (error, Account) // (username)
+type ImageFunc func(string, Service) string                        // (username)
+type UserExistsFunc func(Service, string, ApiConfig) (error, bool) // (service,username)
 
-
+type MailUserExistsFunc func(MailService, string, ApiConfig) (error, bool) // (BaseUrl,email)
