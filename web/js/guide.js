@@ -145,14 +145,14 @@ document.querySelector(".select-selected").addEventListener("DOMSubtreeModified"
       currentCountry = "us";
     } else if (selectedCountry == "Canada") {
       currentCountry = "ca";
+    } else if (selectedCountry == "United Kingdom") {
+      currentCountry = "uk";
     }
     
     for (let i = 0; i < list_elements.length; i++) {
       const element = list_elements[i];
 
-      if (currentCountry == "ww") {
-        element.style.display = "flex";
-      } else if (!element.classList.contains(currentCountry)) {
+      if (!element.classList.contains(currentCountry)) {
         element.style.display = "none";
       }
     }

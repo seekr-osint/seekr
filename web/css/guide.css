@@ -27,6 +27,10 @@
 }
 
 
+li {
+  break-inside: avoid-column;
+}
+
 .link-list-holder {
   column-count: 3;
 }
@@ -169,7 +173,7 @@
 .select-selected {
   margin-bottom: 1rem;
   justify-self: center;
-  width: 17rem;
+  width: 20rem;
   height: 3rem;
   border-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
@@ -183,7 +187,7 @@
   position: absolute;
   content: "";
   top: 14px;
-  right: -1px;
+  right: -3.5rem;
   width: 0;
   height: 0;
   border: 6px solid transparent;
@@ -214,7 +218,7 @@
   position: absolute;
   background-color: var(--bg);
   margin-top: 0.5rem;
-  width: 17rem;
+  width: 20rem;
   height: auto;
   border-radius: 1rem;
   box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
