@@ -50,7 +50,6 @@ function createGuideWindow() {
   });
 }
 
-
 function createCrtshWindow() {
   new WinBox("CRTSH", {
     id: "seekr-window",
