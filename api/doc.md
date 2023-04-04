@@ -193,14 +193,12 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"fsdfadsfasdfasdf@gmail.com": {
-			"gmail": true,
 			"mail": "fsdfadsfasdfasdf@gmail.com",
-			"provider": "",
+			"provider": "gmail",
 			"services": {},
 			"skipped_services": {},
 			"src": "",
 			"valid": true,
-			"validGmail": true,
 			"value": 0
 		}
 	},
@@ -264,9 +262,8 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"has_discord_account@gmail.com": {
-			"gmail": true,
 			"mail": "has_discord_account@gmail.com",
-			"provider": "",
+			"provider": "fake_mail",
 			"services": {
 				"Discord": {
 					"icon": "./images/mail/discord.png",
@@ -278,7 +275,6 @@ curl -X POST http://localhost:8080/person \
 			"skipped_services": {},
 			"src": "",
 			"valid": true,
-			"validGmail": false,
 			"value": 0
 		}
 	},
@@ -342,9 +338,8 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"all@gmail.com": {
-			"gmail": true,
 			"mail": "all@gmail.com",
-			"provider": "",
+			"provider": "gmail",
 			"services": {
 				"Discord": {
 					"icon": "./images/mail/discord.png",
@@ -386,7 +381,6 @@ curl -X POST http://localhost:8080/person \
 			"skipped_services": {},
 			"src": "",
 			"valid": true,
-			"validGmail": true,
 			"value": 0
 		}
 	},
@@ -426,12 +420,7 @@ curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
-	"address": "",
 	"age": 13,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
 	"email": {
 		"discord_error@gmail.com": {
 			"mail": "discord_error@gmail.com"
@@ -471,21 +460,88 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"discord_error@gmail.com": {
-			"gmail": true,
 			"mail": "discord_error@gmail.com",
-			"provider": "",
+			"provider": "fake_mail",
 			"services": {},
 			"skipped_services": {
 				"Discord": true
 			},
 			"src": "",
 			"valid": true,
-			"validGmail": false,
 			"value": 0
 		}
 	},
 	"hobbies": "",
 	"id": "13",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": "",
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post person with included email detected as a fake email by seekr
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"accounts": null,
+	"age": 10,
+	"email": {
+		"fake_mail@gmail.com": {
+			"mail": "fake_mail@gmail.com"
+		}
+	},
+	"id": "14",
+	"name": "Email test"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"fake_mail@gmail.com": {
+			"mail": "fake_mail@gmail.com",
+			"provider": "fake_mail",
+			"services": {},
+			"skipped_services": {},
+			"src": "",
+			"valid": true,
+			"value": 0
+		}
+	},
+	"hobbies": "",
+	"id": "14",
 	"kids": "",
 	"legal": "",
 	"maidenname": "",

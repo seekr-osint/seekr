@@ -14,6 +14,7 @@ import (
 )
 
 func waitForFile() {
+
 	for {
 		_, err := os.Stat("/tmp/running")
 		if err == nil {
@@ -62,41 +63,49 @@ var requests = Requests{
 		Name:                       "Post person with included email",
 		URL:                        "http://localhost:8080/person",
 		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com"}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "relations": interface{}(nil), "religion": "", "sources": interface{}(nil), "ssn": "", "tags": interface{}(nil)},
-		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"gmail": true, "mail": "fsdfadsfasdfasdf@gmail.com", "provider": "", "services": map[string]interface{}{}, "src": "", "valid": true, "validGmail": true, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com", "provider": "gmail", "services": map[string]interface{}{}, "src": "", "valid": true, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": "", "id": "10", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"6-emailServices": { // ID 11
+	"7a-emailServices": { // ID 11
 		RequestType:                "POST",
 		Name:                       "Post person with included email detecting only discord as a services",
 		URL:                        "http://localhost:8080/person",
 		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(10), "email": map[string]interface{}{"has_discord_account@gmail.com": map[string]interface{}{"mail": "has_discord_account@gmail.com"}}, "id": "11", "name": "Email test"},
-		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"has_discord_account@gmail.com": map[string]interface{}{"gmail": true, "mail": "has_discord_account@gmail.com", "provider": "", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}}, "src": "", "valid": true, "validGmail": false, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": "", "id": "11", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"has_discord_account@gmail.com": map[string]interface{}{"mail": "has_discord_account@gmail.com", "provider": "fake_mail", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}}, "src": "", "valid": true, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": "", "id": "11", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"7a-allEmailServices": { // ID 11
+	"7b-allEmailServices": { // ID 11
 		RequestType:                "POST",
 		Name:                       "Post person with included email detecting all services",
 		URL:                        "http://localhost:8080/person",
 		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(10), "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"mail": "all@gmail.com"}}, "id": "12", "name": "Email test"},
-		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"gmail": true, "mail": "all@gmail.com", "provider": "", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}, "Spotify": map[string]interface{}{"icon": "./images/mail/spotify.png", "link": "", "name": "Spotify", "username": ""}, "Twitter": map[string]interface{}{"icon": "./images/mail/twitter.png", "link": "", "name": "Twitter", "username": ""}, "Ubuntu GPG": map[string]interface{}{"icon": "https://ubuntu.com/favicon.ico", "link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index", "name": "Ubuntu GPG", "username": ""}, "keys.gnupg.net": map[string]interface{}{"icon": "https://www.gnupg.org/favicon.ico", "link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index", "name": "keys.gnupg.net", "username": ""}, "keyserver.pgp.com": map[string]interface{}{"icon": "https://pgp.com/favicon.ico", "link": "https://keyserver.pgp.com/pks/lookup?search=all@gmail.com&op=index", "name": "keyserver.pgp.com", "username": ""}}, "skipped_services": map[string]interface{}{}, "src": "", "valid": true, "validGmail": true, "value": float64(0)}}, "hobbies": "", "id": "12", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"mail": "all@gmail.com", "provider": "gmail", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}, "Spotify": map[string]interface{}{"icon": "./images/mail/spotify.png", "link": "", "name": "Spotify", "username": ""}, "Twitter": map[string]interface{}{"icon": "./images/mail/twitter.png", "link": "", "name": "Twitter", "username": ""}, "Ubuntu GPG": map[string]interface{}{"icon": "https://ubuntu.com/favicon.ico", "link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index", "name": "Ubuntu GPG", "username": ""}, "keys.gnupg.net": map[string]interface{}{"icon": "https://www.gnupg.org/favicon.ico", "link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index", "name": "keys.gnupg.net", "username": ""}, "keyserver.pgp.com": map[string]interface{}{"icon": "https://pgp.com/favicon.ico", "link": "https://keyserver.pgp.com/pks/lookup?search=all@gmail.com&op=index", "name": "keyserver.pgp.com", "username": ""}}, "skipped_services": map[string]interface{}{}, "src": "", "valid": true, "value": float64(0)}}, "hobbies": "", "id": "12", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
-	"7b-email-error": { // ID 13
+	"7c-email-error": { // ID 13
 		RequestType:                "POST",
 		Name:                       "Post person with included email and discord check failing",
 		URL:                        "http://localhost:8080/person",
-		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "address": "", "age": float64(13), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"discord_error@gmail.com": map[string]interface{}{"mail": "discord_error@gmail.com"}}, "hobbies": "", "id": "13", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "political": "", "prevoccupation": "", "relations": interface{}(nil), "sources": interface{}(nil), "tags": interface{}(nil)},
-		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(13), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"discord_error@gmail.com": map[string]interface{}{"gmail": true, "mail": "discord_error@gmail.com", "provider": "", "services": map[string]interface{}{}, "skipped_services": map[string]interface{}{"Discord": true}, "src": "", "valid": true, "validGmail": false, "value": float64(0)}}, "hobbies": "", "id": "13", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(13), "email": map[string]interface{}{"discord_error@gmail.com": map[string]interface{}{"mail": "discord_error@gmail.com"}}, "hobbies": "", "id": "13", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": interface{}(nil), "political": "", "prevoccupation": "", "relations": interface{}(nil), "sources": interface{}(nil), "tags": interface{}(nil)},
+		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(13), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"discord_error@gmail.com": map[string]interface{}{"mail": "discord_error@gmail.com", "provider": "fake_mail", "services": map[string]interface{}{}, "skipped_services": map[string]interface{}{"Discord": true}, "src": "", "valid": true, "value": float64(0)}}, "hobbies": "", "id": "13", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		StatusCode:                 201,
+		RequiresInternetConnection: true,
+	},
+	"7d-fakeEmail": { // ID 14
+		RequestType:                "POST",
+		Name:                       "Post person with included email detected as a fake email by seekr",
+		URL:                        "http://localhost:8080/person",
+		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(10), "email": map[string]interface{}{"fake_mail@gmail.com": map[string]interface{}{"mail": "fake_mail@gmail.com"}}, "id": "14", "name": "Email test"},
+		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(10), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"fake_mail@gmail.com": map[string]interface{}{"mail": "fake_mail@gmail.com", "provider": "fake_mail", "services": map[string]interface{}{}, "skipped_services": map[string]interface{}{}, "src": "", "valid": true, "value": float64(0)}}, "hobbies": "", "id": "14", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": "", "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
 	},
 	"8a-accounts": { // ID 15
-		RequestType: "GET",
-		Name:        "Post Person (civil status)",
-		//Comment:          "`tiktok` being the username not service",
+		RequestType:      "GET",
+		Name:             "Post Person (civil status)",
 		URL:              "http://localhost:8080/getAccounts/snapchat-exsists",
 		PostData:         nil,
 		ExpectedResponse: map[string]interface{}{"Snapchat-snapchat-exsists": map[string]interface{}{"bio": interface{}(nil), "blog": "", "created": "", "firstname": "", "followers": float64(0), "following": float64(0), "id": "", "lastname": "", "location": "", "profilePicture": interface{}(nil), "service": "Snapchat", "updated": "", "url": "", "username": "snapchat-exsists"}},
@@ -196,6 +205,30 @@ func writeDocs() {
 	}
 }
 
+func TestPrintEmail(t *testing.T) {
+
+	test := EmailsType{
+		"has_discord_account@gmail.com": Email{
+			Mail:     "has_discord_account@gmail.com",
+			Provider: "",
+			Services: EmailServices{
+				"Discord": EmailService{
+					Icon:     "./images/mail/discord.png",
+					Link:     "",
+					Name:     "Discord",
+					Username: "",
+				},
+			},
+			SkippedServices: SkippedServices{
+				"discord": true,
+			},
+			Src:   "",
+			Valid: true,
+			Value: 0,
+		},
+	}
+	fmt.Println(test)
+}
 func TestAPI(t *testing.T) {
 	dbData := DataBase{
 		"1": Person{

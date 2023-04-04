@@ -60,34 +60,17 @@ var DefaultMailServices = MailServices{
 	//	},
 }
 
-func IsGmailAddress(email string) bool {
-	pattern := regexp.MustCompile("^[a-zA-Z0-9._-]+@gmail.com$")
-	return pattern.MatchString(email)
-}
-
-func IsValidGmailAddress(email string) bool {
-	pattern := regexp.MustCompile("^[a-zA-Z0-9.]+@gmail.com$")
-	return pattern.MatchString(email)
-}
-
-func IsEmailValid(email string) bool {
-	// Compile the regular expression pattern
-	pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z]{2,})*$")
-
-	// Check if the email matches the pattern
-	return pattern.MatchString(email)
-}
 func IsGitHubMail(email string) bool {
 	match, _ := regexp.MatchString("@users\\.noreply\\.github\\.com$", email)
 	return match
 }
 
-func MailServicesHandler(servicesToCheck MailServices, email string, config ApiConfig) (EmailServiceEnums, SkippedServicesEnum) {
+func MailServicesHandler(servicesToCheck MailServices, email string, config ApiConfig) (EmailServices, SkippedServices) {
 	var mailMutex = sync.RWMutex{}
 	wg := &sync.WaitGroup{}
 
-	services := EmailServiceEnums{}
-	skippedServices := SkippedServicesEnum{}
+	services := EmailServices{}
+	skippedServices := SkippedServices{}
 	// FIXME EMAIL SERVICE SCANNING
 	for i := 0; i < len(servicesToCheck); i++ { // loop over all services
 		wg.Add(1)
@@ -104,7 +87,7 @@ func MailServicesHandler(servicesToCheck MailServices, email string, config ApiC
 				if userExsits { // if service exisits
 					log.Printf("User %s on %s exsits", email, service.Name)
 					mailMutex.Lock()
-					services[service.Name] = EmailServiceEnum{
+					services[service.Name] = EmailService{
 						Name: service.Name,
 						Icon: service.Icon,
 						Link: strings.ReplaceAll(service.Url, "{{ email }}", email),
@@ -136,18 +119,10 @@ func CheckMail(newPerson Person, config ApiConfig) Person { // FIXME TODO
 		for i, mail := range newPerson.Email {
 			if mail.Mail != "" {
 				log.Printf("Checking %s", mail.Mail)
-				//mail.Services = MailServices(mail.Mail)
-				mail.Valid = IsEmailValid(mail.Mail)
-				mail.Gmail = IsGmailAddress(mail.Mail)
-				mail.ValidGmail = IsValidGmailAddress(mail.Mail)
-
-				if mail.Services == nil {
-					mail.Services = EmailServiceEnums{}
-					log.Printf("mail.Services == nil (%s)", mail.Mail)
-				}
+				mail = mail.Parse()
 				// We always want to clear the skipped services
 				//if mail.SkippedServices == nil {
-				mail.SkippedServices = SkippedServicesEnum{}
+				mail.SkippedServices = SkippedServices{}
 				//log.Printf("mail.SkippedServices == nil (%s)", mail.Mail)
 				//}
 				retMailServices, retSkippedMailServices := MailServicesHandler(DefaultMailServices, mail.Mail, config)
