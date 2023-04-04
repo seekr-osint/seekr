@@ -110,6 +110,7 @@ const checkboxVIN = document.getElementById("checkbox_04");
 const checkboxBusiness = document.getElementById("checkbox_05");
 const checkboxIP = document.getElementById("checkbox_06");
 const checkboxUsername = document.getElementById("checkbox_07");
+const checkboxDomain = document.getElementById("checkbox_08");
 
 const list_elements = document.querySelectorAll(".link-list-holder li");
 
@@ -177,6 +178,14 @@ function checkUsername() {
   }
 }
 
+function checkDomain() {
+  if (checkboxDomain.checked) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function checkCountry() {
   const selectedCountry = document.querySelector(".select-selected").innerHTML;
   const countries = new Map();
@@ -191,7 +200,7 @@ function checkCountry() {
 }
 
 function listHandler() {
-  let listOfClasses = ["country", "name", "address", "phone", "vin", "business", "ip", "username"];
+  let listOfClasses = ["country", "name", "address", "phone", "vin", "business", "ip", "username", "domain"];
 
   resetAll();
 
@@ -221,12 +230,17 @@ function listHandler() {
   if (checkUsername() == false) {
     listOfClasses[7] = false;
   }
+  if (checkDomain() == false) {
+    listOfClasses[8] = false;
+  }
 
-  if (listOfClasses[1] == false && listOfClasses[2] == false && listOfClasses[3] == false && listOfClasses[4] == false && listOfClasses[5] == false && listOfClasses[6] == false && listOfClasses[7] == false) {
+  if (listOfClasses[1] == false && listOfClasses[2] == false && listOfClasses[3] == false && listOfClasses[4] == false && listOfClasses[5] == false && listOfClasses[6] == false && listOfClasses[7] == false && listOfClasses[8] == false) {
     for (let i = 0; i < list_elements.length; i++) {
       const element = list_elements[i];
   
-      if (!element.classList.contains(listOfClasses[0])) {
+      if (listOfClasses[0] == "all") {
+        element.style.display = "flex";
+      } else if (!element.classList.contains(listOfClasses[0])) {
          element.style.display = "none";
       }
     }
@@ -234,9 +248,9 @@ function listHandler() {
     for (let i = 0; i < list_elements.length; i++) {
       const element = list_elements[i];
     
-      if (!element.classList.contains(listOfClasses[0])) {
+      if (!element.classList.contains(listOfClasses[0]) && listOfClasses[0] != "all") {
         element.style.display = "none";
-      } else if (!element.classList.contains(listOfClasses[1]) && !element.classList.contains(listOfClasses[2]) && !element.classList.contains(listOfClasses[3]) && !element.classList.contains(listOfClasses[4]) && !element.classList.contains(listOfClasses[5]) && !element.classList.contains(listOfClasses[6]) && !element.classList.contains(listOfClasses[7])) {
+      } else if (!element.classList.contains(listOfClasses[1]) && !element.classList.contains(listOfClasses[2]) && !element.classList.contains(listOfClasses[3]) && !element.classList.contains(listOfClasses[4]) && !element.classList.contains(listOfClasses[5]) && !element.classList.contains(listOfClasses[6]) && !element.classList.contains(listOfClasses[7]) && !element.classList.contains(listOfClasses[8])) {
         element.style.display = "none";
       }
     }
@@ -266,3 +280,5 @@ checkboxBusiness.addEventListener('change', preListHandler);
 checkboxIP.addEventListener('change', preListHandler);
 
 checkboxUsername.addEventListener('change', preListHandler);
+
+checkboxDomain.addEventListener('change', preListHandler);
