@@ -1017,6 +1017,14 @@ async function main() {
 
     let maidenname = document.querySelector(".c-maidenname").innerHTML;
     let age = parseInt(document.querySelector(".c-age").innerHTML);
+
+    if (age < 0) {
+      age *= -1
+    }
+    if (age > 120) {
+      age = 120
+    }
+
     let bday = document.querySelector(".c-bday").innerHTML;
     let address = document.querySelector(".c-address").innerHTML;
     let phone = document.querySelector(".c-phone").innerHTML;
@@ -1066,6 +1074,14 @@ async function main() {
 
     let maidenname = document.querySelector(".e-maidenname").innerHTML;
     let age = parseInt(document.querySelector(".e-age").innerHTML);
+
+    if (age < 0) {
+      age *= -1
+    }
+    if (age > 120) {
+      age = 120
+    }
+
     let bday = document.querySelector(".e-bday").innerHTML;
     let address = document.querySelector(".e-address").innerHTML;
     let phone = document.querySelector(".e-phone").innerHTML;
