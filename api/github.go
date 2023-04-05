@@ -114,7 +114,7 @@ func GithubInfoDeep(username string, fork bool, config ApiConfig) (EmailsType, e
 		foundEmails[email] = Email{
 			Mail: email,
 			Src:  "github",
-			Services: EmailServiceEnums{
+			Services: EmailServices{
 				"github": {
 					Name:     "GitHub",
 					Username: username,
@@ -311,7 +311,7 @@ func GithubInfoDeep2(username string, fork bool) EmailsType {
 			foundEmailArray[c] = Email{
 				Mail: c,
 				Src:  "github",
-				Services: EmailServiceEnums{
+				Services: EmailServices{
 					"github": {
 						Name:     "GitHub",
 						Username: username,

@@ -1,40 +1,41 @@
 package api
 
-func ParsePerson(newPerson Person, config ApiConfig) Person {
-	newPerson = ReplaceNil(newPerson, config)
-	newPerson = CheckMail(newPerson, config)
-	return newPerson
+func ParsePerson(person Person, config ApiConfig) Person {
+	person = person.ReplaceNil()
+	person = CheckMail(person, config)
+	return person
 }
 
-func ReplaceNil(newPerson Person, config ApiConfig) Person {
-	if newPerson.Pictures == nil {
-		newPerson.Pictures = Pictures{}
+func (person Person) ReplaceNil() Person {
+	if person.Pictures == nil {
+		person.Pictures = Pictures{}
 	}
-	if newPerson.Accounts == nil {
-		newPerson.Accounts = Accounts{}
+	if person.Accounts == nil {
+		person.Accounts = Accounts{}
 	}
-	if newPerson.Tags == nil {
-		newPerson.Tags = Tags{}
+	if person.Tags == nil {
+		person.Tags = Tags{}
 	}
-	if newPerson.Sources == nil {
-		newPerson.Sources = Sources{}
+	if person.Sources == nil {
+		person.Sources = Sources{}
 	}
-	if newPerson.Relations == nil {
-		newPerson.Relations = Relation{}
+	if person.Relations == nil {
+		person.Relations = Relation{}
 	}
-	return newPerson
+	return person
 }
-func CheckValid(newPerson Person, config ApiConfig) (bool, string) {
-	if !newPerson.Civilstatus.IsValid() {
+
+func CheckValid(person Person, config ApiConfig) (bool, string) {
+	if !person.Civilstatus.IsValid() {
 		return false, "civil staus invalid"
 	}
-	if !newPerson.Religion.IsValid() {
+	if !person.Religion.IsValid() {
 		return false, "invalid religion"
 	}
-	if !newPerson.SSN.IsValid() {
+	if !person.SSN.IsValid() {
 		return false, "invalid SSN"
 	}
-	if newPerson.ID == "" {
+	if person.ID == "" {
 		return false, "missing id"
 	}
 	return true, ""
