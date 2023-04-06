@@ -77,6 +77,12 @@ html {
   }
 }
 
+#e-loading-spinner,
+#c-loading-spinner {
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
 .deepInvResIcon {
   width: 4rem;
   height: 4rem;
