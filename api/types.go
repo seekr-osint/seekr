@@ -8,6 +8,7 @@ import (
 type Person struct {
 	ID             string             `json:"id"`
 	Name           string             `json:"name"`
+	Gender         Gender             `json:"gender"`
 	Pictures       Pictures           `json:"pictures"`
 	Maidenname     string             `json:"maidenname"`
 	Age            float64            `json:"age"` // has to be a float64 becuase of json Unmarshal

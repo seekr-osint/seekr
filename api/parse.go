@@ -38,5 +38,8 @@ func CheckValid(person Person, config ApiConfig) (bool, string) {
 	if person.ID == "" {
 		return false, "missing id"
 	}
+	if !person.Gender.IsValid() {
+		return false, "invalid gender"
+	}
 	return true, ""
 }
