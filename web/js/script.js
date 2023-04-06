@@ -1076,12 +1076,14 @@ async function main() {
       };
     });
 
-
+    const loadingSpinner = document.querySelector("#c-loading-spinner");
+    loadingSpinner.style.display = "flex"
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
+      loadingSpinner.style.display = "none"
       location.reload();
     });
   }
@@ -1142,6 +1144,9 @@ async function main() {
       };
     });
 
+    const loadingSpinner = document.querySelector("#e-loading-spinner");
+    loadingSpinner.style.display = "flex"
+
     const res = await fetch("http://localhost:8080/people/" + id)
 
     let data = await res.json();
@@ -1150,6 +1155,7 @@ async function main() {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
+      loadingSpinner.style.display = "none"
       location.reload();
     });
   }
