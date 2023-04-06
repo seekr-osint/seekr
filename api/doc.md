@@ -370,12 +370,6 @@ curl -X POST http://localhost:8080/person \
 					"link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index",
 					"name": "keys.gnupg.net",
 					"username": ""
-				},
-				"keyserver.pgp.com": {
-					"icon": "https://pgp.com/favicon.ico",
-					"link": "https://keyserver.pgp.com/pks/lookup?search=all@gmail.com\u0026op=index",
-					"name": "keyserver.pgp.com",
-					"username": ""
 				}
 			},
 			"skipped_services": {},
