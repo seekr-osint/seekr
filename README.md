@@ -33,7 +33,9 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Pre defined commonly used fields in the database
 ## Getting Started - Installation
 ### Windows
-Download the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
+Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
+
+Now open [the web interface](http://127.0.0.1:5050/web/) in your browser of choice.
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
