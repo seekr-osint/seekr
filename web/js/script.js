@@ -1,4 +1,4 @@
-import { delay, SaveAsFile } from "./framework.js";
+import {delay, SaveAsFile, checkGender, getGenderElementIndex} from "./framework.js";
 
 const element = document.getElementById("searchbar");
 
@@ -20,7 +20,6 @@ channel.addEventListener('message', (event) => {
     }
   }
 });
-
 
 
 async function main() {
@@ -86,6 +85,7 @@ async function main() {
           document.querySelector(".name-tag").value = obj.name;
 
           document.querySelector(".maidenname").innerHTML = "Maiden name: " + obj.maidenname;
+          document.querySelector(".gender").innerHTML = "Gender: " + obj.gender;
           document.querySelector(".age").innerHTML = "Age: " + obj.age;
           document.querySelector(".bday").innerHTML = "Birthdate: " + obj.bday;
           document.querySelector(".address").innerHTML = "Address: " + obj.address;
@@ -365,6 +365,20 @@ async function main() {
           document.querySelector(".e-name-tag").value = obj.name;
 
           document.querySelector(".e-maidenname").innerHTML = obj.maidenname;
+
+          if (obj.gender != "") {
+            const genderSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(2) > .gender-select");
+            const selectItems = genderSelect.querySelector(".select-items");
+            const selectSelected = genderSelect.querySelector(".select-selected");
+  
+            const genderIndex = getGenderElementIndex(obj.gender);
+  
+            const genderElement = selectItems.children[genderIndex];
+  
+            selectSelected.innerHTML = obj.gender;
+            genderElement.className = "same-as-selected";
+          }
+
           document.querySelector(".e-age").innerHTML = obj.age;
           document.querySelector(".e-bday").innerHTML = obj.bday;
           document.querySelector(".e-address").innerHTML = obj.address;
@@ -1038,6 +1052,9 @@ async function main() {
     let name = document.querySelector(".c-name-tag").innerHTML;
 
     let maidenname = document.querySelector(".c-maidenname").innerHTML;
+
+    let gender = checkGender();
+
     let age = parseInt(document.querySelector(".c-age").innerHTML);
 
     if (age < 0) {
@@ -1081,12 +1098,13 @@ async function main() {
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
     });
   }
+
 
 
   // EDIT
@@ -1097,6 +1115,9 @@ async function main() {
     let name = document.querySelector(".e-name-tag").value;
 
     let maidenname = document.querySelector(".e-maidenname").innerHTML;
+
+    let gender = checkGender();
+    
     let age = parseInt(document.querySelector(".e-age").innerHTML);
 
     if (age < 0) {
@@ -1153,7 +1174,7 @@ async function main() {
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
