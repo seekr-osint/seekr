@@ -32,7 +32,7 @@ func main() {
 	flag.Parse()
 
 	if *browser {
-		openbrowser(string(*ip) + "/web/index.html")
+		openbrowser("http://" + string(*ip) + "/web/index.html")
 	}
 
 	var apiConfig = api.ApiConfig{
