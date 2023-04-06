@@ -91,11 +91,11 @@ func GetPersonByID(config ApiConfig, id string) (bool, Person) {
 }
 
 func GetPersonByIDRequest(config ApiConfig, c *gin.Context) {
-	exists, person := GetPersonByID(config, c.Param("id"))
-	if exists {
-		c.IndentedJSON(http.StatusOK, person)
-	} else {
+	person, err := config.GetPerson(c.Param("id"))
+	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, nil)
+	} else {
+		c.IndentedJSON(http.StatusOK, person)
 	}
 }
 
@@ -168,37 +168,39 @@ func GetAccountsRequest(config ApiConfig, c *gin.Context) {
 // THIS HAS NO C.PARAM("id")
 // THIS IS THE WORST PEICE OF BAD CODE I EVER WROTE
 func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person not people (POST "localhost:8080/person")
-	var newPerson Person
+	var person Person
 
 	// exit if the json is invalid
-	if err := c.BindJSON(&newPerson); err != nil {
+	if err := c.BindJSON(&person); err != nil {
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid person"})
 		return
 	}
-	valid, message := CheckValid(newPerson, config)
-	if !valid {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": message})
+	err := person.Validate()
+	if err != nil {
+		apiErr := err.(APIError)
+		c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
 		return
 	}
-	newPerson = ParsePerson(newPerson, config)
+
+	person, _ = person.Parse(config)
 	// DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
-	exsits, _ := GetPersonByID(config, newPerson.ID) // check rather the person Exsts
+	exsits, _ := GetPersonByID(config, person.ID) // check rather the person Exsts
 	if !exsits {
 		// Add the new person to the database.
 		if config.DataBase != nil {
-			config.DataBase[newPerson.ID] = newPerson
+			config.DataBase[person.ID] = person
 		} else {
 			config.DataBase = DataBase{}
-			config.DataBase[newPerson.ID] = newPerson
+			config.DataBase[person.ID] = person
 		}
-		c.IndentedJSON(http.StatusCreated, newPerson)
+		c.IndentedJSON(http.StatusCreated, person)
 	} else {
-		log.Printf("overwritten person %s", newPerson.ID)
+		log.Printf("overwritten person %s", person.ID)
 		if config.DataBase != nil {
-			config.DataBase[newPerson.ID] = newPerson
+			config.DataBase[person.ID] = person
 		} else {
 			config.DataBase = DataBase{}
-			config.DataBase[newPerson.ID] = newPerson
+			config.DataBase[person.ID] = person
 		}
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
