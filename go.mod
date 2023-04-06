@@ -8,6 +8,7 @@ require (
 	github.com/go-git/go-git/v5 v5.5.2
 	github.com/google/go-github/v50 v50.1.0
 	github.com/likexian/whois v1.14.4
+	github.com/nyaruka/phonenumbers v1.1.6
 	github.com/rocketlaunchr/google-search v1.1.5
 	golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be
 )

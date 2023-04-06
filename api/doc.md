@@ -35,7 +35,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -107,7 +107,7 @@ curl -X GET http://localhost:8080/people/2
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -195,7 +195,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -272,7 +272,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -373,7 +373,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -415,7 +415,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": null,
 	"political": "",
 	"prevoccupation": "",
@@ -461,7 +461,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -531,7 +531,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -619,7 +619,7 @@ curl -X POST http://localhost:8080/person \
 	"notes": "",
 	"occupation": "",
 	"pets": "",
-	"phone": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",
@@ -785,5 +785,191 @@ curl -X POST http://localhost:8080/person \
 ```
 
 **Status Code:** 400
+
+
+## Post Person (Email key missmatch)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "20",
+	"name": "Phone test",
+	"phone": {
+		"6502530000": {
+			"number": "missmatched_value"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Key missmatch: Phone[6502530000] = missmatched_value"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (Email key missmatch already taken ID)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "20",
+	"name": "Phone test",
+	"phone": {
+		"6502530000": {
+			"number": "missmatched_value"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Key missmatch: Phone[6502530000] = missmatched_value"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (Phone number formatting)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "21",
+	"name": "Phone test",
+	"phone": {
+		"+1(234) 567-8901": {
+			"number": "+1(234) 567-8901"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {},
+	"gender": "",
+	"hobbies": "",
+	"id": "21",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Phone test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {
+		"+1 234-567-8901": {
+			"number": "+1 234-567-8901",
+			"valid": true
+		}
+	},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post Person (Email key missmatch already taken ID)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "22",
+	"name": "Phone test",
+	"phone": {
+		"Invalid_number": {
+			"number": "Invalid_number"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {},
+	"gender": "",
+	"hobbies": "",
+	"id": "22",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Phone test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {
+		"Invalid_number": {
+			"number": "Invalid_number",
+			"valid": false
+		}
+	},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
 
 

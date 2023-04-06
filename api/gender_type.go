@@ -22,8 +22,8 @@ func (g Gender) Markdown() string {
 	return sb.String()
 }
 
-func (cs Gender) IsValid() bool {
-	switch cs {
+func (g Gender) IsValid() bool {
+	switch g {
 	case Male, Fmale, OtherGender, NoGender:
 		return true
 	}

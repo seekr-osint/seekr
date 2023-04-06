@@ -46,6 +46,7 @@ func (emailAdresses EmailsType) Validate() error {
 	}
 	return nil
 }
+
 func (emailAdresses EmailsType) Parse() EmailsType {
 	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
 		emailAdresses[emailAdress] = emailAdresses[emailAdress].Parse()
