@@ -6,8 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 
-	//"fmt"
-	//"log"
+	//"fmt" "log"
 	//"strconv"
 
 	api "github.com/seekr-osint/seekr/api"
@@ -33,7 +32,7 @@ func main() {
 	flag.Parse()
 
 	if *browser {
-		openbrowser(*ip)
+		openbrowser(string(*ip) + "/web/index.html")
 	}
 
 	var apiConfig = api.ApiConfig{
