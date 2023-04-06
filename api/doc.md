@@ -343,13 +343,13 @@ curl -X POST http://localhost:8080/person \
 					"username": ""
 				},
 				"Ubuntu GPG": {
-					"icon": "https://ubuntu.com/favicon.ico",
+					"icon": "./images/mail/ubuntu.png",
 					"link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index",
 					"name": "Ubuntu GPG",
 					"username": ""
 				},
 				"keys.gnupg.net": {
-					"icon": "https://www.gnupg.org/favicon.ico",
+					"icon": "./images/mail/gnupg.ico",
 					"link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index",
 					"name": "keys.gnupg.net",
 					"username": ""

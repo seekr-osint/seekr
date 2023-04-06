@@ -96,13 +96,6 @@ type ApiKeys struct {
 type ApiKeyEnum map[string]ApiKey
 type ApiKey struct {
 }
-type MailService struct {
-	Name           string             // example: "GitHub"
-	UserExistsFunc MailUserExistsFunc // example: Dis10cord()
-	Icon           string             // example: https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png
-	Url            string
-}
-type MailServices []MailService
 type Services []Service
 type Service struct {
 	Name              string         // example: "GitHub"
@@ -126,5 +119,3 @@ type ScrapeStruct struct {
 type GetInfoFunc func(string, Service, ApiConfig) (error, Account) // (username)
 type ImageFunc func(string, Service) string                        // (username)
 type UserExistsFunc func(Service, string, ApiConfig) (error, bool) // (service,username)
-
-type MailUserExistsFunc func(MailService, string, ApiConfig) (error, bool) // (BaseUrl,email)

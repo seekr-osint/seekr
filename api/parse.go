@@ -8,11 +8,14 @@ import (
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
 	person = person.ReplaceNil()
 	person.Email = person.Email.Parse()
-	person = CheckMail(person, config)
-	return person, nil
+	person, err := person.CheckMail(config)
+	return person, err
 }
 
 func (person Person) ReplaceNil() Person {
+	if person.Email == nil {
+		person.Email = EmailsType{}
+	}
 	if person.Pictures == nil {
 		person.Pictures = Pictures{}
 	}

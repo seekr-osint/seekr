@@ -5,18 +5,25 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 )
 
-func UbuntuGPGUserExists(service MailService, email string, config ApiConfig) (error, bool) {
+func UbuntuGPGUserExists(mailService MailService, email string, config ApiConfig) (EmailService, error) {
+	emailService := EmailService{
+		Name: mailService.Name,
+		Icon: mailService.Icon,
+		Link: strings.ReplaceAll(mailService.Url, "{{ email }}", email),
+	}
 	if config.Testing {
 		if email == "all@gmail.com" {
 			log.Println("all email testing case true")
-			return nil, true
+			return emailService, nil
 		} else if email == "error@gmail.com" {
-			return errors.New("error"), false
+			return EmailService{}, errors.New("error")
 		}
 		log.Println("all email testing case false")
-		return nil, false
+
+		return EmailService{}, nil
 	}
 	baseUrl := "https://keyserver.ubuntu.com"
 	path := fmt.Sprintf("/pks/lookup?search=%s&op=index", email)
@@ -25,27 +32,32 @@ func UbuntuGPGUserExists(service MailService, email string, config ApiConfig) (e
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Println(err)
-		return err, false
+		return EmailService{}, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusOK {
-		return nil, true
+		return emailService, nil
 	} else {
-		return nil, false
+		return EmailService{}, nil
 	}
 }
-func KeysGnuPGUserExists(service MailService, email string, config ApiConfig) (error, bool) {
-
+func KeysGnuPGUserExists(mailService MailService, email string, config ApiConfig) (EmailService, error) {
+	emailService := EmailService{
+		Name: mailService.Name,
+		Icon: mailService.Icon,
+		Link: strings.ReplaceAll(mailService.Url, "{{ email }}", email),
+	}
 	if config.Testing {
 		if email == "all@gmail.com" {
 			log.Println("all email testing case true")
-			return nil, true
+			return emailService, nil
 		} else if email == "error@gmail.com" {
-			return errors.New("error"), false
+			return EmailService{}, errors.New("error")
 		}
 		log.Println("all email testing case false")
-		return nil, false
+
+		return EmailService{}, nil
 	}
 	baseUrl := "https://keys.gnupg.net"
 	path := fmt.Sprintf("/pks/lookup?search=%s&op=index", email)
@@ -54,17 +66,16 @@ func KeysGnuPGUserExists(service MailService, email string, config ApiConfig) (e
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Println(err)
-		return err, false
+		return EmailService{}, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusOK {
-		return nil, true
+		return emailService, nil
 	} else {
-		return nil, false
+		return EmailService{}, nil
 	}
 }
-
 func KeyserverPGPUserExists(service MailService, email string, config ApiConfig) (error, bool) {
 
 	if config.Testing {
