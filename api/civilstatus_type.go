@@ -1,9 +1,10 @@
 package api
 
 import (
-  "strings"
-  "fmt"
+	"fmt"
+	"strings"
 )
+
 type CivilStatus string
 
 const (

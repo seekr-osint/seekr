@@ -16,5 +16,5 @@ func (age Age) Markdown() string {
 }
 
 func (age Age) IsValid() bool {
-  return age >= 0 && age <= 128
+	return age >= 0 && age <= 128
 }
