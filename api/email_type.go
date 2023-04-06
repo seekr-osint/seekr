@@ -49,20 +49,20 @@ func (e Email) Parse() Email {
 	return e
 }
 
-func (et EmailsType) String() string {
+func (et EmailsType) Markdown() string {
 	var sb strings.Builder
 
 	for _, k := range SortMapKeys(map[string]Email(et)) {
 		v := et[k]
 		sb.WriteString(fmt.Sprintf("### %s\n", k))
-		sb.WriteString(v.String())
+		sb.WriteString(v.Markdown())
 		sb.WriteString("\n")
 	}
 
 	return sb.String()
 }
 
-func (e Email) String() string {
+func (e Email) Markdown() string {
 	var sb strings.Builder
 
 	// Write email header
@@ -81,24 +81,24 @@ func (e Email) String() string {
 	}
 
 	// Write email services
-	sb.WriteString(e.Services.String())
+	sb.WriteString(e.Services.Markdown())
 
 	// Write skipped services
-	sb.WriteString(e.SkippedServices.String())
+	sb.WriteString(e.SkippedServices.Markdown())
 	return sb.String()
 }
-func (es EmailServices) String() string {
+func (es EmailServices) Markdown() string {
 	var sb strings.Builder
 	if len(es) > 0 {
 		sb.WriteString("#### Services\n")
 		for _, k := range SortMapKeys(es) {
 			v := es[k]
-			sb.WriteString(v.String(k))
+			sb.WriteString(v.Markdown(k))
 		}
 	}
 	return sb.String()
 }
-func (ss SkippedServices) String() string {
+func (ss SkippedServices) Markdown() string {
 	var sb strings.Builder
 	if len(ss) > 0 {
 		sb.WriteString("#### Skipped Services\n")
@@ -111,7 +111,7 @@ func (ss SkippedServices) String() string {
 	return sb.String()
 }
 
-func (s EmailService) String(name string) string {
+func (s EmailService) Markdown(name string) string {
 	var sb strings.Builder
 
 	sb.WriteString(fmt.Sprintf("##### %s\n", name))

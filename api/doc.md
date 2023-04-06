@@ -23,6 +23,7 @@ curl -X POST http://localhost:8080/person \
 	"club": "",
 	"education": "",
 	"email": {},
+	"gender": "",
 	"hobbies": "",
 	"id": "2",
 	"kids": "",
@@ -94,6 +95,7 @@ curl -X GET http://localhost:8080/people/2
 	"club": "",
 	"education": "",
 	"email": {},
+	"gender": "",
 	"hobbies": "",
 	"id": "2",
 	"kids": "",
@@ -202,6 +204,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"gender": "",
 	"hobbies": "",
 	"id": "10",
 	"kids": "",
@@ -278,6 +281,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"gender": "",
 	"hobbies": "",
 	"id": "11",
 	"kids": "",
@@ -378,6 +382,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"gender": "",
 	"hobbies": "",
 	"id": "12",
 	"kids": "",
@@ -465,6 +470,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"gender": "",
 	"hobbies": "",
 	"id": "13",
 	"kids": "",
@@ -534,6 +540,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"gender": "",
 	"hobbies": "",
 	"id": "14",
 	"kids": "",
@@ -621,6 +628,7 @@ curl -X POST http://localhost:8080/person \
 	"club": "",
 	"education": "",
 	"email": {},
+	"gender": "",
 	"hobbies": "",
 	"id": "15",
 	"kids": "",

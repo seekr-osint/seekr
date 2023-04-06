@@ -40,7 +40,7 @@ var DefaultMailServices = MailServices{
 		Url:            "https://keys.gnupg.net/pks/lookup?search={{ email }}&op=index",
 	},
 
-  // Makes trouble FIXME #234
+	// Makes trouble FIXME #234
 	//MailService{
 	//	Name:           "keyserver.pgp.com",
 	//	UserExistsFunc: KeyserverPGPUserExists,

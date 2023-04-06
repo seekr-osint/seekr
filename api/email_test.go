@@ -12,17 +12,17 @@ func TcTestHandler(t *testing.T, testCases []TestCase, testMethode string) { // 
 		wg.Add(1)
 		go func(tc TestCase) {
 			e := Email{
-        Mail: tc.Input,
-      }
-      var result bool
-      switch testMethode {
-    case "IsValidEmail":
-      result = e.IsValidEmail()
-    case "IsValidGmailAddress":
-      result = e.IsValidGmailAddress()
-    case "IsGmailAddress":
-      result = e.IsGmailAddress()
-      } 
+				Mail: tc.Input,
+			}
+			var result bool
+			switch testMethode {
+			case "IsValidEmail":
+				result = e.IsValidEmail()
+			case "IsValidGmailAddress":
+				result = e.IsValidGmailAddress()
+			case "IsGmailAddress":
+				result = e.IsGmailAddress()
+			}
 			if result != tc.expect {
 				t.Errorf("Expected %t for %s, got %t", tc.expect, tc.Input, result)
 			}
