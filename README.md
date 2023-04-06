@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="https://user-images.githubusercontent.com/67828948/213162432-4beec1b7-2aee-432e-a534-969aa28e2ac8.png" width="450" alt="Seekr Logo" /></a>
+  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="https://user-images.githubusercontent.com/67828948/230488036-00377252-180b-4202-a0f7-392f79b0aafc.png" width="450" alt="Seekr Logo" /></a>
  </p>
 
  <p align="center">
