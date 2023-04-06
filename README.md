@@ -43,7 +43,7 @@ git clone https://github.com/seekr-osint/seekr
 cd seekr
 go run main.go
 ```
-Now open [the web interface](http://localhost:5050) in your browser of choice.
+Now open [the web interface](http://127.0.0.1:5050/web/) in your browser of choice.
 ### Run on NixOS
 Seekr is build with NixOS in mind and therefore supports nix flakes.
 To run seekr on NixOS run following commands.
