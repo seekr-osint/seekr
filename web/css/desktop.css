@@ -31,7 +31,7 @@ html {
   width: 7vh;
   height: 7vh;
   border-top-left-radius: 50%;
-  box-shadow: .3rem .3rem .6rem var(--shadow-1), -.2rem -.2rem .5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +46,7 @@ html {
 }
 
 .shortcut-menu:active {
-  box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
+  box-shadow: var(--shadowPreset-2);
   color: var(--textColor-hover);
 }
 
@@ -71,7 +71,7 @@ html {
   height: 90vh;
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
   display: flex;
   flex-direction: column;
   margin-left: 1.37rem;
@@ -107,7 +107,7 @@ html {
   height: 5vh;
   margin: 1vh;
   border-radius: 50%;
-  box-shadow: .3rem .3rem .6rem var(--shadow-1), -.2rem -.2rem .5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
   display: flex;
   font-size: 2rem;
   cursor: pointer;
@@ -120,6 +120,6 @@ html {
 }
 
 .app-shortcut:active {
-  box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
+  box-shadow: var(--shadowPreset-2);
   color: var(--primary);
 }
