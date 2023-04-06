@@ -5,13 +5,24 @@ import (
 	"testing"
 )
 
-func TcTestHandler(t *testing.T, testCases []TestCase, testFunc func(string) bool) { // example TcTestHandler(t,testCases,TestFunction)
+func TcTestHandler(t *testing.T, testCases []TestCase, testMethode string) { // example TcTestHandler(t,testCases,TestFunction)
 	wg := &sync.WaitGroup{}
 
 	for _, tc := range testCases {
 		wg.Add(1)
 		go func(tc TestCase) {
-			result := testFunc(tc.Input)
+			e := Email{
+        Mail: tc.Input,
+      }
+      var result bool
+      switch testMethode {
+    case "IsValidEmail":
+      result = e.IsValidEmail()
+    case "IsValidGmailAddress":
+      result = e.IsValidGmailAddress()
+    case "IsGmailAddress":
+      result = e.IsGmailAddress()
+      } 
 			if result != tc.expect {
 				t.Errorf("Expected %t for %s, got %t", tc.expect, tc.Input, result)
 			}
@@ -41,7 +52,7 @@ func TestIsEmailValid(t *testing.T) {
 		{"user@example.c", false},
 		{"user@example.c@m", false},
 	}
-	TcTestHandler(t, testCases, IsEmailValid)
+	TcTestHandler(t, testCases, "IsValidEmail")
 }
 
 type TestCase struct {
@@ -63,8 +74,9 @@ func TestIsGmailAddress(t *testing.T) {
 		{"@gmail.com", false},
 	}
 
-	TcTestHandler(t, testCases, IsGmailAddress)
+	TcTestHandler(t, testCases, "IsGmailAddress")
 }
+
 func TestIsValidGmailAddress(t *testing.T) {
 	// Test cases
 	testCases := []TestCase{
@@ -84,11 +96,11 @@ func TestIsValidGmailAddress(t *testing.T) {
 		{"user.name@gmail.c1", false},
 		{"user.name@gmail.1com", false},
 	}
-	// Loop through test cases
-	TcTestHandler(t, testCases, IsValidGmailAddress)
+
+	TcTestHandler(t, testCases, "IsValidGmailAddress")
 }
 
-func TestIsGitHubMail(t *testing.T) {
+func TestIsGitHubMail(t *testing.T) { // FIXME methode
 	// Test cases
 	testCases := []TestCase{
 		{"user@gmail.com", false},

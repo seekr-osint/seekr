@@ -5,7 +5,6 @@ import (
 )
 
 // main data set
-type person Person // legacy stuff
 type Person struct {
 	ID             string             `json:"id"`
 	Name           string             `json:"name"`
@@ -47,35 +46,15 @@ type Tags []Tag
 type Tag struct {
 	Name string `json:"name"`
 }
-type EmailServiceEnum struct {
-	Name     string `json:"name"`
-	Link     string `json:"link"`
-	Username string `json:"username"`
-	Icon     string `json:"icon"`
-}
 type Pictures map[string]Picture
 type Picture struct {
 	Img     string `json:"img"`
 	ImgHash uint64 `json:"img_hash"`
 }
-type EmailsType map[string]Email
-type EmailServiceEnums map[string]EmailServiceEnum
 type Bios map[string]Bio
 type Bio struct {
 	Bio string `json:"bio"`
 }
-type Email struct {
-	Mail            string              `json:"mail"`
-	Value           int                 `json:"value"`
-	Src             string              `json:"src"`
-	Services        EmailServiceEnums   `json:"services"`
-	SkippedServices SkippedServicesEnum `json:"skipped_services"`
-	Valid           bool                `json:"valid"`
-	Gmail           bool                `json:"gmail"`
-	ValidGmail      bool                `json:"validGmail"`
-	Provider        string              `json:"provider"`
-}
-type SkippedServicesEnum map[string]bool
 
 // type Accounts map[string]Account
 type Accounts map[string]Account
