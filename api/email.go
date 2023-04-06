@@ -40,12 +40,13 @@ var DefaultMailServices = MailServices{
 		Url:            "https://keys.gnupg.net/pks/lookup?search={{ email }}&op=index",
 	},
 
-	MailService{
-		Name:           "keyserver.pgp.com",
-		UserExistsFunc: KeyserverPGPUserExists,
-		Icon:           "https://pgp.com/favicon.ico",
-		Url:            "https://keyserver.pgp.com/pks/lookup?search={{ email }}&op=index",
-	},
+  // Makes trouble FIXME #234
+	//MailService{
+	//	Name:           "keyserver.pgp.com",
+	//	UserExistsFunc: KeyserverPGPUserExists,
+	//	Icon:           "https://pgp.com/favicon.ico",
+	//	Url:            "https://keyserver.pgp.com/pks/lookup?search={{ email }}&op=index",
+	//},
 	//MailService{ // FIXME
 	//    Name: "pgp.mit.edu",
 	//    UserExistsFunc: PgpMitUserExists,
