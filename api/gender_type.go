@@ -9,7 +9,7 @@ type Gender string
 
 const (
 	Male        Gender = "Male"
-	Fmale       Gender = "Fmale"
+	Female      Gender = "Female"
 	OtherGender        = "Other"
 	NoGender    Gender = ""
 )
@@ -24,7 +24,7 @@ func (g Gender) Markdown() string {
 
 func (cs Gender) IsValid() bool {
 	switch cs {
-	case Male, Fmale, OtherGender, NoGender:
+	case Male, Female, OtherGender, NoGender:
 		return true
 	}
 	return false
