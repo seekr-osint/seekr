@@ -39,15 +39,19 @@ type spotifyResponse struct {
 	PushNotifications bool `json:"push-notifications"`
 }
 
-func Spotify(mailService MailService, email string, config ApiConfig) (error, bool) {
-
+func SpotifyMail(mailService MailService, email string, config ApiConfig) (EmailService, error) {
+	emailService := EmailService{
+		Name: mailService.Name,
+		Icon: mailService.Icon,
+		Link: strings.ReplaceAll(mailService.Url, "{{ email }}", email),
+	}
 	if config.Testing {
 		if email == "has_spotify_account@gmail.com" || email == "spotify@gmail.com" || email == "all@gmail.com" {
 			log.Println("has_spotify_account testing case true")
-			return nil, true
+			return emailService, nil
 		}
 		log.Println("has_spotify_account testing case false")
-		return nil, false
+		return EmailService{}, nil
 	}
 	var endpoint = "https://spclient.wg.spotify.com/signup/public/v1/account"
 
@@ -59,7 +63,7 @@ func Spotify(mailService MailService, email string, config ApiConfig) (error, bo
 	r, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode())) // URL-encoded payload
 	if err != nil {
 		log.Println(err)
-		return err, false
+		return EmailService{}, err
 	}
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	r.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36")
@@ -67,7 +71,7 @@ func Spotify(mailService MailService, email string, config ApiConfig) (error, bo
 	res, err := client.Do(r)
 	if err != nil {
 		log.Println(err)
-		return err, false
+		return EmailService{}, err
 	}
 	defer res.Body.Close()
 	if res.StatusCode == 200 {
@@ -75,11 +79,11 @@ func Spotify(mailService MailService, email string, config ApiConfig) (error, bo
 		var response spotifyResponse
 		json.Unmarshal(body, &response)
 		if response.Status == 20 {
-			return nil, true
+			return emailService, nil
 		} else {
-			return nil, false
+			return EmailService{}, nil
 		}
 	} else {
-		return nil, false
+		return EmailService{}, nil
 	}
 }

@@ -150,35 +150,14 @@ curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
-	"address": "",
 	"age": 10,
-	"bday": "",
-	"civilstatus": "",
-	"club": "",
-	"education": "",
 	"email": {
 		"fsdfadsfasdfasdf@gmail.com": {
 			"mail": "fsdfadsfasdfasdf@gmail.com"
 		}
 	},
-	"hobbies": "",
 	"id": "10",
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "Email test",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": "",
-	"pictures": null,
-	"relations": null,
-	"religion": "",
-	"sources": null,
-	"ssn": "",
-	"tags": null
+	"name": "Email test"
 }'
 ```
 
@@ -364,13 +343,13 @@ curl -X POST http://localhost:8080/person \
 					"username": ""
 				},
 				"Ubuntu GPG": {
-					"icon": "https://ubuntu.com/favicon.ico",
+					"icon": "./images/mail/ubuntu.png",
 					"link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index",
 					"name": "Ubuntu GPG",
 					"username": ""
 				},
 				"keys.gnupg.net": {
-					"icon": "https://www.gnupg.org/favicon.ico",
+					"icon": "./images/mail/gnupg.ico",
 					"link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index",
 					"name": "keys.gnupg.net",
 					"username": ""
@@ -673,7 +652,7 @@ curl -X POST http://localhost:8080/person \
 
 ```json
 {
-	"message": "civil staus invalid"
+	"message": "Invalid civil status"
 }
 ```
 
@@ -695,7 +674,7 @@ curl -X POST http://localhost:8080/person \
 
 ```json
 {
-	"message": "missing id"
+	"message": "Missing ID"
 }
 ```
 
@@ -720,7 +699,7 @@ curl -X POST http://localhost:8080/person \
 
 ```json
 {
-	"message": "invalid religion"
+	"message": "Invalid religion"
 }
 ```
 
@@ -728,7 +707,7 @@ curl -X POST http://localhost:8080/person \
 
 
 ## Post Person (invalid SSN)
-Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions 
+
 
 **Curl Request:**
 
@@ -745,14 +724,14 @@ curl -X POST http://localhost:8080/person \
 
 ```json
 {
-	"message": "invalid SSN"
+	"message": "Invalid SSN"
 }
 ```
 
 **Status Code:** 400
 
 
-## Post Person (invalid civil status)
+## Post Person (invalid Gender)
 Possible values are: Male,Female,Other
 
 **Curl Request:**
@@ -770,7 +749,38 @@ curl -X POST http://localhost:8080/person \
 
 ```json
 {
-	"message": "invalid gender"
+	"message": "Invalid gender"
+}
+```
+
+**Status Code:** 400
+
+
+## Post Person (Email key missmatch)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"age": 10,
+	"email": {
+		"key@gmail.com": {
+			"mail": "missmatched_value@gmail.com"
+		}
+	},
+	"id": "10",
+	"name": "Email test"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Key missmatch: Email[key@gmail.com] = missmatched_value@gmail.com"
 }
 ```
 

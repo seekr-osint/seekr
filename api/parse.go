@@ -1,12 +1,21 @@
 package api
 
-func ParsePerson(person Person, config ApiConfig) Person {
+import (
+	//"errors"
+	"net/http"
+)
+
+func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
 	person = person.ReplaceNil()
-	person = CheckMail(person, config)
-	return person
+	person.Email = person.Email.Parse()
+	person, err := person.CheckMail(config)
+	return person, err
 }
 
 func (person Person) ReplaceNil() Person {
+	if person.Email == nil {
+		person.Email = EmailsType{}
+	}
 	if person.Pictures == nil {
 		person.Pictures = Pictures{}
 	}
@@ -25,21 +34,40 @@ func (person Person) ReplaceNil() Person {
 	return person
 }
 
-func CheckValid(person Person, config ApiConfig) (bool, string) {
+func (person Person) Validate() error {
 	if !person.Civilstatus.IsValid() {
-		return false, "civil staus invalid"
+		return APIError{
+			Message: "Invalid civil status",
+			Status:  http.StatusBadRequest,
+		}
 	}
 	if !person.Religion.IsValid() {
-		return false, "invalid religion"
+		return APIError{
+			Message: "Invalid religion",
+			Status:  http.StatusBadRequest,
+		}
 	}
 	if !person.SSN.IsValid() {
-		return false, "invalid SSN"
+		return APIError{
+			Message: "Invalid SSN",
+			Status:  http.StatusBadRequest,
+		}
 	}
 	if person.ID == "" {
-		return false, "missing id"
+		return APIError{
+			Message: "Missing ID",
+			Status:  http.StatusBadRequest,
+		}
 	}
 	if !person.Gender.IsValid() {
-		return false, "invalid gender"
+		return APIError{
+			Message: "Invalid gender",
+			Status:  http.StatusBadRequest,
+		}
 	}
-	return true, ""
+	err := person.Email.Validate()
+	if err != nil {
+		return person.Email.Validate()
+	}
+	return nil
 }
