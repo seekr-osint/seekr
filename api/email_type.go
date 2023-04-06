@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"regexp"
 	"strings"
 )
@@ -21,40 +22,72 @@ func (e Email) IsValidGmailAddress() bool {
 }
 
 func (e Email) IsValidEmail() bool {
-	// Compile the regular expression pattern
 	pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z]{2,})*$")
-
-	// Check if the email matches the pattern
 	return pattern.MatchString(e.Mail)
 }
 
-func (e Email) Parse() Email {
+// FIXME unnecessary code
+//
+//	func (skippedServices SkippedServices) Parse() SkippedServices {
+//		for _, skippedService := range SortMapKeys(map[string]bool(skippedServices)) {
+//			if skippedServices[skippedService] == false {
+//				//skippedServices = delete(map[string]bool(skippedServices), skippedService)
+//			}
+//		}
+//		return skippedServices
+//	}
 
-	Gmail := e.IsGmailAddress()
-	ValidGmail := e.IsValidGmailAddress()
+func (emailAdresses EmailsType) Validate() error {
+	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
+		if emailAdress != emailAdresses[emailAdress].Mail {
+			return APIError{
+				Message: fmt.Sprintf("Key missmatch: Email[%s] = %s", emailAdress, emailAdresses[emailAdress].Mail),
+				Status:  http.StatusBadRequest,
+			}
+		}
+	}
+	return nil
+}
+func (emailAdresses EmailsType) Parse() EmailsType {
+	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
+		emailAdresses[emailAdress] = emailAdresses[emailAdress].Parse()
+	}
+	return emailAdresses
+}
+
+func (e Email) Parse() Email {
 	if e.Services == nil {
 		log.Printf("mail.Services == nil (%s)", e.Mail)
 		e.Services = EmailServices{}
 	}
+	if e.SkippedServices == nil {
+		log.Printf("mail.SkippedServices == nil (%s)", e.Mail)
+		e.SkippedServices = SkippedServices{}
+	}
+
+	Gmail := e.IsGmailAddress()
+	ValidGmail := e.IsValidGmailAddress()
 	if Gmail && ValidGmail {
 		e.Provider = "gmail"
 	}
 	if Gmail && !ValidGmail {
 		e.Provider = "fake_mail"
 	}
+
 	e.Valid = e.IsValidEmail()
-	if e.SkippedServices == nil {
-		e.SkippedServices = SkippedServices{}
+	if !e.Valid {
+		e.Provider = "invalid_email"
 	}
+
 	return e
 }
 
 func (et EmailsType) Markdown() string {
 	var sb strings.Builder
 
-	for _, k := range SortMapKeys(map[string]Email(et)) {
-		v := et[k]
-		sb.WriteString(fmt.Sprintf("### %s\n", k))
+	for _, emailAdress := range SortMapKeys(map[string]Email(et)) {
+		v := et[emailAdress]
+		sb.WriteString(fmt.Sprintf("### %s\n", emailAdress))
 		sb.WriteString(v.Markdown())
 		sb.WriteString("\n")
 	}
