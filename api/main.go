@@ -210,5 +210,6 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		}
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
+  fmt.Println(person.Markdown())
 	config.SaveJsonFunc(config)
 }

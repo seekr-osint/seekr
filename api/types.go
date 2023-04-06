@@ -11,7 +11,7 @@ type Person struct {
 	Gender         Gender             `json:"gender"`
 	Pictures       Pictures           `json:"pictures"`
 	Maidenname     string             `json:"maidenname"`
-	Age            float64            `json:"age"` // has to be a float64 becuase of json Unmarshal
+	Age            Age  `json:"age"` // has to be a float64 becuase of json Unmarshal
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
 	Phone          PhoneNumbers        `json:"phone"`
