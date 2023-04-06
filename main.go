@@ -76,7 +76,7 @@ func openbrowser(url string) {
 	case "linux":
 		err = exec.Command("xdg-open", url).Start()
 	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+		err = exec.Command("cmd", "/c", "start", url).Start()
 	case "darwin":
 		err = exec.Command("open", url).Start()
 	}
