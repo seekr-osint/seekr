@@ -752,3 +752,28 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 400
 
 
+## Post Person (invalid civil status)
+Possible values are: Male,Female,Other
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"gender": "Invalid",
+	"id": "19"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "invalid gender"
+}
+```
+
+**Status Code:** 400
+
+

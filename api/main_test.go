@@ -155,6 +155,15 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"message": "invalid SSN"},
 		StatusCode:       400,
 	},
+	"9f-postPerson": { // ID 19
+		RequestType:      "POST",
+		Name:             "Post Person (invalid civil status)",
+		Comment:          "Possible values are: Male,Female,Other",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"id": "19", "gender": "Invalid"},
+		ExpectedResponse: map[string]interface{}{"message": "invalid gender"},
+		StatusCode:       400,
+	},
 }
 
 type Requests = map[string]struct {
