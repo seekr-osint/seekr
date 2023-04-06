@@ -601,7 +601,7 @@ a {
   width: 10rem;
   height: 4rem;
   border-radius: 1rem;
-  box-shadow: var(--shadowPreset-2);
+  box-shadow: var(--shadowPreset-3);
   justify-self: center;
   display: flex;
   align-items: center;
