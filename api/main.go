@@ -183,6 +183,12 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	}
 
 	person, _ = person.Parse(config)
+  person,_= person.CheckMail(config)
+  // no error handeling doue to no error impl
+	//if err := c.BindJSON(&person); err != nil {
+	//	c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid person"})
+	//	return
+	//}
 	// DON'T BE LIKE ME AND USE NEWPERSON.ID !!!
 	exsits, _ := GetPersonByID(config, person.ID) // check rather the person Exsts
 	if !exsits {
