@@ -5,6 +5,23 @@ import (
 	"strings"
 )
 
+func (config ApiConfig) SaveJson() {
+	config.SaveJsonFunc(config)
+}
+func (config ApiConfig) Parse() (ApiConfig, error) {
+	var err error
+	config.DataBase, err = config.DataBase.Parse(config)
+	return config, err
+}
+
+func (dataBase DataBase) Parse(config ApiConfig) (DataBase, error) {
+	var err error
+	for _, name := range SortMapKeys(map[string]Person(dataBase)) {
+		dataBase[name], err = dataBase[name].Parse(config)
+	}
+	return dataBase, err
+}
+
 func (person Person) Markdown() string {
 	var sb strings.Builder
 	if person.Name != "" {

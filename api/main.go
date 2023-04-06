@@ -67,8 +67,14 @@ func ServeApi(config ApiConfig) {
 	if err != nil {
 		log.Println(err) // Fix me (breaks tests)
 	}
+  config,err = config.Parse()
+	if err != nil {
+		log.Println(err) // Fix me (breaks tests)
+	}
+  config.SaveJson()
 	defer os.Remove("/tmp/running")
 	defer runningFile.Close()
+  config.DataBase,err = config.DataBase.Parse(config)
 	config.GinRouter.Run(config.Ip)
 }
 
