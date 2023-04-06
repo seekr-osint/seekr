@@ -189,6 +189,10 @@ async function main() {
                     container.appendChild(infoDiv);
 
                     if (email.valid == true) {
+                      const abbrContainerValidity = document.createElement("abbr")
+                      abbrContainerValidity.className = "validity-abbr";
+                      abbrContainerValidity.title = "Valid Email";
+
                       const iconDivValid = document.createElement("div");
                       iconDivValid.className = "valid-icon-div";
 
@@ -196,9 +200,14 @@ async function main() {
                       iconValid.className = "valid-icon";
                       iconValid.src = "./images/valid.png";
 
-                      infoDiv.appendChild(iconDivValid);
+                      infoDiv.appendChild(abbrContainerValidity);
+                      abbrContainerValidity.appendChild(iconDivValid);
                       iconDivValid.appendChild(iconValid);
                     } else if (email.valid == false) {
+                      const abbrContainerValidity = document.createElement("abbr")
+                      abbrContainerValidity.className = "validity-abbr";
+                      abbrContainerValidity.title = "Invalid Email";
+
                       const iconDivValid = document.createElement("div");
                       iconDivValid.className = "valid-icon-div";
 
@@ -206,12 +215,17 @@ async function main() {
                       iconValid.className = "valid-icon";
                       iconValid.src = "./images/invalid.png";
 
-                      infoDiv.appendChild(iconDivValid);
+                      infoDiv.appendChild(abbrContainerValidity);
+                      abbrContainerValidity.appendChild(iconDivValid);
                       iconDivValid.appendChild(iconValid);
                     }
 
                     if (email.services != undefined && email.services != null) {
                       for (const [_, service] of Object.entries(email.services)) {
+                        const abbrContainer = document.createElement("abbr")
+                        abbrContainer.className = "service-abbr";
+                        abbrContainer.title = service.name;
+
                         const iconDiv = document.createElement("div");
                         iconDiv.className = "service-icon-div";
 
@@ -219,8 +233,16 @@ async function main() {
                         icon.className = "service-icon";
                         icon.src = service.icon;
 
-                        infoDiv.appendChild(iconDiv);
+                        
+                        infoDiv.appendChild(abbrContainer);
+                        abbrContainer.appendChild(iconDiv);
                         iconDiv.appendChild(icon);
+
+                        iconDiv.onclick = function () {
+                          if (service.link != "") {
+                            window.open(service.link, "_blank");
+                          }
+                        }
                       };
 
                       container.appendChild(infoDiv);
