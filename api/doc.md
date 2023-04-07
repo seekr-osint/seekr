@@ -896,13 +896,13 @@ curl -X POST http://localhost:8080/person \
 			"number": "+1 234-567-8901",
 			"phoneinfoga": {
 				"Carrier": "",
-				"Country": "",
-				"CountryCode": 0,
-				"E164": "",
-				"International": "",
-				"Local": "",
-				"RawLocal": "",
-				"Valid": false
+				"Country": "US",
+				"CountryCode": 1,
+				"E164": "+12345678901",
+				"International": "12345678901",
+				"Local": "(234) 567-8901",
+				"RawLocal": "2345678901",
+				"Valid": true
 			},
 			"tag": "",
 			"valid": true
