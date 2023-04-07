@@ -51,6 +51,7 @@ func (phoneNumber PhoneNumber) Parse() PhoneNumber {
 	}
 	phoneNumber.Number = phonenumbers.Format(parsedNumber, phonenumbers.INTERNATIONAL)
 	phoneNumber.NationalFormat = phonenumbers.Format(parsedNumber, phonenumbers.NATIONAL)
+	phoneNumber.Phoneinfoga, err = phoneNumber.GetPhoneinfoga() // FIXME error handeling
 	return phoneNumber
 }
 
