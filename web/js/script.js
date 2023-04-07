@@ -382,7 +382,83 @@ async function main() {
           document.querySelector(".e-age").innerHTML = obj.age;
           document.querySelector(".e-bday").innerHTML = obj.bday;
           document.querySelector(".e-address").innerHTML = obj.address;
-          document.querySelector(".e-phone").innerHTML = obj.phone;
+
+          // Phone
+
+          if (Object.keys(obj.phone).length >= 1) {
+            const phoneContainer = document.querySelector('.phone-base');
+
+            for (const [_, phone] of Object.entries(obj.phone)) {
+              const container = document.createElement("div");
+              container.className = "phone-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "phone-subcontainer";
+
+              const phone_input = document.createElement("input");
+              phone_input.className = "form-input phone";
+              phone_input.id = "e-mail";
+              phone_input.type = "email";
+              phone_input.placeholder = "Enter phone number";
+              phone_input.spellcheck = "false";
+              phone_input.maxLength = "30";
+              phone_input.required = "true";
+              phone_input.value = phone.number;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(phone_input);
+              phoneContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("phone-add-btn").onclick = function () {
+            const phone_base = document.querySelector(".phone-base");
+
+            const phone_container = document.createElement("div");
+            phone_container.className = "phone-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "phone-subcontainer";
+
+            const phone_input = document.createElement("input");
+            phone_input.className = "form-input phone";
+            phone_input.id = "phone";
+            phone_input.type = "tel";
+            phone_input.placeholder = "Enter phone number";
+            phone_input.spellcheck = "false";
+            phone_input.maxLength = "15";
+            phone_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            phone_base.appendChild(phone_container);
+            phone_container.appendChild(subContainer);
+            subContainer.appendChild(phone_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              phone_container.remove();
+            }
+          }
+
           document.querySelector(".e-ssn").innerHTML = obj.ssn;
           document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
           document.querySelector(".e-kids").innerHTML = obj.kids;
@@ -449,7 +525,7 @@ async function main() {
 
 
 
-          document.getElementById("add-btn").onclick = function () {
+          document.getElementById("email-add-btn").onclick = function () {
             const email_base = document.querySelector(".email-base");
 
             const email_container = document.createElement("div");
@@ -1129,7 +1205,27 @@ async function main() {
 
     let bday = document.querySelector(".e-bday").innerHTML;
     let address = document.querySelector(".e-address").innerHTML;
-    let phone = document.querySelector(".e-phone").innerHTML;
+
+    let phoneContainers = document.querySelectorAll('.phone-container');
+    let phoneNumbers = {};
+
+    phoneContainers.forEach(function (container) {
+      let hiddenElement = container.querySelector(".hidden-phone-save");
+
+      let hiddenElementVal = null;
+
+      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
+        hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
+      }
+
+      let phoneInput = container.querySelector('input');
+      phoneNumbers[phoneInput.value] = {
+        "phone": phoneInput.value,
+        "src": "manual",
+        "services": hiddenElementVal
+      };
+    });
+
     let ssn = document.querySelector(".e-ssn").innerHTML;
     let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
     let kids = document.querySelector(".e-kids").innerHTML;

@@ -183,7 +183,9 @@ html {
 }
 
 .email-subcontainer,
-.c-email-subcontainer {
+.c-email-subcontainer,
+.phone-subcontainer,
+.e-phone-container {
   display: flex;
 }
 
@@ -215,7 +217,10 @@ html {
 
 .email-container,
 .c-email-container,
-.v-email-container {
+.v-email-container,
+.phone-container,
+.e-phone-container,
+.v-phone-container {
   margin-bottom: 1.5rem;
   box-shadow: var(--shadowPreset-5);
   padding: 1rem;
