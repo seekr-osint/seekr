@@ -3,27 +3,37 @@ package api
 import (
 	"fmt"
 	"github.com/nyaruka/phonenumbers"
+	"github.com/sundowndev/phoneinfoga/v2/lib/number"
 	"log"
 	"net/http"
 	"strings"
 )
 
 type PhoneNumber struct {
-	Number string `json:"number"`
-	Valid  bool   `json:"valid"`
+	Number         string        `json:"number"`
+	Valid          bool          `json:"valid"`
+	NationalFormat string        `json:"national_format"`
+	Phoneinfoga    number.Number `json:"phoneinfoga"`
 }
 type PhoneNumbers map[string]PhoneNumber
 
-func (number PhoneNumber) Markdown() string {
+func (phoneNumber PhoneNumber) GetPhoneinfoga() (number.Number, error) {
+	n, err := number.NewNumber(phoneNumber.NationalFormat)
+	if err != nil {
+		return *n, err
+	}
+	return *n, err
+}
+func (phoneNumber PhoneNumber) Markdown() string {
 	var sb strings.Builder
-	if number.IsValid() {
-		sb.WriteString(fmt.Sprintf("- Phone: `%s`\n", number.Number))
+	if phoneNumber.IsValid() {
+		sb.WriteString(fmt.Sprintf("- Phone: `%s`\n", phoneNumber.Number))
 	}
 	return sb.String()
 }
 
-func (number PhoneNumber) IsValid() bool {
-	parsedNumber, err := phonenumbers.Parse(number.Number, "")
+func (phoneNumber PhoneNumber) IsValid() bool {
+	parsedNumber, err := phonenumbers.Parse(phoneNumber.Number, "")
 	if err != nil {
 		log.Printf("error parsing number: %s", err)
 		return false
@@ -31,15 +41,16 @@ func (number PhoneNumber) IsValid() bool {
 	return phonenumbers.IsValidNumber(parsedNumber)
 }
 
-func (number PhoneNumber) Parse() PhoneNumber {
-	number.Valid = number.IsValid()
-	parsedNumber, err := phonenumbers.Parse(number.Number, "")
+func (phoneNumber PhoneNumber) Parse() PhoneNumber {
+	phoneNumber.Valid = phoneNumber.IsValid()
+	parsedNumber, err := phonenumbers.Parse(phoneNumber.Number, "")
 	if err != nil {
 		log.Printf("error parsing number: %s", err)
-		return number
+		return phoneNumber
 	}
-	number.Number = phonenumbers.Format(parsedNumber, phonenumbers.INTERNATIONAL)
-	return number
+	phoneNumber.Number = phonenumbers.Format(parsedNumber, phonenumbers.INTERNATIONAL)
+	phoneNumber.NationalFormat = phonenumbers.Format(parsedNumber, phonenumbers.NATIONAL)
+	return phoneNumber
 }
 
 func (numbers PhoneNumbers) Markdown() string {

@@ -892,7 +892,18 @@ curl -X POST http://localhost:8080/person \
 	"pets": "",
 	"phone": {
 		"+1 234-567-8901": {
+			"national_format": "(234) 567-8901",
 			"number": "+1 234-567-8901",
+			"phoneinfoga": {
+				"Carrier": "",
+				"Country": "",
+				"CountryCode": 0,
+				"E164": "",
+				"International": "",
+				"Local": "",
+				"RawLocal": "",
+				"Valid": false
+			},
 			"valid": true
 		}
 	},
@@ -955,7 +966,18 @@ curl -X POST http://localhost:8080/person \
 	"pets": "",
 	"phone": {
 		"Invalid_number": {
+			"national_format": "",
 			"number": "Invalid_number",
+			"phoneinfoga": {
+				"Carrier": "",
+				"Country": "",
+				"CountryCode": 0,
+				"E164": "",
+				"International": "",
+				"Local": "",
+				"RawLocal": "",
+				"Valid": false
+			},
 			"valid": false
 		}
 	},
