@@ -31,6 +31,7 @@ func (person Person) Markdown() string {
 	sb.WriteString(person.Gender.Markdown())
 	sb.WriteString(person.Age.Markdown())
 	sb.WriteString(person.Civilstatus.Markdown())
+	sb.WriteString(person.Religion.Markdown())
 	sb.WriteString(person.Phone.Markdown())
 	sb.WriteString(fmt.Sprintf("## Email\n%s\n", person.Email.Markdown()))
 	return sb.String()
