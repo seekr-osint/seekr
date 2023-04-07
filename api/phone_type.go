@@ -19,7 +19,7 @@ type PhoneNumber struct {
 type PhoneNumbers map[string]PhoneNumber
 
 func (phoneNumber PhoneNumber) GetPhoneinfoga() (number.Number, error) {
-	n, err := number.NewNumber(phoneNumber.NationalFormat)
+	n, err := number.NewNumber(phoneNumber.Number)
 	if err != nil {
 		return *n, err
 	}
