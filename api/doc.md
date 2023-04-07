@@ -922,7 +922,7 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
-## Post Person (Email key missmatch already taken ID)
+## Post Person (Invalid_number)
 
 
 **Curl Request:**
@@ -983,6 +983,64 @@ curl -X POST http://localhost:8080/person \
 			"valid": false
 		}
 	},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post Person (Empty phone number)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "23",
+	"name": "Phone test",
+	"phone": {
+		"": {
+			"number": ""
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {},
+	"gender": "",
+	"hobbies": "",
+	"id": "23",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Phone test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {},
 	"pictures": {},
 	"political": "",
 	"prevoccupation": "",

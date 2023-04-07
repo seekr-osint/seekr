@@ -197,10 +197,18 @@ var requests = Requests{
 	},
 	"9k-postPerson": { // ID 22
 		RequestType:      "POST",
-		Name:             "Post Person (Email key missmatch already taken ID)",
+		Name:             "Post Person (Invalid_number)",
 		URL:              "http://localhost:8080/person",
 		PostData:         map[string]interface{}{"phone": map[string]interface{}{"Invalid_number": map[string]interface{}{"number": "Invalid_number"}}, "id": "22", "name": "Phone test"},
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "22", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{"Invalid_number": map[string]interface{}{"tag": "", "national_format": "", "number": "Invalid_number", "phoneinfoga": map[string]interface{}{"Carrier": "", "Country": "", "CountryCode": float64(0), "E164": "", "International": "", "Local": "", "RawLocal": "", "Valid": false}, "valid": false}}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		StatusCode:       201,
+	},
+	"9l-postPerson": { // ID 23
+		RequestType:      "POST",
+		Name:             "Post Person (Empty phone number)",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"phone": map[string]interface{}{"": map[string]interface{}{"number": ""}}, "id": "23", "name": "Phone test"},
+		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "23", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
 }
