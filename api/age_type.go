@@ -10,7 +10,7 @@ type Age float64
 func (age Age) Markdown() string {
 	var sb strings.Builder
 	if age.IsValid() && age != 0 {
-		sb.WriteString(fmt.Sprintf("- age: `%d`\n", int(age)))
+		sb.WriteString(fmt.Sprintf("- Age: `%d`\n", int(age)))
 	}
 	return sb.String()
 }
