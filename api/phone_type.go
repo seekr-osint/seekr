@@ -65,6 +65,11 @@ func (numbers PhoneNumbers) Markdown() string {
 func (numbers PhoneNumbers) Parse() PhoneNumbers {
 	newNumbers := PhoneNumbers{}
 	for _, number := range SortMapKeys(map[string]PhoneNumber(numbers)) {
+		// delete empty emails
+		if number == "" {
+			delete(numbers, number) // number == ""
+      break
+		}
 		parsedNumber := numbers[number].Parse()
 		newNumbers[parsedNumber.Number] = parsedNumber
 	}

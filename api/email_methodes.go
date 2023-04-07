@@ -49,6 +49,12 @@ func (emailAdresses EmailsType) Validate() error {
 
 func (emailAdresses EmailsType) Parse() EmailsType {
 	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
+		// delete empty emails
+		if emailAdress == "" {
+			log.Printf("Empty email detected.")
+			delete(emailAdresses, emailAdress) // emailAdress == ""
+			break
+		}
 		emailAdresses[emailAdress] = emailAdresses[emailAdress].Parse()
 	}
 	return emailAdresses
