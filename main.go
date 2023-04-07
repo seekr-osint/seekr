@@ -6,8 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 
-	//"fmt"
-	//"log"
+	//"fmt" "log"
 	//"strconv"
 
 	api "github.com/seekr-osint/seekr/api"
@@ -16,7 +15,7 @@ import (
 
 // Web server content
 //
-//go:embed all:web
+//go:embed web/*
 var content embed.FS
 
 var dataBase = make(api.DataBase)
@@ -33,7 +32,7 @@ func main() {
 	flag.Parse()
 
 	if *browser {
-		openbrowser(*ip)
+		openbrowser("http://" + string(*ip) + "/web/index.html")
 	}
 
 	var apiConfig = api.ApiConfig{
@@ -76,7 +75,7 @@ func openbrowser(url string) {
 	case "linux":
 		err = exec.Command("xdg-open", url).Start()
 	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+		err = exec.Command("cmd", "/c", "start", url).Start()
 	case "darwin":
 		err = exec.Command("open", url).Start()
 	}
