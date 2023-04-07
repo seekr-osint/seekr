@@ -904,6 +904,7 @@ curl -X POST http://localhost:8080/person \
 				"RawLocal": "",
 				"Valid": false
 			},
+			"tag": "",
 			"valid": true
 		}
 	},
@@ -978,6 +979,7 @@ curl -X POST http://localhost:8080/person \
 				"RawLocal": "",
 				"Valid": false
 			},
+			"tag": "",
 			"valid": false
 		}
 	},
