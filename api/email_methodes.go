@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/go-email-validator/go-email-validator/pkg/ev"
+	"github.com/go-email-validator/go-email-validator/pkg/ev/evmail"
 )
 
 // Methodes
@@ -19,9 +22,25 @@ func (e Email) IsValidGmailAddress() bool {
 	return pattern.MatchString(e.Mail)
 }
 
-func (e Email) IsValidEmail() bool {
+func (email Email) IsDisposableEmail() bool {
+
+	//pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z]{2,})*$")
+	//return pattern.MatchString(e.Mail)
+	//return validator.IsValid()
+	return false
+}
+
+func (email Email) IsValidEmailEv() bool {
+	var validator = ev.NewSyntaxValidator().Validate(ev.NewInput(evmail.FromString(email.Mail))) // ev.ValidationResult
+
+	//pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z]{2,})*$")
+	//return pattern.MatchString(e.Mail)
+	return validator.IsValid()
+}
+
+func (email Email) IsValidEmail() bool {
 	pattern := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z]{2,})*$")
-	return pattern.MatchString(e.Mail)
+	return pattern.MatchString(email.Mail)
 }
 
 // FIXME unnecessary code
@@ -34,6 +53,17 @@ func (e Email) IsValidEmail() bool {
 //		}
 //		return skippedServices
 //	}
+
+func (email Email) IsDisposableEmail() (bool, error) {
+	//disposable := ev.NewDisposableValidator()
+
+	//if err := validator.Validate(email.Mail, disposable); err != nil {
+	//	return false, err
+	//}
+
+	return true, nil
+
+}
 
 func (emailAdresses EmailsType) Validate() error {
 	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
@@ -82,6 +112,10 @@ func (e Email) Parse() Email {
 	e.Valid = e.IsValidEmail()
 	if !e.Valid {
 		e.Provider = "invalid_email"
+	}
+	disposable, err := e.IsDisposableEmail()
+	if err != nil {
+		e.Disposable = disposable
 	}
 
 	return e

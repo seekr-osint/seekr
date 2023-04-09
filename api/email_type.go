@@ -12,6 +12,7 @@ type Email struct {
 	SkippedServices SkippedServices `json:"skipped_services"`
 	Valid           bool            `json:"valid"`
 	Provider        string          `json:"provider"`
+  Disposable      bool            `json:"disposable"`
 }
 
 type EmailServices map[string]EmailService

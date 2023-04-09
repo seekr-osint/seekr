@@ -174,6 +174,7 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"fsdfadsfasdfasdf@gmail.com": {
+			"disposable": false,
 			"mail": "fsdfadsfasdfasdf@gmail.com",
 			"provider": "gmail",
 			"services": {},
@@ -244,6 +245,7 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"has_discord_account@gmail.com": {
+			"disposable": false,
 			"mail": "has_discord_account@gmail.com",
 			"provider": "fake_mail",
 			"services": {
@@ -321,6 +323,7 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"all@gmail.com": {
+			"disposable": false,
 			"mail": "all@gmail.com",
 			"provider": "gmail",
 			"services": {
@@ -438,6 +441,7 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"discord_error@gmail.com": {
+			"disposable": false,
 			"mail": "discord_error@gmail.com",
 			"provider": "fake_mail",
 			"services": {},
@@ -510,6 +514,7 @@ curl -X POST http://localhost:8080/person \
 	"education": "",
 	"email": {
 		"fake_mail@gmail.com": {
+			"disposable": false,
 			"mail": "fake_mail@gmail.com",
 			"provider": "fake_mail",
 			"services": {},
