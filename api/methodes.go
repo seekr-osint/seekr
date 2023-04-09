@@ -5,9 +5,14 @@ import (
 	"strings"
 )
 
-func (config ApiConfig) SaveJson() {
-	config.SaveJsonFunc(config)
+func (config ApiConfig) SaveDB() (error) {
+	return config.SaveDBFunc(config)
 }
+
+func (config ApiConfig) LoadDB() (ApiConfig,error) {
+	return config.LoadDBFunc(config)
+}
+
 func (config ApiConfig) Parse() (ApiConfig, error) {
 	var err error
 	config.DataBase, err = config.DataBase.Parse(config)

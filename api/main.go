@@ -2,15 +2,11 @@ package api
 
 import (
 	//"fmt"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strings"
-
-	"encoding/json"
-	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,13 +17,17 @@ func TestApi(dataBase DataBase) {
 	var apiConfig = ApiConfig{
 		Ip:            "localhost:8080",
 		LogFile:       "/tmp/seekr.log",
-		DataBaseFile:  "test-data.json",
+		DataBaseFile:  "test-data",
 		DataBase:      dataBase,
 		SetCORSHeader: true,
-		SaveJsonFunc:  DefaultSaveJson,
+		LoadDBFunc:    DefaultLoadDB,
+		SaveDBFunc:    DefaultSaveDB,
 		Testing:       true,
 	}
-	DefaultSaveJson(apiConfig)
+	err := apiConfig.SaveDB()
+	if err != nil {
+		log.Fatalf("Error saving to databse: %s", err)
+	}
 
 	// Start the background Seekrd service
 	go Seekrd(DefaultSeekrdServices, 30) // run every 30 minutes
@@ -36,20 +36,16 @@ func TestApi(dataBase DataBase) {
 	go ServeApi(apiConfig)
 }
 
-func DefaultSaveJson(config ApiConfig) {
-	log.Println("Saving json to file")
-	jsonBytes, err := json.MarshalIndent(config.DataBase, "", "\t")
-	CheckAndLog(err, "error saving the database to file", config)
-	ioutil.WriteFile(config.DataBaseFile, jsonBytes, 0644)
-}
-
 func CheckPersonExists(config ApiConfig, id string) bool {
 	_, ok := config.DataBase[id]
 	return ok
 }
 
 func ServeApi(config ApiConfig) {
-	config = LoadJson(config)
+	config, err := config.LoadDB()
+	if err != nil {
+		log.Fatalf("Error loading database: %s", err)
+	}
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
@@ -63,18 +59,23 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
+	config, err = config.Parse()
+	if err != nil {
+		log.Println(err) // Fix me (breaks tests)
+	}
+	config.SaveDB()
+
 	runningFile, err := os.Create("/tmp/running")
 	if err != nil {
 		log.Println(err) // Fix me (breaks tests)
 	}
-  config,err = config.Parse()
 	if err != nil {
-		log.Println(err) // Fix me (breaks tests)
+		log.Fatalf("Error saving to databse: %s", err)
 	}
-  config.SaveJson()
 	defer os.Remove("/tmp/running")
 	defer runningFile.Close()
-  config.DataBase,err = config.DataBase.Parse(config)
+
+	config.DataBase, err = config.DataBase.Parse(config)
 	config.GinRouter.Run(config.Ip)
 }
 
@@ -109,14 +110,21 @@ func DeletePerson(config ApiConfig, c *gin.Context) {
 	if CheckPersonExists(config, c.Param("id")) {
 		delete(config.DataBase, c.Param("id"))
 	}
-	config.SaveJsonFunc(config)
+	err := config.SaveDB()
+	if err != nil {
+		log.Fatalf("Error saving to databse: %s", err)
+	}
+
 }
 
 func DeleteAccount(config ApiConfig, c *gin.Context) {
 	if CheckPersonExists(config, c.Param("id")) {
 		delete(config.DataBase[c.Param("id")].Accounts, c.Param("account")) // TODO check if stuff nonesense nobody needs
 	}
-	config.SaveJsonFunc(config)
+	err := config.SaveDB()
+	if err != nil {
+		log.Fatalf("Error saving to database: %s", err)
+	}
 }
 
 func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.HandlerFunc {
@@ -124,34 +132,21 @@ func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.Handl
 		if config.SetCORSHeader {
 			c.Header("Access-Control-Allow-Origin", "*")
 		}
-		config = LoadJson(config)
+		config, err := config.LoadDB()
+		if err != nil {
+			log.Fatalf("Error database: %s", err)
+		}
+
 		function(config, c)
 	}
 	return gin.HandlerFunc(handlerFunc)
 }
 
-func LoadJson(config ApiConfig) ApiConfig {
-	if _, err := os.Stat(config.DataBaseFile); errors.Is(err, os.ErrNotExist) {
-		log.Printf("creating %s DataBaseFile", config.DataBaseFile)
-		err := os.WriteFile(config.DataBaseFile, []byte("{}"), 0755)
-		CheckAndLog(err, fmt.Sprintf("error creating DataBaseFile: %s", config.DataBaseFile), config)
-	}
-	file, err := os.Open(config.DataBaseFile)
-	if err != nil {
-		log.Println(err)
-	}
-	CheckAndLog(err, "error opening database file", config)
-	defer file.Close()
-
-	err = json.NewDecoder(file).Decode(&config.DataBase)
-	CheckAndLog(err, "error decoding", config)
-
-	log.Println("loading json database from file")
-	return config
-}
-
 func GetDataBase(config ApiConfig, c *gin.Context) {
-	config = LoadJson(config)
+	config, err := config.LoadDB()
+	if err != nil {
+		log.Fatalf("Error database: %s", err)
+	}
 	c.IndentedJSON(http.StatusOK, config.DataBase)
 }
 
@@ -217,5 +212,8 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
 	fmt.Println(person.Markdown())
-	config.SaveJsonFunc(config)
+	err = config.SaveDB()
+	if err != nil {
+		log.Fatalf("Error saving to databse: %s", err)
+	}
 }
