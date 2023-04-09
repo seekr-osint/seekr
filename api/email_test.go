@@ -61,12 +61,12 @@ type TestCase struct {
 	expect bool
 }
 
-//func TestCheck(t *testing.T) {
-//	result := GetExistingEmailServices(DefaultMailServices, "discord@gmail.com", ApiConfig{
-//		Testing: true,
-//	})
-//	fmt.Printf("%#v", result)
-//}
+//	func TestCheck(t *testing.T) {
+//		result := GetExistingEmailServices(DefaultMailServices, "discord@gmail.com", ApiConfig{
+//			Testing: true,
+//		})
+//		fmt.Printf("%#v", result)
+//	}
 func TestIsGmailAddress(t *testing.T) {
 	// Test cases
 	testCases := []TestCase{

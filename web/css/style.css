@@ -77,6 +77,10 @@ html {
   }
 }
 
+.phone-icon {
+  height: unset !important;
+}
+
 .gender-select {
   position: relative;
   font-family: Arial;
@@ -183,16 +187,24 @@ html {
 }
 
 .email-subcontainer,
-.c-email-subcontainer {
+.c-email-subcontainer,
+.phone-subcontainer,
+.e-phone-container {
   display: flex;
 }
 
 .service-icon,
-.valid-icon {
+.valid-icon,
+.country-icon {
   height: 2.5rem;
   margin: 1rem;
   margin-bottom: 0;
   display: flex;
+}
+
+.country-icon {
+  margin-top: 1.5rem;
+  margin-left: 0;
 }
 
 .service-icon {
@@ -213,9 +225,17 @@ html {
   display: flex;
 }
 
+.v-phone,
+.e-phone {
+  width: 42rem !important;
+}
+
 .email-container,
 .c-email-container,
-.v-email-container {
+.v-email-container,
+.phone-container,
+.e-phone-container,
+.v-phone-container {
   margin-bottom: 1.5rem;
   box-shadow: var(--shadowPreset-5);
   padding: 1rem;

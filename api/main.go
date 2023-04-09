@@ -67,8 +67,14 @@ func ServeApi(config ApiConfig) {
 	if err != nil {
 		log.Println(err) // Fix me (breaks tests)
 	}
+  config,err = config.Parse()
+	if err != nil {
+		log.Println(err) // Fix me (breaks tests)
+	}
+  config.SaveJson()
 	defer os.Remove("/tmp/running")
 	defer runningFile.Close()
+  config.DataBase,err = config.DataBase.Parse(config)
 	config.GinRouter.Run(config.Ip)
 }
 
@@ -183,8 +189,8 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	}
 
 	person, _ = person.Parse(config)
-  person,_= person.CheckMail(config)
-  // no error handeling doue to no error impl
+	person, _ = person.CheckMail(config)
+	// no error handeling doue to no error impl
 	//if err := c.BindJSON(&person); err != nil {
 	//	c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid person"})
 	//	return
@@ -210,5 +216,6 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		}
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
+	fmt.Println(person.Markdown())
 	config.SaveJsonFunc(config)
 }
