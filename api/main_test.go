@@ -211,6 +211,22 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "23", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
+	"9m-postPerson": { // ID 24
+		RequestType:      "POST",
+		Name:             "Post Person (Lot of fields)",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"phone": map[string]interface{}{"+13183442908": map[string]interface{}{"number": "+13183442908"}}, "id": "24", "name": "Many fields", "age": float64(23), "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"mail": "all@gmail.com"}}},
+		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(23), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"mail": "all@gmail.com", "provider": "gmail", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}, "Spotify": map[string]interface{}{"icon": "./images/mail/spotify.png", "link": "", "name": "Spotify", "username": ""}, "Twitter": map[string]interface{}{"icon": "./images/mail/twitter.png", "link": "", "name": "Twitter", "username": ""}, "Ubuntu GPG": map[string]interface{}{"icon": "./images/mail/ubuntu.png", "link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index", "name": "Ubuntu GPG", "username": ""}, "keys.gnupg.net": map[string]interface{}{"icon": "./images/mail/gnupg.ico", "link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index", "name": "keys.gnupg.net", "username": ""}}, "skipped_services": map[string]interface{}{}, "src": "", "valid": true, "value": float64(0)}}, "gender": "", "hobbies": "", "id": "24", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Many fields", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{"+1 318-344-2908": map[string]interface{}{"national_format": "(318) 344-2908", "number": "+1 318-344-2908", "phoneinfoga": map[string]interface{}{"Carrier": "", "Country": "US", "CountryCode": float64(1), "E164": "+13183442908", "International": "13183442908", "Local": "(318) 344-2908", "RawLocal": "3183442908", "Valid": true}, "tag": "", "valid": true}}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		StatusCode:       201,
+	},
+	"9n-postPerson": { // ID 24
+		RequestType:      "GET",
+		Name:             "GET Person Markdown",
+		URL:              "http://localhost:8080/people/24/markdown",
+		PostData:         nil,
+		ExpectedResponse: map[string]interface{}{"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"},
+		StatusCode:       200,
+	},
 }
 
 type Requests = map[string]struct {
@@ -261,30 +277,6 @@ func writeDocs() {
 	}
 }
 
-func TestPrintEmail(t *testing.T) {
-
-	test := EmailsType{
-		"has_discord_account@gmail.com": Email{
-			Mail:     "has_discord_account@gmail.com",
-			Provider: "",
-			Services: EmailServices{
-				"Discord": EmailService{
-					Icon:     "./images/mail/discord.png",
-					Link:     "",
-					Name:     "Discord",
-					Username: "",
-				},
-			},
-			SkippedServices: SkippedServices{
-				"discord": true,
-			},
-			Src:   "",
-			Valid: true,
-			Value: 0,
-		},
-	}
-	fmt.Println(test.Markdown())
-}
 func TestAPI(t *testing.T) {
 	dbData := DataBase{
 		"1": Person{
