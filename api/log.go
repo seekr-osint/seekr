@@ -6,15 +6,20 @@ import (
 )
 
 func SetupLogger(config ApiConfig) {
+	if config.LogFile == "" {
+		config.LogFile = "seekr.log"
+	}
 	f, err := os.OpenFile(config.LogFile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 
 	if err != nil {
-		log.Fatalf("error opening file: %v", err)
+		// try creating the file first
+		f, err = os.Create(config.LogFile)
+		if err != nil {
+			log.Fatalf("error opening file: %s\nLog file: %s", err, config.LogFile)
+		}
 	}
 
 	log.SetOutput(f)
-	//defer f.Close()
-
 	log.Printf("opening log file: %s", config.LogFile)
 }
 

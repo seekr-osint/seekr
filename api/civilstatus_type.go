@@ -1,5 +1,10 @@
 package api
 
+import (
+	"fmt"
+	"strings"
+)
+
 type CivilStatus string
 
 const (
@@ -10,6 +15,14 @@ const (
 	Separated     CivilStatus = "Separated"
 	NoCivilStatus CivilStatus = ""
 )
+
+func (cs CivilStatus) Markdown() string {
+	var sb strings.Builder
+	if cs.IsValid() && cs != NoCivilStatus {
+		sb.WriteString(fmt.Sprintf("- Civil Status: `%s`\n", cs))
+	}
+	return sb.String()
+}
 
 func (cs CivilStatus) IsValid() bool {
 	switch cs {

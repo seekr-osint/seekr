@@ -46,8 +46,15 @@ func (emailAdresses EmailsType) Validate() error {
 	}
 	return nil
 }
+
 func (emailAdresses EmailsType) Parse() EmailsType {
 	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
+		// delete empty emails
+		if emailAdress == "" {
+			log.Printf("Empty email detected.")
+			delete(emailAdresses, emailAdress) // emailAdress == ""
+			break
+		}
 		emailAdresses[emailAdress] = emailAdresses[emailAdress].Parse()
 	}
 	return emailAdresses
@@ -146,15 +153,15 @@ func (s EmailService) Markdown(name string) string {
 	var sb strings.Builder
 
 	sb.WriteString(fmt.Sprintf("##### %s\n", name))
-	sb.WriteString(fmt.Sprintf("Name: `%s`\n", s.Name))
+	sb.WriteString(fmt.Sprintf("- Name: `%s`\n", s.Name))
 	if s.Link != "" {
-		sb.WriteString(fmt.Sprintf("Link: `%s`\n", s.Link))
+		sb.WriteString(fmt.Sprintf("- Link: `%s`\n", s.Link))
 	}
 	if s.Username != "" {
-		sb.WriteString(fmt.Sprintf("Username: `%s`\n", s.Username))
+		sb.WriteString(fmt.Sprintf("- Username: `%s`\n", s.Username))
 	}
 	if s.Icon != "" {
-		sb.WriteString(fmt.Sprintf("Icon: `%s`\n", s.Icon))
+		sb.WriteString(fmt.Sprintf("- Icon: `%s`\n", s.Icon))
 	}
 
 	return sb.String()

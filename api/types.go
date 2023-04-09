@@ -11,10 +11,10 @@ type Person struct {
 	Gender         Gender             `json:"gender"`
 	Pictures       Pictures           `json:"pictures"`
 	Maidenname     string             `json:"maidenname"`
-	Age            float64            `json:"age"` // has to be a float64 becuase of json Unmarshal
+	Age            Age                `json:"age"` // has to be a float64 becuase of json Unmarshal
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
-	Phone          string             `json:"phone"`
+	Phone          PhoneNumbers       `json:"phone"`
 	SSN            SSN                `json:"ssn"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
@@ -76,14 +76,16 @@ type Account struct {
 	Following int      `json:"following"`
 }
 
-type SaveJsonFunc func(ApiConfig)
+type SaveDBFunc func(ApiConfig) (error)
+type LoadDBFunc func(ApiConfig) (ApiConfig,error)
 type ApiConfig struct {
 	Ip             string        `json:"ip"`
 	LogFile        string        `json:"log_file"`
 	DataBaseFile   string        `json:"data_base_file"`
 	DataBase       DataBase      `json:"data_base"`
 	SetCORSHeader  bool          `json:"set_CORS_header"`
-	SaveJsonFunc   SaveJsonFunc  `json:"save_json_func"`
+  SaveDBFunc     SaveDBFunc    `json:"save_db_func"`
+	LoadDBFunc     LoadDBFunc  `json:"load_db_func"`
 	GinRouter      *gin.Engine   `json:"gin_router"`
 	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`

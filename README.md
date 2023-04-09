@@ -26,7 +26,9 @@ Check the wiki for setup guide, etc.
 Seekr combines note taking and OSINT in one application. Seekr can be used alongside your current tools.
 Seekr is desingned with OSINT in mind and optimized for real world usecases.
 ### Key features
+- Desktop interface
 - Database for OSINT targets
+- Integration / adaptation of many popular OSINT-tools (e.g. phoneinfoga)
 - GitHub to email
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards

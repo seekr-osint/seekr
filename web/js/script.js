@@ -89,7 +89,6 @@ async function main() {
           document.querySelector(".age").innerHTML = "Age: " + obj.age;
           document.querySelector(".bday").innerHTML = "Birthdate: " + obj.bday;
           document.querySelector(".address").innerHTML = "Address: " + obj.address;
-          document.querySelector(".phone").innerHTML = "Phone: " + obj.phone;
           document.querySelector(".ssn").innerHTML = "SSN: " + obj.ssn;
           document.querySelector(".civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
           document.querySelector(".kids").innerHTML = "Kids: " + obj.kids;
@@ -138,17 +137,128 @@ async function main() {
             document.getElementById("space-maker").style.display = "none";
           }
 
+          // Phone
+
+          // Email
+
+          document.querySelector('.v-phone-base').style.display = "block";
+
+          if (Object.keys(obj.phone).length >= 1) {
+            const phoneContainer = document.querySelector('.v-phone-base');
+
+            for (const [_, phone] of Object.entries(obj.phone)) {
+              if (phone.number != "" && phone.number != null && phone.number != undefined) {
+                document.querySelector('.v-phone-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-phone-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "phone-subcontainer";
+
+                const phone_input = document.createElement("input");
+                phone_input.className = "form-input v-phone";
+                phone_input.id = "v-phone";
+                phone_input.type = "phone";
+                phone_input.placeholder = "Enter phone number";
+                phone_input.spellcheck = "false";
+                phone_input.maxLength = "30";
+                phone_input.required = "true";
+                phone_input.value = phone.number;
+                phone_input.disabled = "true";
+
+
+                const infoBtn = document.createElement("div");
+                infoBtn.className = "v-info-btn";
+
+                const icon = document.createElement("ion-icon");
+                icon.setAttribute("name", "information-outline");
+
+                container.appendChild(subContainer);
+                infoBtn.appendChild(icon);
+                subContainer.appendChild(phone_input);
+                subContainer.appendChild(infoBtn);
+                phoneContainer.appendChild(container);
+
+                infoBtn.onclick = function () {
+                  const infoDiv = container.querySelector(".v-info-div");
+
+                  if (!infoDiv) {
+                    const infoDiv = document.createElement("div");
+                    infoDiv.className = "v-info-div";
+
+                    container.appendChild(infoDiv);
+
+                    if (phone.valid == true) {
+                      const abbrContainerValidity = document.createElement("abbr")
+                      abbrContainerValidity.className = "validity-abbr";
+                      abbrContainerValidity.title = "Valid Phone Number";
+
+                      const iconDivValid = document.createElement("div");
+                      iconDivValid.className = "valid-icon-div";
+
+                      const iconValid = document.createElement("img");
+                      iconValid.className = "valid-icon phone-icon";
+                      iconValid.src = "./images/valid-phone.png";
+
+                      infoDiv.appendChild(abbrContainerValidity);
+                      abbrContainerValidity.appendChild(iconDivValid);
+                      iconDivValid.appendChild(iconValid);
+                    } else if (phone.valid == false) {
+                      const abbrContainerValidity = document.createElement("abbr")
+                      abbrContainerValidity.className = "validity-abbr";
+                      abbrContainerValidity.title = "Invalid Phone Number";
+
+                      const iconDivValid = document.createElement("div");
+                      iconDivValid.className = "valid-icon-div";
+
+                      const iconValid = document.createElement("img");
+                      iconValid.className = "valid-icon phone-icon";
+                      iconValid.src = "./images/invalid-phone.png";
+
+                      infoDiv.appendChild(abbrContainerValidity);
+                      abbrContainerValidity.appendChild(iconDivValid);
+                      iconDivValid.appendChild(iconValid);
+                    }
+
+                    // This should almost never fail
+                    if (phone.phoneinfoga.Country != "" && phone.phoneinfoga.Country != null && phone.phoneinfoga.Country != undefined) {
+                      const abbrContainer = document.createElement("abbr")
+                      abbrContainer.className = "phone-info-abbr";
+                      abbrContainer.title = phone.phoneinfoga.Country;
+
+                      const iconDiv = document.createElement("div");
+                      iconDiv.className = "service-icon-div";
+
+                      const icon = document.createElement("img");
+                      icon.className = "country-icon";
+                      icon.src = "./images/flags/" + phone.phoneinfoga.Country + ".png";
+
+                      infoDiv.appendChild(abbrContainer);
+                      abbrContainer.appendChild(iconDiv);
+                      iconDiv.appendChild(icon);
+                    }
+                  } else {
+                    container.removeChild(infoDiv);
+                  }
+                }
+              }
+            };
+          } else {
+            document.querySelector('.v-phone-space-maker').style.display = "none";
+          }
+
 
           // Email
 
           document.querySelector('.v-email-base').style.display = "block";
 
-          if (Object.keys(obj.email).length >= 1) {
+          if (Object.keys(obj.email).length >= 1 && obj.email != {}) {
+
             const emailContainer = document.querySelector('.v-email-base');
 
             for (const [_, email] of Object.entries(obj.email)) {
               if (email.mail != "" && email.mail != null && email.mail != undefined) {
-                document.getElementById('v-space-maker').style.display = "block";
+                document.querySelector('.v-email-space-maker').style.display = "block";
                 const container = document.createElement("div");
                 container.className = "v-email-container";
 
@@ -254,7 +364,7 @@ async function main() {
               }
             };
           } else {
-            document.getElementById('v-space-maker').style.display = "none";
+            document.querySelector('.v-email-space-maker').style.display = "none";
           }
 
 
@@ -382,7 +492,83 @@ async function main() {
           document.querySelector(".e-age").innerHTML = obj.age;
           document.querySelector(".e-bday").innerHTML = obj.bday;
           document.querySelector(".e-address").innerHTML = obj.address;
-          document.querySelector(".e-phone").innerHTML = obj.phone;
+
+          // Phone
+
+          if (Object.keys(obj.phone).length >= 1) {
+            const phoneContainer = document.querySelector('.phone-base');
+
+            for (const [_, phone] of Object.entries(obj.phone)) {
+              const container = document.createElement("div");
+              container.className = "phone-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "phone-subcontainer";
+
+              const phone_input = document.createElement("input");
+              phone_input.className = "form-input phone";
+              phone_input.id = "e-mail";
+              phone_input.type = "email";
+              phone_input.placeholder = "Enter phone number";
+              phone_input.spellcheck = "false";
+              phone_input.maxLength = "30";
+              phone_input.required = "true";
+              phone_input.value = phone.number;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(phone_input);
+              phoneContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("phone-add-btn").onclick = function () {
+            const phone_base = document.querySelector(".phone-base");
+
+            const phone_container = document.createElement("div");
+            phone_container.className = "phone-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "phone-subcontainer";
+
+            const phone_input = document.createElement("input");
+            phone_input.className = "form-input e-phone";
+            phone_input.id = "phone";
+            phone_input.type = "tel";
+            phone_input.placeholder = "Enter phone number";
+            phone_input.spellcheck = "false";
+            phone_input.maxLength = "15";
+            phone_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            phone_base.appendChild(phone_container);
+            phone_container.appendChild(subContainer);
+            subContainer.appendChild(phone_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              phone_container.remove();
+            }
+          }
+
           document.querySelector(".e-ssn").innerHTML = obj.ssn;
           document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
           document.querySelector(".e-kids").innerHTML = obj.kids;
@@ -449,7 +635,7 @@ async function main() {
 
 
 
-          document.getElementById("add-btn").onclick = function () {
+          document.getElementById("email-add-btn").onclick = function () {
             const email_base = document.querySelector(".email-base");
 
             const email_container = document.createElement("div");
@@ -945,6 +1131,12 @@ async function main() {
       elements[0].parentNode.removeChild(elements[0]);
     }
 
+    var elements = document.getElementsByClassName("v-phone-container");
+
+    while (elements.length > 0) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
+
     var elements = document.getElementsByClassName("v-email-container");
 
     while (elements.length > 0) {
@@ -960,6 +1152,13 @@ async function main() {
   document.getElementById("e-backbtn").onclick = function () {
     document.querySelector('.main').style.display = "flex";
     document.querySelector('.edit-container').style.display = "none";
+
+    var phoneElements = document.getElementsByClassName("phone-container");
+
+    while (phoneElements.length > 0) {
+      phoneElements[0].parentNode.removeChild(phoneElements[0]);
+    }
+
     var mailElements = document.getElementsByClassName("email-container");
 
     while (mailElements.length > 0) {
@@ -977,6 +1176,43 @@ async function main() {
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
     location.reload();
+  }
+
+  // Phone
+
+  document.getElementById("c-phone-add-btn").onclick = function () {
+    const phone_base = document.querySelector(".c-phone-base");
+
+    const phone_container = document.createElement("div");
+    phone_container.className = "c-phone-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "phone-subcontainer";
+
+    const phone_input = document.createElement("input");
+    phone_input.className = "form-input e-phone";
+    phone_input.id = "phone";
+    phone_input.type = "tel";
+    phone_input.placeholder = "Enter phone number";
+    phone_input.spellcheck = "false";
+    phone_input.maxLength = "15";
+    phone_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    phone_base.appendChild(phone_container);
+    phone_container.appendChild(subContainer);
+    subContainer.appendChild(phone_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      phone_container.remove();
+    }
   }
 
   // Email
@@ -1066,7 +1302,17 @@ async function main() {
 
     let bday = document.querySelector(".c-bday").innerHTML;
     let address = document.querySelector(".c-address").innerHTML;
-    let phone = document.querySelector(".c-phone").innerHTML;
+
+    let phoneContainers = document.querySelectorAll('.c-phone-container');
+    let phoneNumbers = {};
+
+    phoneContainers.forEach(function (container) {
+      let phoneInput = container.querySelector('input');
+      phoneNumbers[phoneInput.value] = {
+        "number": phoneInput.value
+      };
+    });
+
     let ssn = document.querySelector(".c-ssn").innerHTML;
     let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
     let kids = document.querySelector(".c-kids").innerHTML;
@@ -1098,7 +1344,7 @@ async function main() {
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
@@ -1129,7 +1375,17 @@ async function main() {
 
     let bday = document.querySelector(".e-bday").innerHTML;
     let address = document.querySelector(".e-address").innerHTML;
-    let phone = document.querySelector(".e-phone").innerHTML;
+
+    let phoneContainers = document.querySelectorAll('.phone-container');
+    let phoneNumbers = {};
+
+    phoneContainers.forEach(function (container) {
+      let phoneInput = container.querySelector('input');
+      phoneNumbers[phoneInput.value] = {
+        "number": phoneInput.value
+      };
+    });
+
     let ssn = document.querySelector(".e-ssn").innerHTML;
     let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
     let kids = document.querySelector(".e-kids").innerHTML;
@@ -1174,7 +1430,7 @@ async function main() {
 
     fetch('http://localhost:8080/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phone, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();

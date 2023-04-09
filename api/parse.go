@@ -1,12 +1,12 @@
 package api
 
 import (
-	//"errors"
 	"net/http"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
 	person = person.ReplaceNil()
+	person.Phone = person.Phone.Parse()
 	person.Email = person.Email.Parse()
 	person, err := person.CheckMail(config)
 	return person, err
@@ -30,6 +30,9 @@ func (person Person) ReplaceNil() Person {
 	}
 	if person.Relations == nil {
 		person.Relations = Relation{}
+	}
+	if person.Phone == nil {
+		person.Phone = PhoneNumbers{}
 	}
 	return person
 }
@@ -67,7 +70,11 @@ func (person Person) Validate() error {
 	}
 	err := person.Email.Validate()
 	if err != nil {
-		return person.Email.Validate()
+		return err
+	}
+	err = person.Phone.Validate()
+	if err != nil {
+		return err
 	}
 	return nil
 }

@@ -8,6 +8,29 @@ import (
 	//"sync"
 )
 
+func (es1 EmailService) Merge(es2 EmailService) EmailService {
+	// Merge fields one by one
+	merged := EmailService{
+		Name:     es1.Name,
+		Link:     es1.Link,
+		Username: es1.Username,
+		Icon:     es1.Icon,
+	}
+	if es2.Name != "" {
+		merged.Name = es2.Name
+	}
+	if es2.Link != "" {
+		merged.Link = es2.Link
+	}
+	if es2.Username != "" {
+		merged.Username = es2.Username
+	}
+	if es2.Icon != "" {
+		merged.Icon = es2.Icon
+	}
+	return merged
+}
+
 func (email Email) GetExistingEmailServices(mailServices MailServices, apiConfig ApiConfig) (EmailServices, SkippedServices) {
 	emailServices := make(EmailServices)
 	skippedServices := make(SkippedServices)
@@ -37,7 +60,11 @@ func (email Email) GetExistingEmailServices(mailServices MailServices, apiConfig
 	}()
 
 	for emailService := range emailServiceChan {
-		emailServices[emailService.Name] = emailService
+		if oldEmailService, ok := email.Services[emailService.Name]; ok {
+			emailServices[emailService.Name] = emailService.Merge(oldEmailService) // Merging and prfering the new service
+		} else {
+			emailServices[emailService.Name] = emailService
+		}
 	}
 
 	return emailServices, skippedServices
