@@ -21,3 +21,4 @@ cmd/seekr-cli/build.sh
 cmd/seekr-cli/seekr-cli.so
 api/test-data.json
 api/test-data
+data/
