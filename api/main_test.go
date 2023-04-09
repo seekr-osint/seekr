@@ -14,6 +14,7 @@ import (
 )
 
 func waitForFile() {
+	time.Sleep(time.Second) // wait for one second before checking again
 
 	for {
 		_, err := os.Stat("/tmp/running")

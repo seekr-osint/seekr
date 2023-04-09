@@ -25,7 +25,7 @@ func main() {
 	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost:5050", "Ip to serve the web server on")
-	data := flag.String("dataJson", "data.json", "Database file")
+	data := flag.String("dataJson", "data", "Database file")
 	apiIp := flag.String("apiIp", "localhost:8080", "Ip to serve the api on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
@@ -41,7 +41,8 @@ func main() {
 		DataBaseFile:  *data,
 		DataBase:      dataBase,
 		SetCORSHeader: true,
-		SaveJsonFunc:  api.DefaultSaveJson,
+		SaveDBFunc:    api.DefaultSaveDB,
+    LoadDBFunc:    api.DefaultLoadDB,
 		ApiKeysSimple: api.ApiKeysSimple{
 			"github": []string{"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"},
 		},
