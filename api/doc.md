@@ -1055,3 +1055,145 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
+## Post Person (Lot of fields)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"age": 23,
+	"email": {
+		"all@gmail.com": {
+			"mail": "all@gmail.com"
+		}
+	},
+	"id": "24",
+	"name": "Many fields",
+	"phone": {
+		"+13183442908": {
+			"number": "+13183442908"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 23,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"education": "",
+	"email": {
+		"all@gmail.com": {
+			"mail": "all@gmail.com",
+			"provider": "gmail",
+			"services": {
+				"Discord": {
+					"icon": "./images/mail/discord.png",
+					"link": "",
+					"name": "Discord",
+					"username": ""
+				},
+				"Spotify": {
+					"icon": "./images/mail/spotify.png",
+					"link": "",
+					"name": "Spotify",
+					"username": ""
+				},
+				"Twitter": {
+					"icon": "./images/mail/twitter.png",
+					"link": "",
+					"name": "Twitter",
+					"username": ""
+				},
+				"Ubuntu GPG": {
+					"icon": "./images/mail/ubuntu.png",
+					"link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "Ubuntu GPG",
+					"username": ""
+				},
+				"keys.gnupg.net": {
+					"icon": "./images/mail/gnupg.ico",
+					"link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index",
+					"name": "keys.gnupg.net",
+					"username": ""
+				}
+			},
+			"skipped_services": {},
+			"src": "",
+			"valid": true,
+			"value": 0
+		}
+	},
+	"gender": "",
+	"hobbies": "",
+	"id": "24",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Many fields",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {
+		"+1 318-344-2908": {
+			"national_format": "(318) 344-2908",
+			"number": "+1 318-344-2908",
+			"phoneinfoga": {
+				"Carrier": "",
+				"Country": "US",
+				"CountryCode": 1,
+				"E164": "+13183442908",
+				"International": "13183442908",
+				"Local": "(318) 344-2908",
+				"RawLocal": "3183442908",
+				"Valid": true
+			},
+			"tag": "",
+			"valid": true
+		}
+	},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## GET Person Markdown
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/people/24/markdown
+```
+
+**Response:**
+
+```json
+{
+	"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"
+}
+```
+
+**Status Code:** 200
+
+

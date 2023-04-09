@@ -53,6 +53,7 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/search/google/:query", Handler(GoogleRequest, config))                // get results from google
 	config.GinRouter.GET("/search/whois/:query", Handler(WhoisRequest, config))                  // get whois of domain
 	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
+	config.GinRouter.GET("/people/:id/markdown", Handler(MarkdownPersonRequest, config))         // return person obj
 	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
 	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
 	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
@@ -95,6 +96,15 @@ func GetPersonByID(config ApiConfig, id string) (bool, Person) {
 		return true, config.DataBase[id]
 	}
 	return false, Person{}
+}
+
+func MarkdownPersonRequest(config ApiConfig, c *gin.Context) {
+	person, err := config.GetPerson(c.Param("id"))
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, nil)
+	} else {
+		c.IndentedJSON(http.StatusOK, gin.H{"markdown": person.Markdown()})
+	}
 }
 
 func GetPersonByIDRequest(config ApiConfig, c *gin.Context) {
@@ -211,9 +221,10 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		}
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "overwritten person"})
 	}
-	fmt.Println(person.Markdown())
 	err = config.SaveDB()
 	if err != nil {
 		log.Fatalf("Error saving to databse: %s", err)
 	}
+	//fmt.Println(person.Markdown())
+	config.SaveJsonFunc(config)
 }
