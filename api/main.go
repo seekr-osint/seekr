@@ -226,5 +226,4 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		log.Fatalf("Error saving to databse: %s", err)
 	}
 	//fmt.Println(person.Markdown())
-	config.SaveJsonFunc(config)
 }
