@@ -42,7 +42,8 @@ func main() {
 		DataBase:      dataBase,
 		SetCORSHeader: true,
 		SaveDBFunc:    api.DefaultSaveDB,
-    LoadDBFunc:    api.DefaultLoadDB,
+		LoadDBFunc:    api.DefaultLoadDB,
+		TempMailIp:    "localhost:8081",
 		ApiKeysSimple: api.ApiKeysSimple{
 			"github": []string{"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"},
 		},
@@ -59,6 +60,7 @@ func main() {
 	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
+	go apiConfig.ServeTempMail()
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
 	go api.ServeApi(apiConfig)
 	RunWebServer(config)
