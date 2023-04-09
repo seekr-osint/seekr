@@ -20,7 +20,7 @@ func (config ApiConfig) ServeTempMail() {
 	proxy := httputil.NewSingleHostReverseProxy(apiURL)
 
 	// Handler function for all API requests
-	router.Any("/*path", func(c *gin.Context) {
+	router.Any("/api/*path", func(c *gin.Context) {
 		// Modify the request to preserve the original URL path
 		c.Request.URL.Path = c.Param("path")
 
