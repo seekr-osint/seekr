@@ -6,25 +6,11 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+  "log"
 
-	//"encoding/json"
 	"bytes"
 	"os"
-	"time"
 )
-
-func waitForFile() {
-	time.Sleep(time.Second) // wait for one second before checking again
-
-	for {
-		_, err := os.Stat("/tmp/running")
-		if err == nil {
-			fmt.Println("File found!")
-			return
-		}
-		time.Sleep(time.Second) // wait for one second before checking again
-	}
-}
 
 var requests = Requests{
 	"1-postPerson": { // ID 2
@@ -286,8 +272,27 @@ func TestAPI(t *testing.T) {
 			Age:  1,
 		},
 	}
-	TestApi(dbData)
-	waitForFile()
+  var config = ApiConfig{                           
+    Ip:            "localhost:8080",                 
+    LogFile:       "seekr.log",                 
+    DataBaseFile:  "test-data",                      
+    DataBase:      dbData,                         
+    SetCORSHeader: true,                             
+    LoadDBFunc:    DefaultLoadDB,                    
+    SaveDBFunc:    DefaultSaveDB,                    
+    Testing:       true,                             
+    LockFilePath: "seekr.lock",
+  }                                    
+  if config.CheckState() {
+    log.Printf("Deleting lock file")
+    err := config.SetState(false)
+	if err != nil {
+    log.Printf("Error deleting the lock file: %s",err)
+	}
+  }
+
+	TestApi(config)
+  config.WaitForLockFile()
 
 	// WRITE DOCS
 	writeDocs()

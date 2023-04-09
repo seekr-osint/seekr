@@ -43,8 +43,9 @@ func main() {
 		SetCORSHeader: true,
 		SaveDBFunc:    api.DefaultSaveDB,
     LoadDBFunc:    api.DefaultLoadDB,
+    LockFilePath:  "seekr.lock",
 		ApiKeysSimple: api.ApiKeysSimple{
-			"github": []string{"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"},
+			"github": []string{"none of your business"},
 		},
 	}
 	var config = webServer.WebServerConfig{

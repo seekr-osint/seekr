@@ -1,30 +1,21 @@
 package api
 
 import (
-	//"fmt"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"github.com/gin-gonic/gin"
 )
 
 var DatabaseFile string
 
-func TestApi(dataBase DataBase) {
-	var apiConfig = ApiConfig{
-		Ip:            "localhost:8080",
-		LogFile:       "/tmp/seekr.log",
-		DataBaseFile:  "test-data",
-		DataBase:      dataBase,
-		SetCORSHeader: true,
-		LoadDBFunc:    DefaultLoadDB,
-		SaveDBFunc:    DefaultSaveDB,
-		Testing:       true,
-	}
-	err := apiConfig.SaveDB()
+func TestApi(config ApiConfig) {
+	err := config.SaveDB()
 	if err != nil {
 		log.Fatalf("Error saving to databse: %s", err)
 	}
@@ -33,7 +24,7 @@ func TestApi(dataBase DataBase) {
 	go Seekrd(DefaultSeekrdServices, 30) // run every 30 minutes
 
 	// Start the API server
-	go ServeApi(apiConfig)
+	go ServeApi(config)
 }
 
 func CheckPersonExists(config ApiConfig, id string) bool {
@@ -62,22 +53,31 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
 	if err != nil {
-		log.Println(err) // Fix me (breaks tests)
+		log.Printf("Error parsing the config: %s", err)
 	}
-	config.SaveDB()
-
-	runningFile, err := os.Create("/tmp/running")
+	err = config.SaveDB()
 	if err != nil {
-		log.Println(err) // Fix me (breaks tests)
+		log.Fatalf("Error saving to the database: %s", err)
 	}
-	if err != nil {
-		log.Fatalf("Error saving to databse: %s", err)
-	}
-	defer os.Remove("/tmp/running")
-	defer runningFile.Close()
 
 	config.DataBase, err = config.DataBase.Parse(config)
-	config.GinRouter.Run(config.Ip)
+	go config.GinRouter.Run(config.Ip)
+	err = config.SetState(true)
+	if err != nil {
+		log.Printf("Error creating the lock file: %s", err)
+	}
+
+	// Wait for a signal to terminate the program
+	signalChan := make(chan os.Signal, 1)
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+	<-signalChan
+
+	go func() {
+		err = config.SetState(false)
+		if err != nil {
+			log.Printf("Error deleting the lock file: %s", err)
+		}
+	}()
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {

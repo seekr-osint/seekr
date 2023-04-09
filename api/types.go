@@ -90,6 +90,7 @@ type ApiConfig struct {
 	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
 	Testing        bool          `json:"testing"`
+  LockFilePath   string        `json:"seekr.lock"`
 }
 type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
 type ApiKeys struct {
