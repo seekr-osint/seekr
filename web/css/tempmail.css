@@ -6,10 +6,21 @@
     background-color: var(--bg-bright);
     background: linear-gradient(0deg, var(--bg-bright) 50%, var(--bg) 100%);
     box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
 }
 
-.create-mail-btn {
-    width: 10vw;
-    height: 10vh;
-    margin: 9rem;
+.tempmail-manage {
+    height: 6vh;
+    margin-bottom: unset;
+    justify-content: center;
+}
+
+.tempmail-new-email,
+.tempmail-delete-email {
+    width: 5rem;
+    color: var(--textColor-1);
+    font-size: 1.5rem;
+    text-align: center;
 }

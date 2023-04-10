@@ -12,6 +12,7 @@ main.h
 a.out
 notes.txt
 data.json.old
+data/
 
 dist/
 

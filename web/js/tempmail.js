@@ -24,7 +24,7 @@ const myBtn = document.querySelector(".create-mail-btn");
 const myPara = document.querySelector(".email-headline");
 
 myBtn.addEventListener("click", () => {
-  fetch("https://cors-anywhere.herokuapp.com/https://www.developermail.com/api/v1/mailbox", {
+  fetch("http://localhost:8081/api/mailbox", {
     method: "PUT",
     headers: {
       "accept": "application/json"
