@@ -4,30 +4,17 @@ import (
 	"fmt"
 	"strings"
 
-	//"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
+	//"github.com/gin-contrib/static"
 	"net/http"
-	"os"
 )
 
-type prefixedFileSystem struct {
-	fs     http.FileSystem
-	prefix string
-}
-
-func (p *prefixedFileSystem) Open(name string) (http.File, error) {
-	if !strings.HasPrefix(name, p.prefix) {
-		return nil, os.ErrNotExist
-	}
-	return p.fs.Open(name[len(p.prefix):])
-}
-
-func (config ApiConfig) RemovePrefix(prefix string) http.FileSystem {
-	fs := config.WebServerFS
-	return &prefixedFileSystem{fs, prefix}
-}
-
 func (config ApiConfig) SetupWebServer() {
-	config.GinRouter.StaticFS("/web", config.RemovePrefix("/web"))
+	//config.GinRouter.Use(static.Serve("/web", http.FS(config.WebServerFS)))
+	config.GinRouter.GET("/web/*filepath", func(c *gin.Context) {
+		// Use http.FileServer to serve the files
+		http.FileServer(http.FS(config.WebServerFS)).ServeHTTP(c.Writer, c.Request)
+	})
 }
 
 func (config ApiConfig) SaveDB() error {

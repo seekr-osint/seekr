@@ -48,6 +48,11 @@ func ServeApi(config ApiConfig) {
 	}
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
+	if config.WebServer {
+		fmt.Printf("Running WebServer on: %s", config.Ip)
+		config.SetupWebServer()
+	}
+	config.ServeTempMail()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
 	config.GinRouter.GET("/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account // FIXME
 	config.GinRouter.GET("/search/google/:query", Handler(GoogleRequest, config))                // get results from google
