@@ -37,6 +37,7 @@ type Person struct {
 	Accounts       Accounts           `json:"accounts"`
 	Tags           Tags               `json:"tags"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
+	Custom         interface{}        `json:"custom"`
 }
 
 type DataBase map[string]Person

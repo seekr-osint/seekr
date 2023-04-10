@@ -21,6 +21,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
@@ -93,6 +94,7 @@ curl -X GET http://localhost:8080/people/2
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
@@ -171,6 +173,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {
 		"fsdfadsfasdfasdf@gmail.com": {
@@ -241,6 +244,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {
 		"has_discord_account@gmail.com": {
@@ -318,6 +322,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {
 		"all@gmail.com": {
@@ -435,6 +440,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {
 		"discord_error@gmail.com": {
@@ -507,6 +513,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {
 		"fake_mail@gmail.com": {
@@ -605,6 +612,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "Single",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
@@ -876,6 +884,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
@@ -951,6 +960,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
@@ -1026,6 +1036,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
@@ -1090,6 +1101,7 @@ curl -X POST http://localhost:8080/person \
 	"bday": "",
 	"civilstatus": "",
 	"club": "",
+	"custom": null,
 	"education": "",
 	"email": {
 		"all@gmail.com": {
