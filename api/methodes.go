@@ -3,13 +3,25 @@ package api
 import (
 	"fmt"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	//"github.com/gin-contrib/static"
+	"net/http"
 )
 
-func (config ApiConfig) SaveDB() (error) {
+func (config ApiConfig) SetupWebServer() {
+	//config.GinRouter.Use(static.Serve("/web", http.FS(config.WebServerFS)))
+	config.GinRouter.GET("/web/*filepath", func(c *gin.Context) {
+		// Use http.FileServer to serve the files
+		http.FileServer(http.FS(config.WebServerFS)).ServeHTTP(c.Writer, c.Request)
+	})
+}
+
+func (config ApiConfig) SaveDB() error {
 	return config.SaveDBFunc(config)
 }
 
-func (config ApiConfig) LoadDB() (ApiConfig,error) {
+func (config ApiConfig) LoadDB() (ApiConfig, error) {
 	return config.LoadDBFunc(config)
 }
 
@@ -32,16 +44,16 @@ func (person Person) Markdown() string {
 	if person.Name != "" {
 		sb.WriteString(fmt.Sprintf("# %s\n", person.Name))
 	} else {
-    sb.WriteString(fmt.Sprintf("# ID:%s\n", person.ID))
-  }
+		sb.WriteString(fmt.Sprintf("# ID:%s\n", person.ID))
+	}
 
 	sb.WriteString(person.Gender.Markdown())
 	sb.WriteString(person.Age.Markdown())
 	sb.WriteString(person.Civilstatus.Markdown())
 	sb.WriteString(person.Religion.Markdown())
 	sb.WriteString(person.Phone.Markdown())
-  if len(person.Email) >= 1 {
-	  sb.WriteString(fmt.Sprintf("## Email\n%s\n", person.Email.Markdown()))
-  }
+	if len(person.Email) >= 1 {
+		sb.WriteString(fmt.Sprintf("## Email\n%s\n", person.Email.Markdown()))
+	}
 	return sb.String()
 }

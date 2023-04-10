@@ -1,8 +1,8 @@
 package api
 
 import (
-  "strings"
-  "fmt"
+	"fmt"
+	"strings"
 )
 
 type Religion string
@@ -48,13 +48,12 @@ var validSects = map[Religion][]Sect{
 	Atheism:      {},
 }
 
-
 func (religion Religion) Markdown() string {
 	var sb strings.Builder
 	if religion.IsValid() && religion != "" {
-		sb.WriteString(fmt.Sprintf("- Religion: `%s`\n",religion ))
+		sb.WriteString(fmt.Sprintf("- Religion: `%s`\n", religion))
 	}
-  return sb.String()
+	return sb.String()
 }
 func (r Religion) IsValid() bool {
 	switch r {
