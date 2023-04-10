@@ -76,17 +76,17 @@ type Account struct {
 	Following int      `json:"following"`
 }
 
-type SaveDBFunc func(ApiConfig) (error)
-type LoadDBFunc func(ApiConfig) (ApiConfig,error)
+type SaveDBFunc func(ApiConfig) error
+type LoadDBFunc func(ApiConfig) (ApiConfig, error)
 type ApiConfig struct {
 	Ip             string        `json:"ip"`
-  TempMailIp     string        `json:"temp_mail_ip"`
+	TempMailIp     string        `json:"temp_mail_ip"`
 	LogFile        string        `json:"log_file"`
 	DataBaseFile   string        `json:"data_base_file"`
 	DataBase       DataBase      `json:"data_base"`
 	SetCORSHeader  bool          `json:"set_CORS_header"`
-  SaveDBFunc     SaveDBFunc    `json:"save_db_func"`
-	LoadDBFunc     LoadDBFunc  `json:"load_db_func"`
+	SaveDBFunc     SaveDBFunc    `json:"save_db_func"`
+	LoadDBFunc     LoadDBFunc    `json:"load_db_func"`
 	GinRouter      *gin.Engine   `json:"gin_router"`
 	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
