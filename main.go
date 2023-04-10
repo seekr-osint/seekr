@@ -3,11 +3,9 @@ package main
 import (
 	"embed"
 	"flag"
+	"fmt"
 	"os/exec"
 	"runtime"
-
-	//"fmt" "log"
-	//"strconv"
 
 	api "github.com/seekr-osint/seekr/api"
 	webServer "github.com/seekr-osint/seekr/webServer"
@@ -24,34 +22,33 @@ func main() {
 
 	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	dir := flag.String("dir", "./web", "dir where the html source code is located")
-	ip := flag.String("ip", "localhost:5050", "Ip to serve the web server on")
-	data := flag.String("dataJson", "data", "Database file")
-	apiIp := flag.String("apiIp", "localhost:8080", "Ip to serve the api on")
+	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
+	data := flag.String("db", "data", "Database location")
+	apiPort := flag.String("apiPort", "8080", "Port to serve API on")
+	webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
+	tempmailPort := flag.String("tempmailPort", "8081", "Port to serve tempmail on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
 	flag.Parse()
 
 	if *browser {
-		openbrowser("http://" + string(*ip) + "/web/index.html")
+		openbrowser(fmt.Sprintf("http://%s:%s/web/index.html", *ip, *webserverPort))
 	}
 
 	var apiConfig = api.ApiConfig{
-		Ip:            *apiIp,
+		Ip:            fmt.Sprintf("%s:%s", *ip, *apiPort),
 		LogFile:       "seekr.log",
 		DataBaseFile:  *data,
 		DataBase:      dataBase,
 		SetCORSHeader: true,
 		SaveDBFunc:    api.DefaultSaveDB,
 		LoadDBFunc:    api.DefaultLoadDB,
-		TempMailIp:    "localhost:8081",
-		ApiKeysSimple: api.ApiKeysSimple{
-			"github": []string{"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"},
-		},
+		TempMailIp:    fmt.Sprintf("%s:%s", *ip, *tempmailPort),
 	}
 	var config = webServer.WebServerConfig{
 		Content: content,
 		Dir:     *dir,
-		Ip:      *ip,
+		Ip:      fmt.Sprintf("%s:%s", *ip, *webserverPort),
 	}
 	if *liveServer {
 		config.Type = webServer.LiveServer
