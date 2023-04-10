@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="https://user-images.githubusercontent.com/67828948/213162432-4beec1b7-2aee-432e-a534-969aa28e2ac8.png" width="450" alt="Seekr Logo" /></a>
+  <a href="https://github.com/seekr-osint/seekr" target="blank"><img src="./web/images/seekr-transparent.png" width="250" alt="Seekr Logo" /></a>
  </p>
 
  <p align="center">
@@ -26,14 +26,18 @@ Check the wiki for setup guide, etc.
 Seekr combines note taking and OSINT in one application. Seekr can be used alongside your current tools.
 Seekr is desingned with OSINT in mind and optimized for real world usecases.
 ### Key features
+- Desktop interface
 - Database for OSINT targets
+- Integration / adaptation of many popular OSINT-tools (e.g. phoneinfoga)
 - GitHub to email
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
 ## Getting Started - Installation
 ### Windows
-Download the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
+Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
+
+Now open [the web interface](http://127.0.0.1:5050/web/) in your browser of choice.
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
@@ -43,7 +47,7 @@ git clone https://github.com/seekr-osint/seekr
 cd seekr
 go run main.go
 ```
-Now open [the web interface](http://localhost:5050) in your browser of choice.
+Now open [the web interface](http://127.0.0.1:5050/web/) in your browser of choice.
 ### Run on NixOS
 Seekr is build with NixOS in mind and therefore supports nix flakes.
 To run seekr on NixOS run following commands.

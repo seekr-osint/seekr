@@ -65,15 +65,29 @@
         
         <div class="scroll-box" id="view-box">
           <p class="viewtag tag maidenname">Maiden name: x</p>
+          <p class="viewtag tag gender">Gender: x</p>
           <p class="viewtag tag age">Age: x</p>
           <p class="viewtag tag bday">Birthday: x</p>
           <p class="viewtag tag address">Address: x</p>
-          <p class="viewtag tag phone">Phone number: x</p>
+
+          <div class="chip v-phone-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Phone</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-phone-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <p class="viewtag tag ssn">SSN: x</p>
           <p class="viewtag tag civilstatus">Civil status: x</p>
           <p class="viewtag tag kids">Kids: x</p>
           <p class="viewtag tag hobbies">Hobbies: x</p>
-          <div class="chip" id="v-space-maker">
+          <div class="chip v-email-space-maker" id="v-space-maker">
             <p id="v-notes-header">E-Mail</p>
 
             <div class="table">
@@ -131,6 +145,18 @@
           </div>
 
           <div class="table">
+            <p class="tag">Gender: </p>
+            <div class="gender-select">
+              <select>
+                <option value="0">Select gender:</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table">
             <p class="tag">Age: </p>
             <div class="form"><span type="text" class="form-input e-age" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
@@ -145,10 +171,27 @@
             <div class="form"><span type="text" class="form-input e-address" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
+
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Phone</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="phone-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+
+                <div id="phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
+          </div>
+
           <div class="table">
             <p class="tag">Phone number: </p>
             <div class="form"><span type="text" class="form-input e-phone" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
+
 
           <div class="table">
             <p class="tag">SSN: </p>
@@ -180,7 +223,7 @@
                   <!-- When add btn was clicked, a dupe of the element above is created -->
                 </div>
 
-                <div id="add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+                <div id="email-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
             </div>
           </div>
@@ -244,6 +287,17 @@
         
         <div class="btn btn-secondary" id="e-backbtn"><p>Back</p></div>
         <div class="btn btn-secondary" id="e-savebtn"><p id="e-savebtn-p">Save</p></div>
+
+        <div class="neu" id="e-loading-spinner">
+          <div class="neu_shape">
+            <div class="neu_inner">
+              <div class="neu_ball"></div>
+              <div class="neu_ball"></div>
+              <div class="neu_ball"></div>
+              <div class="neu_ball"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -263,6 +317,18 @@
           </div>
 
           <div class="table">
+            <p class="tag">Gender: </p>
+            <div class="gender-select">
+              <select>
+                <option value="0">Select gender:</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table">
             <p class="tag">Age: </p>
             <div class="form"><span type="text" class="form-input c-age" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
@@ -277,9 +343,19 @@
             <div class="form"><span type="text" class="form-input c-address" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Phone number: </p>
-            <div class="form"><span type="text" class="form-input c-phone" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Phone</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-phone-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+
+                <div id="c-phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">
@@ -370,6 +446,17 @@
         
         <div class="btn btn-secondary" id="c-backbtn"><p>Back</p></div>
         <div class="btn btn-secondary" id="c-savebtn"><p id="c-savebtn-p">Save</p></div>
+
+        <div class="neu" id="c-loading-spinner">
+          <div class="neu_shape">
+            <div class="neu_inner">
+              <div class="neu_ball"></div>
+              <div class="neu_ball"></div>
+              <div class="neu_ball"></div>
+              <div class="neu_ball"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

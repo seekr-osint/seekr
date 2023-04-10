@@ -34,5 +34,310 @@
     <div class="dd-nav-bar">
       
     </div>
+    <!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <meta charset="UTF-8">
+    <title>SEEKR</title>
+
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/f0601b0fb2.js" crossorigin="anonymous"></script>
+    <script type='module' src='https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js'></script>
+    <script nomodule='' src='https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js'></script>
+    <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/guide.css">
+    <script type="module" src="./js/guide.js" defer></script>
+
+    <script type="text/javascript" defer>
+      // Check local storage for dark mode setting
+
+      if (localStorage.getItem("isDarkMode") == "true") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="dd-nav-bar-top"></div>
+    <div class="dd-nav-bar">
+      <div class="country-select">
+        <select>
+          <option value="0">Select country:</option>
+          <option value="WW">WorldWide</option>
+          <option value="UK">United Kingdom</option>
+          <option value="US">United States of America</option>
+          <option value="CA">Canada</option>
+        </select>
+      </div>
+
+      <div class="existing-info-form">
+        <div class="form-option">
+          <div class="checkbox_01">
+            <input id="checkbox_01" type="checkbox">
+            <label for="checkbox_01">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">Name</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_02">
+            <input id="checkbox_02" type="checkbox">
+            <label for="checkbox_02">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">Address</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_03">
+            <input id="checkbox_03" type="checkbox">
+            <label for="checkbox_03">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">Phone</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_04">
+            <input id="checkbox_04" type="checkbox">
+            <label for="checkbox_04">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">VIN</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_05">
+            <input id="checkbox_05" type="checkbox">
+            <label for="checkbox_05">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">Business</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_06">
+            <input id="checkbox_06" type="checkbox">
+            <label for="checkbox_06">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">IP</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_07">
+            <input id="checkbox_07" type="checkbox">
+            <label for="checkbox_07">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">Username</p>
+        </div>
+
+        <div class="form-option">
+          <div class="checkbox_08">
+            <input id="checkbox_08" type="checkbox">
+            <label for="checkbox_08">
+              <i class="material-icons">done</i>
+            </label>
+          </div>
+  
+          <p class="desc-text">Domain</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="link-results">
+      <ul class="link-list-holder">
+        <li class="ww email">
+          <a class="link-a" href="https://thatsthem.com/reverse-email-lookup" target="_blank">ThatsThem / Email Lookup</a>
+        </li>
+        <li class="ww email">
+          <a class="link-a" href="https://www.peoplefinders.com/email-lookup" target="_blank">Peoplefinders / Email Lookup</a>
+        </li>
+        <li class="ww email">
+          <a class="link-a" href="https://radaris.com/#findEmailH" target="_blank">Radaris / Email Lookup</a>
+        </li>
+        <li class="ww email">
+          <a class="link-a" href="https://www.vedbex.com/email2skype" target="_blank">Vedbex / Email to Skype</a>
+        </li>
+        <li class="ww email">
+          <a class="link-a" href="https://phonebook.cz" target="_blank">Phonebook.cz / Email Lookup</a>
+        </li>
+        <li class="ww username">
+          <a class="link-a" href="https://www.peekyou.com/username" target="_blank">PeekYou / Username Lookup</a>
+        </li>
+        <li class="ww username">
+          <a class="link-a" href="https://checkusernames.com" target="_blank">Checkusernames / Username Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://www.whitepages.com/reverse-phone" target="_blank">Whitepages / Phone Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://www.fastpeoplesearch.com/reverse-phone-lookup" target="_blank">FastPeopleSearch / Phone Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://www.peoplefinders.com/reverse-phone" target="_blank">Peoplefinders / Phone Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://radaris.com/#findPhoneH" target="_blank">Radaris / Phone Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://apeiron.io/cnam" target="_blank">Apeiron / Phone Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://calleridtest.com" target="_blank">CallerIDTest / Phone Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://www.411.com/reverse-phone" target="_blank">411 / Phone Lookup</a>
+        </li>
+        <li class="ww phone">
+          <a class="link-a" href="https://www.vedbex.com/phone2skype" target="_blank">Vedbex / Phone to Skype</a>
+        </li>
+        <li class="ca phone">
+          <a class="link-a" href="https://www.canada411.ca" target="_blank">Canada411 / Phone Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://www.whitepages.com/reverse-address" target="_blank">Whitepages / Address Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://www.fastpeoplesearch.com/address" target="_blank">FastPeopleSearch / Address Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://thatsthem.com/reverse-address-lookup" target="_blank">ThatsThem / Address Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://www.zillow.com" target="_blank">Zillow / House Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://www.usphonebook.com/address" target="_blank">US Phonebook / Address Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://www.peoplefinders.com/address" target="_blank">PeopleFinders / Address Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://radaris.com/#findAddrH" target="_blank">Radaris / Address Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://www.411.com/reverse-address" target="_blank">411 / Address Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.whitepages.com" target="_blank">Whitepages / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.fastpeoplesearch.com" target="_blank">FastPeopleSearch / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.peekyou.com" target="_blank">PeekYou / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://thatsthem.com/people-search" target="_blank">ThatsThem / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://voterrecords.com/voters" target="_blank">VoterRecords / Voter Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.usphonebook.com/people-search" target="_blank">US Phonebook / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.peoplefinders.com" target="_blank">PeopleFinders / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://radaris.com" target="_blank">Radaris / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://unicourt.com" target="_blank">Radaris / Court Document Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.smartbackgroundchecks.com" target="_blank">SmartBackgroundChecks / Name Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://www.411.com" target="_blank">411 / Name Lookup</a>
+        </li>
+        <li class="ww name">
+          <a class="link-a" href="https://rocketreach.co/person" target="_blank">RocketReach / Name Lookup</a>
+        </li>
+        <li class="ca name">
+          <a class="link-a" href="https://www.canada411.ca" target="_blank">Canada411 / Name Lookup</a>
+        </li>
+        <li class="us vin">
+          <a class="link-a" href="https://thatsthem.com/vin-lookup" target="_blank">ThatsThem / VIN Lookup</a>
+        </li>
+        <li class="us vin">
+          <a class="link-a" href="https://driving-tests.org/vin-decoder" target="_blank">Driving Tests / VIN Lookup</a>
+        </li>
+        <li class="us vin">
+          <a class="link-a" href="https://www.vehiclehistory.com/license-plate-search" target="_blank">Vehicle History / VIN Lookup</a>
+        </li>
+        <li class="us ip">
+          <a class="link-a" href="https://thatsthem.com/reverse-ip-lookup" target="_blank">ThatsThem / IP Lookup</a>
+        </li>
+        <li class="us ip">
+          <a class="link-a" href="https://www.vedbex.com/ping" target="_blank">Vedbex / IP Ping</a>
+        </li>
+        <li class="us ip">
+          <a class="link-a" href="https://www.vedbex.com/traceroute" target="_blank">Vedbex / IP Traceroute</a>
+        </li>
+        <li class="us business">
+          <a class="link-a" href="https://radaris.com/#findBussH" target="_blank">Business / Business Lookup</a>
+        </li>
+        <li class="ww domain">
+          <a class="link-a" href="https://phonebook.cz" target="_blank">Phonebook.cz / Domain Lookup</a>
+        </li>
+        <li class="ww domain">
+          <a class="link-a" href="https://www.vedbex.com/subdomain-finder" target="_blank">Vedbex / Subdomain Lookup</a>
+        </li>
+        <li class="ww domain">
+          <a class="link-a" href="https://who.is" target="_blank">WhoIs / Domain Lookup</a>
+        </li>
+        <li class="ww domain">
+          <a class="link-a" href="https://www.vedbex.com/dns" target="_blank">Vedbex / DNS Resolver</a>
+        </li>
+        <li class="uk name">
+          <a class="link-a" href="https://www.192.com" target="_blank">192 / Name Lookup</a>
+        </li>
+        <li class="uk business">
+          <a class="link-a" href="https://www.192.com" target="_blank">192 / Business Lookup</a>
+        </li>
+        <li class="us phone">
+          <a class="link-a" href="https://spydialer.com" target="_blank">SpyDialer / Phone Lookup</a>
+        </li>
+        <li class="us name">
+          <a class="link-a" href="https://spydialer.com" target="_blank">SpyDialer / Name Lookup</a>
+        </li>
+        <li class="us address">
+          <a class="link-a" href="https://spydialer.com" target="_blank">SpyDialer / Address Lookup</a>
+        </li>
+        <li class="ww email">
+          <a class="link-a" href="https://spydialer.com" target="_blank">SpyDialer / Email Lookup</a>
+        </li>
+        <li class="ww business">
+          <a class="link-a" href="https://opencorporates.com" target="_blank">OpenCorporates / Business Lookup</a>
+        </li>
+      </ul>
+    </div>
   </body>
 </html>

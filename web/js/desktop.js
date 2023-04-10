@@ -50,6 +50,21 @@ function createGuideWindow() {
   });
 }
 
+function createCrtshWindow() {
+  new WinBox("CRTSH", {
+    id: "seekr-window",
+    html: '<iframe class="frame" src="https://crt.sh"></iframe>',
+    background: bg_var,
+    header: 45,
+    // viewport boundaries:
+    top: 10,
+    right: 10,
+    bottom: 0,
+    left: 10,
+  });
+}
+
+
 function createTempMailWindow() {
   new WinBox("TEMPMAIL", {
     id: "tempmail-window",

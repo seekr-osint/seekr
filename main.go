@@ -6,8 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 
-	//"fmt"
-	//"log"
+	//"fmt" "log"
 	//"strconv"
 
 	api "github.com/seekr-osint/seekr/api"
@@ -16,7 +15,7 @@ import (
 
 // Web server content
 //
-//go:embed all:web
+//go:embed web/*
 var content embed.FS
 
 var dataBase = make(api.DataBase)
@@ -26,14 +25,14 @@ func main() {
 	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost:5050", "Ip to serve the web server on")
-	data := flag.String("dataJson", "data.json", "Database file")
+	data := flag.String("dataJson", "data", "Database file")
 	apiIp := flag.String("apiIp", "localhost:8080", "Ip to serve the api on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
 	flag.Parse()
 
 	if *browser {
-		openbrowser(*ip)
+		openbrowser("http://" + string(*ip) + "/web/index.html")
 	}
 
 	var apiConfig = api.ApiConfig{
@@ -42,7 +41,12 @@ func main() {
 		DataBaseFile:  *data,
 		DataBase:      dataBase,
 		SetCORSHeader: true,
-		SaveJsonFunc:  api.DefaultSaveJson,
+		SaveDBFunc:    api.DefaultSaveDB,
+		LoadDBFunc:    api.DefaultLoadDB,
+		TempMailIp:    "localhost:8081",
+		ApiKeysSimple: api.ApiKeysSimple{
+			"github": []string{"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"},
+		},
 	}
 	var config = webServer.WebServerConfig{
 		Content: content,
@@ -56,6 +60,7 @@ func main() {
 	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
+	go apiConfig.ServeTempMail()
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
 	go api.ServeApi(apiConfig)
 	RunWebServer(config)
@@ -73,7 +78,7 @@ func openbrowser(url string) {
 	case "linux":
 		err = exec.Command("xdg-open", url).Start()
 	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+		err = exec.Command("cmd", "/c", "start", url).Start()
 	case "darwin":
 		err = exec.Command("open", url).Start()
 	}

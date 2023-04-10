@@ -11,8 +11,18 @@
   --textColor-1: #9baacf;
   --textColor-hover: #6d5dfc;
 
+  /* Shadows */
+
   --shadow-1: #c8d0e7;
   --shadow-2: #FFFFFF;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
 }
 
 [data-theme="dark"] {
@@ -29,8 +39,18 @@
   --bg: #2c2c2c;
   --bg-bright: #303030;
 
+  /* Shadow */
+
   --shadow-1: #1e1e1f;
   --shadow-2: #353535;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
 }
 
 *, *::before, *::after {
@@ -57,6 +77,97 @@ html {
   }
 }
 
+.phone-icon {
+  height: unset !important;
+}
+
+.gender-select {
+  position: relative;
+  font-family: Arial;
+  margin-top: 0.5rem;
+  width: 17rem;
+}
+
+.gender-select select {
+  display: none;
+  /*hide original SELECT element:*/
+}
+
+.select-selected {
+  margin-bottom: 1rem;
+  justify-self: center;
+  width: 20rem;
+  height: 3rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadowPreset-3);
+  display: flex;
+  align-items: center;
+  margin-left: 1.37rem;
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: -3.5rem;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: var(--textColor-1) transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent var(--textColor-1) transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,
+.select-selected {
+  color: var(--textColor-1);
+  font-size: 1.3rem;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+  height: auto;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: var(--bg);
+  margin-top: 0.5rem;
+  width: 20rem;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: var(--shadowPreset-3);
+  margin-left: 1.37rem;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+#e-loading-spinner,
+#c-loading-spinner {
+  margin-right: 2rem;
+  margin-top: 1rem;
+}
+
 .deepInvResIcon {
   width: 4rem;
   height: 4rem;
@@ -76,16 +187,24 @@ html {
 }
 
 .email-subcontainer,
-.c-email-subcontainer {
+.c-email-subcontainer,
+.phone-subcontainer,
+.e-phone-container {
   display: flex;
 }
 
 .service-icon,
-.valid-icon {
+.valid-icon,
+.country-icon {
   height: 2.5rem;
   margin: 1rem;
   margin-bottom: 0;
   display: flex;
+}
+
+.country-icon {
+  margin-top: 1.5rem;
+  margin-left: 0;
 }
 
 .service-icon {
@@ -106,11 +225,19 @@ html {
   display: flex;
 }
 
+.v-phone,
+.e-phone {
+  width: 42rem !important;
+}
+
 .email-container,
 .c-email-container,
-.v-email-container {
+.v-email-container,
+.phone-container,
+.e-phone-container,
+.v-phone-container {
   margin-bottom: 1.5rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-5);
   padding: 1rem;
   border-radius: 1rem;
 }
@@ -135,7 +262,7 @@ html {
   width: 2.7rem;
   height: 2.7rem;
   border-radius: 50%;
-  box-shadow: .3rem .3rem .6rem var(--shadow-1), -.2rem -.2rem .5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -153,7 +280,7 @@ html {
 .c-del-btn:active,
 .v-info-btn:active,
 .e-info-btn:active {
-  box-shadow: inset .2rem .2rem .5rem var(--shadow-1), inset -.2rem -.2rem .5rem var(--shadow-2);;
+  box-shadow: var(--shadowPreset-2);
   color: var(--textColor-hover);
 }
 
@@ -282,7 +409,7 @@ a {
   padding: 1rem;
   position: relative;
   border-radius: 3rem;
-  box-shadow: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-1);
   padding: 2rem;
   margin: 1rem;
 }
@@ -392,7 +519,7 @@ a {
   margin-top: 0.5rem;
   align-items: center;
   border-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-5);
   margin-left: 1.37rem;
   margin-bottom: 1rem;
 }
@@ -494,7 +621,7 @@ a {
 #acc-scroll-box::-webkit-scrollbar-thumb {
   background: var(--bg);
   border-radius: 3rem;
-  box-shadow: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  box-shadow: var(--shadowPreset-6);
 }
 
 .container,
@@ -525,7 +652,7 @@ a {
   width: 80rem;
   height: 60rem;
   border-radius: 3rem;
-  box-shadow: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-1);
   padding: 4rem;
   overflow: hidden;
 }
@@ -581,7 +708,7 @@ a {
   width: 10rem;
   height: 4rem;
   border-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
   justify-self: center;
   display: flex;
   align-items: center;
@@ -601,7 +728,7 @@ a {
 }
 
 .btn-secondary:active {
-  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-2);
 }
 
 .btn p {
@@ -627,7 +754,7 @@ a {
   border-radius: 1rem;
   font-size: 1.4rem;
   padding: 0.5rem;
-  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-2);
   background: none;
   font-family: inherit;
   color: var(--textColor-1);
@@ -647,7 +774,7 @@ a {
 
 .form-input:focus {
   outline: none;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
 }
 
 
@@ -674,7 +801,7 @@ a {
   width: 32rem;
   height: 4rem;
   border-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
   display: flex;
   align-items: center;
   margin-left: 1.37rem;
@@ -740,7 +867,7 @@ a {
   border-radius: 1rem;
   font-size: 1.4rem;
   padding-left: 3.8rem;
-  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-2);
   background: none;
   font-family: inherit;
   color: var(--textColor-hover);
@@ -760,7 +887,7 @@ a {
 
 .search-input:focus {
   outline: none;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
 }
 
 .search-input:focus+.search-icon {
@@ -807,13 +934,13 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-2);
 }
 
 .neu_inner {
   width: 2.3rem;
   height: 2.3rem;
-  box-shadow: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  box-shadow: var(--shadowPreset-4);
 }
 
 .neu_ball {
@@ -833,7 +960,7 @@ a {
   height: 0.5rem;
   position: relative;
   top: 3px;
-  box-shadow: 0 0 15px var(--loadingColor);
+  box-shadow: var(--shadowPreset-7);
   background-image: linear-gradient(112deg, var(--loadingColor-dark) 21.6%, var(--loadingColor) 92.2%);
 }
 

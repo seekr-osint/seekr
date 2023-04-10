@@ -9,7 +9,7 @@
   width: 58rem;
   height: 33rem;
   border-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
 }
 
 .hub-headline {
@@ -36,7 +36,7 @@
   width: 25rem;
   height: 25rem;
   border-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
 }
 
 .hub-desktop-title, 
@@ -67,7 +67,7 @@
   height: 4rem;
   margin-bottom: 2rem;
   border-radius: 1rem;
-  box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-3);
   display: flex;
   flex-wrap: wrap;
   align-self: center;
@@ -87,7 +87,7 @@
 
 .hub-desktop-btn:active,
 .hub-lite-btn:active {
-  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  box-shadow: var(--shadowPreset-2);
 }
 
 .hub-desktop-btn p,
