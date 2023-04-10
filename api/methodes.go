@@ -3,7 +3,32 @@ package api
 import (
 	"fmt"
 	"strings"
+
+	//"github.com/gin-gonic/gin"
+	"net/http"
+	"os"
 )
+
+type prefixedFileSystem struct {
+	fs     http.FileSystem
+	prefix string
+}
+
+func (p *prefixedFileSystem) Open(name string) (http.File, error) {
+	if !strings.HasPrefix(name, p.prefix) {
+		return nil, os.ErrNotExist
+	}
+	return p.fs.Open(name[len(p.prefix):])
+}
+
+func (config ApiConfig) RemovePrefix(prefix string) http.FileSystem {
+	fs := config.WebServerFS
+	return &prefixedFileSystem{fs, prefix}
+}
+
+func (config ApiConfig) SetupWebServer() {
+	config.GinRouter.StaticFS("/web", config.RemovePrefix("/web"))
+}
 
 func (config ApiConfig) SaveDB() error {
 	return config.SaveDBFunc(config)
