@@ -1,6 +1,8 @@
 package api
 
 import (
+	"embed"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -81,6 +83,8 @@ type LoadDBFunc func(ApiConfig) (ApiConfig, error)
 type ApiConfig struct {
 	Ip             string        `json:"ip"`
 	TempMailIp     string        `json:"temp_mail_ip"`
+	WebServer      bool          `json:"web_server"`
+	WebServerFS    embed.FS      `json:"web_server_fs"`
 	LogFile        string        `json:"log_file"`
 	DataBaseFile   string        `json:"data_base_file"`
 	DataBase       DataBase      `json:"data_base"`

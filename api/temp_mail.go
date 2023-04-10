@@ -8,7 +8,7 @@ import (
 )
 
 func (config ApiConfig) ServeTempMail() {
-	router := gin.Default()
+	router := config.GinRouter
 
 	// Add CORS middleware to allow all requests
 	corsConfig := cors.DefaultConfig()
@@ -20,14 +20,11 @@ func (config ApiConfig) ServeTempMail() {
 	proxy := httputil.NewSingleHostReverseProxy(apiURL)
 
 	// Handler function for all API requests
-	router.Any("/api/*path", func(c *gin.Context) {
+	router.Any("/developermail/api/*path", func(c *gin.Context) {
 		// Modify the request to preserve the original URL path
 		c.Request.URL.Path = c.Param("path")
 
 		// Forward the request to the remote API endpoint
 		proxy.ServeHTTP(c.Writer, c.Request)
 	})
-
-	// Run the server on port 8080
-	router.Run(config.TempMailIp)
 }

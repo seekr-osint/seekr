@@ -26,16 +26,16 @@ func main() {
 	data := flag.String("db", "data", "Database location")
 	apiPort := flag.String("apiPort", "8080", "Port to serve API on")
 	webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
-	tempmailPort := flag.String("tempmailPort", "8081", "Port to serve tempmail on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
 	flag.Parse()
 
 	if *browser {
-		openbrowser(fmt.Sprintf("http://%s:%s/web/index.html", *ip, *webserverPort))
+		openbrowser(fmt.Sprintf("http://%s:%s/web/index.html", *ip, *apiPort))
 	}
 
 	var apiConfig = api.ApiConfig{
+		WebServerFS:   content,
 		Ip:            fmt.Sprintf("%s:%s", *ip, *apiPort),
 		LogFile:       "seekr.log",
 		DataBaseFile:  *data,
@@ -43,7 +43,7 @@ func main() {
 		SetCORSHeader: true,
 		SaveDBFunc:    api.DefaultSaveDB,
 		LoadDBFunc:    api.DefaultLoadDB,
-		TempMailIp:    fmt.Sprintf("%s:%s", *ip, *tempmailPort),
+		WebServer:     true,
 	}
 	var config = webServer.WebServerConfig{
 		Content: content,
@@ -57,7 +57,6 @@ func main() {
 	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
-	go apiConfig.ServeTempMail()
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
 	go api.ServeApi(apiConfig)
 	RunWebServer(config)

@@ -3,7 +3,19 @@ package api
 import (
 	"fmt"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	//"github.com/gin-contrib/static"
+	"net/http"
 )
+
+func (config ApiConfig) SetupWebServer() {
+	//config.GinRouter.Use(static.Serve("/web", http.FS(config.WebServerFS)))
+	config.GinRouter.GET("/web/*filepath", func(c *gin.Context) {
+		// Use http.FileServer to serve the files
+		http.FileServer(http.FS(config.WebServerFS)).ServeHTTP(c.Writer, c.Request)
+	})
+}
 
 func (config ApiConfig) SaveDB() error {
 	return config.SaveDBFunc(config)
