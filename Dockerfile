@@ -30,5 +30,5 @@ WORKDIR /app
 EXPOSE 5050 8080 8081
 
 # Start the Seekr app
-CMD ["./seekr"]
+CMD ["./seekr --ip="0.0.0.0"]
 

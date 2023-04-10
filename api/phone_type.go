@@ -68,7 +68,7 @@ func (numbers PhoneNumbers) Parse() PhoneNumbers {
 		// delete empty emails
 		if number == "" {
 			delete(numbers, number) // number == ""
-      break
+			break
 		}
 		parsedNumber := numbers[number].Parse()
 		newNumbers[parsedNumber.Number] = parsedNumber

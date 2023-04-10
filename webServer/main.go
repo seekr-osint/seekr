@@ -31,7 +31,7 @@ func serveSingleBinary(config WebServerConfig) {
 
 func serveLive(config WebServerConfig) {
 	// Serve files from static folder
-	http.Handle("/", http.FileServer(http.Dir(config.Dir)))
+	http.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir(config.Dir))))
 
 	println("web server running" + config.Ip)
 	log.Fatal(http.ListenAndServe(config.Ip, nil))
