@@ -1,23 +1,16 @@
-/data.json
-/seekr.exe
-result
-data.json
-data.json.example
-.direnv
-seekr
-seekr.log
-main
-main.c
-main.h
-a.out
-notes.txt
-data.json.old
+# goreleaser
+dist
 
-dist/
+# Data Base and log files
+data
+**/seekr.log
 
-dist/
-seekr.log
-cmd/seekr-cli/build.sh
-cmd/seekr-cli/seekr-cli.so
-api/test-data.json
+# Data Base for tests
 api/test-data
+
+# Binaries
+seekr
+seekr.exe
+
+# Dev stuff
+.direnv
