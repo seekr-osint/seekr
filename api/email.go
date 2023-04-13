@@ -8,25 +8,25 @@ import (
 	//"sync"
 )
 
-func (es1 EmailService) Merge(es2 EmailService) EmailService {
+func (emailService1 EmailService) Merge(emailService2 EmailService) EmailService {
 	// Merge fields one by one
 	merged := EmailService{
-		Name:     es1.Name,
-		Link:     es1.Link,
-		Username: es1.Username,
-		Icon:     es1.Icon,
+		Name:     emailService1.Name,
+		Link:     emailService1.Link,
+		Username: emailService1.Username,
+		Icon:     emailService1.Icon,
 	}
-	if es2.Name != "" {
-		merged.Name = es2.Name
+	if emailService2.Name != "" {
+		merged.Name = emailService2.Name
 	}
-	if es2.Link != "" {
-		merged.Link = es2.Link
+	if emailService2.Link != "" {
+		merged.Link = emailService2.Link
 	}
-	if es2.Username != "" {
-		merged.Username = es2.Username
+	if emailService2.Username != "" {
+		merged.Username = emailService2.Username
 	}
-	if es2.Icon != "" {
-		merged.Icon = es2.Icon
+	if emailService2.Icon != "" {
+		merged.Icon = emailService2.Icon
 	}
 	return merged
 }
