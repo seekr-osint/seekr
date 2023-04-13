@@ -8,6 +8,18 @@ import (
 	//"sync"
 )
 
+func (es1 EmailServices) Merge(es2 EmailServices) EmailServices {
+	// Merge fields one by one
+	merged := EmailServices{}
+	for name, obj := range es1 {
+		merged[name] = obj
+	}
+	// overwriting the Services
+	for name, obj := range es2 {
+		merged[name] = obj
+	}
+	return merged
+}
 func (es1 EmailService) Merge(es2 EmailService) EmailService {
 	// Merge fields one by one
 	merged := EmailService{
@@ -71,7 +83,9 @@ func (email Email) GetExistingEmailServices(mailServices MailServices, apiConfig
 }
 
 func (email Email) CheckMail(config ApiConfig) (Email, error) {
-	email.Services, email.SkippedServices = email.Parse().GetExistingEmailServices(DefaultMailServices, config)
+	emailServices, emailSkippedServices := email.Parse().GetExistingEmailServices(DefaultMailServices, config)
+	email.SkippedServices = emailSkippedServices
+	email.Services = email.Services.Merge(emailServices)
 	return email, nil
 }
 
