@@ -89,27 +89,30 @@ func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 
 	if c.Param("username") != "" {
 		apiEmails := EmailsType{}.Parse()
-		emails, rateLimitRate, err := GetEmailsOfUser(c.Param("username"), "")
+		emails, rateLimitRate, err := config.GetEmailsOfUser(c.Param("username"), "")
 		log.Printf("RateLimitRate: %d\n", rateLimitRate)
-		for _, emailObj := range emails {
-			apiEmails[emailObj.Email] = Email{
-				Mail:     emailObj.Email,
-				Src:      emailObj.CommitUrl,
-				Value:    1,
-				Services: EmailServices{},
-			}
-			apiEmails[emailObj.Email].Services["GitHub"] = EmailService{
-				Name:     "GitHub",
-				Link:     fmt.Sprintf("https://github.com/%s", c.Param("username")),
-				Username: c.Param("username"),
-				Icon:     "./images/mail/github.svg",
-			}
-		}
 		if err != nil {
-			c.IndentedJSON(http.StatusForbidden, map[string]string{"fatal": fmt.Sprintf("%s", err)})
+			apiErr := err.(APIError)
+			c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
+			return
 		} else {
-			//c.IndentedJSON(http.StatusOK, map[string]interface{}{"rate_limit_rate": fmt.Sprintf("%d", rateLimitRate), "emails": emails})
+			for _, emailObj := range emails {
+				apiEmails[emailObj.Email] = Email{
+					Mail:     emailObj.Email,
+					Src:      emailObj.CommitUrl,
+					Value:    1,
+					Services: EmailServices{},
+				}
+				apiEmails[emailObj.Email].Services["GitHub"] = EmailService{
+					Name:     "GitHub",
+					Link:     fmt.Sprintf("https://github.com/%s", c.Param("username")),
+					Username: c.Param("username"),
+					Icon:     "./images/mail/github.svg",
+				}
+			}
 
+			// concept impl to provide tate limitation info
+			//c.IndentedJSON(http.StatusOK, map[string]interface{}{"rate_limit_rate": fmt.Sprintf("%d", rateLimitRate), "emails": emails})
 			c.IndentedJSON(http.StatusOK, apiEmails.Parse())
 		}
 	}
