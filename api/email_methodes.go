@@ -10,12 +10,12 @@ import (
 
 // Methodes
 func (e Email) IsGmailAddress() bool {
-	pattern := regexp.MustCompile("^[a-zA-Z0-9._-]+@gmail.com$")
+	pattern := regexp.MustCompile("^[a-zA-Z0-9._-]+@gmail\.com$")
 	return pattern.MatchString(e.Mail)
 }
 
 func (e Email) IsValidGmailAddress() bool {
-	pattern := regexp.MustCompile("^[a-zA-Z0-9.]+@gmail.com$")
+	pattern := regexp.MustCompile("^[a-zA-Z0-9.]+@gmail\.com$")
 	return pattern.MatchString(e.Mail)
 }
 
