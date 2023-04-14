@@ -1285,3 +1285,23 @@ curl -X GET http://localhost:8080/people/24/markdown
 **Status Code:** 200
 
 
+## deep investigation Rate Limitation Error (GitHub)
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/deep/github/max
+```
+
+**Response:**
+
+```json
+{
+	"message": "Rate Limited"
+}
+```
+
+**Status Code:** 500
+
+

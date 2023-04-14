@@ -27,7 +27,10 @@ type GithubRepo struct {
 var (
 	ErrCreatingTmp   = errors.New("failed to create temp dir")
 	ErrCalcRateLimit = errors.New("failed to calculate the rate limit")
-	ErrRateLimited   = errors.New("rate limited")
+	ErrRateLimited   = APIError{
+		Message: "Rate Limited",
+		Status:  http.StatusInternalServerError,
+	}
 )
 
 type ReceivedGitHubEmails map[string]ReceivedGitHubEmail
@@ -76,7 +79,12 @@ func (receivedGitHubEmail ReceivedGitHubEmail) GetUser() ReceivedGitHubEmail {
 	return receivedGitHubEmail
 }
 
-func GetGithubRepos(username, token string) ([]GithubRepo, int, error) {
+func (config ApiConfig) GetGithubRepos(username, token string) ([]GithubRepo, int, error) {
+	if config.Testing {
+		if username == "max" { // rate limited
+			return nil, 0, ErrRateLimited
+		}
+	}
 	url := fmt.Sprintf("https://api.github.com/users/%s/repos", username)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -149,8 +157,9 @@ func returnEmails(repoUrl string) (ReceivedGitHubEmails, error) {
 	return emailMap, nil
 }
 
-func GetAllEmails(username, token string) (ReceivedGitHubEmails, int, error) {
-	repos, rateLimitRate, err := GetGithubRepos(username, token)
+func (config ApiConfig) GetAllEmails(username, token string) (ReceivedGitHubEmails, int, error) {
+
+	repos, rateLimitRate, err := config.GetGithubRepos(username, token)
 	if rateLimitRate == 0 || err == ErrRateLimited {
 		return nil, rateLimitRate, ErrRateLimited
 	} else if err != nil {
@@ -192,9 +201,10 @@ func GetAllEmails(username, token string) (ReceivedGitHubEmails, int, error) {
 
 	return computedEmails, rateLimitRate, nil
 }
-func GetEmailsOfUser(username, token string) ([]ReceivedGitHubEmail, int, error) {
+
+func (config ApiConfig) GetEmailsOfUser(username, token string) ([]ReceivedGitHubEmail, int, error) {
 	emails := []ReceivedGitHubEmail{}
-	recivedEmails, rateLimitRate, err := GetAllEmails(username, token)
+	recivedEmails, rateLimitRate, err := config.GetAllEmails(username, token)
 	if rateLimitRate == 0 || err == ErrRateLimited {
 		return nil, rateLimitRate, ErrRateLimited
 	} else if err != nil {
@@ -207,14 +217,3 @@ func GetEmailsOfUser(username, token string) ([]ReceivedGitHubEmail, int, error)
 	}
 	return emails, rateLimitRate, nil
 }
-
-//func main() {
-//	emails, rateLimitRate, err := GetEmailsOfUser("niteletsplay", "")
-//	fmt.Printf("RateLimitRate: %d\n", rateLimitRate)
-//	if err != nil {
-//		panic(fmt.Sprintf("Error: %e", err))
-//	}
-//	for _, i := range emails {
-//		fmt.Printf("%s\n", i.Email)
-//	}
-//}
