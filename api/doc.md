@@ -1265,26 +1265,6 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
-## GET Person Markdown
-
-
-**Curl Request:**
-
-```sh
-curl -X GET http://localhost:8080/people/24/markdown
-```
-
-**Response:**
-
-```json
-{
-	"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"
-}
-```
-
-**Status Code:** 200
-
-
 ## deep investigation Rate Limitation Error (GitHub)
 
 
@@ -1303,5 +1283,25 @@ curl -X GET http://localhost:8080/deep/github/max
 ```
 
 **Status Code:** 500
+
+
+## GET Person Markdown
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/people/24/markdown
+```
+
+**Response:**
+
+```json
+{
+	"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"
+}
+```
+
+**Status Code:** 200
 
 
