@@ -39,7 +39,7 @@
             src = ./.;
 
             #vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-ZBbkrr92dpmNF8WMAESuNYLT69/saR/lUp5aMo8RZOg=";
+            vendorSha256 = "sha256-T1JGzjn/PaInSyfOvGpguNtczQ7wFf16vaO8OX+nlRg=";
           };
         });
 
