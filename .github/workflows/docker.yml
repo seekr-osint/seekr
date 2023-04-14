@@ -13,7 +13,9 @@ on:
   workflow_dispatch:
   push:
     tags: "*"
-
+    paths:
+      - "Dockerfile.*"
+      - ".github/workflows/docker.yml"
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
