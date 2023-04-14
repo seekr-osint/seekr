@@ -335,6 +335,12 @@ curl -X POST http://localhost:8080/person \
 					"name": "Discord",
 					"username": ""
 				},
+				"GitHub": {
+					"icon": "./images/mail/github.svg",
+					"link": "",
+					"name": "GitHub",
+					"username": ""
+				},
 				"Spotify": {
 					"icon": "./images/mail/spotify.png",
 					"link": "",
@@ -1114,6 +1120,12 @@ curl -X POST http://localhost:8080/person \
 					"name": "Discord",
 					"username": ""
 				},
+				"GitHub": {
+					"icon": "./images/mail/github.svg",
+					"link": "",
+					"name": "GitHub",
+					"username": ""
+				},
 				"Spotify": {
 					"icon": "./images/mail/spotify.png",
 					"link": "",
@@ -1202,7 +1214,7 @@ curl -X GET http://localhost:8080/people/24/markdown
 
 ```json
 {
-	"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"
+	"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### GitHub\n- Name: `GitHub`\n- Icon: `./images/mail/github.svg`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com\u0026op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"
 }
 ```
 
