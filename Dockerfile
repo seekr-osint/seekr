@@ -18,7 +18,7 @@ COPY . .
 RUN go build -o seekr .
 
 # Use a lightweight base image
-FROM alpine:3.15
+FROM alpine:3.17
 
 # Copy the Seekr binary from the build container to the final container
 COPY --from=build /app/seekr /app/seekr
