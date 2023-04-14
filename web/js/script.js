@@ -549,7 +549,7 @@ async function main() {
             phone_input.type = "tel";
             phone_input.placeholder = "Enter phone number";
             phone_input.spellcheck = "false";
-            phone_input.maxLength = "15";
+            //phone_input.maxLength = "15"; // FIXME some formattings can have more then 15 chars.
             phone_input.required = "true";
 
             const del_btn_div = document.createElement("div");
