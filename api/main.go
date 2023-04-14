@@ -86,12 +86,31 @@ func ServeApi(config ApiConfig) {
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
+
 	if c.Param("username") != "" {
-		githubInfo, err := GithubInfoDeep(c.Param("username"), true, config)
+		apiEmails := EmailsType{}.Parse()
+		emails, rateLimitRate, err := GetEmailsOfUser(c.Param("username"), "")
+		log.Printf("RateLimitRate: %d\n", rateLimitRate)
+		for _, emailObj := range emails {
+			apiEmails[emailObj.Email] = Email{
+				Mail:     emailObj.Email,
+				Src:      emailObj.CommitUrl,
+				Value:    1,
+				Services: EmailServices{},
+			}
+			apiEmails[emailObj.Email].Services["GitHub"] = EmailService{
+				Name:     "GitHub",
+				Link:     fmt.Sprintf("https://github.com/%s", c.Param("username")),
+				Username: c.Param("username"),
+				Icon:     "./images/mail/github.svg",
+			}
+		}
 		if err != nil {
 			c.IndentedJSON(http.StatusForbidden, map[string]string{"fatal": fmt.Sprintf("%s", err)})
 		} else {
-			c.IndentedJSON(http.StatusOK, githubInfo)
+			//c.IndentedJSON(http.StatusOK, map[string]interface{}{"rate_limit_rate": fmt.Sprintf("%d", rateLimitRate), "emails": emails})
+
+			c.IndentedJSON(http.StatusOK, apiEmails.Parse())
 		}
 	}
 }
