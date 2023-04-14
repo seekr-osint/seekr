@@ -196,7 +196,15 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"custom": interface{}(nil), "accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "21", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{"+1 234-567-8901": map[string]interface{}{"tag": "", "number": "+1 234-567-8901", "national_format": "(234) 567-8901", "phoneinfoga": map[string]interface{}{"Carrier": "", "Country": "US", "CountryCode": float64(1), "E164": "+12345678901", "International": "12345678901", "Local": "(234) 567-8901", "RawLocal": "2345678901", "Valid": true}, "valid": true}}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"9k-postPerson": { // ID 22
+	"9k-postPerson": { // ID 30
+		RequestType:      "POST",
+		Name:             "Post Person (Phone number formatting missing +)",
+		URL:              "http://localhost:8080/person",
+		PostData:         map[string]interface{}{"phone": map[string]interface{}{"1-234-567-8901": map[string]interface{}{"number": "1-234-567-8901"}}, "id": "30", "name": "Phone test"},
+		ExpectedResponse: map[string]interface{}{"custom": interface{}(nil), "accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "30", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{"+1 234-567-8901": map[string]interface{}{"tag": "", "number": "+1 234-567-8901", "national_format": "(234) 567-8901", "phoneinfoga": map[string]interface{}{"Carrier": "", "Country": "US", "CountryCode": float64(1), "E164": "+12345678901", "International": "12345678901", "Local": "(234) 567-8901", "RawLocal": "2345678901", "Valid": true}, "valid": true}}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
+		StatusCode:       201,
+	},
+	"9l-postPerson": { // ID 22
 		RequestType:      "POST",
 		Name:             "Post Person (Invalid_number)",
 		URL:              "http://localhost:8080/person",
@@ -204,7 +212,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"custom": interface{}(nil), "accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "22", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{"Invalid_number": map[string]interface{}{"tag": "", "national_format": "", "number": "Invalid_number", "phoneinfoga": map[string]interface{}{"Carrier": "", "Country": "", "CountryCode": float64(0), "E164": "", "International": "", "Local": "", "RawLocal": "", "Valid": false}, "valid": false}}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"9l-postPerson": { // ID 23
+	"9m-postPerson": { // ID 23
 		RequestType:      "POST",
 		Name:             "Post Person (Empty phone number)",
 		URL:              "http://localhost:8080/person",
@@ -212,7 +220,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"custom": interface{}(nil), "accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "23", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Phone test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"9m-postPerson": { // ID 24
+	"9n-postPerson": { // ID 24
 		RequestType:      "POST",
 		Name:             "Post Person (Lot of fields)",
 		URL:              "http://localhost:8080/person",
@@ -220,7 +228,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"custom": interface{}(nil), "accounts": map[string]interface{}{}, "address": "", "age": float64(23), "bday": "", "civilstatus": "", "club": "", "education": "", "email": map[string]interface{}{"all@gmail.com": map[string]interface{}{"mail": "all@gmail.com", "provider": "gmail", "services": map[string]interface{}{"Discord": map[string]interface{}{"icon": "./images/mail/discord.png", "link": "", "name": "Discord", "username": ""}, "Spotify": map[string]interface{}{"icon": "./images/mail/spotify.png", "link": "", "name": "Spotify", "username": ""}, "Twitter": map[string]interface{}{"icon": "./images/mail/twitter.png", "link": "", "name": "Twitter", "username": ""}, "Ubuntu GPG": map[string]interface{}{"icon": "./images/mail/ubuntu.png", "link": "https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index", "name": "Ubuntu GPG", "username": ""}, "keys.gnupg.net": map[string]interface{}{"icon": "./images/mail/gnupg.ico", "link": "https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index", "name": "keys.gnupg.net", "username": ""}}, "skipped_services": map[string]interface{}{}, "src": "", "valid": true, "value": float64(0)}}, "gender": "", "hobbies": "", "id": "24", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "Many fields", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{"+1 318-344-2908": map[string]interface{}{"national_format": "(318) 344-2908", "number": "+1 318-344-2908", "phoneinfoga": map[string]interface{}{"Carrier": "", "Country": "US", "CountryCode": float64(1), "E164": "+13183442908", "International": "13183442908", "Local": "(318) 344-2908", "RawLocal": "3183442908", "Valid": true}, "tag": "", "valid": true}}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": "", "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"9n-postPerson": { // ID 24
+	"9o-postPerson": { // ID 24
 		RequestType:      "GET",
 		Name:             "GET Person Markdown",
 		URL:              "http://localhost:8080/people/24/markdown",

@@ -43,6 +43,12 @@ func (phoneNumber PhoneNumber) IsValid() bool {
 }
 
 func (phoneNumber PhoneNumber) Parse() PhoneNumber {
+	if !phoneNumber.IsValid() && phoneNumber.Number[0] != '+' {
+		phoneNumber.Number = "+" + phoneNumber.Number
+		if !phoneNumber.IsValid() {
+			phoneNumber.Number = phoneNumber.Number[1:]
+		}
+	}
 	phoneNumber.Valid = phoneNumber.IsValid()
 	parsedNumber, err := phonenumbers.Parse(phoneNumber.Number, "")
 	if err != nil {
