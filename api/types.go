@@ -40,7 +40,6 @@ type Person struct {
 	Custom         interface{}        `json:"custom"`
 }
 
-type DataBase map[string]Person
 type Relation map[string][]string
 type Sources map[string]Source
 type Source struct {

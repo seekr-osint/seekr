@@ -7,8 +7,8 @@ import (
 	//"strings"
 	//"sync"
 )
-func (emailService1 EmailService) Merge(emailService2 EmailService) EmailService {
 
+func (es1 EmailServices) Merge(es2 EmailServices) EmailServices {
 	// Merge fields one by one
 	merged := EmailServices{}
 	for name, obj := range es1 {
@@ -20,7 +20,8 @@ func (emailService1 EmailService) Merge(emailService2 EmailService) EmailService
 	}
 	return merged
 }
-func (es1 EmailService) Merge(es2 EmailService) EmailService {
+
+func (emailService1 EmailService) Merge(emailService2 EmailService) EmailService {
 	// Merge fields one by one
 	merged := EmailService{
 		Name:     emailService1.Name,
