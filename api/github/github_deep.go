@@ -2,7 +2,6 @@ package github
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,78 +12,22 @@ import (
 
 	git "github.com/go-git/go-git/v5"
 	//gitplumbing "github.com/go-git/go-git/v5/plumbing"
-	"regexp"
 
 	gitobject "github.com/go-git/go-git/v5/plumbing/object"
-	"github.com/gocolly/colly"
 )
 
-type GithubRepo struct {
-	Name string `json:"name"`
-	//Fork string `json:"fork"`
-}
-
-var (
-	ErrCreatingTmp   = errors.New("failed to create temp dir")
-	ErrCalcRateLimit = errors.New("failed to calculate the rate limit")
-	ErrRateLimited   = errors.New("rate limited")
-)
-
-type ReceivedGitHubEmails map[string]ReceivedGitHubEmail
-type ReceivedGitHubEmail struct {
-	Author     string `json:"author"`
-	Email      string `json:"email"`
-	User       string `json:"user"`
-	CommitHash string `json:"commit_hash"`
-	CommitUrl  string `json:"commit_url"`
-	GithubMail bool   `json:"github_mail"`
-}
-
-func isGitHubEmail(email string) bool {
-	re := regexp.MustCompile(`^\d+\+[\w-]+@users\.noreply\.github\.com$`)
-	return re.MatchString(email)
-}
-
-func extractGitHubUsername(email string) (string, error) {
-	re := regexp.MustCompile(`^(\d+)\+([\w-]+)@users\.noreply\.github\.com$`)
-	match := re.FindStringSubmatch(email)
-	if match == nil {
-		return "", fmt.Errorf("email %s is not a valid GitHub email", email)
+func (deep DeepInvestigation) GetGithubRepos() (GithubRepos, int, error) {
+	err := deep.Validate()
+	if err != nil {
+		return nil, 0, err
 	}
-	return match[2], nil
-}
-
-func (receivedGitHubEmail ReceivedGitHubEmail) Parse() ReceivedGitHubEmail {
-	if !receivedGitHubEmail.GithubMail {
-		receivedGitHubEmail = receivedGitHubEmail.GetUser()
-	}
-	return receivedGitHubEmail
-}
-
-func (receivedGitHubEmail ReceivedGitHubEmail) GetUser() ReceivedGitHubEmail {
-	// Instantiate a new collector
-	c := colly.NewCollector()
-
-	// Find and extract the text inside the <div> tag with class "AvatarStack-body"
-	c.OnHTML("div.AvatarStack-body", func(e *colly.HTMLElement) {
-		username := e.Attr("aria-label")
-		receivedGitHubEmail.User = username
-	})
-
-	// Visit the webpage
-	c.Visit(receivedGitHubEmail.CommitUrl)
-	return receivedGitHubEmail
-}
-
-func GetGithubRepos(username, token string) ([]GithubRepo, int, error) {
-	url := fmt.Sprintf("https://api.github.com/users/%s/repos", username)
+	url := fmt.Sprintf("https://api.github.com/users/%s/repos", deep.Username)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, 0, err
 	}
-
-	if token != "" {
-		req.Header.Set("Authorization", fmt.Sprintf("token %s", token))
+	if len(deep.Tokens) >= 1 {
+		req.Header.Set("Authorization", fmt.Sprintf("token %s", deep.Tokens[0]))
 	}
 
 	resp, err := http.DefaultClient.Do(req)
@@ -101,7 +44,7 @@ func GetGithubRepos(username, token string) ([]GithubRepo, int, error) {
 		return nil, remaining, ErrRateLimited
 	}
 
-	var repos []GithubRepo
+	var repos GithubRepos
 	err = json.NewDecoder(resp.Body).Decode(&repos)
 	if err != nil {
 		return nil, remaining, err
@@ -110,7 +53,7 @@ func GetGithubRepos(username, token string) ([]GithubRepo, int, error) {
 	return repos, remaining, nil
 }
 
-func returnEmails(repoUrl string) (ReceivedGitHubEmails, error) {
+func (repoObj GithubRepo) ReturnEmails() (ReceivedGitHubEmails, error) {
 	tmpDir, err := os.MkdirTemp("", "repo-clone-*")
 	if err != nil {
 		return nil, ErrCreatingTmp
@@ -118,7 +61,7 @@ func returnEmails(repoUrl string) (ReceivedGitHubEmails, error) {
 	defer os.RemoveAll(tmpDir) // clean up temp dir at end of function
 
 	repo, err := git.PlainClone(tmpDir, true, &git.CloneOptions{
-		URL: repoUrl,
+		URL: repoObj.Url,
 	})
 	if err != nil {
 		return nil, err
@@ -136,7 +79,7 @@ func returnEmails(repoUrl string) (ReceivedGitHubEmails, error) {
 				Email:      c.Author.Email,
 				Author:     c.Author.Name,
 				CommitHash: c.Hash.String(),
-				CommitUrl:  fmt.Sprintf("%s/commit/%s", repoUrl, c.Hash.String()),
+				CommitUrl:  fmt.Sprintf("%s/commit/%s", repoObj.Url, c.Hash.String()),
 				GithubMail: isGitHubEmail(c.Author.Email),
 			}.Parse()
 		}
@@ -149,24 +92,19 @@ func returnEmails(repoUrl string) (ReceivedGitHubEmails, error) {
 	return emailMap, nil
 }
 
-func GetAllEmails(username, token string) (ReceivedGitHubEmails, int, error) {
-	repos, rateLimitRate, err := GetGithubRepos(username, token)
-	if rateLimitRate == 0 || err == ErrRateLimited {
-		return nil, rateLimitRate, ErrRateLimited
-	} else if err != nil {
-		log.Printf("Error getting repos: %v", err)
-		return nil, rateLimitRate, err
+func (deep DeepInvestigation) GetAllEmailsFromRepos(repos GithubRepos) (ReceivedGitHubEmails, error) {
+	err := deep.Validate()
+	if err != nil {
+		return nil, err
 	}
-
 	var wg sync.WaitGroup
 	emails := make(chan ReceivedGitHubEmails)
 
 	for _, repo := range repos {
 		wg.Add(1)
-		go func(repoName string) {
+		go func(repo GithubRepo) {
 			defer wg.Done()
-			url := fmt.Sprintf("https://github.com/%s/%s", username, repoName)
-			emailMap, err := returnEmails(url)
+			emailMap, err := repo.ReturnEmails()
 			if err == ErrCreatingTmp {
 				// function should not continue running.
 				log.Printf("Error creating temp dir: %#v", err)
@@ -175,7 +113,7 @@ func GetAllEmails(username, token string) (ReceivedGitHubEmails, int, error) {
 			} else {
 				emails <- emailMap
 			}
-		}(repo.Name)
+		}(repo)
 	}
 
 	go func() {
@@ -190,31 +128,35 @@ func GetAllEmails(username, token string) (ReceivedGitHubEmails, int, error) {
 		}
 	}
 
-	return computedEmails, rateLimitRate, nil
+	return computedEmails, nil
 }
-func GetEmailsOfUser(username, token string) ([]ReceivedGitHubEmail, int, error) {
-	emails := []ReceivedGitHubEmail{}
-	recivedEmails, rateLimitRate, err := GetAllEmails(username, token)
-	if rateLimitRate == 0 || err == ErrRateLimited {
-		return nil, rateLimitRate, ErrRateLimited
-	} else if err != nil {
-		return nil, rateLimitRate, err
+
+func (deep DeepInvestigation) FilterEmails(recivedEmails ReceivedGitHubEmails) ([]ReceivedGitHubEmail, error) {
+	err := deep.Validate()
+	if err != nil {
+		return nil, err
 	}
+	emails := []ReceivedGitHubEmail{} // FIXME type missmatch if github recived github Emails type changes
 	for _, recivedEmail := range recivedEmails {
-		if strings.EqualFold(recivedEmail.User, username) && !recivedEmail.GithubMail {
+		if strings.EqualFold(recivedEmail.User, deep.Username) && !recivedEmail.GithubMail {
 			emails = append(emails, recivedEmail)
 		}
 	}
-	return emails, rateLimitRate, nil
+	return emails, nil
 }
 
-//func main() {
-//	emails, rateLimitRate, err := GetEmailsOfUser("niteletsplay", "")
-//	fmt.Printf("RateLimitRate: %d\n", rateLimitRate)
-//	if err != nil {
-//		panic(fmt.Sprintf("Error: %e", err))
-//	}
-//	for _, i := range emails {
-//		fmt.Printf("%s\n", i.Email)
-//	}
-//}
+func (deep DeepInvestigation) GetEmails() ([]ReceivedGitHubEmail, int, error) { // old
+	repos, rateLimitRate, err := deep.GetGithubRepos()
+	if rateLimitRate == 0 || err == ErrRateLimited {
+		return nil, rateLimitRate, ErrRateLimited
+	} else if err != nil {
+		log.Printf("Error getting repos: %v", err)
+		return nil, rateLimitRate, err
+	}
+	recivedGitHubEmails, err := deep.GetAllEmailsFromRepos(repos)
+	if err != nil {
+		return nil, rateLimitRate, err
+	}
+	filterdEmails, err := deep.FilterEmails(recivedGitHubEmails)
+	return filterdEmails, rateLimitRate, err
+}

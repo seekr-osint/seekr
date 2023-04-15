@@ -89,8 +89,13 @@ func ServeApi(config ApiConfig) {
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 
 	if c.Param("username") != "" {
+		deep := github.DeepInvestigation{
+			Username:  c.Param("username"),
+			Tokens:    []string{},
+			ScanForks: false,
+		}
 		apiEmails := EmailsType{}.Parse()
-		emails, rateLimitRate, err := github.GetEmailsOfUser(c.Param("username"), "")
+		emails, rateLimitRate, err := deep.GetEmails()
 		log.Printf("RateLimitRate: %d\n", rateLimitRate)
 		for _, emailObj := range emails {
 			apiEmails[emailObj.Email] = Email{
