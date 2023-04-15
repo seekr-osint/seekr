@@ -27,7 +27,9 @@ func (deep DeepInvestigation) GetGithubRepos() (GithubRepos, int, error) {
 		return nil, 0, err
 	}
 	if len(deep.Tokens) >= 1 {
-		req.Header.Set("Authorization", fmt.Sprintf("token %s", deep.Tokens[0]))
+		if deep.Tokens[0] != "" {
+			req.Header.Set("Authorization", fmt.Sprintf("token %s", deep.Tokens[0]))
+		}
 	}
 
 	resp, err := http.DefaultClient.Do(req)
@@ -60,6 +62,7 @@ func (repoObj GithubRepo) ReturnEmails() (ReceivedGitHubEmails, error) {
 	}
 	defer os.RemoveAll(tmpDir) // clean up temp dir at end of function
 
+	fmt.Printf("%s", repoObj.Url)
 	repo, err := git.PlainClone(tmpDir, true, &git.CloneOptions{
 		URL: repoObj.Url,
 	})

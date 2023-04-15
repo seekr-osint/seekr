@@ -9,7 +9,7 @@ type GithubRepos []GithubRepo
 type GithubRepo struct {
 	Name string `json:"name"`
 	Fork bool   `json:"fork"`
-	Url  string `json:"url"`
+	Url  string `json:"html_url"`
 }
 
 type ReceivedGitHubEmails map[string]ReceivedGitHubEmail
