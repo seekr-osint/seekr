@@ -6,9 +6,13 @@ import (
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
 	person = person.ReplaceNil()
-	person.Phone = person.Phone.Parse()
+	personPhone, err := person.Phone.Parse()
+	if err != nil {
+		return person, err
+	}
+	person.Phone = personPhone
 	person.Email = person.Email.Parse()
-	person, err := person.CheckMail(config)
+	person, err = person.CheckMail(config)
 	return person, err
 }
 

@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/github"
 )
 
 var DatabaseFile string
@@ -88,8 +89,13 @@ func ServeApi(config ApiConfig) {
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 
 	if c.Param("username") != "" {
+		deep := github.DeepInvestigation{
+			Username:  c.Param("username"),
+			Tokens:    []string{},
+			ScanForks: false,
+		}
 		apiEmails := EmailsType{}.Parse()
-		emails, rateLimitRate, err := config.GetEmailsOfUser(c.Param("username"), "")
+		emails, rateLimitRate, err := deep.GetEmails()
 		log.Printf("RateLimitRate: %d\n", rateLimitRate)
 		if err != nil {
 			apiErr := err.(APIError)
