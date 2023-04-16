@@ -1265,26 +1265,6 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
-## deep investigation Rate Limitation Error (GitHub)
-
-
-**Curl Request:**
-
-```sh
-curl -X GET http://localhost:8080/deep/github/max
-```
-
-**Response:**
-
-```json
-{
-	"message": "Rate Limited"
-}
-```
-
-**Status Code:** 500
-
-
 ## GET Person Markdown
 
 

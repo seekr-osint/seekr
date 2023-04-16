@@ -52,6 +52,12 @@ func (numbers PhoneNumbers) Validate() error {
 // Parsing
 
 func (phoneNumber PhoneNumber) Parse() (PhoneNumber, error) {
+	if !phoneNumber.IsValid() && phoneNumber.Number[0] != '+' {
+		phoneNumber.Number = "+" + phoneNumber.Number
+		if !phoneNumber.IsValid() {
+			phoneNumber.Number = phoneNumber.Number[1:]
+		}
+	}
 	phoneNumber.Valid = phoneNumber.IsValid()
 	if phoneNumber.Valid {
 		parsedNumber, err := phonenumbers.Parse(phoneNumber.Number, "")
