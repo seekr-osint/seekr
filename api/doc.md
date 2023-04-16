@@ -931,6 +931,82 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
+## Post Person (Phone number formatting missing +)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "30",
+	"name": "Phone test",
+	"phone": {
+		"1-234-567-8901": {
+			"number": "1-234-567-8901"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"custom": null,
+	"education": "",
+	"email": {},
+	"gender": "",
+	"hobbies": "",
+	"id": "30",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Phone test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {
+		"+1 234-567-8901": {
+			"national_format": "(234) 567-8901",
+			"number": "+1 234-567-8901",
+			"phoneinfoga": {
+				"Carrier": "",
+				"Country": "US",
+				"CountryCode": 1,
+				"E164": "+12345678901",
+				"International": "12345678901",
+				"Local": "(234) 567-8901",
+				"RawLocal": "2345678901",
+				"Valid": true
+			},
+			"tag": "",
+			"valid": true
+		}
+	},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
 ## Post Person (Invalid_number)
 
 
@@ -1187,6 +1263,26 @@ curl -X POST http://localhost:8080/person \
 ```
 
 **Status Code:** 201
+
+
+## deep investigation Rate Limitation Error (GitHub)
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/deep/github/max
+```
+
+**Response:**
+
+```json
+{
+	"message": "Rate Limited"
+}
+```
+
+**Status Code:** 500
 
 
 ## GET Person Markdown
