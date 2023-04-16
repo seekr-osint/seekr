@@ -3,6 +3,15 @@ import {delay, SaveAsFile, checkGender, getGenderElementIndex} from "./framework
 const element = document.getElementById("searchbar");
 
 
+// Api rul 
+var hostname = window.location.hostname;
+var port = window.location.port;
+
+var baseUrl = hostname + ":" + port;
+
+var apiUrl = "http://" + baseUrl;
+
+
 
 // Create a new broadcast channel with the same name as in the first code block
 const channel = new BroadcastChannel('dark-mode-channel');
@@ -23,7 +32,7 @@ channel.addEventListener('message', (event) => {
 
 
 async function main() {
-  const res = await fetch("http://localhost:8080/")
+  const res = await fetch(apiUrl + "/")
 
   let data = await res.json();
 
@@ -426,7 +435,7 @@ async function main() {
 
           let getId = document.getElementById("v-showid").innerHTML;
 
-          const res = await fetch("http://localhost:8080/people/" + getId)
+          const res = await fetch(apiUrl + "/people/" + getId)
 
           data = await res.json();
 
@@ -771,7 +780,7 @@ async function main() {
                   loadingSpinnerInner.appendChild(loadingSpinnerBall.cloneNode());
 
 
-                  const res = await fetch("http://localhost:8080/deep/github/" + accObj.username)
+                  const res = await fetch(apiUrl + "/deep/github/" + accObj.username)
                   let data = await res.json();
 
                   loadingSpinner.remove();
@@ -840,7 +849,7 @@ async function main() {
 
 
                 del_btn_div.onclick = function () {
-                  fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
+                  fetch(apiUrl + "/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
                     method: "GET",
                     mode: "no-cors"
                   });
@@ -859,7 +868,7 @@ async function main() {
                 del_btn_div.appendChild(del_btn);
 
                 del_btn_div.onclick = function () {
-                  fetch("http://localhost:8080/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
+                  fetch(apiUrl + "/people/" + document.querySelector("#e-showid").innerHTML + "/accounts/" + accObj.service + "-" + accObj.username + "/delete", {
                     method: "GET",
                     mode: "no-cors"
                   });
@@ -906,7 +915,7 @@ async function main() {
         d_icon.setAttribute("name", "trash-outline");
 
         d_icon_div.onclick = function () {
-          fetch("http://localhost:8080/people/" + obj.id + "/delete", {
+          fetch(apiUrl + "/people/" + obj.id + "/delete", {
             method: "GET",
             mode: "no-cors"
           }).then(function () {
@@ -952,7 +961,7 @@ async function main() {
           document.getElementById("loading-spinner").style.display = "inline-block";
 
           // Set the flag to indicate that a request is in progress
-          const response = await fetch('http://localhost:8080/getAccounts/' + document.getElementById("acc-name-tag").value);
+          const response = await fetch(apiUrl + '/getAccounts/' + document.getElementById("acc-name-tag").value);
           const data = await response.json();
 
           const term_container = document.createElement("div");
@@ -1051,13 +1060,13 @@ async function main() {
                 // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
                 let getId = document.getElementById("e-showid").innerHTML
 
-                const res = await fetch("http://localhost:8080/people/" + getId)
+                const res = await fetch(apiUrl + "/people/" + getId)
 
                 let data = await res.json();
 
                 data.accounts[accObj.service + "-" + accObj.username] = accObj;
 
-                fetch("http://localhost:8080/person", {
+                fetch(apiUrl + "/person", {
                   method: 'POST',
                   body: JSON.stringify(data)
                 });
@@ -1342,7 +1351,7 @@ async function main() {
     const loadingSpinner = document.querySelector("#c-loading-spinner");
     loadingSpinner.style.display = "flex"
 
-    fetch('http://localhost:8080/person', {
+    fetch(apiUrl + '/person', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
@@ -1424,11 +1433,11 @@ async function main() {
     const loadingSpinner = document.querySelector("#e-loading-spinner");
     loadingSpinner.style.display = "flex"
 
-    const res = await fetch("http://localhost:8080/people/" + id)
+    const res = await fetch(apiUrl + "/people/" + id)
 
     let data = await res.json();
 
-    fetch('http://localhost:8080/person', {
+    fetch(apiUrl + '/person', {
       method: 'POST',
       body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
