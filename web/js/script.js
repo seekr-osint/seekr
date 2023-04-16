@@ -960,7 +960,7 @@ async function main() {
 
           const term_header = document.createElement("p");
           term_header.className = "term-header";
-          term_header.innerHTML = document.getElementById("acc-name-tag").value;
+          term_header.textContent = document.getElementById("acc-name-tag").value;
 
           term_container.appendChild(term_header);
 
