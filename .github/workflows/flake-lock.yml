@@ -1,0 +1,36 @@
+name: Update flake.lock and flake.nix
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '0 0 1 * *' 
+
+jobs:
+  change-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update flake.lock
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20
+      - name: Install nix with flakes
+        uses: cachix/install-nix-action@v18
+        with:
+          #install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.4pre20210823_af94b54/install
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: flake update
+        run: |
+          nix flake update
+          #  - name: update-vendor-hash
+          #    run: |
+          #      ./update-vendor-hash
+          
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_prefix: "update flake infrastructure"
+          branch: main
