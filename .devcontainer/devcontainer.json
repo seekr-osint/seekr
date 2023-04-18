@@ -11,9 +11,6 @@
 	"features": {
 		"ghcr.io/devcontainers/features/go:1": {
 			"version": "latest"
-		},
-		"ghcr.io/devcontainers-contrib/features/bash-command:1": {
-			"command": "echo hi!"
 		}
 	}
 
