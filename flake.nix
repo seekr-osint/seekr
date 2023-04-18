@@ -2,9 +2,18 @@
   description = "A simple Go package";
 
   # Nixpkgs / NixOS version to use.
-  inputs.nixpkgs.url = "github:Nixos/nixpkgs/nixpkgs-unstable";
+  inputs = {
+    nixpkgs = {
+      url = "github:Nixos/nixpkgs/nixpkgs-unstable";
+      flake = true;
+    };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, flake-compat }:
     let
 
       # to work with older version of flakes
