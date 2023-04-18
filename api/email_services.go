@@ -17,6 +17,11 @@ var DefaultMailServices = MailServices{
 		Icon:           "./images/mail/twitter.png",
 	},
 	MailService{
+		Name:           "GitHub",
+		UserExistsFunc: GitHubEmail,
+		Icon:           "./images/mail/github.svg",
+	},
+	MailService{
 		Name:           "Ubuntu GPG",
 		UserExistsFunc: UbuntuGPGUserExists,
 		Icon:           "./images/mail/ubuntu.png",
