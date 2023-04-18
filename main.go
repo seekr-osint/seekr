@@ -20,12 +20,12 @@ var dataBase = make(api.DataBase)
 
 func main() {
 
-	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
-	dir := flag.String("dir", "./web", "dir where the html source code is located")
+	// liveServer := flag.Bool("live", false, "serve html files from seekr source code")
+	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")
 	apiPort := flag.String("apiPort", "8080", "Port to serve API on")
-	webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
+	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
 	flag.Parse()
@@ -45,21 +45,10 @@ func main() {
 		LoadDBFunc:    api.DefaultLoadDB,
 		WebServer:     true,
 	}
-	var config = webServer.WebServerConfig{
-		Content: content,
-		Dir:     *dir,
-		Ip:      fmt.Sprintf("%s:%s", *ip, *webserverPort),
-	}
-	if *liveServer {
-		config.Type = webServer.LiveServer
-	} else {
-		config.Type = webServer.SingleBinary
-	}
 
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
-	go api.ServeApi(apiConfig)
-	RunWebServer(config)
+	api.ServeApi(apiConfig)
 }
 
 // //export RunWebServer
