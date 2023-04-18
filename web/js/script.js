@@ -756,6 +756,8 @@ async function main() {
                     icon_space.firstChild.remove();
                   }
 
+                  deep_btn_txt.innerHTML = "This may take up to an hour...";
+
                   const loadingSpinner = document.createElement("div");
                   loadingSpinner.className = "neu";
                   loadingSpinner.id = "deepInvLoadingSpinner";
@@ -791,6 +793,8 @@ async function main() {
                   icon_space.appendChild(deepInvResIcon);
 
                   if (data != null && data != {} && res.status == 200) {
+                    deep_btn_txt.innerHTML = "Deep Investigation";
+
                     deepInvResIcon.src = "./images/checkmark.png";
                     deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
 
