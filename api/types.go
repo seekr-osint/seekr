@@ -1,6 +1,5 @@
 package api
 
-
 // main data set
 type Person struct {
 	ID             string             `json:"id"`

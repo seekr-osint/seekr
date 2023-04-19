@@ -8,15 +8,14 @@ import (
 
 // Parsing
 
-
 func (config ApiConfig) Parse() (ApiConfig, error) {
-	config, err := config.ConfigParse()	
+	config, err := config.ConfigParse()
 	if err != nil {
-		return config,err
+		return config, err
 	}
 	config.DataBase, err = config.DataBase.Parse(config) // Parse the database
 	if err != nil {
-		return config,err
+		return config, err
 	}
 
 	return config, nil
@@ -25,19 +24,18 @@ func (config ApiConfig) Parse() (ApiConfig, error) {
 func (config ApiConfig) ConfigParse() (ApiConfig, error) {
 	err := config.Validate()
 	if err != nil {
-		return config,err
+		return config, err
 	}
 	config.Server, err = config.Server.Parse()
 	if err != nil {
-		return config,err
+		return config, err
 	}
 	return config, nil
 }
 
-
 // Validation (Excluding the database)
 
-func (config ApiConfig) Validate() (error) {
+func (config ApiConfig) Validate() error {
 	err := config.Server.Validate() // Parse the database
 	if err != nil {
 		return err
@@ -52,7 +50,6 @@ func (config ApiConfig) SetupWebServer() {
 		http.FileServer(http.FS(config.Server.WebServer.FileSystem)).ServeHTTP(c.Writer, c.Request)
 	})
 }
-
 
 // DB methodes
 

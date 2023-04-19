@@ -1,10 +1,10 @@
 package api
 
 import (
-	//"fmt"
 	"fmt"
 	"log"
 	"net/http"
+	"reflect"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -17,8 +17,8 @@ var DatabaseFile string
 
 func TestApi(dataBase DataBase) {
 	var apiConfig = ApiConfig{
-		Server: 			 server.Server{
-			Ip: "localhost",
+		Server: server.Server{
+			Ip:   "localhost",
 			Port: uint16(8080),
 			ApiServer: server.ApiServer{
 				Disable: false,
@@ -40,9 +40,6 @@ func TestApi(dataBase DataBase) {
 		log.Fatalf("Error saving to databse: %s", err)
 	}
 
-	// Start the background Seekrd service
-	go Seekrd(DefaultSeekrdServices, 30) // run every 30 minutes
-
 	// Start the API server
 	go ServeApi(apiConfig)
 }
@@ -60,7 +57,7 @@ func ServeApi(config ApiConfig) {
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	if !config.Server.WebServer.Disable {
-		fmt.Printf("Running WebServer on: %s", fmt.Sprintf("%s:%d",config.Server.Ip,config.Server.Port))
+		fmt.Printf("Running WebServer on: %s", fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 		config.SetupWebServer()
 	}
 	config.ServeTempMail()
@@ -84,9 +81,11 @@ func ServeApi(config ApiConfig) {
 
 	config.DataBase, err = config.DataBase.Parse(config)
 	if err != nil {
-		log.Printf("error parsing databse:%s\n",err)
+		log.Printf("error parsing databse:%s\n", err)
 	}
-	config.GinRouter.Run(fmt.Sprintf("%s:%d",config.Server.Ip,config.Server.Port))
+	visited := make(map[reflect.Type]bool)
+	fmt.Printf("%s", PrintTypeTreeRec(reflect.TypeOf(ApiConfig{}), visited, 0, 0))
+	config.GinRouter.Run(fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {

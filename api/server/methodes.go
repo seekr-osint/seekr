@@ -10,40 +10,38 @@ var (
 	ErrPortInUse = errors.New("error: Port already in use")
 )
 
-
 // Parsing
 
-func (server Server) Parse() (Server,error) {
+func (server Server) Parse() (Server, error) {
 	err := server.Validate()
 	if err != nil {
-		return server,err
+		return server, err
 	}
-	server.ApiServer,err = server.ApiServer.Parse()
+	server.ApiServer, err = server.ApiServer.Parse()
 	if err != nil {
-		return server,err
+		return server, err
 	}
-	server.WebServer,err = server.WebServer.Parse()
+	server.WebServer, err = server.WebServer.Parse()
 	if err != nil {
-		return server,err
+		return server, err
 	}
 	if server.IsPortInUse() {
 		if server.ForcePort {
-			return server,ErrPortInUse
+			return server, ErrPortInUse
 		} else {
 			server.Port = server.GetNextAvailablePort()
 		}
 	}
-	return server,nil
-} 
+	return server, nil
+}
 
-func (apiServer ApiServer) Parse() (ApiServer,error) {
-	return apiServer,nil
-} 
-
+func (apiServer ApiServer) Parse() (ApiServer, error) {
+	return apiServer, nil
+}
 
 // Validation
 
-func (server Server) Validate() (error) {
+func (server Server) Validate() error {
 	err := server.WebServer.Validate()
 	if err != nil {
 		return err
@@ -55,19 +53,18 @@ func (server Server) Validate() (error) {
 	if server.IsPortInUse() && server.ForcePort {
 		return ErrPortInUse
 	}
-	return nil	
+	return nil
 }
 
-func (apiServer ApiServer) Validate() (error) {
-	return nil	
+func (apiServer ApiServer) Validate() error {
+	return nil
 }
-
 
 // Port Validation
 
 func (server Server) IsPortInUse() bool {
 	// If the listener fails to start the port is already in use
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", server.Ip,server.Port))
+	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", server.Ip, server.Port))
 	if err != nil {
 		return true
 	}
