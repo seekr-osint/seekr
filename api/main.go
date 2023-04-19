@@ -5,18 +5,28 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/seekr-osint/seekr/api/github"
+	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/webserver"
 )
 
 var DatabaseFile string
 
 func TestApi(dataBase DataBase) {
 	var apiConfig = ApiConfig{
-		Ip:            "localhost:8080",
+		Server: 			 server.Server{
+			Ip: "localhost",
+			Port: uint16(8080),
+			ApiServer: server.ApiServer{
+				Disable: false,
+			},
+			WebServer: webserver.Webserver{
+				Disable: true,
+			},
+		},
 		LogFile:       "/tmp/seekr.log",
 		DataBaseFile:  "test-data",
 		DataBase:      dataBase,
@@ -49,8 +59,8 @@ func ServeApi(config ApiConfig) {
 	}
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
-	if config.WebServer {
-		fmt.Printf("Running WebServer on: %s", config.Ip)
+	if !config.Server.WebServer.Disable {
+		fmt.Printf("Running WebServer on: %s", fmt.Sprintf("%s:%d",config.Server.Ip,config.Server.Port))
 		config.SetupWebServer()
 	}
 	config.ServeTempMail()
@@ -72,18 +82,11 @@ func ServeApi(config ApiConfig) {
 	}
 	config.SaveDB()
 
-	runningFile, err := os.Create("/tmp/running")
-	if err != nil {
-		log.Println(err) // Fix me (breaks tests)
-	}
-	if err != nil {
-		log.Fatalf("Error saving to databse: %s", err)
-	}
-	defer os.Remove("/tmp/running")
-	defer runningFile.Close()
-
 	config.DataBase, err = config.DataBase.Parse(config)
-	config.GinRouter.Run(config.Ip)
+	if err != nil {
+		log.Printf("error parsing databse:%s\n",err)
+	}
+	config.GinRouter.Run(fmt.Sprintf("%s:%d",config.Server.Ip,config.Server.Port))
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {

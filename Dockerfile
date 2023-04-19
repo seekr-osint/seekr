@@ -15,13 +15,13 @@ RUN go mod download
 COPY . .
 
 # Build the Go binary
-RUN go build -o seekr .
+RUN go build -o seekr main.go
 
 # Use a lightweight base image
 FROM alpine:3.17
 
 # Copy the Seekr binary from the build container to the final container
-COPY --from=build /app/seekr /app/seekr
+COPY --from=build /app/seekr /bin/seekr
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -30,5 +30,5 @@ WORKDIR /app
 EXPOSE 8080
 
 # Start the Seekr app
-CMD ["./seekr --ip='0.0.0.0'"]
+CMD ["/bin/seekr --ip='0.0.0.0'"]
 
