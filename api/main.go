@@ -16,7 +16,7 @@ import (
 var DatabaseFile string
 
 func TestApi(dataBase DataBase) {
-	var apiConfig = ApiConfig{
+	apiConfig, err := ApiConfig{
 		Server: server.Server{
 			Ip:   "localhost",
 			Port: uint16(8080),
@@ -34,8 +34,12 @@ func TestApi(dataBase DataBase) {
 		LoadDBFunc:    DefaultLoadDB,
 		SaveDBFunc:    DefaultSaveDB,
 		Testing:       true,
+	}.Parse()
+	if err != nil {
+		log.Fatalf("Error parsing test config: %s", err)
 	}
-	err := apiConfig.SaveDB()
+
+	err = apiConfig.SaveDB()
 	if err != nil {
 		log.Fatalf("Error saving to databse: %s", err)
 	}
