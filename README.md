@@ -37,7 +37,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 ### Windows
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
 
-Now open [the web interface](http://127.0.0.1:5050/web/) in your browser of choice.
+Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
@@ -47,7 +47,7 @@ git clone https://github.com/seekr-osint/seekr
 cd seekr
 go run main.go
 ```
-Now open [the web interface](http://127.0.0.1:5050/web/) in your browser of choice.
+Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
 ### Run on NixOS
 Seekr is build with NixOS in mind and therefore supports nix flakes.
 To run seekr on NixOS run following commands.
