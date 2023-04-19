@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/seekr-osint/seekr/api/github"
 	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/typetree"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
 
@@ -88,7 +89,7 @@ func ServeApi(config ApiConfig) {
 		log.Printf("error parsing databse:%s\n", err)
 	}
 	visited := make(map[reflect.Type]bool)
-	fmt.Printf("%s", PrintTypeTreeRec(reflect.TypeOf(ApiConfig{}), visited, 0, 0))
+	fmt.Printf("%s", typetree.PrintTypeTreeRec(reflect.TypeOf(ApiConfig{}), visited, 0, 0, false))
 	config.GinRouter.Run(fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 }
 
