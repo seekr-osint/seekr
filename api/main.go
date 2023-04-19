@@ -18,7 +18,7 @@ var DatabaseFile string
 func TestApi(dataBase DataBase) {
 	apiConfig, err := ApiConfig{
 		Server: server.Server{
-			Ip:   "localhost",
+			Ip:   "0.0.0.0",
 			Port: uint16(8080),
 			ApiServer: server.ApiServer{
 				Disable: false,

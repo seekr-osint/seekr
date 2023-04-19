@@ -15,15 +15,7 @@ import (
 
 func waitForFile() {
 	time.Sleep(time.Second) // wait for one second before checking again
-
-	for {
-		_, err := os.Stat("/tmp/running")
-		if err == nil {
-			fmt.Println("File found!")
-			return
-		}
-		time.Sleep(time.Second) // wait for one second before checking again
-	}
+	time.Sleep(time.Second) // wait for one second before checking again
 }
 
 var requests = Requests{
