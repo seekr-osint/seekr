@@ -27,8 +27,8 @@ COPY --from=build /app/seekr /app/seekr
 WORKDIR /app
 
 # Expose the ports that the application will run on
-EXPOSE 5050 8080 8081
+EXPOSE 8080
 
 # Start the Seekr app
-CMD ["./seekr --ip="0.0.0.0"]
+CMD ["./seekr --ip='0.0.0.0'"]
 

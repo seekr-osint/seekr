@@ -24,7 +24,7 @@ func main() {
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")
-	apiPort := flag.String("apiPort", "8080", "Port to serve API on")
+	apiPort := flag.String("apiPort", "8569", "Port to serve API on")
 	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
