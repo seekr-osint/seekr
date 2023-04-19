@@ -1,5 +1,9 @@
 package api
 
+import (
+	"github.com/seekr-osint/seekr/api/ssn"
+)
+
 // main data set
 type Person struct {
 	ID             string             `json:"id"`
@@ -11,7 +15,7 @@ type Person struct {
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
 	Phone          PhoneNumbers       `json:"phone"`
-	SSN            SSN                `json:"ssn"`
+	SSN            ssn.SSNs           `json:"ssn"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`

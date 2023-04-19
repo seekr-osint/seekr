@@ -43,7 +43,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -116,7 +116,7 @@ curl -X GET http://localhost:8080/people/2
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -205,7 +205,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -283,7 +283,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -385,7 +385,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -474,7 +474,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -545,7 +545,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -634,7 +634,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -724,7 +724,11 @@ curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "18",
-	"ssn": "invalid"
+	"ssn": {
+		"fd": {
+			"ssn": "fd"
+		}
+	}
 }'
 ```
 
@@ -923,7 +927,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -999,7 +1003,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -1075,7 +1079,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -1134,7 +1138,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```
@@ -1257,7 +1261,7 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"ssn": {},
 	"tags": []
 }
 ```

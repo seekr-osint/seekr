@@ -10,6 +10,7 @@ import (
 
 	api "github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/ssn"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
 
@@ -21,6 +22,23 @@ var content embed.FS
 var dataBase = make(api.DataBase)
 
 func main() {
+	ExampleSSNs := ssn.SSNs{
+		"123 45 6789": ssn.SSN{
+			SSN: "123 45 6789",
+		},
+	}
+	err := ExampleSSNs.Validate()
+	if err != nil {
+		fmt.Println(err)
+	}
+	ExampleSSN := ssn.SSN{
+		SSN: "123 45 6789",
+	}
+	err = ExampleSSN.Parse()
+	if err != nil {
+		fmt.Println("err", err)
+	}
+	fmt.Printf("%#v", ExampleSSN)
 	// liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")

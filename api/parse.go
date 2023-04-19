@@ -2,23 +2,32 @@ package api
 
 import (
 	"net/http"
+
+	"github.com/seekr-osint/seekr/api/ssn"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
+	var err error
 	person = person.ReplaceNil()
-	personPhone, err := person.Phone.Parse()
+	person.Phone, err = person.Phone.Parse()
 	if err != nil {
 		return person, err
 	}
-	person.Phone = personPhone
 	person.Email = person.Email.Parse()
 	person, err = person.CheckMail(config)
+	if err != nil {
+		return person, err
+	}
+	person.SSN, err = person.SSN.Parse()
 	return person, err
 }
 
 func (person Person) ReplaceNil() Person {
 	if person.Email == nil {
 		person.Email = EmailsType{}
+	}
+	if person.SSN == nil {
+		person.SSN = ssn.SSNs{}
 	}
 	if person.Pictures == nil {
 		person.Pictures = Pictures{}
@@ -54,12 +63,24 @@ func (person Person) Validate() error {
 			Status:  http.StatusBadRequest,
 		}
 	}
-	if !person.SSN.IsValid() {
-		return APIError{
-			Message: "Invalid SSN",
-			Status:  http.StatusBadRequest,
+	err := person.SSN.Validate()
+	if err != nil {
+		switch err {
+		case ssn.ErrInvalidSSN:
+			return APIError{
+				Message: "Invalid SSN",
+				Status:  http.StatusBadRequest,
+			}
+		case ssn.ErrKeyMissmatch:
+			return APIError{
+				Message: "Key Missmatch",
+				Status:  http.StatusBadRequest,
+			}
+		default:
+			return err
 		}
 	}
+
 	if person.ID == "" {
 		return APIError{
 			Message: "Missing ID",
@@ -72,7 +93,7 @@ func (person Person) Validate() error {
 			Status:  http.StatusBadRequest,
 		}
 	}
-	err := person.Email.Validate()
+	err = person.Email.Validate()
 	if err != nil {
 		return err
 	}
