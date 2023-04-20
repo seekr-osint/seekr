@@ -2,6 +2,9 @@ package api
 
 import (
 	"net/http"
+
+	"github.com/seekr-osint/seekr/api/club"
+	"github.com/seekr-osint/seekr/api/hobby"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
@@ -22,6 +25,12 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 func (person Person) ReplaceNil() Person {
 	if person.Email == nil {
 		person.Email = EmailsType{}
+	}
+	if person.Hobbies == nil {
+		person.Hobbies = hobby.Hobbies{}
+	}
+	if person.Clubs == nil {
+		person.Clubs = club.Clubs{}
 	}
 	if person.Pictures == nil {
 		person.Pictures = Pictures{}
