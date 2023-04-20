@@ -1,4 +1,4 @@
-import {delay, SaveAsFile, checkGender, getGenderElementIndex} from "./framework.js";
+import {delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex} from "./framework.js";
 
 const element = document.getElementById("searchbar");
 
@@ -579,7 +579,20 @@ async function main() {
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
           document.querySelector(".e-prevoccupation").innerHTML = obj.prevoccupation;
           document.querySelector(".e-education").innerHTML = obj.education;
-          document.querySelector(".e-religion").innerHTML = obj.religion;
+          
+          if (obj.religion != "") {
+            const religionSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(13) > .religion-select");
+            const selectItems = religionSelect.querySelector(".select-items");
+            const selectSelected = religionSelect.querySelector(".select-selected");
+  
+            const religionIndex = getReligionElementIndex(obj.religion);
+  
+            const religionElement = selectItems.children[religionIndex];
+  
+            selectSelected.innerHTML = obj.religion;
+            religionElement.className = "same-as-selected";
+          }
+
           document.querySelector(".e-pets").innerHTML = obj.pets;
           document.querySelector(".e-club").innerHTML = obj.club;
           document.querySelector(".e-legal").innerHTML = obj.legal;
@@ -1293,7 +1306,7 @@ async function main() {
 
     let name = document.querySelector(".c-name-tag").innerHTML;
 
-    let gender = checkGender();
+    let gender = checkGender("create");
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
 
@@ -1323,7 +1336,9 @@ async function main() {
     let occupation = document.querySelector(".c-occupation").innerHTML;
     let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
-    let religion = document.querySelector(".c-religion").innerHTML;
+
+    let religion = checkReligion("create");
+
     let pets = document.querySelector(".c-pets").innerHTML;
     let club = document.querySelector(".c-club").innerHTML;
     let legal = document.querySelector(".c-legal").innerHTML;
@@ -1362,7 +1377,7 @@ async function main() {
 
     let name = document.querySelector(".e-name-tag").value;
 
-    let gender = checkGender();
+    let gender = checkGender("edit");
     
     let age = parseInt(document.querySelector(".e-age").innerHTML);
 
@@ -1392,7 +1407,9 @@ async function main() {
     let occupation = document.querySelector(".e-occupation").innerHTML;
     let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
     let education = document.querySelector(".e-education").innerHTML;
-    let religion = document.querySelector(".e-religion").innerHTML;
+
+    let religion = checkReligion("edit");
+
     let pets = document.querySelector(".e-pets").innerHTML;
     let club = document.querySelector(".e-club").innerHTML;
     let legal = document.querySelector(".e-legal").innerHTML;

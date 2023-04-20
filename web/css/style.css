@@ -81,14 +81,16 @@ html {
   height: unset !important;
 }
 
-.gender-select {
+.gender-select,
+.religion-select {
   position: relative;
   font-family: Arial;
   margin-top: 0.5rem;
   width: 17rem;
 }
 
-.gender-select select {
+.gender-select select,
+.religion-select select {
   display: none;
   /*hide original SELECT element:*/
 }
