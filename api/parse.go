@@ -3,7 +3,11 @@ package api
 import (
 	"net/http"
 
+	"github.com/seekr-osint/seekr/api/club"
 	"github.com/seekr-osint/seekr/api/errortypes"
+	"github.com/seekr-osint/seekr/api/hobby"
+	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/sources"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
@@ -18,12 +22,37 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 	if err != nil {
 		return person, err
 	}
+	person.Hobbies, err = person.Hobbies.Parse()
+	if err != nil {
+		return person, err
+	}
+	person.Clubs, err = person.Clubs.Parse()
+	if err != nil {
+		return person, err
+	}
+	person.Ips, err = person.Ips.Parse()
+	if err != nil {
+		return person, err
+	}
+	person.Sources, err = person.Sources.Parse()
+	if err != nil {
+		return person, err
+	}
 	return person, err
 }
 
 func (person Person) ReplaceNil() Person {
 	if person.Email == nil {
 		person.Email = EmailsType{}
+	}
+	if person.Hobbies == nil {
+		person.Hobbies = hobby.Hobbies{}
+	}
+	if person.Clubs == nil {
+		person.Clubs = club.Clubs{}
+	}
+	if person.Ips == nil {
+		person.Ips = ip.Ips{}
 	}
 	if person.Pictures == nil {
 		person.Pictures = Pictures{}
@@ -35,7 +64,7 @@ func (person Person) ReplaceNil() Person {
 		person.Tags = Tags{}
 	}
 	if person.Sources == nil {
-		person.Sources = Sources{}
+		person.Sources = sources.Sources{}
 	}
 	if person.Relations == nil {
 		person.Relations = Relation{}

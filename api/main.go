@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"reflect"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/github"
 	"github.com/seekr-osint/seekr/api/server"
-	"github.com/seekr-osint/seekr/api/typetree"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
 
@@ -56,6 +54,7 @@ func CheckPersonExists(config ApiConfig, id string) bool {
 }
 
 func ServeApi(config ApiConfig) {
+	gin.SetMode(gin.ReleaseMode)
 	config, err := config.LoadDB()
 	if err != nil {
 		log.Fatalf("Error loading database: %s", err)
@@ -63,7 +62,7 @@ func ServeApi(config ApiConfig) {
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
 	if !config.Server.WebServer.Disable {
-		fmt.Printf("Running WebServer on: %s", fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
+		fmt.Printf("Running WebServer on: %s:%d\n", config.Server.Ip, config.Server.Port)
 		config.SetupWebServer()
 	}
 	config.ServeTempMail()
@@ -89,8 +88,8 @@ func ServeApi(config ApiConfig) {
 	if err != nil {
 		log.Printf("error parsing databse:%s\n", err)
 	}
-	visited := make(map[reflect.Type]bool)
-	fmt.Printf("%s", typetree.PrintTypeTreeRec(reflect.TypeOf(ApiConfig{}), visited, 0, 0, false))
+	//visited := make(map[reflect.Type]bool)
+	//fmt.Printf("%s", typetree.PrintTypeTreeRec(reflect.TypeOf(ApiConfig{}), visited, 0, 0, false))
 	config.GinRouter.Run(fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 }
 

@@ -1,4 +1,4 @@
-import {delay, SaveAsFile, checkGender, getGenderElementIndex} from "./framework.js";
+import {delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex, checkCivilstatus, getCivilstatusElementIndex} from "./framework.js";
 
 const element = document.getElementById("searchbar");
 
@@ -99,13 +99,11 @@ async function main() {
           document.querySelector(".address").innerHTML = "Address: " + obj.address;
           document.querySelector(".civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
           document.querySelector(".kids").innerHTML = "Kids: " + obj.kids;
-          document.querySelector(".hobbies").innerHTML = "Hobbies: " + obj.hobbies;
           document.querySelector(".occupation").innerHTML = "Occupation: " + obj.occupation;
           document.querySelector(".prevoccupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
           document.querySelector(".education").innerHTML = "Education: " + obj.education;
           document.querySelector(".religion").innerHTML = "Religion: " + obj.religion;
           document.querySelector(".pets").innerHTML = "Pets: " + obj.pets;
-          document.querySelector(".club").innerHTML = "Club: " + obj.club;
           document.querySelector(".legal").innerHTML = "Legal: " + obj.legal;
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
           document.querySelector(".notes").innerHTML = obj.notes;
@@ -143,9 +141,112 @@ async function main() {
             document.getElementById("space-maker").style.display = "none";
           }
 
-          // Phone
+          // Hobbies
 
-          // Email
+          document.querySelector('.v-hobby-base').style.display = "block";
+
+          if (Object.keys(obj.hobbies).length >= 1) {
+            const hobbyContainer = document.querySelector('.v-hobby-base');
+
+            for (const [_, hobby] of Object.entries(obj.hobbies)) {
+              if (hobby.hobby != "" && hobby.hobby != null && hobby.hobby != undefined) {
+                document.querySelector('.v-hobby-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-hobby-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "hobby-subcontainer";
+
+                const hobby_input = document.createElement("input");
+                hobby_input.className = "form-input v-hobby";
+                hobby_input.id = "v-hobby";
+                hobby_input.type = "hobby";
+                hobby_input.placeholder = "Enter hobby";
+                hobby_input.spellcheck = "false";
+                hobby_input.required = "true";
+                hobby_input.value = hobby.hobby;
+                hobby_input.disabled = "true";
+
+                hobbyContainer.appendChild(container);
+                container.appendChild(subContainer);
+                subContainer.appendChild(hobby_input);
+              }
+            };
+          } else {
+            document.querySelector('.v-hobby-space-maker').style.display = "none";
+          }
+
+          // IPs
+
+          document.querySelector('.v-ip-base').style.display = "block";
+
+          if (Object.keys(obj.ips).length >= 1) {
+            const ipContainer = document.querySelector('.v-ip-base');
+
+            for (const [_, ip] of Object.entries(obj.ips)) {
+              if (ip.ip != "" && ip.ip != null && ip.ip != undefined) {
+                document.querySelector('.v-ip-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-ip-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "ip-subcontainer";
+
+                const ip_input = document.createElement("input");
+                ip_input.className = "form-input v-ip";
+                ip_input.id = "v-ip";
+                ip_input.type = "ip";
+                ip_input.placeholder = "Enter IP";
+                ip_input.spellcheck = "false";
+                ip_input.required = "true";
+                ip_input.value = ip.ip;
+                ip_input.disabled = "true";
+
+                ipContainer.appendChild(container);
+                container.appendChild(subContainer);
+                subContainer.appendChild(ip_input);
+              }
+            };
+          } else {
+            document.querySelector('.v-ip-space-maker').style.display = "none";
+          }
+
+          // Clubs
+
+          document.querySelector('.v-club-base').style.display = "block";
+
+          if (Object.keys(obj.clubs).length >= 1) {
+            const clubContainer = document.querySelector('.v-club-base');
+
+            for (const [_, club] of Object.entries(obj.clubs)) {
+              if (club.club != "" && club.club != null && club.club != undefined) {
+                document.querySelector('.v-club-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-club-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "club-subcontainer";
+
+                const club_input = document.createElement("input");
+                club_input.className = "form-input v-club";
+                club_input.id = "v-club";
+                club_input.type = "club";
+                club_input.placeholder = "Enter club";
+                club_input.spellcheck = "false";
+                club_input.required = "true";
+                club_input.value = club.club;
+                club_input.disabled = "true";
+
+                clubContainer.appendChild(container);
+                container.appendChild(subContainer);
+                subContainer.appendChild(club_input);
+              }
+            };
+          } else {
+            document.querySelector('.v-club-space-maker').style.display = "none";
+          }
+
+          // Phone
 
           document.querySelector('.v-phone-base').style.display = "block";
 
@@ -545,18 +646,263 @@ async function main() {
             }
           }
 
-          document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
+          if (obj.civilstatus != "") {
+            const civilstatusSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(6) > .civilstatus-select");
+            const selectItems = civilstatusSelect.querySelector(".select-items");
+            const selectSelected = civilstatusSelect.querySelector(".select-selected");
+  
+            const civilstatusIndex = getCivilstatusElementIndex(obj.civilstatus);
+  
+            const civilstatusElement = selectItems.children[civilstatusIndex];
+  
+            selectSelected.innerHTML = obj.civilstatus;
+            civilstatusElement.className = "same-as-selected";
+          }
+
           document.querySelector(".e-kids").innerHTML = obj.kids;
-          document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
+
+          // Hobbies
+
+          if (Object.keys(obj.hobbies).length >= 1) {
+            const hobbyContainer = document.querySelector('.e-hobby-base');
+
+            for (const [_, hobby] of Object.entries(obj.hobbies)) {
+              const container = document.createElement("div");
+              container.className = "hobby-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "hobby-subcontainer";
+
+              const hobby_input = document.createElement("input");
+              hobby_input.className = "form-input hobby";
+              hobby_input.id = "e-mail";
+              hobby_input.type = "email";
+              hobby_input.placeholder = "Enter hobby";
+              hobby_input.spellcheck = "false";
+              hobby_input.value = hobby.hobby;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(hobby_input);
+              hobbyContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("hobby-add-btn").onclick = function () {
+            const hobby_base = document.querySelector(".e-hobby-base");
+
+            const hobby_container = document.createElement("div");
+            hobby_container.className = "hobby-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "hobby-subcontainer";
+
+            const hobby_input = document.createElement("input");
+            hobby_input.className = "form-input e-hobby";
+            hobby_input.id = "hobby";
+            hobby_input.type = "text";
+            hobby_input.placeholder = "Enter hobby";
+            hobby_input.spellcheck = "false";
+            hobby_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            hobby_base.appendChild(hobby_container);
+            hobby_container.appendChild(subContainer);
+            subContainer.appendChild(hobby_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              hobby_container.remove();
+            }
+          }
+          
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
           document.querySelector(".e-prevoccupation").innerHTML = obj.prevoccupation;
           document.querySelector(".e-education").innerHTML = obj.education;
-          document.querySelector(".e-religion").innerHTML = obj.religion;
+          
+          if (obj.religion != "") {
+            const religionSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(13) > .religion-select");
+            const selectItems = religionSelect.querySelector(".select-items");
+            const selectSelected = religionSelect.querySelector(".select-selected");
+  
+            const religionIndex = getReligionElementIndex(obj.religion);
+  
+            const religionElement = selectItems.children[religionIndex];
+  
+            selectSelected.innerHTML = obj.religion;
+            religionElement.className = "same-as-selected";
+          }
+
           document.querySelector(".e-pets").innerHTML = obj.pets;
-          document.querySelector(".e-club").innerHTML = obj.club;
+
+          // Clubs
+
+          if (Object.keys(obj.clubs).length >= 1) {
+            const clubContainer = document.querySelector('.e-club-base');
+
+            for (const [_, club] of Object.entries(obj.clubs)) {
+              const container = document.createElement("div");
+              container.className = "club-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "club-subcontainer";
+
+              const club_input = document.createElement("input");
+              club_input.className = "form-input club";
+              club_input.id = "e-club";
+              club_input.type = "text";
+              club_input.placeholder = "Enter club";
+              club_input.spellcheck = "false";
+              club_input.value = club.club;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(club_input);
+              clubContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("hobby-add-btn").onclick = function () {
+            const hobby_base = document.querySelector(".e-hobby-base");
+
+            const hobby_container = document.createElement("div");
+            hobby_container.className = "hobby-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "hobby-subcontainer";
+
+            const hobby_input = document.createElement("input");
+            hobby_input.className = "form-input e-hobby";
+            hobby_input.id = "hobby";
+            hobby_input.type = "text";
+            hobby_input.placeholder = "Enter hobby";
+            hobby_input.spellcheck = "false";
+            hobby_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            hobby_base.appendChild(hobby_container);
+            hobby_container.appendChild(subContainer);
+            subContainer.appendChild(hobby_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              hobby_container.remove();
+            }
+          }
+
           document.querySelector(".e-legal").innerHTML = obj.legal;
           document.querySelector(".e-political").innerHTML = obj.political;
           document.querySelector(".e-notes").innerHTML = obj.notes;
+
+          // IPs
+
+          if (Object.keys(obj.ips).length >= 1) {
+            const ipContainer = document.querySelector('.e-ip-base');
+
+            for (const [_, ip] of Object.entries(obj.ips)) {
+              console.log(ip.ip);
+              const container = document.createElement("div");
+              container.className = "ip-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "ip-subcontainer";
+
+              const ip_input = document.createElement("input");
+              ip_input.className = "form-input ip";
+              ip_input.id = "e-ip";
+              ip_input.type = "text";
+              ip_input.placeholder = "Enter IP";
+              ip_input.spellcheck = "false";
+              ip_input.value = ip.ip;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(ip_input);
+              ipContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("ip-add-btn").onclick = function () {
+            const ip_base = document.querySelector(".e-ip-base");
+
+            const ip_container = document.createElement("div");
+            ip_container.className = "ip-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "ip-subcontainer";
+
+            const ip_input = document.createElement("input");
+            ip_input.className = "form-input e-ip";
+            ip_input.id = "ip";
+            ip_input.type = "text";
+            ip_input.placeholder = "Enter IP";
+            ip_input.spellcheck = "false";
+            ip_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            ip_base.appendChild(ip_container);
+            ip_container.appendChild(subContainer);
+            subContainer.appendChild(ip_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              ip_container.remove();
+            }
+          }
 
           // Email
 
@@ -1143,6 +1489,24 @@ async function main() {
       mailElements[0].parentNode.removeChild(mailElements[0]);
     }
 
+    var hobbyElements = document.getElementsByClassName("hobby-container");
+
+    while (hobbyElements.length > 0) {
+      hobbyElements[0].parentNode.removeChild(hobbyElements[0]);
+    }
+
+    var clubElements = document.getElementsByClassName("club-container");
+
+    while (clubElements.length > 0) {
+      clubElements[0].parentNode.removeChild(clubElements[0]);
+    }
+
+    var ipElements = document.getElementsByClassName("ip-container");
+
+    while (ipElements.length > 0) {
+      ipElements[0].parentNode.removeChild(ipElements[0]);
+    }
+
     const parentElement = document.querySelector(".e-accounts");
     parentElement.innerHTML = "";
   }
@@ -1154,6 +1518,78 @@ async function main() {
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
     location.reload();
+  }
+
+  // Hobbies
+
+  document.getElementById("c-club-add-btn").onclick = function () {
+    const club_base = document.querySelector(".c-club-base");
+
+    const club_container = document.createElement("div");
+    club_container.className = "c-club-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "club-subcontainer";
+
+    const club_input = document.createElement("input");
+    club_input.className = "form-input e-club";
+    club_input.id = "club";
+    club_input.type = "text";
+    club_input.placeholder = "Enter club";
+    club_input.spellcheck = "false";
+    club_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    club_base.appendChild(club_container);
+    club_container.appendChild(subContainer);
+    subContainer.appendChild(club_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      club_container.remove();
+    }
+  }
+
+  // IPs
+
+  document.getElementById("c-ip-add-btn").onclick = function () {
+    const ip_base = document.querySelector(".c-ip-base");
+
+    const ip_container = document.createElement("div");
+    ip_container.className = "c-ip-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "ip-subcontainer";
+
+    const ip_input = document.createElement("input");
+    ip_input.className = "form-input e-ip";
+    ip_input.id = "ip";
+    ip_input.type = "text";
+    ip_input.placeholder = "Enter IP";
+    ip_input.spellcheck = "false";
+    ip_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    ip_base.appendChild(ip_container);
+    ip_container.appendChild(subContainer);
+    subContainer.appendChild(ip_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      ip_container.remove();
+    }
   }
 
   // Phone
@@ -1190,6 +1626,78 @@ async function main() {
 
     del_btn_div.onclick = function () {
       phone_container.remove();
+    }
+  }
+
+  // Hobbies
+
+  document.getElementById("c-hobby-add-btn").onclick = function () {
+    const hobby_base = document.querySelector(".c-hobby-base");
+
+    const hobby_container = document.createElement("div");
+    hobby_container.className = "c-hobby-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "hobby-subcontainer";
+
+    const hobby_input = document.createElement("input");
+    hobby_input.className = "form-input e-hobby";
+    hobby_input.id = "hobby";
+    hobby_input.type = "tel";
+    hobby_input.placeholder = "Enter hobby";
+    hobby_input.spellcheck = "false";
+    hobby_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    hobby_base.appendChild(hobby_container);
+    hobby_container.appendChild(subContainer);
+    subContainer.appendChild(hobby_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      hobby_container.remove();
+    }
+  }
+
+  // IPs
+
+  document.getElementById("c-ip-add-btn").onclick = function () {
+    const ip_base = document.querySelector(".c-ip-base");
+
+    const ip_container = document.createElement("div");
+    ip_container.className = "c-ip-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "ip-subcontainer";
+
+    const ip_input = document.createElement("input");
+    ip_input.className = "form-input e-ip";
+    ip_input.id = "ip";
+    ip_input.type = "tel";
+    ip_input.placeholder = "Enter IP";
+    ip_input.spellcheck = "false";
+    ip_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    ip_base.appendChild(ip_container);
+    ip_container.appendChild(subContainer);
+    subContainer.appendChild(ip_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      ip_container.remove();
     }
   }
 
@@ -1265,11 +1773,11 @@ async function main() {
 
     let name = document.querySelector(".c-name-tag").innerHTML;
 
-    let gender = checkGender();
+    let gender = checkGender("create");
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
 
-    if (age < 0) {
+    if (age <= 0) {
       age *= -1
     }
     if (age > 120) {
@@ -1289,15 +1797,38 @@ async function main() {
       };
     });
 
-    let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
+    let civilstatus = checkCivilstatus("create");
+
     let kids = document.querySelector(".c-kids").innerHTML;
-    let hobbies = document.querySelector(".c-hobbies").innerHTML;
+
+    let hobbyContainers = document.querySelectorAll('.c-hobby-container');
+    let hobbies = {};
+
+    hobbyContainers.forEach(function (container) {
+      let hobbyInput = container.querySelector('input');
+      hobbies[hobbyInput.value] = {
+        "hobby": hobbyInput.value
+      };
+    });
+
     let occupation = document.querySelector(".c-occupation").innerHTML;
     let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
-    let religion = document.querySelector(".c-religion").innerHTML;
+
+    let religion = checkReligion("create");
+
     let pets = document.querySelector(".c-pets").innerHTML;
-    let club = document.querySelector(".c-club").innerHTML;
+
+    let clubContainers = document.querySelectorAll('.c-club-container');
+    let clubs = {};
+
+    clubContainers.forEach(function (container) {
+      let clubInput = container.querySelector('input');
+      clubs[clubInput.value] = {
+        "club": clubInput.value
+      };
+    });
+
     let legal = document.querySelector(".c-legal").innerHTML;
     let political = document.querySelector(".c-political").innerHTML;
     let notes = document.querySelector(".c-notes").innerHTML;
@@ -1313,12 +1844,22 @@ async function main() {
       };
     });
 
+    let ipContainers = document.querySelectorAll('.c-ip-container');
+    let ips = {};
+
+    ipContainers.forEach(function (container) {
+      let ipInput = container.querySelector('input');
+      ips[ipInput.value] = {
+        "ip": ipInput.value
+      };
+    });
+
     const loadingSpinner = document.querySelector("#c-loading-spinner");
     loadingSpinner.style.display = "flex"
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
@@ -1334,7 +1875,7 @@ async function main() {
 
     let name = document.querySelector(".e-name-tag").value;
 
-    let gender = checkGender();
+    let gender = checkGender("edit");
     
     let age = parseInt(document.querySelector(".e-age").innerHTML);
 
@@ -1358,15 +1899,38 @@ async function main() {
       };
     });
 
-    let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
+    let civilstatus = checkCivilstatus("edit");
+
     let kids = document.querySelector(".e-kids").innerHTML;
-    let hobbies = document.querySelector(".e-hobbies").innerHTML;
+
+    let hobbyContainers = document.querySelectorAll('.hobby-container');
+    let hobbies = {};
+
+    hobbyContainers.forEach(function (container) {
+      let hobbyInput = container.querySelector('input');
+      hobbies[hobbyInput.value] = {
+        "hobby": hobbyInput.value
+      };
+    });
+
     let occupation = document.querySelector(".e-occupation").innerHTML;
     let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
     let education = document.querySelector(".e-education").innerHTML;
-    let religion = document.querySelector(".e-religion").innerHTML;
+
+    let religion = checkReligion("edit");
+
     let pets = document.querySelector(".e-pets").innerHTML;
-    let club = document.querySelector(".e-club").innerHTML;
+
+    let clubContainers = document.querySelectorAll('.club-container');
+    let clubs = {};
+
+    clubContainers.forEach(function (container) {
+      let clubInput = container.querySelector('input');
+      clubs[clubInput.value] = {
+        "club": clubInput.value
+      };
+    });
+
     let legal = document.querySelector(".e-legal").innerHTML;
     let political = document.querySelector(".e-political").innerHTML;
     let notes = document.querySelector(".e-notes").innerHTML;
@@ -1390,7 +1954,17 @@ async function main() {
         "services": hiddenElementVal
       };
     });
+    
+    let ipContainers = document.querySelectorAll('.ip-container');
+    let ips = {};
 
+    ipContainers.forEach(function (container) {
+      let ipInput = container.querySelector('input');
+      ips[ipInput.value] = {
+        "ip": ipInput.value
+      };
+    });
+    
     const loadingSpinner = document.querySelector("#e-loading-spinner");
     loadingSpinner.style.display = "flex"
 
@@ -1400,7 +1974,7 @@ async function main() {
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
