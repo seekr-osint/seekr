@@ -10,3 +10,7 @@ func (ips Ips) Parse() (Ips, error) {
 func (ip Ip) Parse() (Ip, error) {
 	return ip, nil
 }
+
+func (ip Ip) Markdown() (string, error) {
+	return functions.Markdown(ip)
+}

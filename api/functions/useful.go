@@ -3,6 +3,8 @@ package functions
 import (
 	"reflect"
 	"sort"
+	"strings"
+	"fmt"
 )
 
 func SortMapKeys[T any](m map[string]T) []string {
@@ -47,3 +49,37 @@ func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
 	}
 	return parsed, nil
 }
+
+
+func Markdown[T interface{}](t T) (string, error) {
+    // Check that T is actually a struct
+    if reflect.TypeOf(t).Kind() != reflect.Struct {
+        return "", ErrOnlyStruct
+    }
+    var sb strings.Builder
+
+    // Get the type and value of the struct
+    typ := reflect.TypeOf(t)
+    val := reflect.ValueOf(t)
+
+    // Iterate over all fields of the struct
+    for i := 0; i < typ.NumField(); i++ {
+        field := typ.Field(i)
+        fieldValue := val.Field(i)
+
+        // Write the field name as a markdown header
+        if field.Type.Kind() != reflect.Struct {
+            sb.WriteString(fmt.Sprintf("- %s: %s\n", field.Name, fieldValue.Interface()))
+        } else {
+            // Use recursion to handle nested structs
+            nestedMarkdown, err := Markdown(fieldValue.Interface())
+            if err != nil {
+                return "", err
+            }
+            sb.WriteString(fmt.Sprintf("# %s\n%s", field.Name, nestedMarkdown))
+        }
+    }
+
+    return sb.String(), nil
+}
+
