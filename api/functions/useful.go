@@ -52,26 +52,21 @@ func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
 
 
 func Markdown[T interface{}](t T) (string, error) {
-    // Check that T is actually a struct
     if reflect.TypeOf(t).Kind() != reflect.Struct {
         return "", ErrOnlyStruct
     }
     var sb strings.Builder
 
-    // Get the type and value of the struct
     typ := reflect.TypeOf(t)
     val := reflect.ValueOf(t)
 
-    // Iterate over all fields of the struct
     for i := 0; i < typ.NumField(); i++ {
         field := typ.Field(i)
         fieldValue := val.Field(i)
 
-        // Write the field name as a markdown header
         if field.Type.Kind() != reflect.Struct {
             sb.WriteString(fmt.Sprintf("- %s: %s\n", field.Name, fieldValue.Interface()))
         } else {
-            // Use recursion to handle nested structs
             nestedMarkdown, err := Markdown(fieldValue.Interface())
             if err != nil {
                 return "", err
@@ -83,3 +78,17 @@ func Markdown[T interface{}](t T) (string, error) {
     return sb.String(), nil
 }
 
+func MarkdownMap[T interface{ Markdown() (string, error) }](m map[string]T) (string,error) {
+  var sb strings.Builder
+  for _, key:= range SortMapKeys(map[string]T(m)) {
+    v := m[key]
+    sb.WriteString(fmt.Sprintf("### %s\n", key))
+		markdown, err := v.Markdown()
+		if err != nil {
+			return sb.String(),err
+		}
+    sb.WriteString(markdown)
+    sb.WriteString("\n")
+  }
+  return sb.String(), nil
+}

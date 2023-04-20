@@ -20,6 +20,11 @@ func (person Person) Markdown() string {
 	sb.WriteString(person.Civilstatus.Markdown())
 	sb.WriteString(person.Religion.Markdown())
 	sb.WriteString(person.Phone.Markdown())
+	markdown, err := person.Ips.Markdown()
+	if err != nil {
+		return sb.String()
+	}
+	sb.WriteString(markdown)
 	if len(person.Email) >= 1 {
 		sb.WriteString(fmt.Sprintf("## Email\n%s\n", person.Email.Markdown()))
 	}
