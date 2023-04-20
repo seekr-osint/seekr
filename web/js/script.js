@@ -93,19 +93,16 @@ async function main() {
 
           document.querySelector(".name-tag").value = obj.name;
 
-          document.querySelector(".maidenname").innerHTML = "Maiden name: " + obj.maidenname;
           document.querySelector(".gender").innerHTML = "Gender: " + obj.gender;
           document.querySelector(".age").innerHTML = "Age: " + obj.age;
           document.querySelector(".bday").innerHTML = "Birthdate: " + obj.bday;
           document.querySelector(".address").innerHTML = "Address: " + obj.address;
-          document.querySelector(".ssn").innerHTML = "SSN: " + obj.ssn;
           document.querySelector(".civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
           document.querySelector(".kids").innerHTML = "Kids: " + obj.kids;
           document.querySelector(".hobbies").innerHTML = "Hobbies: " + obj.hobbies;
           document.querySelector(".occupation").innerHTML = "Occupation: " + obj.occupation;
           document.querySelector(".prevoccupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
           document.querySelector(".education").innerHTML = "Education: " + obj.education;
-          document.querySelector(".military").innerHTML = "Military stand: " + obj.military;
           document.querySelector(".religion").innerHTML = "Religion: " + obj.religion;
           document.querySelector(".pets").innerHTML = "Pets: " + obj.pets;
           document.querySelector(".club").innerHTML = "Club: " + obj.club;
@@ -483,10 +480,8 @@ async function main() {
 
           document.querySelector(".e-name-tag").value = obj.name;
 
-          document.querySelector(".e-maidenname").innerHTML = obj.maidenname;
-
           if (obj.gender != "") {
-            const genderSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(2) > .gender-select");
+            const genderSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(1) > .gender-select");
             const selectItems = genderSelect.querySelector(".select-items");
             const selectSelected = genderSelect.querySelector(".select-selected");
   
@@ -578,14 +573,12 @@ async function main() {
             }
           }
 
-          document.querySelector(".e-ssn").innerHTML = obj.ssn;
           document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
           document.querySelector(".e-kids").innerHTML = obj.kids;
           document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
           document.querySelector(".e-prevoccupation").innerHTML = obj.prevoccupation;
           document.querySelector(".e-education").innerHTML = obj.education;
-          document.querySelector(".e-military").innerHTML = obj.military;
           document.querySelector(".e-religion").innerHTML = obj.religion;
           document.querySelector(".e-pets").innerHTML = obj.pets;
           document.querySelector(".e-club").innerHTML = obj.club;
@@ -1300,8 +1293,6 @@ async function main() {
 
     let name = document.querySelector(".c-name-tag").innerHTML;
 
-    let maidenname = document.querySelector(".c-maidenname").innerHTML;
-
     let gender = checkGender();
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
@@ -1326,14 +1317,12 @@ async function main() {
       };
     });
 
-    let ssn = document.querySelector(".c-ssn").innerHTML;
     let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
     let kids = document.querySelector(".c-kids").innerHTML;
     let hobbies = document.querySelector(".c-hobbies").innerHTML;
     let occupation = document.querySelector(".c-occupation").innerHTML;
     let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
-    let military = document.querySelector(".c-military").innerHTML;
     let religion = document.querySelector(".c-religion").innerHTML;
     let pets = document.querySelector(".c-pets").innerHTML;
     let club = document.querySelector(".c-club").innerHTML;
@@ -1357,7 +1346,7 @@ async function main() {
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
@@ -1372,8 +1361,6 @@ async function main() {
     let id = document.querySelector("#e-showid").innerHTML;
 
     let name = document.querySelector(".e-name-tag").value;
-
-    let maidenname = document.querySelector(".e-maidenname").innerHTML;
 
     let gender = checkGender();
     
@@ -1399,14 +1386,12 @@ async function main() {
       };
     });
 
-    let ssn = document.querySelector(".e-ssn").innerHTML;
     let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
     let kids = document.querySelector(".e-kids").innerHTML;
     let hobbies = document.querySelector(".e-hobbies").innerHTML;
     let occupation = document.querySelector(".e-occupation").innerHTML;
     let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
     let education = document.querySelector(".e-education").innerHTML;
-    let military = document.querySelector(".e-military").innerHTML;
     let religion = document.querySelector(".e-religion").innerHTML;
     let pets = document.querySelector(".e-pets").innerHTML;
     let club = document.querySelector(".e-club").innerHTML;
@@ -1443,7 +1428,7 @@ async function main() {
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "maidenname": maidenname, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "ssn": ssn, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "military": military, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();

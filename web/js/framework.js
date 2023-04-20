@@ -158,7 +158,7 @@ document.querySelectorAll("span").forEach(function (element) {
 });
 
 function checkGender() {
-  const selectedGender = document.querySelector("body > div.edit-container > div > div.scroll-box > div:nth-child(2) > div > div.select-selected").innerHTML;
+  const selectedGender = document.querySelector("body > div.edit-container > div > div.scroll-box > div:nth-child(1) > div > div.select-selected").innerHTML;
   const gender = new Map();
 
   gender["Select gender:"] = "";
