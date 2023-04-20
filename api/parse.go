@@ -7,6 +7,7 @@ import (
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/sources"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
@@ -30,6 +31,10 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 		return person, err
 	}
 	person.Ips, err = person.Ips.Parse()
+	if err != nil {
+		return person, err
+	}
+	person.Sources, err = person.Sources.Parse()
 	if err != nil {
 		return person, err
 	}
@@ -59,7 +64,7 @@ func (person Person) ReplaceNil() Person {
 		person.Tags = Tags{}
 	}
 	if person.Sources == nil {
-		person.Sources = Sources{}
+		person.Sources = sources.Sources{}
 	}
 	if person.Relations == nil {
 		person.Relations = Relation{}
