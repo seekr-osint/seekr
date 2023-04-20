@@ -55,25 +55,6 @@ To run seekr on NixOS run following commands.
 nix shell github:seekr-osint/seekr
 seekr
 ```
-
-## Intigrating seekr into your current workflow
-```mermaid
-journey
-	title How to Intigrate seekr into your current workflow.
-	section Initial Research
-		Create a person in seekr: 100: seekr
-    Simple web research: 100: Known tools
-		Account scan: 100: seekr
-	section Deeper account investigation
-		Investigate the accounts: 100: seekr, Known tools
-		Keep notes: 100: seekr
-  section Deeper Web research
-    Deep web research: 100: Known tools
-    Keep notes: 100: seekr
-	section Finishing the report
-		Export the person with seekr: 100: seekr
-		Done.: 100
-```
 ## Feedback
 We would love to hear from you. Tell us about your opinions on seekr. Where do we need to improve?...
 You can do this by just opeing up an issue or maybe even telling others in your blog or somewhere else about your experience.
