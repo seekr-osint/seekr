@@ -84,7 +84,20 @@
 
           <p class="viewtag tag civilstatus">Civil status: x</p>
           <p class="viewtag tag kids">Kids: x</p>
-          <p class="viewtag tag hobbies">Hobbies: x</p>
+          
+          <div class="chip v-hobby-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Hobbies</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-hobby-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="chip v-email-space-maker" id="v-space-maker">
             <p id="v-notes-header">E-Mail</p>
 
@@ -198,9 +211,16 @@
             <div class="form"><span type="text" class="form-input e-kids" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Hobbies: </p>
-            <div class="form"><span type="text" class="form-input e-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Hobbies</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-hobby-base"></div>
+
+                <div id="e-hobby-add-btn" class="e-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="e-space-maker">
@@ -340,10 +360,7 @@
 
             <div class="table">
               <div class="form">
-                <div class="c-phone-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="c-phone-base"></div>
 
                 <div id="c-phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
@@ -368,10 +385,17 @@
             <p class="tag">Kids: </p>
             <div class="form"><span type="text" class="form-input c-kids" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
+          
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Hobbies</p>
 
-          <div class="table">
-            <p class="tag">Hobbies: </p>
-            <div class="form"><span type="text" class="form-input c-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="table">
+              <div class="form">
+                <div class="c-hobby-base"></div>
+
+                <div id="c-hobby-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="c-space-maker">

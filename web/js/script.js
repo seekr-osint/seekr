@@ -143,9 +143,42 @@ async function main() {
             document.getElementById("space-maker").style.display = "none";
           }
 
-          // Phone
+          // Hobbies
 
-          // Email
+          document.querySelector('.v-hobby-base').style.display = "block";
+
+          if (Object.keys(obj.hobby).length >= 1) {
+            const hobbyContainer = document.querySelector('.v-hobby-base');
+
+            for (const [_, hobby] of Object.entries(obj.hobby)) {
+              if (hobby.hobby != "" && hobby.hobby != null && hobby.hobby != undefined) {
+                document.querySelector('.v-hobby-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-hobby-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "hobby-subcontainer";
+
+                const hobby_input = document.createElement("input");
+                hobby_input.className = "form-input v-hobby";
+                hobby_input.id = "v-hobby";
+                hobby_input.type = "hobby";
+                hobby_input.placeholder = "Enter hobby";
+                hobby_input.spellcheck = "false";
+                hobby_input.required = "true";
+                hobby_input.value = hobby.hobby;
+                hobby_input.disabled = "true";
+
+                hobbyContainer.appendChild(container);
+                container.appendChild(subContainer);
+                subContainer.appendChild(hobby_input);
+              }
+            };
+          } else {
+            document.querySelector('.v-hobby-space-maker').style.display = "none";
+          }
+
+          // Phone
 
           document.querySelector('.v-phone-base').style.display = "block";
 
@@ -587,7 +620,81 @@ async function main() {
           }
 
           document.querySelector(".e-kids").innerHTML = obj.kids;
-          document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
+
+          // Hobbies
+
+          if (Object.keys(obj.hobbies).length >= 1) {
+            const hobbyContainer = document.querySelector('.hobby-base');
+
+            for (const [_, hobby] of Object.entries(obj.phone)) {
+              const container = document.createElement("div");
+              container.className = "hobby-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "hobby-subcontainer";
+
+              const hobby_input = document.createElement("input");
+              hobby_input.className = "form-input hobby";
+              hobby_input.id = "e-mail";
+              hobby_input.type = "email";
+              hobby_input.placeholder = "Enter hobby";
+              hobby_input.spellcheck = "false";
+              hobby_input.required = "true";
+              hobby_input.value = hobby.hobby;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(hobby_input);
+              hobbyContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("hobby-add-btn").onclick = function () {
+            const hobby_base = document.querySelector(".hobby-base");
+
+            const hobby_container = document.createElement("div");
+            hobby_container.className = "hobby-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "hobby-subcontainer";
+
+            const hobby_input = document.createElement("input");
+            hobby_input.className = "form-input e-hobby";
+            hobby_input.id = "hobby";
+            hobby_input.type = "text";
+            hobby_input.placeholder = "Enter hobby";
+            hobby_input.spellcheck = "false";
+            hobby_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            hobby_base.appendChild(hobby_container);
+            hobby_container.appendChild(subContainer);
+            subContainer.appendChild(hobby_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              hobby_container.remove();
+            }
+          }
+          
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
           document.querySelector(".e-prevoccupation").innerHTML = obj.prevoccupation;
           document.querySelector(".e-education").innerHTML = obj.education;
@@ -1246,6 +1353,42 @@ async function main() {
     }
   }
 
+  // Hobbies
+
+  document.getElementById("c-hobby-add-btn").onclick = function () {
+    const hobby_base = document.querySelector(".c-hobby-base");
+
+    const hobby_container = document.createElement("div");
+    hobby_container.className = "c-hobby-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "hobby-subcontainer";
+
+    const hobby_input = document.createElement("input");
+    hobby_input.className = "form-input e-hobby";
+    hobby_input.id = "hobby";
+    hobby_input.type = "tel";
+    hobby_input.placeholder = "Enter hobby";
+    hobby_input.spellcheck = "false";
+    hobby_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    hobby_base.appendChild(hobby_container);
+    hobby_container.appendChild(subContainer);
+    subContainer.appendChild(hobby_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      hobby_container.remove();
+    }
+  }
+
   // Email
 
   document.getElementById("c-add-btn").onclick = function () {
@@ -1345,7 +1488,17 @@ async function main() {
     let civilstatus = checkCivilstatus("create");
 
     let kids = document.querySelector(".c-kids").innerHTML;
-    let hobbies = document.querySelector(".c-hobbies").innerHTML;
+
+    let hobbyContainers = document.querySelectorAll('.c-hobby-container');
+    let hobbies = {};
+
+    hobbyContainers.forEach(function (container) {
+      let hobbyInput = container.querySelector('input');
+      hobbies[hobbyInput.value] = {
+        "hobby": hobbyInput.value
+      };
+    });
+
     let occupation = document.querySelector(".c-occupation").innerHTML;
     let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
@@ -1417,7 +1570,17 @@ async function main() {
     let civilstatus = checkCivilstatus("edit");
 
     let kids = document.querySelector(".e-kids").innerHTML;
-    let hobbies = document.querySelector(".e-hobbies").innerHTML;
+
+    let hobbyContainers = document.querySelectorAll('.e-hobby-container');
+    let hobbies = {};
+
+    hobbyContainers.forEach(function (container) {
+      let hobbyInput = container.querySelector('input');
+      hobbies[hobbyInput.value] = {
+        "hobby": hobbyInput.value
+      };
+    });
+
     let occupation = document.querySelector(".e-occupation").innerHTML;
     let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
     let education = document.querySelector(".e-education").innerHTML;

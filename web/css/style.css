@@ -193,7 +193,9 @@ html {
 .email-subcontainer,
 .c-email-subcontainer,
 .phone-subcontainer,
-.e-phone-container {
+.c-phone-subcontainer,
+.hobby-subcontainer,
+.c-hobby-subcontainer {
   display: flex;
 }
 
@@ -230,16 +232,24 @@ html {
 }
 
 .v-phone,
-.e-phone {
+.e-phone,
+.v-hobby,
+.e-hobby {
   width: 42rem !important;
 }
 
 .email-container,
+.e-email-container,
 .c-email-container,
 .v-email-container,
 .phone-container,
 .e-phone-container,
-.v-phone-container {
+.c-phone-container,
+.v-phone-container,
+.hobby-container,
+.e-hobby-container,
+.v-hobby-container,
+.c-hobby-container {
   margin-bottom: 1.5rem;
   box-shadow: var(--shadowPreset-5);
   padding: 1rem;
