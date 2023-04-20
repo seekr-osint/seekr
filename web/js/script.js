@@ -528,42 +528,14 @@ async function main() {
           }
         }
 
-        document.getElementById("savetxtbtn").onclick = async function () {
-          let textToSave = "";
-
+        document.getElementById("savemdbtn").onclick = async function () {
           let getId = document.getElementById("v-showid").innerHTML;
 
-          const res = await fetch(apiUrl + "/people/" + getId)
-
-          data = await res.json();
-
-          // For each item in data: check if the field is empty, if not, add item to textToSave
-          // For each item in data: check if the field is empty, if not, add item to textToSave
-          if (data.name) {
-            textToSave += `Name: ${data.name}\n`;
-          }
-          for (const [key, value] of Object.entries(data)) {
-            if (key === "accounts" && typeof value === "object" && value != null) {
-              let accountsText = "";
-              let first = true;
-              for (const [service, account] of Object.entries(value)) {
-                if (first) {
-                  accountsText += ` ${account.service}, ${account.username}, ${account.url}`;
-                  first = false;
-                } else {
-                  accountsText += `\n          ${account.service}, ${account.username}, ${account.url}`;
-                }
-              }
-              textToSave += `${key.charAt(0).toUpperCase()}${key.slice(1)}:${accountsText}\n`;
-            } else if (key !== "id" && value && value != " " && value != null && value != undefined && value != 0 && key != "name") {
-              textToSave += `${key.charAt(0).toUpperCase()}${key.slice(1)}: ${value}\n`;
-            }
-          }
-
-          var textToSave1 = textToSave.replace(/<br>/g, "\n       ");
+          const request = await fetch(apiUrl + "/people/" + getId + "/markdown");
+          const textToSave = await request.json();
 
 
-          SaveAsFile(textToSave1, data.name.toLowerCase().replace(/ /g, "") + ".txt", "text/plain;charset=utf-8");
+          SaveAsFile(textToSave.markdown, obj.name.toLowerCase().replace(/ /g, "") + ".md", "text/plain;charset=utf-8");
         }
 
 
