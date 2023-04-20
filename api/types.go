@@ -3,22 +3,23 @@ package api
 import (
 	"github.com/seekr-osint/seekr/api/club"
 	"github.com/seekr-osint/seekr/api/hobby"
+	"github.com/seekr-osint/seekr/api/ip"
 )
 
 // "github.com/seekr-osint/seekr/api/ssn"
 
 // main data set
 type Person struct {
-	ID         string       `json:"id"`
-	Name       string       `json:"name"`
-	Gender     Gender       `json:"gender"`
-	Pictures   Pictures     `json:"pictures"`
-	Maidenname string       `json:"maidenname"`
-	Age        Age          `json:"age"` // has to be a float64 becuase of json Unmarshal
-	Birthday   string       `json:"bday"`
-	Address    string       `json:"address"`
-	Phone      PhoneNumbers `json:"phone"`
-	//SSN            ssn.SSNs            `json:"ssn"`
+	ID             string             `json:"id"`
+	Name           string             `json:"name"`
+	Gender         Gender             `json:"gender"`
+	Pictures       Pictures           `json:"pictures"`
+	Maidenname     string             `json:"maidenname"`
+	Age            Age                `json:"age"` // has to be a float64 becuase of json Unmarshal
+	Birthday       string             `json:"bday"`
+	Address        string             `json:"address"`
+	Phone          PhoneNumbers       `json:"phone"`
+	Ips            ip.Ips             `json:"ips"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        hobby.Hobbies      `json:"hobbies"`
