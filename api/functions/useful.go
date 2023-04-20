@@ -25,7 +25,6 @@ func DeleteEmptyKey[T any](m map[string]T) map[string]T {
 }
 
 func FullParseMapRet[T interface{ Parse() (T, error) }](m map[string]T, fieldName string) (map[string]T, error) {
-	//var err error
 	newMap := make(map[string]T)
 	m = DeleteEmptyKey(m)
 	for k, v := range m {

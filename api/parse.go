@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/seekr-osint/seekr/api/club"
-	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/errortypes"
+	"github.com/seekr-osint/seekr/api/hobby"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
