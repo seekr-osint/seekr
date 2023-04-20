@@ -197,7 +197,10 @@ html {
 .hobby-subcontainer,
 .c-hobby-subcontainer,
 .club-subcontainer,
-.c-club-subcontainer {
+.c-club-subcontainer,
+.ip-subcontainer,
+.c-ip-subcontainer,
+.v-ip-subcontainer {
   display: flex;
 }
 
@@ -238,7 +241,9 @@ html {
 .v-hobby,
 .e-hobby,
 .v-club,
-.e-club {
+.e-club,
+.v-ip,
+.e-ip {
   width: 42rem !important;
 }
 
@@ -257,7 +262,11 @@ html {
 .club-container,
 .c-club-container,
 .v-club-container,
-.e-club-container {
+.e-club-container,
+.ip-container,
+.c-ip-container,
+.v-ip-container,
+.e-ip-container {
   margin-bottom: 1.5rem;
   box-shadow: var(--shadowPreset-5);
   padding: 1rem;
