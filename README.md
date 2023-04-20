@@ -41,7 +41,7 @@ Now open [the web interface](http://localhost:8569/web/) in your browser of choi
 ### Docker
 ```sh
 docker pull ghcr.io/seekr-osint/seekr:latest
-docker run -d 8569:8569 ghcr.io/seekr-osint/seekr:latest
+docker run -p 8569:8569 ghcr.io/seekr-osint/seekr:latest
 ```
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
