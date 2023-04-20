@@ -10,3 +10,7 @@ func (sources Sources) Parse() (Sources, error) {
 func (source Source) Parse() (Source, error) {
 	return source, nil
 }
+
+func (source Source) Markdown() (string, error) {
+	return functions.Markdown(source)
+}
