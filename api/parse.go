@@ -2,6 +2,8 @@ package api
 
 import (
 	"net/http"
+
+	"github.com/seekr-osint/seekr/api/errortypes"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
@@ -46,26 +48,26 @@ func (person Person) ReplaceNil() Person {
 
 func (person Person) Validate() error {
 	if !person.Civilstatus.IsValid() {
-		return APIError{
+		return errortypes.APIError{
 			Message: "Invalid civil status",
 			Status:  http.StatusBadRequest,
 		}
 	}
 	if !person.Religion.IsValid() {
-		return APIError{
+		return errortypes.APIError{
 			Message: "Invalid religion",
 			Status:  http.StatusBadRequest,
 		}
 	}
 
 	if person.ID == "" {
-		return APIError{
+		return errortypes.APIError{
 			Message: "Missing ID",
 			Status:  http.StatusBadRequest,
 		}
 	}
 	if !person.Gender.IsValid() {
-		return APIError{
+		return errortypes.APIError{
 			Message: "Invalid gender",
 			Status:  http.StatusBadRequest,
 		}

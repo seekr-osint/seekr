@@ -11,6 +11,8 @@ import (
 	"bytes"
 	"os"
 	"time"
+
+	"github.com/seekr-osint/seekr/api/functions"
 )
 
 func waitForFile() {
@@ -254,7 +256,7 @@ func writeDocs() {
 	}
 	defer file.Close()
 
-	for _, key := range SortMapKeys(requests) {
+	for _, key := range functions.SortMapKeys(requests) {
 		value := requests[key]
 		postData, _ := json.MarshalIndent(value.PostData, "", "\t")
 
@@ -293,7 +295,7 @@ func TestAPI(t *testing.T) {
 	writeDocs()
 	// WRITE DOCS END
 
-	for _, name := range SortMapKeys(requests) {
+	for _, name := range functions.SortMapKeys(requests) {
 		req := requests[name]
 		// Convert post data to JSON if necessary
 		postDataJson := []byte{}

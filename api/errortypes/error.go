@@ -1,4 +1,4 @@
-package api
+package errortypes
 
 type APIError struct {
 	Message string

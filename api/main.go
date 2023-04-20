@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/github"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/typetree"
@@ -105,7 +106,7 @@ func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 		emails, rateLimitRate, err := deep.GetEmails()
 		log.Printf("RateLimitRate: %d\n", rateLimitRate)
 		if err != nil {
-			apiErr := err.(APIError)
+			apiErr := err.(errortypes.APIError)
 			c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
 			return
 		} else {
@@ -228,7 +229,7 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	}
 	err := person.Validate()
 	if err != nil {
-		apiErr := err.(APIError)
+		apiErr := err.(errortypes.APIError)
 		c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
 		return
 	}
