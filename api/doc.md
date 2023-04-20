@@ -4,7 +4,7 @@
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "2"
@@ -56,7 +56,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "1"
@@ -80,7 +80,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8569/people/2
+curl -X GET http://localhost:8080/people/2
 ```
 
 **Response:**
@@ -128,7 +128,7 @@ curl -X GET http://localhost:8569/people/2
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8569/people/100
+curl -X GET http://localhost:8080/people/100
 ```
 
 **Response:**
@@ -146,7 +146,7 @@ null
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -216,7 +216,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -293,7 +293,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -394,7 +394,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -482,7 +482,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -552,7 +552,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8569/getAccounts/snapchat-exsists
+curl -X GET http://localhost:8080/getAccounts/snapchat-exsists
 ```
 
 **Response:**
@@ -587,7 +587,7 @@ Possible values are: Single,Married,Widowed,Divorced,Separated
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"civilstatus": "Single",
@@ -640,7 +640,7 @@ Possible values are: Single,Married,Widowed,Divorced,Separated
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"civilstatus": "Invalid",
@@ -665,7 +665,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{}'
 ```
@@ -687,7 +687,7 @@ Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_t
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "17",
@@ -712,7 +712,7 @@ Possible values are: Male,Female,Other
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"gender": "Invalid",
@@ -737,7 +737,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"age": 10,
@@ -768,7 +768,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "20",
@@ -798,7 +798,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "20",
@@ -828,7 +828,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "21",
@@ -903,7 +903,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "30",
@@ -978,7 +978,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "22",
@@ -1053,7 +1053,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "23",
@@ -1111,7 +1111,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8569/person \
+curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"age": 23,
@@ -1233,7 +1233,7 @@ curl -X POST http://localhost:8569/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8569/people/24/markdown
+curl -X GET http://localhost:8080/people/24/markdown
 ```
 
 **Response:**
