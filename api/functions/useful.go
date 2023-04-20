@@ -1,10 +1,10 @@
 package functions
 
 import (
+	"fmt"
 	"reflect"
 	"sort"
 	"strings"
-	"fmt"
 )
 
 func SortMapKeys[T any](m map[string]T) []string {
@@ -50,45 +50,46 @@ func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
 	return parsed, nil
 }
 
-
 func Markdown[T interface{}](t T) (string, error) {
-    if reflect.TypeOf(t).Kind() != reflect.Struct {
-        return "", ErrOnlyStruct
-    }
-    var sb strings.Builder
+	if reflect.TypeOf(t).Kind() != reflect.Struct {
+		return "", ErrOnlyStruct
+	}
+	var sb strings.Builder
 
-    typ := reflect.TypeOf(t)
-    val := reflect.ValueOf(t)
+	typ := reflect.TypeOf(t)
+	val := reflect.ValueOf(t)
 
-    for i := 0; i < typ.NumField(); i++ {
-        field := typ.Field(i)
-        fieldValue := val.Field(i)
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		fieldValue := val.Field(i)
 
-        if field.Type.Kind() != reflect.Struct {
-            sb.WriteString(fmt.Sprintf("- %s: %s\n", field.Name, fieldValue.Interface()))
-        } else {
-            nestedMarkdown, err := Markdown(fieldValue.Interface())
-            if err != nil {
-                return "", err
-            }
-            sb.WriteString(fmt.Sprintf("# %s\n%s", field.Name, nestedMarkdown))
-        }
-    }
+		if field.Type.Kind() != reflect.Struct {
+			sb.WriteString(fmt.Sprintf("- %s: %s\n", field.Name, fieldValue.Interface()))
+		} else {
+			nestedMarkdown, err := Markdown(fieldValue.Interface())
+			if err != nil {
+				return "", err
+			}
+			sb.WriteString(fmt.Sprintf("# %s\n%s", field.Name, nestedMarkdown))
+		}
+	}
 
-    return sb.String(), nil
+	return sb.String(), nil
 }
 
-func MarkdownMap[T interface{ Markdown() (string, error) }](m map[string]T) (string,error) {
-  var sb strings.Builder
-  for _, key:= range SortMapKeys(map[string]T(m)) {
-    v := m[key]
-    sb.WriteString(fmt.Sprintf("### %s\n", key))
+func MarkdownMap[T interface{ Markdown() (string, error) }](m map[string]T, header string) (string, error) {
+	var sb strings.Builder
+	if len(m) >= 1 {
+		sb.WriteString(fmt.Sprintf("## %s\n", header))
+	}
+	for _, key := range SortMapKeys(map[string]T(m)) {
+		v := m[key]
+		sb.WriteString(fmt.Sprintf("### %s\n", key))
 		markdown, err := v.Markdown()
 		if err != nil {
-			return sb.String(),err
+			return sb.String(), err
 		}
-    sb.WriteString(markdown)
-    sb.WriteString("\n")
-  }
-  return sb.String(), nil
+		sb.WriteString(markdown)
+	}
+	return sb.String(), nil
 }
