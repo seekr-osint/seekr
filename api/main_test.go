@@ -230,6 +230,19 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"},
 		StatusCode:       200,
 	},
+
+	"9p-postPerson": { // ID 18
+		RequestType: "POST",
+		Name:        "Post Person (invalid SSN)",
+		URL:         "http://localhost:8080/person",
+		PostData: map[string]interface{}{
+			"id": "18",
+			"ssn": map[string]interface{}{
+				"": map[string]interface{}{"ssn": ""},
+			}},
+		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "address": "", "age": float64(0), "bday": "", "civilstatus": "", "club": "", "custom": interface{}(nil), "education": "", "email": map[string]interface{}{}, "gender": "", "hobbies": "", "id": "18", "kids": "", "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "ssn": map[string]interface{}{}, "tags": []interface{}{}},
+		StatusCode:       201,
+	},
 	//"9o-Deep": { // deep
 	//	RequestType:      "GET",
 	//	Name:             "deep investigation Rate Limitation Error (GitHub)",

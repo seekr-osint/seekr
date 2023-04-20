@@ -1289,3 +1289,61 @@ curl -X GET http://localhost:8080/people/24/markdown
 **Status Code:** 200
 
 
+## Post Person (invalid SSN)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "18",
+	"ssn": {
+		"": {
+			"ssn": ""
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"club": "",
+	"custom": null,
+	"education": "",
+	"email": {},
+	"gender": "",
+	"hobbies": "",
+	"id": "18",
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"ssn": {},
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
