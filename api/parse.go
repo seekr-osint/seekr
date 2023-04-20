@@ -20,6 +20,14 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 	if err != nil {
 		return person, err
 	}
+	person.Hobbies, err = person.Hobbies.Parse()
+	if err != nil {
+		return person, err
+	}
+	person.Clubs, err = person.Clubs.Parse()
+	if err != nil {
+		return person, err
+	}
 	return person, err
 }
 
