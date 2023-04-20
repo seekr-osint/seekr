@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/nyaruka/phonenumbers"
+	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/functions"
 	"github.com/sundowndev/phoneinfoga/v2/lib/number"
 )
@@ -42,7 +43,7 @@ func (phoneNumber PhoneNumber) IsValid() bool {
 func (numbers PhoneNumbers) Validate() error {
 	for _, number := range functions.SortMapKeys(map[string]PhoneNumber(numbers)) {
 		if number != numbers[number].Number {
-			return APIError{
+			return errortypes.APIError{
 				Message: fmt.Sprintf("Key missmatch: Phone[%s] = %s", number, numbers[number].Number),
 				Status:  http.StatusBadRequest,
 			}

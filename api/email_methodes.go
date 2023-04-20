@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/functions"
 )
 
@@ -40,7 +41,7 @@ func (e Email) IsValidEmail() bool {
 func (emailAdresses EmailsType) Validate() error {
 	for _, emailAdress := range functions.SortMapKeys(map[string]Email(emailAdresses)) {
 		if emailAdress != emailAdresses[emailAdress].Mail {
-			return APIError{
+			return errortypes.APIError{
 				Message: fmt.Sprintf("Key missmatch: Email[%s] = %s", emailAdress, emailAdresses[emailAdress].Mail),
 				Status:  http.StatusBadRequest,
 			}
