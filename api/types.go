@@ -4,6 +4,7 @@ import (
 	"github.com/seekr-osint/seekr/api/club"
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/sources"
 )
 
 // "github.com/seekr-osint/seekr/api/ssn"
@@ -35,7 +36,7 @@ type Person struct {
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
 	Relations      Relation           `json:"relations"` // FIXME
-	Sources        Sources            `json:"sources"`
+	Sources        sources.Sources    `json:"sources"`
 	Accounts       Accounts           `json:"accounts"`
 	Tags           Tags               `json:"tags"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
@@ -43,10 +44,7 @@ type Person struct {
 }
 
 type Relation map[string][]string
-type Sources map[string]Source
-type Source struct {
-	Url string `json:"url"`
-}
+
 type Tags []Tag
 type Tag struct {
 	Name string `json:"name"`
