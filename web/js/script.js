@@ -99,7 +99,6 @@ async function main() {
           document.querySelector(".address").innerHTML = "Address: " + obj.address;
           document.querySelector(".civilstatus").innerHTML = "Civil stand: " + obj.civilstatus;
           document.querySelector(".kids").innerHTML = "Kids: " + obj.kids;
-          document.querySelector(".hobbies").innerHTML = "Hobbies: " + obj.hobbies;
           document.querySelector(".occupation").innerHTML = "Occupation: " + obj.occupation;
           document.querySelector(".prevoccupation").innerHTML = "Previous Occupation: " + obj.prevoccupation;
           document.querySelector(".education").innerHTML = "Education: " + obj.education;
@@ -147,10 +146,10 @@ async function main() {
 
           document.querySelector('.v-hobby-base').style.display = "block";
 
-          if (Object.keys(obj.hobby).length >= 1) {
+          if (Object.keys(obj.hobbies).length >= 1) {
             const hobbyContainer = document.querySelector('.v-hobby-base');
 
-            for (const [_, hobby] of Object.entries(obj.hobby)) {
+            for (const [_, hobby] of Object.entries(obj.hobbies)) {
               if (hobby.hobby != "" && hobby.hobby != null && hobby.hobby != undefined) {
                 document.querySelector('.v-hobby-space-maker').style.display = "block";
                 const container = document.createElement("div");
@@ -624,9 +623,9 @@ async function main() {
           // Hobbies
 
           if (Object.keys(obj.hobbies).length >= 1) {
-            const hobbyContainer = document.querySelector('.hobby-base');
+            const hobbyContainer = document.querySelector('.e-hobby-base');
 
-            for (const [_, hobby] of Object.entries(obj.phone)) {
+            for (const [_, hobby] of Object.entries(obj.hobbies)) {
               const container = document.createElement("div");
               container.className = "hobby-container";
 
@@ -639,7 +638,6 @@ async function main() {
               hobby_input.type = "email";
               hobby_input.placeholder = "Enter hobby";
               hobby_input.spellcheck = "false";
-              hobby_input.required = "true";
               hobby_input.value = hobby.hobby;
 
               const del_btn_div = document.createElement("div");
@@ -662,7 +660,7 @@ async function main() {
           }
 
           document.getElementById("hobby-add-btn").onclick = function () {
-            const hobby_base = document.querySelector(".hobby-base");
+            const hobby_base = document.querySelector(".e-hobby-base");
 
             const hobby_container = document.createElement("div");
             hobby_container.className = "hobby-container";
@@ -1571,7 +1569,7 @@ async function main() {
 
     let kids = document.querySelector(".e-kids").innerHTML;
 
-    let hobbyContainers = document.querySelectorAll('.e-hobby-container');
+    let hobbyContainers = document.querySelectorAll('.hobby-container');
     let hobbies = {};
 
     hobbyContainers.forEach(function (container) {
