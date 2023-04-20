@@ -10,3 +10,7 @@ func (hobbies Hobbies) Parse() (Hobbies, error) {
 func (hobby Hobby) Parse() (Hobby, error) {
 	return hobby, nil
 }
+
+func (hobby Hobby) Markdown() (string, error) {
+	return functions.Markdown(hobby)
+}

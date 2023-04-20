@@ -10,3 +10,7 @@ func (clubs Clubs) Parse() (Clubs, error) {
 func (club Club) Parse() (Club, error) {
 	return club, nil
 }
+
+func (club Club) Markdown() (string, error) {
+	return functions.Markdown(club)
+}
