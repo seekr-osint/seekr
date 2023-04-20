@@ -1,23 +1,21 @@
 package api
 
 import (
-	"embed"
-
-	"github.com/gin-gonic/gin"
+// "github.com/seekr-osint/seekr/api/ssn"
 )
 
 // main data set
 type Person struct {
-	ID             string             `json:"id"`
-	Name           string             `json:"name"`
-	Gender         Gender             `json:"gender"`
-	Pictures       Pictures           `json:"pictures"`
-	Maidenname     string             `json:"maidenname"`
-	Age            Age                `json:"age"` // has to be a float64 becuase of json Unmarshal
-	Birthday       string             `json:"bday"`
-	Address        string             `json:"address"`
-	Phone          PhoneNumbers       `json:"phone"`
-	SSN            SSN                `json:"ssn"`
+	ID         string       `json:"id"`
+	Name       string       `json:"name"`
+	Gender     Gender       `json:"gender"`
+	Pictures   Pictures     `json:"pictures"`
+	Maidenname string       `json:"maidenname"`
+	Age        Age          `json:"age"` // has to be a float64 becuase of json Unmarshal
+	Birthday   string       `json:"bday"`
+	Address    string       `json:"address"`
+	Phone      PhoneNumbers `json:"phone"`
+	//SSN            ssn.SSNs            `json:"ssn"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
 	Hobbies        string             `json:"hobbies"`
@@ -76,32 +74,6 @@ type Account struct {
 	Blog      string   `json:"blog"`
 	Followers int      `json:"followers"`
 	Following int      `json:"following"`
-}
-
-type SaveDBFunc func(ApiConfig) error
-type LoadDBFunc func(ApiConfig) (ApiConfig, error)
-type ApiConfig struct {
-	Ip             string        `json:"ip"`
-	TempMailIp     string        `json:"temp_mail_ip"`
-	WebServer      bool          `json:"web_server"`
-	WebServerFS    embed.FS      `json:"web_server_fs"`
-	LogFile        string        `json:"log_file"`
-	DataBaseFile   string        `json:"data_base_file"`
-	DataBase       DataBase      `json:"data_base"`
-	SetCORSHeader  bool          `json:"set_CORS_header"`
-	SaveDBFunc     SaveDBFunc    `json:"save_db_func"`
-	LoadDBFunc     LoadDBFunc    `json:"load_db_func"`
-	GinRouter      *gin.Engine   `json:"gin_router"`
-	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
-	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
-	Testing        bool          `json:"testing"`
-}
-type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
-type ApiKeys struct {
-	Github ApiKeyEnum `json:"github"`
-}
-type ApiKeyEnum map[string]ApiKey
-type ApiKey struct {
 }
 type Services []Service
 type Service struct {

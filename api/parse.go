@@ -5,14 +5,17 @@ import (
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
+	var err error
 	person = person.ReplaceNil()
-	personPhone, err := person.Phone.Parse()
+	person.Phone, err = person.Phone.Parse()
 	if err != nil {
 		return person, err
 	}
-	person.Phone = personPhone
 	person.Email = person.Email.Parse()
 	person, err = person.CheckMail(config)
+	if err != nil {
+		return person, err
+	}
 	return person, err
 }
 
@@ -54,12 +57,7 @@ func (person Person) Validate() error {
 			Status:  http.StatusBadRequest,
 		}
 	}
-	if !person.SSN.IsValid() {
-		return APIError{
-			Message: "Invalid SSN",
-			Status:  http.StatusBadRequest,
-		}
-	}
+
 	if person.ID == "" {
 		return APIError{
 			Message: "Missing ID",

@@ -43,7 +43,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -116,7 +115,6 @@ curl -X GET http://localhost:8080/people/2
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -205,7 +203,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -283,7 +280,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -385,7 +381,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -474,7 +469,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -545,7 +539,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -634,7 +627,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -708,31 +700,6 @@ curl -X POST http://localhost:8080/person \
 ```json
 {
 	"message": "Invalid religion"
-}
-```
-
-**Status Code:** 400
-
-
-## Post Person (invalid SSN)
-
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"id": "18",
-	"ssn": "invalid"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"message": "Invalid SSN"
 }
 ```
 
@@ -923,7 +890,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -999,7 +965,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -1075,7 +1040,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -1134,7 +1098,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -1257,7 +1220,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
