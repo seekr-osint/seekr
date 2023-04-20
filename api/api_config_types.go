@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/dgraph-io/badger/v4"
 	"github.com/gin-gonic/gin"
 	"github.com/seekr-osint/seekr/api/server"
 )
@@ -19,6 +20,7 @@ type ApiConfig struct {
 	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
 	Testing        bool          `json:"testing"`
+	BadgerDBLogger badger.Logger `json:"badger_db_logger"`
 }
 type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
 type ApiKeys struct {
