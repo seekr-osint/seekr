@@ -6,6 +6,7 @@ import (
 	"github.com/seekr-osint/seekr/api/club"
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/hobby"
+	"github.com/seekr-osint/seekr/api/ip"
 )
 
 func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error handeling and Validate person
@@ -28,6 +29,10 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 	if err != nil {
 		return person, err
 	}
+	person.Ips, err = person.Ips.Parse()
+	if err != nil {
+		return person, err
+	}
 	return person, err
 }
 
@@ -40,6 +45,9 @@ func (person Person) ReplaceNil() Person {
 	}
 	if person.Clubs == nil {
 		person.Clubs = club.Clubs{}
+	}
+	if person.Ips == nil {
+		person.Ips = ip.Ips{}
 	}
 	if person.Pictures == nil {
 		person.Pictures = Pictures{}
