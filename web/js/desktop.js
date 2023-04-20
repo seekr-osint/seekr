@@ -64,6 +64,19 @@ function createCrtshWindow() {
   });
 }
 
+function createBlockchainExplorerWindow() {
+  new WinBox("Blockchain Explorer", {
+    id: "seekr-window",
+    html: '<iframe class="frame" src="https://blockexplorer.one"></iframe>',
+    background: bg_var,
+    header: 45,
+    // viewport boundaries:
+    top: 10,
+    right: 10,
+    bottom: 0,
+    left: 10,
+  });
+}
 
 function createTempMailWindow() {
   new WinBox("TEMPMAIL", {
