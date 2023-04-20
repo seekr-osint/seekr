@@ -38,6 +38,11 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
 
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
+### Docker
+```sh
+docker pull ghcr.io/seekr-osint/seekr:latest
+docker run -d 8569:8569 ghcr.io/seekr-osint/seekr:latest
+```
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
