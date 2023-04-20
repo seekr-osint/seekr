@@ -2,11 +2,13 @@ package api
 
 import (
 	"fmt"
-	"github.com/nyaruka/phonenumbers"
-	"github.com/sundowndev/phoneinfoga/v2/lib/number"
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/nyaruka/phonenumbers"
+	"github.com/seekr-osint/seekr/api/functions"
+	"github.com/sundowndev/phoneinfoga/v2/lib/number"
 )
 
 // Markdown
@@ -20,7 +22,7 @@ func (phoneNumber PhoneNumber) Markdown() string {
 
 func (numbers PhoneNumbers) Markdown() string {
 	var sb strings.Builder
-	for _, number := range SortMapKeys(map[string]PhoneNumber(numbers)) {
+	for _, number := range functions.SortMapKeys(map[string]PhoneNumber(numbers)) {
 		sb.WriteString(numbers[number].Markdown())
 	}
 	return sb.String()
@@ -38,7 +40,7 @@ func (phoneNumber PhoneNumber) IsValid() bool {
 }
 
 func (numbers PhoneNumbers) Validate() error {
-	for _, number := range SortMapKeys(map[string]PhoneNumber(numbers)) {
+	for _, number := range functions.SortMapKeys(map[string]PhoneNumber(numbers)) {
 		if number != numbers[number].Number {
 			return APIError{
 				Message: fmt.Sprintf("Key missmatch: Phone[%s] = %s", number, numbers[number].Number),
@@ -78,7 +80,7 @@ func (phoneNumber PhoneNumber) Parse() (PhoneNumber, error) {
 
 func (numbers PhoneNumbers) Parse() (PhoneNumbers, error) {
 	newNumbers := PhoneNumbers{}
-	for _, number := range SortMapKeys(map[string]PhoneNumber(numbers)) {
+	for _, number := range functions.SortMapKeys(map[string]PhoneNumber(numbers)) {
 		// delete empty phone numbers
 		if number == "" {
 			delete(numbers, number) // number == ""

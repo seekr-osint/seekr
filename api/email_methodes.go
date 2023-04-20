@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/seekr-osint/seekr/api/functions"
 )
 
 // Methodes
@@ -27,7 +29,7 @@ func (e Email) IsValidEmail() bool {
 // FIXME unnecessary code
 //
 //	func (skippedServices SkippedServices) Parse() SkippedServices {
-//		for _, skippedService := range SortMapKeys(map[string]bool(skippedServices)) {
+//		for _, skippedService := range functions.SortMapKeys(map[string]bool(skippedServices)) {
 //			if skippedServices[skippedService] == false {
 //				//skippedServices = delete(map[string]bool(skippedServices), skippedService)
 //			}
@@ -36,7 +38,7 @@ func (e Email) IsValidEmail() bool {
 //	}
 
 func (emailAdresses EmailsType) Validate() error {
-	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
+	for _, emailAdress := range functions.SortMapKeys(map[string]Email(emailAdresses)) {
 		if emailAdress != emailAdresses[emailAdress].Mail {
 			return APIError{
 				Message: fmt.Sprintf("Key missmatch: Email[%s] = %s", emailAdress, emailAdresses[emailAdress].Mail),
@@ -48,7 +50,7 @@ func (emailAdresses EmailsType) Validate() error {
 }
 
 func (emailAdresses EmailsType) Parse() EmailsType {
-	for _, emailAdress := range SortMapKeys(map[string]Email(emailAdresses)) {
+	for _, emailAdress := range functions.SortMapKeys(map[string]Email(emailAdresses)) {
 		// delete empty emails
 		if emailAdress == "" {
 			log.Printf("Empty email detected.")
@@ -90,7 +92,7 @@ func (e Email) Parse() Email {
 func (et EmailsType) Markdown() string {
 	var sb strings.Builder
 
-	for _, emailAdress := range SortMapKeys(map[string]Email(et)) {
+	for _, emailAdress := range functions.SortMapKeys(map[string]Email(et)) {
 		v := et[emailAdress]
 		sb.WriteString(fmt.Sprintf("### %s\n", emailAdress))
 		sb.WriteString(v.Markdown())
@@ -129,7 +131,7 @@ func (es EmailServices) Markdown() string {
 	var sb strings.Builder
 	if len(es) > 0 {
 		sb.WriteString("#### Services\n")
-		for _, k := range SortMapKeys(es) {
+		for _, k := range functions.SortMapKeys(es) {
 			v := es[k]
 			sb.WriteString(v.Markdown(k))
 		}
@@ -140,7 +142,7 @@ func (ss SkippedServices) Markdown() string {
 	var sb strings.Builder
 	if len(ss) > 0 {
 		sb.WriteString("#### Skipped Services\n")
-		for _, k := range SortMapKeys(ss) {
+		for _, k := range functions.SortMapKeys(ss) {
 			v := ss[k]
 			sb.WriteString(fmt.Sprintf("- %s: `%t`\n", k, v))
 		}
