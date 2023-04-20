@@ -4,6 +4,8 @@ import (
 	"log"
 	//"log"
 	"regexp"
+
+	"github.com/seekr-osint/seekr/api/functions"
 	//"strings"
 	//"sync"
 )
@@ -97,7 +99,7 @@ func (emails EmailsType) CheckMail(config ApiConfig) (EmailsType, error) {
 	)
 
 	// Start a goroutine for each email to check the mail concurrently.
-	for _, email := range SortMapKeys(emails) {
+	for _, email := range functions.SortMapKeys(emails) {
 		go func(email Email, config ApiConfig) {
 			email, err := email.CheckMail(config)
 			if err != nil {
@@ -125,7 +127,7 @@ func (emails EmailsType) CheckMail(config ApiConfig) (EmailsType, error) {
 // func (emails EmailsType) CheckMail(config ApiConfig) (EmailsType, error) { // FIXME slow
 //
 //		var err error
-//		for _, email := range SortMapKeys(emails) {
+//		for _, email := range functions.SortMapKeys(emails) {
 //			emails[email], err = emails[email].CheckMail(config)
 //		}
 //		return emails, err

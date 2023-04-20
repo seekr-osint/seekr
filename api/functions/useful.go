@@ -1,6 +1,5 @@
-package api
+package functions
 
-// useful functions in general
 import (
 	"sort"
 )

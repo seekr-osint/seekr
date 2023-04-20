@@ -38,6 +38,11 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
 
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
+### Docker
+```sh
+docker pull ghcr.io/seekr-osint/seekr:latest
+docker run -p 8569:8569 ghcr.io/seekr-osint/seekr:latest
+```
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
@@ -55,28 +60,9 @@ To run seekr on NixOS run following commands.
 nix shell github:seekr-osint/seekr
 seekr
 ```
-
-## Intigrating seekr into your current workflow
-```mermaid
-journey
-	title How to Intigrate seekr into your current workflow.
-	section Initial Research
-		Create a person in seekr: 100: seekr
-    Simple web research: 100: Known tools
-		Account scan: 100: seekr
-	section Deeper account investigation
-		Investigate the accounts: 100: seekr, Known tools
-		Keep notes: 100: seekr
-  section Deeper Web research
-    Deep web research: 100: Known tools
-    Keep notes: 100: seekr
-	section Finishing the report
-		Export the person with seekr: 100: seekr
-		Done.: 100
-```
 ## Feedback
 We would love to hear from you. Tell us about your opinions on seekr. Where do we need to improve?...
-You can do this by just opeing up an issue or maybe even telling others in your blog or somewhere else about your experience.
+You can do this by just opening up an issue or maybe even telling others in your blog or somewhere else about your experience.
 ## Legal Disclaimer
 This tool is intended for legitimate and lawful use only. It is provided for educational and research purposes, and should not be used for any illegal or malicious activities, including doxxing. Doxxing is the practice of researching and broadcasting private or identifying information about an individual, without their consent and can be illegal. The creators and contributors of this tool will not be held responsible for any misuse or damage caused by this tool. By using this tool, you agree to use it only for lawful purposes and to comply with all applicable laws and regulations. It is the responsibility of the user to ensure compliance with all relevant laws and regulations in the jurisdiction in which they operate. Misuse of this tool may result in criminal and/or civil prosecution.
 ## Thanks to

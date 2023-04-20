@@ -2,13 +2,15 @@ package api
 
 import (
 	"errors"
+
+	"github.com/seekr-osint/seekr/api/functions"
 )
 
 // Parsing
 
 func (dataBase DataBase) Parse(config ApiConfig) (DataBase, error) {
 	var err error
-	for _, name := range SortMapKeys(map[string]Person(dataBase)) {
+	for _, name := range functions.SortMapKeys(map[string]Person(dataBase)) {
 		dataBase[name], err = dataBase[name].Parse(config)
 	}
 	return dataBase, err
