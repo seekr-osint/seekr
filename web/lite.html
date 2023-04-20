@@ -84,7 +84,20 @@
 
           <p class="viewtag tag civilstatus">Civil status: x</p>
           <p class="viewtag tag kids">Kids: x</p>
-          <p class="viewtag tag hobbies">Hobbies: x</p>
+          
+          <div class="chip v-hobby-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Hobbies</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-hobby-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="chip v-email-space-maker" id="v-space-maker">
             <p id="v-notes-header">E-Mail</p>
 
@@ -102,7 +115,20 @@
           <p class="viewtag tag education">Education: x</p>
           <p class="viewtag tag religion">Religion: x</p>
           <p class="viewtag tag pets">Pets: x</p>
-          <p class="viewtag tag club">Club: x</p>
+
+          <div class="chip v-club-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-club-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <p class="viewtag tag legal">Legal: x</p>
           <p class="viewtag tag political">Political: x</p>
           <div class="chip" id="space-maker">
@@ -169,10 +195,7 @@
 
             <div class="table">
               <div class="form">
-                <div class="phone-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="phone-base"></div>
 
                 <div id="phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
@@ -181,7 +204,16 @@
 
           <div class="table">
             <p class="tag">Civil status: </p>
-            <div class="form"><span type="text" class="form-input e-civilstatus" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="civilstatus-select">
+              <select>
+                <option value="0">Select civil status:</option>
+                <option value="Si">Single</option>
+                <option value="M">Married</option>
+                <option value="W">Widowed</option>
+                <option value="D">Divorced</option>
+                <option value="Se">Separated</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
@@ -189,9 +221,16 @@
             <div class="form"><span type="text" class="form-input e-kids" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Hobbies: </p>
-            <div class="form"><span type="text" class="form-input e-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Hobbies</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-hobby-base"></div>
+
+                <div id="hobby-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="e-space-maker">
@@ -199,10 +238,7 @@
 
             <div class="table">
               <div class="form">
-                <div class="email-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="email-base"></div>
 
                 <div id="email-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
@@ -227,7 +263,19 @@
 
           <div class="table">
             <p class="tag">Religion: </p>
-            <div class="form"><span type="text" class="form-input e-religion" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="religion-select">
+              <select>
+                <option value="0">Select religion:</option>
+                <option value="C">Christianity</option>
+                <option value="A">Atheism</option>
+                <option value="I">Islam</option>
+                <option value="H">Hinduism</option>
+                <option value="B">Buddhism</option>
+                <option value="S">Sikhism</option>
+                <option value="J">Judaism</option>
+                <option value="O">Other</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
@@ -235,9 +283,16 @@
             <div class="form"><span type="text" class="form-input e-pets" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Club: </p>
-            <div class="form"><span type="text" class="form-input e-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-club-base"></div>
+
+                <div id="club-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">
@@ -319,10 +374,7 @@
 
             <div class="table">
               <div class="form">
-                <div class="c-phone-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="c-phone-base"></div>
 
                 <div id="c-phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
@@ -331,17 +383,33 @@
 
           <div class="table">
             <p class="tag">Civil status: </p>
-            <div class="form"><span type="text" class="form-input c-civilstatus" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="civilstatus-select">
+              <select>
+                <option value="0">Select civil status:</option>
+                <option value="Si">Single</option>
+                <option value="M">Married</option>
+                <option value="W">Widowed</option>
+                <option value="D">Divorced</option>
+                <option value="Se">Separated</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
             <p class="tag">Kids: </p>
             <div class="form"><span type="text" class="form-input c-kids" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
+          
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Hobbies</p>
 
-          <div class="table">
-            <p class="tag">Hobbies: </p>
-            <div class="form"><span type="text" class="form-input c-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="table">
+              <div class="form">
+                <div class="c-hobby-base"></div>
+
+                <div id="c-hobby-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="c-space-maker">
@@ -373,7 +441,19 @@
 
           <div class="table">
             <p class="tag">Religion: </p>
-            <div class="form"><span type="text" class="form-input c-religion" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="religion-select">
+              <select>
+                <option value="0">Select religion:</option>
+                <option value="C">Christianity</option>
+                <option value="A">Atheism</option>
+                <option value="I">Islam</option>
+                <option value="H">Hinduism</option>
+                <option value="B">Buddhism</option>
+                <option value="S">Sikhism</option>
+                <option value="J">Judaism</option>
+                <option value="O">Other</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
@@ -381,9 +461,16 @@
             <div class="form"><span type="text" class="form-input c-pets" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Club: </p>
-            <div class="form"><span type="text" class="form-input c-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-club-base"></div>
+
+                <div id="c-club-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">

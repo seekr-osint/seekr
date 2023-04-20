@@ -55,10 +55,12 @@ func (numbers PhoneNumbers) Validate() error {
 // Parsing
 
 func (phoneNumber PhoneNumber) Parse() (PhoneNumber, error) {
-	if !phoneNumber.IsValid() && phoneNumber.Number[0] != '+' {
-		phoneNumber.Number = "+" + phoneNumber.Number
-		if !phoneNumber.IsValid() {
-			phoneNumber.Number = phoneNumber.Number[1:]
+	if phoneNumber.Number != "" {
+		if !phoneNumber.IsValid() && phoneNumber.Number[0] != '+' {
+			phoneNumber.Number = "+" + phoneNumber.Number
+			if !phoneNumber.IsValid() {
+				phoneNumber.Number = phoneNumber.Number[1:]
+			}
 		}
 	}
 	phoneNumber.Valid = phoneNumber.IsValid()
@@ -80,20 +82,8 @@ func (phoneNumber PhoneNumber) Parse() (PhoneNumber, error) {
 }
 
 func (numbers PhoneNumbers) Parse() (PhoneNumbers, error) {
-	newNumbers := PhoneNumbers{}
-	for _, number := range functions.SortMapKeys(map[string]PhoneNumber(numbers)) {
-		// delete empty phone numbers
-		if number == "" {
-			delete(numbers, number) // number == ""
-			break
-		}
-		parsedNumber, err := numbers[number].Parse()
-		if err != nil {
-			return newNumbers, err
-		}
-		newNumbers[parsedNumber.Number] = parsedNumber
-	}
-	return newNumbers, nil
+	newNumbers, err := functions.FullParseMapRet(numbers, "Number")
+	return newNumbers, err
 }
 
 // Info

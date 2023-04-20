@@ -1,8 +1,11 @@
 package api
 
 import (
-// "github.com/seekr-osint/seekr/api/ssn"
+	"github.com/seekr-osint/seekr/api/club"
+	"github.com/seekr-osint/seekr/api/hobby"
 )
+
+// "github.com/seekr-osint/seekr/api/ssn"
 
 // main data set
 type Person struct {
@@ -18,7 +21,7 @@ type Person struct {
 	//SSN            ssn.SSNs            `json:"ssn"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
-	Hobbies        string             `json:"hobbies"`
+	Hobbies        hobby.Hobbies      `json:"hobbies"`
 	Email          EmailsType         `json:"email"`
 	Occupation     string             `json:"occupation"`
 	Prevoccupation string             `json:"prevoccupation"`
@@ -26,7 +29,7 @@ type Person struct {
 	Military       string             `json:"military"`
 	Religion       Religion           `json:"religion"`
 	Pets           string             `json:"pets"`
-	Club           string             `json:"club"`
+	Clubs          club.Clubs         `json:"clubs"`
 	Legal          string             `json:"legal"`
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
