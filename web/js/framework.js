@@ -16,7 +16,8 @@ function SaveAsFile(t, f, m) {
 
 const elements = {
   "gender-select": document.getElementsByClassName("gender-select"),
-  "religion-select": document.getElementsByClassName("religion-select")
+  "religion-select": document.getElementsByClassName("religion-select"),
+  "civilstatus-select": document.getElementsByClassName("civilstatus-select")
 };
 
 for (const [className, nodeList] of Object.entries(elements)) {
@@ -168,6 +169,33 @@ function getGenderElementIndex(gender) {
   return genderIndex[gender];
 }
 
+function checkCivilstatus(type) {
+  const selectedCivilstatus = document.querySelector("body > div." + type + "-container > div > div.scroll-box > div:nth-child(6) > div > div.select-selected").innerHTML;
+  const civilstatus = new Map();
+
+  civilstatus["Select civil status:"] = "";
+  civilstatus["Single"] = "Single";
+  civilstatus["Married"] = "Married";
+  civilstatus["Widowed"] = "Widowed";
+  civilstatus["Divorced"] = "Divorced";
+  civilstatus["Separated"] = "Separated";
+
+  return civilstatus[selectedCivilstatus];
+}
+
+function getCivilstatusElementIndex(civilstatus) {
+  const civilstatusIndex = new Map();
+
+  civilstatusIndex[""] = "";
+  civilstatusIndex["Single"] = "0";
+  civilstatusIndex["Married"] = "1";
+  civilstatusIndex["Widowed"] = "2";
+  civilstatusIndex["Divorced"] = "3";
+  civilstatusIndex["Separated"] = "4";
+
+  return civilstatusIndex[civilstatus];
+}
+
 
 function checkReligion(type) {
   const selectedReligion = document.querySelector("body > div." + type + "-container > div > div.scroll-box > div:nth-child(13) > div > div.select-selected").innerHTML;
@@ -203,4 +231,4 @@ function getReligionElementIndex(religion) {
 }
 
 
-export { delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex };
+export {delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex, checkCivilstatus, getCivilstatusElementIndex};

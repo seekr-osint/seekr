@@ -1,4 +1,4 @@
-import {delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex} from "./framework.js";
+import {delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex, checkCivilstatus, getCivilstatusElementIndex} from "./framework.js";
 
 const element = document.getElementById("searchbar");
 
@@ -573,7 +573,19 @@ async function main() {
             }
           }
 
-          document.querySelector(".e-civilstatus").innerHTML = obj.civilstatus;
+          if (obj.civilstatus != "") {
+            const civilstatusSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(6) > .civilstatus-select");
+            const selectItems = civilstatusSelect.querySelector(".select-items");
+            const selectSelected = civilstatusSelect.querySelector(".select-selected");
+  
+            const civilstatusIndex = getCivilstatusElementIndex(obj.civilstatus);
+  
+            const civilstatusElement = selectItems.children[civilstatusIndex];
+  
+            selectSelected.innerHTML = obj.civilstatus;
+            civilstatusElement.className = "same-as-selected";
+          }
+
           document.querySelector(".e-kids").innerHTML = obj.kids;
           document.querySelector(".e-hobbies").innerHTML = obj.hobbies;
           document.querySelector(".e-occupation").innerHTML = obj.occupation;
@@ -1330,7 +1342,8 @@ async function main() {
       };
     });
 
-    let civilstatus = document.querySelector(".c-civilstatus").innerHTML;
+    let civilstatus = checkCivilstatus("create");
+
     let kids = document.querySelector(".c-kids").innerHTML;
     let hobbies = document.querySelector(".c-hobbies").innerHTML;
     let occupation = document.querySelector(".c-occupation").innerHTML;
@@ -1401,7 +1414,8 @@ async function main() {
       };
     });
 
-    let civilstatus = document.querySelector(".e-civilstatus").innerHTML;
+    let civilstatus = checkCivilstatus("edit");
+
     let kids = document.querySelector(".e-kids").innerHTML;
     let hobbies = document.querySelector(".e-hobbies").innerHTML;
     let occupation = document.querySelector(".e-occupation").innerHTML;

@@ -82,7 +82,8 @@ html {
 }
 
 .gender-select,
-.religion-select {
+.religion-select,
+.civilstatus-select {
   position: relative;
   font-family: Arial;
   margin-top: 0.5rem;
@@ -90,7 +91,8 @@ html {
 }
 
 .gender-select select,
-.religion-select select {
+.religion-select select,
+.civilstatus-select select {
   display: none;
   /*hide original SELECT element:*/
 }
