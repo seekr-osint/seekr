@@ -176,12 +176,46 @@ async function main() {
             document.querySelector('.v-hobby-space-maker').style.display = "none";
           }
 
+          // IPs
+
+          document.querySelector('.v-ip-base').style.display = "block";
+
+          if (Object.keys(obj.ips).length >= 1) {
+            const ipContainer = document.querySelector('.v-ip-base');
+
+            for (const [_, ip] of Object.entries(obj.ips)) {
+              if (ip.ip != "" && ip.ip != null && ip.ip != undefined) {
+                document.querySelector('.v-ip-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-ip-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "ip-subcontainer";
+
+                const ip_input = document.createElement("input");
+                ip_input.className = "form-input v-ip";
+                ip_input.id = "v-ip";
+                ip_input.type = "ip";
+                ip_input.placeholder = "Enter IP";
+                ip_input.spellcheck = "false";
+                ip_input.required = "true";
+                ip_input.value = ip.ip;
+                ip_input.disabled = "true";
+
+                ipContainer.appendChild(container);
+                container.appendChild(subContainer);
+                subContainer.appendChild(ip_input);
+              }
+            };
+          } else {
+            document.querySelector('.v-ip-space-maker').style.display = "none";
+          }
+
           // Clubs
 
           document.querySelector('.v-club-base').style.display = "block";
 
           if (Object.keys(obj.clubs).length >= 1) {
-            console.log(obj.clubs);
             const clubContainer = document.querySelector('.v-club-base');
 
             for (const [_, club] of Object.entries(obj.clubs)) {
@@ -753,7 +787,6 @@ async function main() {
             const clubContainer = document.querySelector('.e-club-base');
 
             for (const [_, club] of Object.entries(obj.clubs)) {
-              console.log("Club.club: " + club.club + " | Club: " + club)
               const container = document.createElement("div");
               container.className = "club-container";
 
@@ -824,6 +857,80 @@ async function main() {
           document.querySelector(".e-legal").innerHTML = obj.legal;
           document.querySelector(".e-political").innerHTML = obj.political;
           document.querySelector(".e-notes").innerHTML = obj.notes;
+
+          // IPs
+
+          if (Object.keys(obj.ips).length >= 1) {
+            const ipContainer = document.querySelector('.e-ip-base');
+
+            for (const [_, ip] of Object.entries(obj.ips)) {
+              console.log(ip.ip);
+              const container = document.createElement("div");
+              container.className = "ip-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "ip-subcontainer";
+
+              const ip_input = document.createElement("input");
+              ip_input.className = "form-input ip";
+              ip_input.id = "e-ip";
+              ip_input.type = "text";
+              ip_input.placeholder = "Enter IP";
+              ip_input.spellcheck = "false";
+              ip_input.value = ip.ip;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(ip_input);
+              ipContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("ip-add-btn").onclick = function () {
+            const ip_base = document.querySelector(".e-ip-base");
+
+            const ip_container = document.createElement("div");
+            ip_container.className = "ip-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "ip-subcontainer";
+
+            const ip_input = document.createElement("input");
+            ip_input.className = "form-input e-ip";
+            ip_input.id = "ip";
+            ip_input.type = "text";
+            ip_input.placeholder = "Enter IP";
+            ip_input.spellcheck = "false";
+            ip_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            ip_base.appendChild(ip_container);
+            ip_container.appendChild(subContainer);
+            subContainer.appendChild(ip_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              ip_container.remove();
+            }
+          }
 
           // Email
 
@@ -1422,6 +1529,12 @@ async function main() {
       clubElements[0].parentNode.removeChild(clubElements[0]);
     }
 
+    var ipElements = document.getElementsByClassName("ip-container");
+
+    while (ipElements.length > 0) {
+      ipElements[0].parentNode.removeChild(ipElements[0]);
+    }
+
     const parentElement = document.querySelector(".e-accounts");
     parentElement.innerHTML = "";
   }
@@ -1468,6 +1581,42 @@ async function main() {
 
     del_btn_div.onclick = function () {
       club_container.remove();
+    }
+  }
+
+  // IPs
+
+  document.getElementById("c-ip-add-btn").onclick = function () {
+    const ip_base = document.querySelector(".c-ip-base");
+
+    const ip_container = document.createElement("div");
+    ip_container.className = "c-ip-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "ip-subcontainer";
+
+    const ip_input = document.createElement("input");
+    ip_input.className = "form-input e-ip";
+    ip_input.id = "ip";
+    ip_input.type = "text";
+    ip_input.placeholder = "Enter IP";
+    ip_input.spellcheck = "false";
+    ip_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    ip_base.appendChild(ip_container);
+    ip_container.appendChild(subContainer);
+    subContainer.appendChild(ip_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      ip_container.remove();
     }
   }
 
@@ -1541,6 +1690,42 @@ async function main() {
 
     del_btn_div.onclick = function () {
       hobby_container.remove();
+    }
+  }
+
+  // IPs
+
+  document.getElementById("c-ip-add-btn").onclick = function () {
+    const ip_base = document.querySelector(".c-ip-base");
+
+    const ip_container = document.createElement("div");
+    ip_container.className = "c-ip-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "ip-subcontainer";
+
+    const ip_input = document.createElement("input");
+    ip_input.className = "form-input e-ip";
+    ip_input.id = "ip";
+    ip_input.type = "tel";
+    ip_input.placeholder = "Enter IP";
+    ip_input.spellcheck = "false";
+    ip_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    ip_base.appendChild(ip_container);
+    ip_container.appendChild(subContainer);
+    subContainer.appendChild(ip_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      ip_container.remove();
     }
   }
 
@@ -1687,12 +1872,22 @@ async function main() {
       };
     });
 
+    let ipContainers = document.querySelectorAll('.c-ip-container');
+    let ips = {};
+
+    ipContainers.forEach(function (container) {
+      let ipInput = container.querySelector('input');
+      ips[ipInput.value] = {
+        "ip": ipInput.value
+      };
+    });
+
     const loadingSpinner = document.querySelector("#c-loading-spinner");
     loadingSpinner.style.display = "flex"
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
@@ -1787,7 +1982,17 @@ async function main() {
         "services": hiddenElementVal
       };
     });
+    
+    let ipContainers = document.querySelectorAll('.ip-container');
+    let ips = {};
 
+    ipContainers.forEach(function (container) {
+      let ipInput = container.querySelector('input');
+      ips[ipInput.value] = {
+        "ip": ipInput.value
+      };
+    });
+    
     const loadingSpinner = document.querySelector("#e-loading-spinner");
     loadingSpinner.style.display = "flex"
 
@@ -1797,7 +2002,7 @@ async function main() {
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();

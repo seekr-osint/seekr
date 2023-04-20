@@ -197,7 +197,7 @@ function getCivilstatusElementIndex(civilstatus) {
 }
 
 function checkReligion(type) {
-  const selectedReligion = document.querySelector("body > div." + type + "-container > div > div.scroll-box > div:nth-child(13) > div > div.select-selected").innerHTML;
+  const selectedReligion = document.querySelector("body > div." + type + "-container > div > div.scroll-box > div:nth-child(14) > div > div.select-selected").innerHTML;
   const religion = new Map();
 
   religion["Select religion:"] = "";
