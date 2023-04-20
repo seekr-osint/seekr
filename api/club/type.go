@@ -5,5 +5,5 @@ package club
 // Types
 type Clubs map[string]Club
 type Club struct {
-	Club string `json:"Club"`
+	Club string `json:"club"`
 }

@@ -115,7 +115,20 @@
           <p class="viewtag tag education">Education: x</p>
           <p class="viewtag tag religion">Religion: x</p>
           <p class="viewtag tag pets">Pets: x</p>
-          <p class="viewtag tag club">Club: x</p>
+
+          <div class="chip v-club-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-club-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <p class="viewtag tag legal">Legal: x</p>
           <p class="viewtag tag political">Political: x</p>
           <div class="chip" id="space-maker">
@@ -270,9 +283,16 @@
             <div class="form"><span type="text" class="form-input e-pets" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Club: </p>
-            <div class="form"><span type="text" class="form-input e-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-club-base"></div>
+
+                <div id="club-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">
@@ -441,9 +461,16 @@
             <div class="form"><span type="text" class="form-input c-pets" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Club: </p>
-            <div class="form"><span type="text" class="form-input c-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-club-base"></div>
+
+                <div id="c-club-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">

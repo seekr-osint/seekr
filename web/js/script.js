@@ -104,7 +104,6 @@ async function main() {
           document.querySelector(".education").innerHTML = "Education: " + obj.education;
           document.querySelector(".religion").innerHTML = "Religion: " + obj.religion;
           document.querySelector(".pets").innerHTML = "Pets: " + obj.pets;
-          document.querySelector(".club").innerHTML = "Club: " + obj.club;
           document.querySelector(".legal").innerHTML = "Legal: " + obj.legal;
           document.querySelector(".political").innerHTML = "Political: " + obj.political;
           document.querySelector(".notes").innerHTML = obj.notes;
@@ -175,6 +174,42 @@ async function main() {
             };
           } else {
             document.querySelector('.v-hobby-space-maker').style.display = "none";
+          }
+
+          // Clubs
+
+          document.querySelector('.v-club-base').style.display = "block";
+
+          if (Object.keys(obj.clubs).length >= 1) {
+            console.log(obj.clubs);
+            const clubContainer = document.querySelector('.v-club-base');
+
+            for (const [_, club] of Object.entries(obj.clubs)) {
+              if (club.club != "" && club.club != null && club.club != undefined) {
+                document.querySelector('.v-club-space-maker').style.display = "block";
+                const container = document.createElement("div");
+                container.className = "v-club-container";
+
+                const subContainer = document.createElement("div");
+                subContainer.className = "club-subcontainer";
+
+                const club_input = document.createElement("input");
+                club_input.className = "form-input v-club";
+                club_input.id = "v-club";
+                club_input.type = "club";
+                club_input.placeholder = "Enter club";
+                club_input.spellcheck = "false";
+                club_input.required = "true";
+                club_input.value = club.club;
+                club_input.disabled = "true";
+
+                clubContainer.appendChild(container);
+                container.appendChild(subContainer);
+                subContainer.appendChild(club_input);
+              }
+            };
+          } else {
+            document.querySelector('.v-club-space-maker').style.display = "none";
           }
 
           // Phone
@@ -711,7 +746,81 @@ async function main() {
           }
 
           document.querySelector(".e-pets").innerHTML = obj.pets;
-          document.querySelector(".e-club").innerHTML = obj.club;
+
+          // Clubs
+
+          if (Object.keys(obj.clubs).length >= 1) {
+            const clubContainer = document.querySelector('.e-club-base');
+
+            for (const [_, club] of Object.entries(obj.clubs)) {
+              console.log("Club.club: " + club.club + " | Club: " + club)
+              const container = document.createElement("div");
+              container.className = "club-container";
+
+              const subContainer = document.createElement("div");
+              subContainer.className = "club-subcontainer";
+
+              const club_input = document.createElement("input");
+              club_input.className = "form-input club";
+              club_input.id = "e-club";
+              club_input.type = "text";
+              club_input.placeholder = "Enter club";
+              club_input.spellcheck = "false";
+              club_input.value = club.club;
+
+              const del_btn_div = document.createElement("div");
+              del_btn_div.className = "del-btn";
+
+              const del_btn = document.createElement("ion-icon");
+              del_btn.name = "remove-outline";
+
+              container.appendChild(subContainer);
+              subContainer.appendChild(club_input);
+              clubContainer.appendChild(container);
+              subContainer.appendChild(del_btn_div);
+              del_btn_div.appendChild(del_btn);
+
+
+              del_btn.onclick = function () {
+                container.remove();
+              }
+            };
+          }
+
+          document.getElementById("hobby-add-btn").onclick = function () {
+            const hobby_base = document.querySelector(".e-hobby-base");
+
+            const hobby_container = document.createElement("div");
+            hobby_container.className = "hobby-container";
+
+            const subContainer = document.createElement("div");
+            subContainer.className = "hobby-subcontainer";
+
+            const hobby_input = document.createElement("input");
+            hobby_input.className = "form-input e-hobby";
+            hobby_input.id = "hobby";
+            hobby_input.type = "text";
+            hobby_input.placeholder = "Enter hobby";
+            hobby_input.spellcheck = "false";
+            hobby_input.required = "true";
+
+            const del_btn_div = document.createElement("div");
+            del_btn_div.className = "del-btn";
+
+            const del_btn = document.createElement("ion-icon");
+            del_btn.name = "remove-outline";
+
+            hobby_base.appendChild(hobby_container);
+            hobby_container.appendChild(subContainer);
+            subContainer.appendChild(hobby_input);
+            subContainer.appendChild(del_btn_div);
+            del_btn_div.appendChild(del_btn);
+
+            del_btn_div.onclick = function () {
+              hobby_container.remove();
+            }
+          }
+
           document.querySelector(".e-legal").innerHTML = obj.legal;
           document.querySelector(".e-political").innerHTML = obj.political;
           document.querySelector(".e-notes").innerHTML = obj.notes;
@@ -1301,6 +1410,18 @@ async function main() {
       mailElements[0].parentNode.removeChild(mailElements[0]);
     }
 
+    var hobbyElements = document.getElementsByClassName("hobby-container");
+
+    while (hobbyElements.length > 0) {
+      hobbyElements[0].parentNode.removeChild(hobbyElements[0]);
+    }
+
+    var clubElements = document.getElementsByClassName("club-container");
+
+    while (clubElements.length > 0) {
+      clubElements[0].parentNode.removeChild(clubElements[0]);
+    }
+
     const parentElement = document.querySelector(".e-accounts");
     parentElement.innerHTML = "";
   }
@@ -1312,6 +1433,42 @@ async function main() {
 
   document.getElementById("acc-backbtn").onclick = function () { // account back button
     location.reload();
+  }
+
+  // Hobbies
+
+  document.getElementById("c-club-add-btn").onclick = function () {
+    const club_base = document.querySelector(".c-club-base");
+
+    const club_container = document.createElement("div");
+    club_container.className = "c-club-container";
+
+    const subContainer = document.createElement("div");
+    subContainer.className = "club-subcontainer";
+
+    const club_input = document.createElement("input");
+    club_input.className = "form-input e-club";
+    club_input.id = "club";
+    club_input.type = "text";
+    club_input.placeholder = "Enter club";
+    club_input.spellcheck = "false";
+    club_input.required = "true";
+
+    const del_btn_div = document.createElement("div");
+    del_btn_div.className = "del-btn";
+
+    const del_btn = document.createElement("ion-icon");
+    del_btn.name = "remove-outline";
+
+    club_base.appendChild(club_container);
+    club_container.appendChild(subContainer);
+    subContainer.appendChild(club_input);
+    subContainer.appendChild(del_btn_div);
+    del_btn_div.appendChild(del_btn);
+
+    del_btn_div.onclick = function () {
+      club_container.remove();
+    }
   }
 
   // Phone
@@ -1463,7 +1620,7 @@ async function main() {
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
 
-    if (age < 0) {
+    if (age <= 0) {
       age *= -1
     }
     if (age > 120) {
@@ -1504,7 +1661,17 @@ async function main() {
     let religion = checkReligion("create");
 
     let pets = document.querySelector(".c-pets").innerHTML;
-    let club = document.querySelector(".c-club").innerHTML;
+
+    let clubContainers = document.querySelectorAll('.c-club-container');
+    let clubs = {};
+
+    clubContainers.forEach(function (container) {
+      let clubInput = container.querySelector('input');
+      clubs[clubInput.value] = {
+        "club": clubInput.value
+      };
+    });
+
     let legal = document.querySelector(".c-legal").innerHTML;
     let political = document.querySelector(".c-political").innerHTML;
     let notes = document.querySelector(".c-notes").innerHTML;
@@ -1525,7 +1692,7 @@ async function main() {
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
@@ -1586,7 +1753,17 @@ async function main() {
     let religion = checkReligion("edit");
 
     let pets = document.querySelector(".e-pets").innerHTML;
-    let club = document.querySelector(".e-club").innerHTML;
+
+    let clubContainers = document.querySelectorAll('.club-container');
+    let clubs = {};
+
+    clubContainers.forEach(function (container) {
+      let clubInput = container.querySelector('input');
+      clubs[clubInput.value] = {
+        "club": clubInput.value
+      };
+    });
+
     let legal = document.querySelector(".e-legal").innerHTML;
     let political = document.querySelector(".e-political").innerHTML;
     let notes = document.querySelector(".e-notes").innerHTML;
@@ -1620,7 +1797,7 @@ async function main() {
 
     fetch(apiUrl + '/person', {
       method: 'POST',
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "club": club, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
     }).then(function () {
       loadingSpinner.style.display = "none"
       location.reload();
