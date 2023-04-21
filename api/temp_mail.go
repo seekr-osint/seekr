@@ -1,10 +1,11 @@
 package api
 
 import (
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
 	"net/http/httputil"
 	"net/url"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func (config ApiConfig) ServeTempMail() {
@@ -16,6 +17,7 @@ func (config ApiConfig) ServeTempMail() {
 	corsConfig.AllowCredentials = true
 	corsConfig.AllowHeaders = []string{
 		"X-MailboxToken",
+		"Content-Type",
 		//"accept",
 	}
 	router.Use(cors.New(corsConfig))

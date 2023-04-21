@@ -1,3 +1,5 @@
+/* TOP NAV BAR */
+
 .dd-nav-bar {
     position: absolute;
     top: 0;
@@ -15,12 +17,238 @@
     height: 6vh;
     margin-bottom: unset;
     justify-content: center;
+    width: fit-content;
 }
 
-.tempmail-new-email,
-.tempmail-delete-email {
-    width: 5rem;
-    color: var(--textColor-1);
+#create-mail-btn,
+#del-mail-btn {
+    width: 6.5rem;
+    height: 3.5rem;
     font-size: 1.5rem;
-    text-align: center;
+    justify-content: center;
+    margin: 0.5rem;
+}
+
+#show-current-mail {
+    position: absolute;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    top: 50%;
+    -ms-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+}
+
+#current-mail {
+    width: 28rem;
+    height: 4rem;
+    border: none;
+    border-radius: 1rem;
+    font-size: 1.4rem;
+    padding-left: 3.8rem;
+    box-shadow: var(--shadowPreset-2);
+    background: none;
+    font-family: inherit;
+    color: var(--textColor-1);
+}
+
+#current-mail::placeholder {
+    color: var(--textColor-1);
+}
+
+#current-mail::-moz-placeholder {
+    color: var(--textColor-1);
+}
+
+#current-mail:-ms-input-placeholder {
+    color: var(--textColor-1);
+}
+
+.tempmail-icon {
+    height: 2rem;
+    position: absolute;
+    font-size: 2rem;
+    padding: 0 1rem;
+    display: flex;
+    color: var(--textColor-1);
+    transition: 0.3s ease;
+}
+
+#mail-token {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+/* MAIL INBOX */
+
+.tempmail-scroll-box {
+    overflow: hidden;
+    overflow-y: scroll;
+    align-items: unset;
+}
+
+.tempmail-scroll-box p {
+    display: flex;
+}
+
+.tempmail-scroll-box::-webkit-scrollbar {
+    width: 12px;
+    -webkit-appearance: none;
+}
+
+.tempmail-scroll-box::-webkit-scrollbar-thumb {
+    background: var(--bg);
+    border-radius: 3rem;
+    box-shadow: var(--shadowPreset-6);
+}
+
+#mail-view-scroll-box {
+    position: relative;
+    margin-top: 11vh;
+    width: 55%;
+    height: 87vh;
+}
+
+#content-view-scroll-box {
+    position: relative;
+    margin-top: 11vh;
+    width: 45%;
+    height: 87vh;
+    margin-right: 1.75rem;
+}
+
+#emails {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+}
+
+#split-view {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+#content {
+    width: 100%;
+    display: flex;
+    padding-top: 2rem;
+    flex-direction: column;
+}
+
+
+.mail-chip {
+    width: 95.5%;
+    height: 6vh;
+    display: flex;
+    font-size: 1.6rem;
+    color: var(--textColor-1);
+    cursor: pointer;
+    align-items: unset;
+    transition: 0.3s ease;
+    margin-left: 2rem;
+    align-items: center;
+    flex-direction: row;
+}
+
+.mail-chip-detail {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block !important;
+}
+
+.mail-chip-detail.mail-header {
+    font-weight: bold;
+    margin-right: 2rem;
+    width: calc(35% - 2rem);
+}
+
+.mail-chip-detail.mail-sender {
+    margin-right: 2rem;
+    width: calc(45% - 2rem);
+}
+
+.mail-chip-detail.mail-date {
+    margin-left: 2rem;
+    width: calc(20% - 2rem);
+}
+
+.mail-header-chip {
+    width: 95%;
+    min-height: calc(12vh + 2rem);
+    display: flex;
+    font-size: 1.6rem;
+    color: var(--textColor-1);
+    align-items: unset;
+    transition: 0.3s ease;
+    padding: 2rem;
+    flex-direction: column;
+}
+
+.mail-content-detail {
+    margin-bottom: 0.5rem;
+}
+
+.top-header {
+    flex-direction: column;
+}
+
+#content-mail-header {
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    font-size: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block !important;
+}
+
+#content-mail-header {
+    width: 100%;
+    height: 100%;
+}
+
+#mail-loading-spinner {
+    align-self: center;
+    position: unset;
+    margin-left: 1rem;
+}
+
+#refresh-loading-spinner {
+    align-self: center;
+    position: unset;
+    margin-left: 1rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    top: 50%;
+    -ms-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+}
+
+#refresh-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 4rem;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 50%;
+    -ms-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+    margin: 0 !important;
+}
+
+#refresh-icon {
+    font-size: 2rem;
 }

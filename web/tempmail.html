@@ -31,13 +31,117 @@
   </head>
 
   <body>
+    <p id="mail-token"></p>
+
     <div class="dd-nav-bar">
       <div class="tempmail-manage chip">
-        <div class="tempmail-new-email chip">New</div>
-        <div class="tempmail-delete-email chip">Delete</div>
+        <div id="create-mail-btn" class="btn btn-secondary">New</div>
+        <div id="del-mail-btn" class="btn btn-secondary">Delete</div>
+      </div>
+
+      <div class="neu" id="mail-loading-spinner">
+        <div class="neu_shape">
+          <div class="neu_inner">
+            <div class="neu_ball"></div>
+            <div class="neu_ball"></div>
+            <div class="neu_ball"></div>
+            <div class="neu_ball"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="show-current-mail">
+        <input type="text" id="current-mail" autocomplete="off" disabled="true" spellcheck="false" placeholder="Your tempmail will appear here!">
+        <div class="tempmail-icon">
+          <ion-icon name="mail-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="neu" id="refresh-loading-spinner">
+        <div class="neu_shape">
+          <div class="neu_inner">
+            <div class="neu_ball"></div>
+            <div class="neu_ball"></div>
+            <div class="neu_ball"></div>
+            <div class="neu_ball"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="refresh-btn" class="btn btn-secondary">
+        <ion-icon name="refresh-outline" id="refresh-icon"></ion-icon>
       </div>
     </div>
 
-    <button class="create-mail-btn"></button>
+    <div id="split-view">
+      <div id="mail-view-scroll-box" class="tempmail-scroll-box chip">
+        <div id="emails">
+          <div class="mail-chip chip">
+            <p class="mail-chip-detail mail-date">7.06 AM</p>
+
+            <p class="mail-chip-detail mail-sender">support@developermail.com</p>
+
+            <p class="mail-chip-detail mail-header">This is an email! This is an email! This is an email! This is an email! This is an email!</p>
+          </div>
+
+          <div class="mail-chip chip">
+            <p class="mail-chip-detail mail-date">7.06 AM</p>
+
+            <p class="mail-chip-detail mail-sender">support@developermail.com</p>
+
+            <p class="mail-chip-detail mail-header">This is an email! This is an email! This is an email! This is an email! This is an email!</p>
+          </div>
+
+          <div class="mail-chip chip">
+            <p class="mail-chip-detail mail-date">7.06 AM</p>
+
+            <p class="mail-chip-detail mail-sender">support@developermail.com</p>
+
+            <p class="mail-chip-detail mail-header">This is an email! This is an email! This is an email! This is an email! This is an email!</p>
+          </div>
+
+          <div class="mail-chip chip">
+            <p class="mail-chip-detail mail-date">7.06 AM</p>
+
+            <p class="mail-chip-detail mail-sender">support@developermail.com</p>
+
+            <p class="mail-chip-detail mail-header">This is an email! This is an email! This is an email! This is an email! This is an email!</p>
+          </div>
+
+          <div class="mail-chip chip">
+            <p class="mail-chip-detail mail-date">7.06 AM</p>
+
+            <p class="mail-chip-detail mail-sender">support@developermail.com</p>
+
+            <p class="mail-chip-detail mail-header">This is an email! This is an email! This is an email! This is an email! This is an email!</p>
+          </div>
+
+          <div class="mail-chip chip">
+            <p class="mail-chip-detail mail-date">7.06 AM</p>
+
+            <p class="mail-chip-detail mail-sender">support@developermail.com</p>
+
+            <p class="mail-chip-detail mail-header">This is an email! This is an email! This is an email! This is an email! This is an email!</p>
+          </div>
+        </div>
+      </div>
+  
+      <div id="content-view-scroll-box" class="tempmail-scroll-box chip">
+        <div id="content">
+          <div class="mail-header-chip chip">
+            <div class="top-header">
+              <p class="mail-content-detail" id="content-mail-date">Date: 04/21/2023 07:06:57 +00:00</p>
+              <p class="mail-content-detail" id="content-mail-sender">From: support@developermail.com</p>
+            </div>
+
+            <p class="mail-content-detail" id="content-mail-header">Welcome to DeveloperMail.com!</p>
+          </div>
+
+          <div id="content-mail-body">
+
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
