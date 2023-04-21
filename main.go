@@ -3,14 +3,14 @@ package main
 import (
 	"embed"
 	"flag"
+	"fmt"
+	"log"
 	"os/exec"
 	"runtime"
 
-	//"fmt" "log"
-	//"strconv"
-
 	api "github.com/seekr-osint/seekr/api"
-	webServer "github.com/seekr-osint/seekr/webServer"
+	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/webserver"
 )
 
 // Web server content
@@ -21,54 +21,50 @@ var content embed.FS
 var dataBase = make(api.DataBase)
 
 func main() {
+	// liveServer := flag.Bool("live", false, "serve html files from seekr source code")
+	// dir := flag.String("dir", "./web", "dir where the html source code is located")
+	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
+	data := flag.String("db", "data", "Database location")
+	port := flag.Uint64("port", 8569, "Port to serve API on")
+	enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 
-	liveServer := flag.Bool("live", false, "serve html files from seekr source code")
-	dir := flag.String("dir", "./web", "dir where the html source code is located")
-	ip := flag.String("ip", "localhost:5050", "Ip to serve the web server on")
-	data := flag.String("dataJson", "data", "Database file")
-	apiIp := flag.String("apiIp", "localhost:8080", "Ip to serve the api on")
+	forcePort := flag.Bool("forcePort", false, "forcePort")
+	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
+	enableApiServer := true
+	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 
 	flag.Parse()
 
-	if *browser {
-		openbrowser("http://" + string(*ip) + "/web/index.html")
-	}
-
-	var apiConfig = api.ApiConfig{
-		Ip:            *apiIp,
+	apiConfig, err := api.ApiConfig{
+		Server: server.Server{
+			Ip:        *ip,
+			Port:      uint16(*port),
+			ForcePort: *forcePort,
+			WebServer: webserver.Webserver{
+				Disable:    !*enableWebserver,
+				FileSystem: content,
+			},
+			ApiServer: server.ApiServer{
+				Disable: !enableApiServer,
+			},
+		},
 		LogFile:       "seekr.log",
 		DataBaseFile:  *data,
 		DataBase:      dataBase,
 		SetCORSHeader: true,
 		SaveDBFunc:    api.DefaultSaveDB,
 		LoadDBFunc:    api.DefaultLoadDB,
-		TempMailIp:    "localhost:8081",
-		ApiKeysSimple: api.ApiKeysSimple{
-			"github": []string{"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"},
-		},
+	}.ConfigParse()
+	if err != nil {
+		log.Panicf("error: %s", err)
 	}
-	var config = webServer.WebServerConfig{
-		Content: content,
-		Dir:     *dir,
-		Ip:      *ip,
+	if *browser && !apiConfig.Server.WebServer.Disable {
+		openbrowser(fmt.Sprintf("http://%s:%d/web/index.html", apiConfig.Server.Ip, apiConfig.Server.Port))
 	}
-	if *liveServer {
-		config.Type = webServer.LiveServer
-	} else {
-		config.Type = webServer.SingleBinary
-	}
-
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
-	go apiConfig.ServeTempMail()
 	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
-	go api.ServeApi(apiConfig)
-	RunWebServer(config)
-}
-
-// //export RunWebServer
-func RunWebServer(config webServer.WebServerConfig) {
-	webServer.ParseConfig(config)
+	api.ServeApi(apiConfig)
 }
 
 func openbrowser(url string) {

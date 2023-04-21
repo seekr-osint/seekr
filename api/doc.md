@@ -20,12 +20,14 @@ curl -X POST http://localhost:8080/person \
 	"age": 0,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "2",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -42,7 +44,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -92,12 +93,14 @@ curl -X GET http://localhost:8080/people/2
 	"age": 0,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "2",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -114,7 +117,6 @@ curl -X GET http://localhost:8080/people/2
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -170,7 +172,8 @@ curl -X POST http://localhost:8080/person \
 	"age": 10,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {
 		"fsdfadsfasdfasdf@gmail.com": {
@@ -184,8 +187,9 @@ curl -X POST http://localhost:8080/person \
 		}
 	},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "10",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -202,7 +206,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -240,7 +243,8 @@ curl -X POST http://localhost:8080/person \
 	"age": 10,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {
 		"has_discord_account@gmail.com": {
@@ -261,8 +265,9 @@ curl -X POST http://localhost:8080/person \
 		}
 	},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "11",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -279,7 +284,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -317,7 +321,8 @@ curl -X POST http://localhost:8080/person \
 	"age": 10,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {
 		"all@gmail.com": {
@@ -362,8 +367,9 @@ curl -X POST http://localhost:8080/person \
 		}
 	},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "12",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -380,7 +386,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -404,8 +409,9 @@ curl -X POST http://localhost:8080/person \
 			"mail": "discord_error@gmail.com"
 		}
 	},
-	"hobbies": "",
+	"hobbies": {},
 	"id": "13",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -434,7 +440,8 @@ curl -X POST http://localhost:8080/person \
 	"age": 13,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {
 		"discord_error@gmail.com": {
@@ -450,8 +457,9 @@ curl -X POST http://localhost:8080/person \
 		}
 	},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "13",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -468,7 +476,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -506,7 +513,8 @@ curl -X POST http://localhost:8080/person \
 	"age": 10,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {
 		"fake_mail@gmail.com": {
@@ -520,8 +528,9 @@ curl -X POST http://localhost:8080/person \
 		}
 	},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "14",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -538,7 +547,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -604,12 +612,14 @@ curl -X POST http://localhost:8080/person \
 	"age": 0,
 	"bday": "",
 	"civilstatus": "Single",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "15",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -626,7 +636,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -700,31 +709,6 @@ curl -X POST http://localhost:8080/person \
 ```json
 {
 	"message": "Invalid religion"
-}
-```
-
-**Status Code:** 400
-
-
-## Post Person (invalid SSN)
-
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"id": "18",
-	"ssn": "invalid"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"message": "Invalid SSN"
 }
 ```
 
@@ -875,12 +859,14 @@ curl -X POST http://localhost:8080/person \
 	"age": 0,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "21",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -914,7 +900,82 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
+## Post Person (Phone number formatting missing +)
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "30",
+	"name": "Phone test",
+	"phone": {
+		"1-234-567-8901": {
+			"number": "1-234-567-8901"
+		}
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": {},
+	"custom": null,
+	"education": "",
+	"email": {},
+	"gender": "",
+	"hobbies": {},
+	"id": "30",
+	"ips": {},
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Phone test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {
+		"+1 234-567-8901": {
+			"national_format": "(234) 567-8901",
+			"number": "+1 234-567-8901",
+			"phoneinfoga": {
+				"Carrier": "",
+				"Country": "US",
+				"CountryCode": 1,
+				"E164": "+12345678901",
+				"International": "12345678901",
+				"Local": "(234) 567-8901",
+				"RawLocal": "2345678901",
+				"Valid": true
+			},
+			"tag": "",
+			"valid": true
+		}
+	},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
 	"tags": []
 }
 ```
@@ -950,12 +1011,14 @@ curl -X POST http://localhost:8080/person \
 	"age": 0,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "22",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -989,7 +1052,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -1025,12 +1087,14 @@ curl -X POST http://localhost:8080/person \
 	"age": 0,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "23",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -1047,7 +1111,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```
@@ -1089,7 +1152,8 @@ curl -X POST http://localhost:8080/person \
 	"age": 23,
 	"bday": "",
 	"civilstatus": "",
-	"club": "",
+	"clubs": {},
+	"custom": null,
 	"education": "",
 	"email": {
 		"all@gmail.com": {
@@ -1134,8 +1198,9 @@ curl -X POST http://localhost:8080/person \
 		}
 	},
 	"gender": "",
-	"hobbies": "",
+	"hobbies": {},
 	"id": "24",
+	"ips": {},
 	"kids": "",
 	"legal": "",
 	"maidenname": "",
@@ -1169,7 +1234,6 @@ curl -X POST http://localhost:8080/person \
 	"relations": {},
 	"religion": "",
 	"sources": {},
-	"ssn": "",
 	"tags": []
 }
 ```

@@ -27,7 +27,7 @@ type SkippedServices map[string]bool
 type MailUserExistsFunc func(MailService, string, ApiConfig) (EmailService, error)
 type MailService struct {
 	Name           string             // example: "Discord"
-	UserExistsFunc MailUserExistsFunc // example: Discord()
+	UserExistsFunc MailUserExistsFunc // example: Discord(MailService,string,ApiConfig) (EmailService,error)
 	Icon           string             // example: "./images/mail/discord.png"
 	Url            string
 }

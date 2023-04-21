@@ -7,7 +7,9 @@ import (
 )
 
 func DefaultSaveDB(config ApiConfig) error {
-	db, err := badger.Open(badger.DefaultOptions(config.DataBaseFile))
+	opts := badger.DefaultOptions(config.DataBaseFile)
+	opts.Logger = config.BadgerDBLogger
+	db, err := badger.Open(opts)
 	if err != nil {
 		return fmt.Errorf("failed to open badger db: %w. DataBaseFile: %s", err, config.DataBaseFile)
 	}
@@ -28,8 +30,10 @@ func DefaultSaveDB(config ApiConfig) error {
 }
 
 func DefaultLoadDB(config ApiConfig) (ApiConfig, error) {
+	opts := badger.DefaultOptions(config.DataBaseFile)
+	opts.Logger = config.BadgerDBLogger
+	db, err := badger.Open(opts)
 
-	db, err := badger.Open(badger.DefaultOptions(config.DataBaseFile))
 	if err != nil {
 		return config, fmt.Errorf("failed to open badger db: %w. DataBaseFile: %s", err, config.DataBaseFile)
 	}

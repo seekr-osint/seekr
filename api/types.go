@@ -1,8 +1,13 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/club"
+	"github.com/seekr-osint/seekr/api/hobby"
+	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/sources"
 )
+
+// "github.com/seekr-osint/seekr/api/ssn"
 
 // main data set
 type Person struct {
@@ -15,10 +20,10 @@ type Person struct {
 	Birthday       string             `json:"bday"`
 	Address        string             `json:"address"`
 	Phone          PhoneNumbers       `json:"phone"`
-	SSN            SSN                `json:"ssn"`
+	Ips            ip.Ips             `json:"ips"`
 	Civilstatus    CivilStatus        `json:"civilstatus"`
 	Kids           string             `json:"kids"`
-	Hobbies        string             `json:"hobbies"`
+	Hobbies        hobby.Hobbies      `json:"hobbies"`
 	Email          EmailsType         `json:"email"`
 	Occupation     string             `json:"occupation"`
 	Prevoccupation string             `json:"prevoccupation"`
@@ -26,23 +31,20 @@ type Person struct {
 	Military       string             `json:"military"`
 	Religion       Religion           `json:"religion"`
 	Pets           string             `json:"pets"`
-	Club           string             `json:"club"`
+	Clubs          club.Clubs         `json:"clubs"`
 	Legal          string             `json:"legal"`
 	Political      string             `json:"political"`
 	Notes          string             `json:"notes"`
 	Relations      Relation           `json:"relations"` // FIXME
-	Sources        Sources            `json:"sources"`
+	Sources        sources.Sources    `json:"sources"`
 	Accounts       Accounts           `json:"accounts"`
 	Tags           Tags               `json:"tags"`
 	NotAccounts    map[string]Account `json:"notaccounts"`
+	Custom         interface{}        `json:"custom"`
 }
 
-type DataBase map[string]Person
 type Relation map[string][]string
-type Sources map[string]Source
-type Source struct {
-	Url string `json:"url"`
-}
+
 type Tags []Tag
 type Tag struct {
 	Name string `json:"name"`
@@ -74,30 +76,6 @@ type Account struct {
 	Blog      string   `json:"blog"`
 	Followers int      `json:"followers"`
 	Following int      `json:"following"`
-}
-
-type SaveDBFunc func(ApiConfig) (error)
-type LoadDBFunc func(ApiConfig) (ApiConfig,error)
-type ApiConfig struct {
-	Ip             string        `json:"ip"`
-  TempMailIp     string        `json:"temp_mail_ip"`
-	LogFile        string        `json:"log_file"`
-	DataBaseFile   string        `json:"data_base_file"`
-	DataBase       DataBase      `json:"data_base"`
-	SetCORSHeader  bool          `json:"set_CORS_header"`
-  SaveDBFunc     SaveDBFunc    `json:"save_db_func"`
-	LoadDBFunc     LoadDBFunc  `json:"load_db_func"`
-	GinRouter      *gin.Engine   `json:"gin_router"`
-	ApiKeysComplex ApiKeys       `json:"api_keys_complex"`
-	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
-	Testing        bool          `json:"testing"`
-}
-type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
-type ApiKeys struct {
-	Github ApiKeyEnum `json:"github"`
-}
-type ApiKeyEnum map[string]ApiKey
-type ApiKey struct {
 }
 type Services []Service
 type Service struct {

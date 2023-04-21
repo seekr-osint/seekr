@@ -81,14 +81,18 @@ html {
   height: unset !important;
 }
 
-.gender-select {
+.gender-select,
+.religion-select,
+.civilstatus-select {
   position: relative;
   font-family: Arial;
   margin-top: 0.5rem;
   width: 17rem;
 }
 
-.gender-select select {
+.gender-select select,
+.religion-select select,
+.civilstatus-select select {
   display: none;
   /*hide original SELECT element:*/
 }
@@ -189,7 +193,14 @@ html {
 .email-subcontainer,
 .c-email-subcontainer,
 .phone-subcontainer,
-.e-phone-container {
+.c-phone-subcontainer,
+.hobby-subcontainer,
+.c-hobby-subcontainer,
+.club-subcontainer,
+.c-club-subcontainer,
+.ip-subcontainer,
+.c-ip-subcontainer,
+.v-ip-subcontainer {
   display: flex;
 }
 
@@ -226,16 +237,36 @@ html {
 }
 
 .v-phone,
-.e-phone {
+.e-phone,
+.v-hobby,
+.e-hobby,
+.v-club,
+.e-club,
+.v-ip,
+.e-ip {
   width: 42rem !important;
 }
 
 .email-container,
+.e-email-container,
 .c-email-container,
 .v-email-container,
 .phone-container,
 .e-phone-container,
-.v-phone-container {
+.c-phone-container,
+.v-phone-container,
+.hobby-container,
+.e-hobby-container,
+.v-hobby-container,
+.c-hobby-container,
+.club-container,
+.c-club-container,
+.v-club-container,
+.e-club-container,
+.ip-container,
+.c-ip-container,
+.v-ip-container,
+.e-ip-container {
   margin-bottom: 1.5rem;
   box-shadow: var(--shadowPreset-5);
   padding: 1rem;
@@ -305,7 +336,8 @@ html {
 
 #e-mail,
 #c-e-mail,
-#v-e-mail {
+#v-e-mail,
+#e-club {
   align-self: center;
   width: 42rem;
   height: 2.7rem;
@@ -696,7 +728,7 @@ a {
 
 #c-savebtn,
 #e-savebtn,
-#savetxtbtn {
+#savemdbtn {
   margin-right: 2rem;
 }
 

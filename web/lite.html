@@ -64,7 +64,6 @@
         </div>
         
         <div class="scroll-box" id="view-box">
-          <p class="viewtag tag maidenname">Maiden name: x</p>
           <p class="viewtag tag gender">Gender: x</p>
           <p class="viewtag tag age">Age: x</p>
           <p class="viewtag tag bday">Birthday: x</p>
@@ -83,10 +82,22 @@
             </div>
           </div>
 
-          <p class="viewtag tag ssn">SSN: x</p>
           <p class="viewtag tag civilstatus">Civil status: x</p>
           <p class="viewtag tag kids">Kids: x</p>
-          <p class="viewtag tag hobbies">Hobbies: x</p>
+          
+          <div class="chip v-hobby-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Hobbies</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-hobby-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="chip v-email-space-maker" id="v-space-maker">
             <p id="v-notes-header">E-Mail</p>
 
@@ -99,13 +110,39 @@
               </div>
             </div>
           </div>
+
+          <div class="chip v-ip-space-maker" id="v-space-maker">
+            <p id="v-notes-header">IPs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-ip-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <p class="viewtag tag occupation">Occupation: x</p>
           <p class="viewtag tag prevoccupation">Previous occupations: x</p>
           <p class="viewtag tag education">Education: x</p>
-          <p class="viewtag tag military">Military stand: x</p>
           <p class="viewtag tag religion">Religion: x</p>
           <p class="viewtag tag pets">Pets: x</p>
-          <p class="viewtag tag club">Club: x</p>
+
+          <div class="chip v-club-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-club-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <p class="viewtag tag legal">Legal: x</p>
           <p class="viewtag tag political">Political: x</p>
           <div class="chip" id="space-maker">
@@ -120,7 +157,7 @@
         </div>
         
         <div class="btn btn-secondary" id="backbtn"><p>Back</p></div>
-        <div class="btn btn-secondary" id="savetxtbtn"><p>save as .txt</p></div>
+        <div class="btn btn-secondary" id="savemdbtn"><p>save as MD</p></div>
       
         <!-- <div class="form">
           <input type="text" class="form-input" placeholder="Type anything...">
@@ -139,11 +176,6 @@
         </div>
         
         <div class="scroll-box">
-          <div class="table">
-            <p class="tag">Maiden name: </p>
-            <div class="form"><span type="text" class="form-input e-maidenname" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
           <div class="table">
             <p class="tag">Gender: </p>
             <div class="gender-select">
@@ -177,10 +209,7 @@
 
             <div class="table">
               <div class="form">
-                <div class="phone-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="phone-base"></div>
 
                 <div id="phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
@@ -188,19 +217,17 @@
           </div>
 
           <div class="table">
-            <p class="tag">Phone number: </p>
-            <div class="form"><span type="text" class="form-input e-phone" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-
-          <div class="table">
-            <p class="tag">SSN: </p>
-            <div class="form"><span type="text" class="form-input e-ssn" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
             <p class="tag">Civil status: </p>
-            <div class="form"><span type="text" class="form-input e-civilstatus" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="civilstatus-select">
+              <select>
+                <option value="0">Select civil status:</option>
+                <option value="Si">Single</option>
+                <option value="M">Married</option>
+                <option value="W">Widowed</option>
+                <option value="D">Divorced</option>
+                <option value="Se">Separated</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
@@ -208,9 +235,16 @@
             <div class="form"><span type="text" class="form-input e-kids" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Hobbies: </p>
-            <div class="form"><span type="text" class="form-input e-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Hobbies</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-hobby-base"></div>
+
+                <div id="hobby-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="e-space-maker">
@@ -218,16 +252,24 @@
 
             <div class="table">
               <div class="form">
-                <div class="email-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="email-base"></div>
 
                 <div id="email-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
             </div>
           </div>
+          
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">IPs</p>
 
+            <div class="table">
+              <div class="form">
+                <div class="e-ip-base"></div>
+
+                <div id="ip-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
+          </div>
 
           <div class="table">
             <p class="tag">Occupation: </p>
@@ -245,13 +287,20 @@
           </div>
 
           <div class="table">
-            <p class="tag">Military stand: </p>
-            <div class="form"><span type="text" class="form-input e-military" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
             <p class="tag">Religion: </p>
-            <div class="form"><span type="text" class="form-input e-religion" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="religion-select">
+              <select>
+                <option value="0">Select religion:</option>
+                <option value="C">Christianity</option>
+                <option value="A">Atheism</option>
+                <option value="I">Islam</option>
+                <option value="H">Hinduism</option>
+                <option value="B">Buddhism</option>
+                <option value="S">Sikhism</option>
+                <option value="J">Judaism</option>
+                <option value="O">Other</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
@@ -259,9 +308,16 @@
             <div class="form"><span type="text" class="form-input e-pets" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Club: </p>
-            <div class="form"><span type="text" class="form-input e-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-club-base"></div>
+
+                <div id="club-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">
@@ -312,11 +368,6 @@
         
         <div class="scroll-box">
           <div class="table">
-            <p class="tag">Maiden name: </p>
-            <div class="form"><span type="text" class="form-input c-maidenname" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
             <p class="tag">Gender: </p>
             <div class="gender-select">
               <select>
@@ -348,10 +399,7 @@
 
             <div class="table">
               <div class="form">
-                <div class="c-phone-base">
-
-                  <!-- When add btn was clicked, a dupe of the element above is created -->
-                </div>
+                <div class="c-phone-base"></div>
 
                 <div id="c-phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
@@ -359,23 +407,34 @@
           </div>
 
           <div class="table">
-            <p class="tag">SSN: </p>
-            <div class="form"><span type="text" class="form-input c-ssn" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
             <p class="tag">Civil status: </p>
-            <div class="form"><span type="text" class="form-input c-civilstatus" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="civilstatus-select">
+              <select>
+                <option value="0">Select civil status:</option>
+                <option value="Si">Single</option>
+                <option value="M">Married</option>
+                <option value="W">Widowed</option>
+                <option value="D">Divorced</option>
+                <option value="Se">Separated</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
             <p class="tag">Kids: </p>
             <div class="form"><span type="text" class="form-input c-kids" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
+          
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Hobbies</p>
 
-          <div class="table">
-            <p class="tag">Hobbies: </p>
-            <div class="form"><span type="text" class="form-input c-hobbies" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="table">
+              <div class="form">
+                <div class="c-hobby-base"></div>
+
+                <div id="c-hobby-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="c-space-maker">
@@ -386,6 +445,18 @@
                 <div class="c-email-base"></div>
 
                 <div id="c-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">IPs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-ip-base"></div>
+
+                <div id="c-ip-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
               </div>
             </div>
           </div>
@@ -406,13 +477,20 @@
           </div>
 
           <div class="table">
-            <p class="tag">Military stand: </p>
-            <div class="form"><span type="text" class="form-input c-military" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
             <p class="tag">Religion: </p>
-            <div class="form"><span type="text" class="form-input c-religion" role="textbox" spellcheck="false" contenteditable></span></div>
+            <div class="religion-select">
+              <select>
+                <option value="0">Select religion:</option>
+                <option value="C">Christianity</option>
+                <option value="A">Atheism</option>
+                <option value="I">Islam</option>
+                <option value="H">Hinduism</option>
+                <option value="B">Buddhism</option>
+                <option value="S">Sikhism</option>
+                <option value="J">Judaism</option>
+                <option value="O">Other</option>
+              </select>
+            </div>
           </div>
 
           <div class="table">
@@ -420,9 +498,16 @@
             <div class="form"><span type="text" class="form-input c-pets" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Club: </p>
-            <div class="form"><span type="text" class="form-input c-club" role="textbox" spellcheck="false" contenteditable></span></div>
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Clubs</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-club-base"></div>
+
+                <div id="c-club-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="table">

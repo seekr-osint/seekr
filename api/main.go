@@ -1,21 +1,32 @@
 package api
 
 import (
-	//"fmt"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/errortypes"
+	"github.com/seekr-osint/seekr/api/github"
+	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/webserver"
 )
 
 var DatabaseFile string
 
 func TestApi(dataBase DataBase) {
-	var apiConfig = ApiConfig{
-		Ip:            "localhost:8080",
+	apiConfig, err := ApiConfig{
+		Server: server.Server{
+			Ip:   "0.0.0.0",
+			Port: uint16(8080),
+			ApiServer: server.ApiServer{
+				Disable: false,
+			},
+			WebServer: webserver.Webserver{
+				Disable: true,
+			},
+		},
 		LogFile:       "/tmp/seekr.log",
 		DataBaseFile:  "test-data",
 		DataBase:      dataBase,
@@ -23,14 +34,15 @@ func TestApi(dataBase DataBase) {
 		LoadDBFunc:    DefaultLoadDB,
 		SaveDBFunc:    DefaultSaveDB,
 		Testing:       true,
+	}.Parse()
+	if err != nil {
+		log.Fatalf("Error parsing test config: %s", err)
 	}
-	err := apiConfig.SaveDB()
+
+	err = apiConfig.SaveDB()
 	if err != nil {
 		log.Fatalf("Error saving to databse: %s", err)
 	}
-
-	// Start the background Seekrd service
-	go Seekrd(DefaultSeekrdServices, 30) // run every 30 minutes
 
 	// Start the API server
 	go ServeApi(apiConfig)
@@ -42,12 +54,18 @@ func CheckPersonExists(config ApiConfig, id string) bool {
 }
 
 func ServeApi(config ApiConfig) {
+	gin.SetMode(gin.ReleaseMode)
 	config, err := config.LoadDB()
 	if err != nil {
 		log.Fatalf("Error loading database: %s", err)
 	}
 	SetupLogger(config)
 	config.GinRouter = gin.Default()
+	if !config.Server.WebServer.Disable {
+		fmt.Printf("Running WebServer on: %s:%d\n", config.Server.Ip, config.Server.Port)
+		config.SetupWebServer()
+	}
+	config.ServeTempMail()
 	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
 	config.GinRouter.GET("/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account // FIXME
 	config.GinRouter.GET("/search/google/:query", Handler(GoogleRequest, config))                // get results from google
@@ -66,27 +84,49 @@ func ServeApi(config ApiConfig) {
 	}
 	config.SaveDB()
 
-	runningFile, err := os.Create("/tmp/running")
-	if err != nil {
-		log.Println(err) // Fix me (breaks tests)
-	}
-	if err != nil {
-		log.Fatalf("Error saving to databse: %s", err)
-	}
-	defer os.Remove("/tmp/running")
-	defer runningFile.Close()
-
 	config.DataBase, err = config.DataBase.Parse(config)
-	config.GinRouter.Run(config.Ip)
+	if err != nil {
+		log.Printf("error parsing databse:%s\n", err)
+	}
+	//visited := make(map[reflect.Type]bool)
+	//fmt.Printf("%s", typetree.PrintTypeTreeRec(reflect.TypeOf(ApiConfig{}), visited, 0, 0, false))
+	config.GinRouter.Run(fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
+
 	if c.Param("username") != "" {
-		githubInfo, err := GithubInfoDeep(c.Param("username"), true, config)
+		deep := github.DeepInvestigation{
+			Username:  c.Param("username"),
+			Tokens:    []string{},
+			ScanForks: false,
+		}
+		apiEmails := EmailsType{}.Parse()
+		emails, rateLimitRate, err := deep.GetEmails()
+		log.Printf("RateLimitRate: %d\n", rateLimitRate)
 		if err != nil {
-			c.IndentedJSON(http.StatusForbidden, map[string]string{"fatal": fmt.Sprintf("%s", err)})
+			apiErr := err.(errortypes.APIError)
+			c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
+			return
 		} else {
-			c.IndentedJSON(http.StatusOK, githubInfo)
+			for _, emailObj := range emails {
+				apiEmails[emailObj.Email] = Email{
+					Mail:     emailObj.Email,
+					Src:      emailObj.CommitUrl,
+					Value:    1,
+					Services: EmailServices{},
+				}
+				apiEmails[emailObj.Email].Services["GitHub"] = EmailService{
+					Name:     "GitHub",
+					Link:     fmt.Sprintf("https://github.com/%s", c.Param("username")),
+					Username: c.Param("username"),
+					Icon:     "./images/mail/github.svg",
+				}
+			}
+
+			// concept impl to provide tate limitation info
+			//c.IndentedJSON(http.StatusOK, map[string]interface{}{"rate_limit_rate": fmt.Sprintf("%d", rateLimitRate), "emails": emails})
+			c.IndentedJSON(http.StatusOK, apiEmails.Parse())
 		}
 	}
 }
@@ -188,7 +228,7 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 	}
 	err := person.Validate()
 	if err != nil {
-		apiErr := err.(APIError)
+		apiErr := err.(errortypes.APIError)
 		c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
 		return
 	}

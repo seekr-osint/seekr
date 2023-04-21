@@ -2,9 +2,18 @@
   description = "A simple Go package";
 
   # Nixpkgs / NixOS version to use.
-  inputs.nixpkgs.url = "github:Nixos/nixpkgs/nixpkgs-unstable";
+  inputs = {
+    nixpkgs = {
+      url = "github:Nixos/nixpkgs/nixpkgs-unstable";
+      flake = true;
+    };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, flake-compat }:
     let
 
       # to work with older version of flakes
@@ -39,7 +48,7 @@
             src = ./.;
 
             #vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-9/mMV62pZ7W7Uxm04bqXT8VrepMYzitNPGLQkSngrHg=";
+            vendorSha256 = "sha256-Alq3l3/bpDCqK8d0wkgqoa0Jyi+J9linXgCiQD6QRt4=";
           };
         });
 
@@ -58,7 +67,6 @@
             nixpkgsFor.${system}.go
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
-            nixpkgsFor.${system}.maigret
             nixpkgsFor.${system}.goreleaser
             self.packages.${system}.seekr
           ];
