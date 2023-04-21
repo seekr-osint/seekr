@@ -14,6 +14,10 @@ func (config ApiConfig) ServeTempMail() {
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
 	corsConfig.AllowCredentials = true
+	corsConfig.AllowHeaders = []string{
+		"X-MailboxToken",
+		//"accept",
+	}
 	router.Use(cors.New(corsConfig))
 
 	// Reverse proxy to https://www.developermail.com/api/v1/
