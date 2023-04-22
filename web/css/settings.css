@@ -1,12 +1,19 @@
 #settings-table {
     display: block;
-    width: 97%;
+    width: fit-content;
     height: auto;
     margin: 1rem;
 }
 
 .settings-option {
     display: block;
+    padding: 1rem;
+}
+
+.settings-name {
+    font-size: 1.4rem;
+    padding-bottom: 1rem;
+    color: var(--textColor-1);
 }
 
 .flex-option-container {
@@ -28,13 +35,15 @@
     height: fit-content;
     width: fit-content;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 0;
 }
 
 .theme-card {
     width: 14vw;
     height: 8vw;
     margin: 1rem;
+    background-color: var(--bg);
 }
 
 .colors {
@@ -58,10 +67,22 @@
 }
 
 .theme-text:hover {
-    font-size: 1.8rem;
+    font-size: 1.61rem;
     color: var(--textColor-hover);
 }
 
-.theme-card {
-    background-color: var(--bg);
+.small-card {
+    height: 50%;
+    width: 50%;
+}
+
+.big-card {
+    justify-content: center;
+    box-shadow: none;
+    transition: 0.3s ease;
+}
+
+.big-card:hover {
+    box-shadow: 0 0 0 0.2rem var(--textColor-hover);
+    cursor: pointer;
 }

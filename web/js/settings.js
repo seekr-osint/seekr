@@ -1,35 +1,26 @@
-const frame = document.querySelector('.frame');
+const whiteTheme = document.getElementById("white-theme");
+const darkTheme = document.getElementById("dark-theme");
 
-function checkSettingsFromLocalStorage() {
-  const isDarkMode = localStorage.getItem("isDarkMode");
-  const isDarkModeChecked = isDarkMode === "true" ? true : false;
+const channel = new BroadcastChannel("theme-channel");
 
-  document.querySelector(".darkMode-switch-input").checked = isDarkModeChecked;
-}
-
-
-checkSettingsFromLocalStorage();
-
-
-
-// Create a new broadcast channel with a specific name
-const channel = new BroadcastChannel('dark-mode-channel');
-
-document.querySelector(".darkMode-switch-input").addEventListener("change", e => {
-  const isDarkMode = e.target.checked;
-
+function changeTheme(theme) {
   // Get the file path of the target iframe
-  const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html"];
-
-  if (isDarkMode) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'light');
-  }
+  const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html", "./settings.html", "./tempmail.html"];
 
   // Send a message to the broadcast channel with the target file path and the new state of the switch for each html file in targetFilePaths
   targetFilePaths.forEach(targetFilePath => {
-    channel.postMessage({ type: 'dark-mode', targetFilePath, isDarkMode });
-    localStorage.setItem("isDarkMode", true);
+    channel.postMessage({ type: "theme", targetFilePath, theme });
+    localStorage.setItem("theme", theme);
   });
+
+  document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
+}
+
+
+whiteTheme.addEventListener("click", () => {
+  changeTheme("white");
+});
+
+darkTheme.addEventListener("click", () => {
+  changeTheme("dark");
 });

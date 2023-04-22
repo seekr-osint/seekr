@@ -24,12 +24,10 @@
     <title>SEEKR</title>
 
     <script type="text/javascript" defer>
-      // Check local storage for dark mode setting
+      // Check local storage for theme setting
 
-      if (localStorage.getItem("isDarkMode") == "true") {
-        document.documentElement.setAttribute("data-theme", "dark");
-      } else {
-        document.documentElement.setAttribute("data-theme", "light");
+      if (localStorage.getItem("theme")) {
+        document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
       }
     </script>
 
