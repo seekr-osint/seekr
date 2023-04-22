@@ -1,10 +1,11 @@
 package api
 
 import (
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
 	"net/http/httputil"
 	"net/url"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func (config ApiConfig) ServeTempMail() {
@@ -13,6 +14,12 @@ func (config ApiConfig) ServeTempMail() {
 	// Add CORS middleware to allow all requests
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowCredentials = true
+	corsConfig.AllowHeaders = []string{
+		"X-MailboxToken",
+		"Content-Type",
+		//"accept",
+	}
 	router.Use(cors.New(corsConfig))
 
 	// Reverse proxy to https://www.developermail.com/api/v1/
