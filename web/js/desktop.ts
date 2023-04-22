@@ -2,7 +2,6 @@ const bg_var = getComputedStyle(document.documentElement).getPropertyValue('[dat
 
 // Create a new broadcast channel with the same name as in the first code block
 const channel = new BroadcastChannel("theme-channel");
-
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
@@ -121,6 +120,10 @@ function createSeekrSettingsWindow() {
 
 const shortcutMenu = document.querySelector('.shortcut-menu');
 const appBar = document.querySelector('.app-bar');
+if (shortcutMenu) {
 shortcutMenu.addEventListener('click', function() {
+  if (appBar) {
   appBar.classList.toggle('clicked');
+  }
 });
+}

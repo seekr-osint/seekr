@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./web/dist",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "./web/**/*.ts"
+  ]
+}
