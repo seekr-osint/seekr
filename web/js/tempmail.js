@@ -165,13 +165,13 @@ refreshBtn.addEventListener("click", () => {
                     mailChip.appendChild(mailHeader);
 
                     mailChip.addEventListener("click", () => {
-                      console.log(data.result[i].value)
-                      console.log(data.result[i].value.split("Content-Type: text/plain; charset=\"UTF-8\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n")[1].split("\r\n\r\n--")[0])
+                      console.log(data.result[i].value);
 
                       mailDetailsDate.innerHTML = data.result[i].value.split("Date: ")[1].split("\r\nMessage-ID")[0].match(/\d{2}:\d{2}/)[0];
                       mailDetailsSender.innerHTML = data.result[i].value.split("From: ")[1].split("\r\nDate:")[0].match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/)[0];
                       mailDetailsHeader.innerHTML = data.result[i].value.split("Subject: ")[1].split("\r\nTo: ")[0];
-                      mailDetailsBody.innerHTML = data.result[i].value.split("Content-Type: text/plain; charset=\"UTF-8\"\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n")[1].split("\r\n\r\n--\w{32}--")[0];
+                      mailDetailsBody.innerHTML = data.result[i].value.split(`--([0-9]+([A-Za-z]+[0-9]+)+)`)[0]; //.split(`\r\n\r\n--\w{28}--`)[0]
+                      console.log(mailDetailsBody.innerHTML);
                     });
                   }
                 } else {
