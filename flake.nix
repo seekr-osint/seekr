@@ -69,6 +69,9 @@
             nixpkgsFor.${system}.jq
             nixpkgsFor.${system}.goreleaser
             self.packages.${system}.seekr
+
+
+            nixpkgsFor.${system}.typescript
           ];
         };
       });
