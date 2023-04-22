@@ -1,0 +1,103 @@
+:root {
+  --loadingColor: #6d5dfc;
+  --loadingColor-dark: #5b0eeb;
+
+  --noResultsText: rgba(155, 170, 207, 0.5);
+
+  --bg: #E4EBF5;
+  --bg-bright: #e9edf1;
+
+  --textColor-1: #9baacf;
+  --textColor-hover: #6d5dfc;
+
+  /* Shadows */
+
+  --shadow-1: #c8d0e7;
+  --shadow-2: #FFFFFF;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}
+
+[data-theme="default-white"] {
+  --loadingColor: #6d5dfc;
+  --loadingColor-dark: #5b0eeb;
+
+  --noResultsText: rgba(155, 170, 207, 0.5);
+
+  --bg: #E4EBF5;
+  --bg-bright: #e9edf1;
+
+  --textColor-1: #9baacf;
+  --textColor-hover: #6d5dfc;
+
+  /* Shadows */
+
+  --shadow-1: #c8d0e7;
+  --shadow-2: #FFFFFF;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}
+
+[data-theme="default-dark"] {
+  --loadingColor: #FFFFFF;
+  --loadingColor-dark: #cacaca;
+
+  --noResultsText: #68686875;
+
+  --textColor-1: #939393;
+  --textColor-hover: #FFFFFF;
+
+  --bg: #2c2c2c;
+  --bg-bright: #303030;
+
+  /* Shadow */
+
+  --shadow-1: #1e1e1f;
+  --shadow-2: #353535;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}
+
+[data-theme="nord-dark"] {
+  --loadingColor: #D8DEE9;
+  --loadingColor-dark: #cacaca;
+
+  --noResultsText: #68686875;
+
+  --textColor-1: #8C94A4;
+  --textColor-hover: #D8DEE9;
+
+  --bg: #2E3440;
+  --bg-bright: #313642;
+
+  /* Shadow */
+
+  --shadow-1: #24272e;
+  --shadow-2: #2c2f3a;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}

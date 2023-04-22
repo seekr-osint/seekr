@@ -67,13 +67,13 @@
 }
 
 .theme-text:hover {
-    font-size: 1.61rem;
     color: var(--textColor-hover);
 }
 
 .small-card {
     height: 50%;
-    width: 50%;
+    min-width: 50%;
+    width: fit-content;
 }
 
 .big-card {

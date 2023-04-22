@@ -2,13 +2,18 @@
 const channel = new BroadcastChannel("theme-channel");
 
 // Listen for messages on the broadcast channel
-channel.addEventListener("message", (event) => {
+channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
 
+    console.log(theme);
     localStorage.setItem("theme", theme);
 
+    console.log(document.documentElement.getAttribute('data-theme'))
+
     document.documentElement.setAttribute("data-theme", theme);
+
+    console.log(document.documentElement.getAttribute('data-theme'))
   }
 });
 
