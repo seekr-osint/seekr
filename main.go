@@ -9,6 +9,7 @@ import (
 	"runtime"
 
 	api "github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api/functions"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
@@ -21,6 +22,18 @@ var content embed.FS
 var dataBase = make(api.DataBase)
 
 func main() {
+	es1 := api.EmailService{
+		Name: "Hello",
+	}
+	es2 := api.EmailService{
+		Name: "nw",
+		Username: "f",
+	}
+	es3,err := functions.Merge(es1,es2)
+	if err != nil {
+		fmt.Printf("error: %v\n",err)
+	}
+	fmt.Printf("%#v",es3)
 	// liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
