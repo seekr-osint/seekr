@@ -14,3 +14,7 @@ seekr.exe
 
 # Dev stuff
 .direnv
+
+# Type scritp because java script sucks
+
+./web/dist
