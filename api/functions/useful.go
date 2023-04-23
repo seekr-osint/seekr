@@ -50,58 +50,50 @@ func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
 	return parsed, nil
 }
 
-func Merge[T interface{}](t1 T,t2 T) (T, error) { // FIXME merge a map too
-	//var newT = T
-	//if reflect.TypeOf(t1).Kind() != reflect.Struct || reflect.TypeOf(t2).Kind() != reflect.Struct {
-	//	return t1, ErrOnlyStruct
-	//}
-	//if reflect.TypeOf(t1) != reflect.TypeOf(t2) {
-	//	return t1, ErrDifferentTypes
-	//}
-
+func Merge[T interface{}](t1 T, t2 T) (T, error) { // FIXME merge a map too
 	switch reflect.TypeOf(t1).Kind() {
-		case reflect.String:
-			if reflect.ValueOf(t2).String() != "" {
-				t1 = t2
-			}
-		case reflect.Int:
-			if reflect.ValueOf(t2).Int() != 0 {
-				t1 = t2
-			}
-		case reflect.Struct:
+	case reflect.String:
+		if reflect.ValueOf(t2).String() != "" {
+			t1 = t2
+		}
+	case reflect.Int:
+		if reflect.ValueOf(t2).Int() != 0 {
+			t1 = t2
+		}
+	case reflect.Struct:
 
-	for i := 0; i < reflect.TypeOf(t1).NumField(); i++ {
-		field1 := reflect.TypeOf(t1).Field(i)
-		field2:= reflect.TypeOf(t2).Field(i)
-		field1Value := reflect.ValueOf(t1).Field(i)
-		field2Value := reflect.ValueOf(t2).Field(i)
-		if field1.Name != field2.Name {
-			return t1,ErrDifferentTypes
-		}
-		if field1Value.Kind() != field2Value.Kind() {
-			return t1,ErrDifferentTypes
-		}
-		switch field1.Type.Kind() {
-		case reflect.String:
-			merged, err := Merge(field1Value.String(),field2Value.String())
-			if err != nil {
-				return t1,err
+		for i := 0; i < reflect.TypeOf(t1).NumField(); i++ {
+			field1 := reflect.TypeOf(t1).Field(i)
+			field2 := reflect.TypeOf(t2).Field(i)
+			field1Value := reflect.ValueOf(t1).Field(i)
+			field2Value := reflect.ValueOf(t2).Field(i)
+			if field1.Name != field2.Name {
+				return t1, ErrDifferentTypes
 			}
+			if field1Value.Kind() != field2Value.Kind() {
+				return t1, ErrDifferentTypes
+			}
+			switch field1.Type.Kind() {
+			case reflect.String:
+				merged, err := Merge(field1Value.String(), field2Value.String())
+				if err != nil {
+					return t1, err
+				}
 				reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).SetString(merged)
-		case reflect.Int:
-			merged, err := Merge(field1Value.Int(),field2Value.Int())
-			if err != nil {
-				return t1,err
-			}
+			case reflect.Int:
+				merged, err := Merge(field1Value.Int(), field2Value.Int())
+				if err != nil {
+					return t1, err
+				}
 				reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).SetInt(merged)
-		case reflect.Struct:
-			merged, err := Merge(field1Value.Interface(),field2Value.Interface())
-			if err != nil {
-				return t1,err
+			case reflect.Struct:
+				merged, err := Merge(field1Value.Interface(), field2Value.Interface())
+				if err != nil {
+					return t1, err
+				}
+				reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).Set(reflect.ValueOf(merged))
 			}
-			reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).Set(reflect.ValueOf(merged))
 		}
-	}
 	}
 	return t1, nil
 }
