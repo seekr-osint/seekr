@@ -9,7 +9,7 @@ import (
 	"runtime"
 
 	api "github.com/seekr-osint/seekr/api"
-	"github.com/seekr-osint/seekr/api/functions"
+	"github.com/seekr-osint/seekr/api/newtype"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
@@ -29,7 +29,7 @@ func main() {
 		Name: "nw",
 		Username: "f",
 	}
-	es3,err := functions.Merge(es1,es2)
+	es3,err := newtype.Merge(es1,es2)
 	if err != nil {
 		fmt.Printf("error: %v\n",err)
 	}

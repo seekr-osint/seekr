@@ -29,12 +29,14 @@ func DeleteEmptyKey[T any](m map[string]T) map[string]T {
 func FullParseMapRet[T interface{ Parse() (T, error) }](m map[string]T, fieldName string) (map[string]T, error) {
 	newMap := make(map[string]T)
 	m = DeleteEmptyKey(m)
-	for k, v := range m {
-		if k != "" {
-			parsed, err := ParseRet(v)
+	for fieldKey, fieldValue := range m {
+		if fieldKey != "" {
+			// Parse field
+			parsed, err := Parse(fieldValue)
 			if err != nil {
 				return newMap, err
 			}
+
 			parsedFieldValue := reflect.ValueOf(parsed).FieldByName(fieldName).String()
 			newMap[parsedFieldValue] = parsed
 		}
@@ -42,7 +44,7 @@ func FullParseMapRet[T interface{ Parse() (T, error) }](m map[string]T, fieldNam
 	return newMap, nil
 }
 
-func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
+func Parse[T interface{ Parse() (T, error) }](t T) (T, error) {
 	parsed, err := t.Parse()
 	if err != nil {
 		return parsed, err
