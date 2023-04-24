@@ -1,4 +1,4 @@
-import {delay, SaveAsFile, checkGender, getGenderElementIndex, checkReligion, getReligionElementIndex, checkCivilstatus, getCivilstatusElementIndex} from "./framework.js";
+import {saveAsFile, checkDropdownValue, getDropdownElementIndex} from "../dist/framework.js";
 
 const element = document.getElementById("searchbar");
 
@@ -37,7 +37,7 @@ async function main() {
   search_users();
 
   document.getElementById("exportbtn").onclick = function () {
-    SaveAsFile(JSON.stringify(data), "data.json", "text/plain;charset=utf-8");
+    saveAsFile(JSON.stringify(data), "data.json");
   }
 
 
@@ -531,7 +531,7 @@ async function main() {
           const textToSave = await request.json();
 
 
-          SaveAsFile(textToSave.markdown, obj.name.toLowerCase().replace(/ /g, "") + ".md", "text/plain;charset=utf-8");
+          saveAsFile(textToSave.markdown, obj.name.toLowerCase().replace(/ /g, "") + ".md");
         }
 
 
@@ -554,7 +554,7 @@ async function main() {
             const selectItems = genderSelect.querySelector(".select-items");
             const selectSelected = genderSelect.querySelector(".select-selected");
   
-            const genderIndex = getGenderElementIndex(obj.gender);
+            const genderIndex = getDropdownElementIndex("gender", obj.gender);
   
             const genderElement = selectItems.children[genderIndex];
   
@@ -647,7 +647,7 @@ async function main() {
             const selectItems = civilstatusSelect.querySelector(".select-items");
             const selectSelected = civilstatusSelect.querySelector(".select-selected");
   
-            const civilstatusIndex = getCivilstatusElementIndex(obj.civilstatus);
+            const civilstatusIndex = getDropdownElementIndex("civilstatus", obj.civilstatus);
   
             const civilstatusElement = selectItems.children[civilstatusIndex];
   
@@ -739,7 +739,7 @@ async function main() {
             const selectItems = religionSelect.querySelector(".select-items");
             const selectSelected = religionSelect.querySelector(".select-selected");
   
-            const religionIndex = getReligionElementIndex(obj.religion);
+            const religionIndex = getDropdownElementIndex("religion", obj.religion);
   
             const religionElement = selectItems.children[religionIndex];
   
@@ -1767,9 +1767,9 @@ async function main() {
 
     let id = checkId(preId);
 
-    let name = document.querySelector(".c-name-tag").innerHTML;
+    let name = document.querySelector(".c-name-tag").value;
 
-    let gender = checkGender("create");
+    let gender = checkDropdownValue("create", "gender");
 
     let age = parseInt(document.querySelector(".c-age").innerHTML);
 
@@ -1793,7 +1793,7 @@ async function main() {
       };
     });
 
-    let civilstatus = checkCivilstatus("create");
+    let civilstatus = checkDropdownValue("create", "civilstatus");
 
     let kids = document.querySelector(".c-kids").innerHTML;
 
@@ -1811,7 +1811,7 @@ async function main() {
     let prevoccupation = document.querySelector(".c-prevoccupation").innerHTML;
     let education = document.querySelector(".c-education").innerHTML;
 
-    let religion = checkReligion("create");
+    let religion = checkDropdownValue("create", "religion");
 
     let pets = document.querySelector(".c-pets").innerHTML;
 
@@ -1871,7 +1871,7 @@ async function main() {
 
     let name = document.querySelector(".e-name-tag").value;
 
-    let gender = checkGender("edit");
+    let gender = checkDropdownValue("edit", "gender");
     
     let age = parseInt(document.querySelector(".e-age").innerHTML);
 
@@ -1895,7 +1895,7 @@ async function main() {
       };
     });
 
-    let civilstatus = checkCivilstatus("edit");
+    let civilstatus = checkDropdownValue("edit", "civilstatus");
 
     let kids = document.querySelector(".e-kids").innerHTML;
 
@@ -1913,7 +1913,7 @@ async function main() {
     let prevoccupation = document.querySelector(".e-prevoccupation").innerHTML;
     let education = document.querySelector(".e-education").innerHTML;
 
-    let religion = checkReligion("edit");
+    let religion = checkDropdownValue("edit", "religion");
 
     let pets = document.querySelector(".e-pets").innerHTML;
 

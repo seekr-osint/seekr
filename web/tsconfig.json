@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es2016",                                 
+    "target": "ESNext",                                 
     "outDir": "./dist",
     "watch": true,
+    "lib": ["dom", "ESNext"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
