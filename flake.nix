@@ -48,7 +48,7 @@
             src = ./.;
 
             #vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-Alq3l3/bpDCqK8d0wkgqoa0Jyi+J9linXgCiQD6QRt4=";
+            vendorSha256 = "sha256-qHZHFhZreMlCz3n8Nva1nYamZUyUZjjeOUEX3vAKaWg=";
           };
         });
 
@@ -65,6 +65,7 @@
         default = nixpkgsFor.${system}.mkShell {
           packages = [
             nixpkgsFor.${system}.go
+            nixpkgsFor.${system}.gcc
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
             nixpkgsFor.${system}.goreleaser

@@ -14,3 +14,4 @@ seekr.exe
 
 # Dev stuff
 .direnv
+examples/plugins/basic/basic.so
