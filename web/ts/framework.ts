@@ -15,7 +15,8 @@ function saveAsFile(textContent: string, fileName: string) {
 const elements: {[key: string]: HTMLCollectionOf<Element>} = {
   "gender-select": document.getElementsByClassName("gender-select"),
   "religion-select": document.getElementsByClassName("religion-select"),
-  "civilstatus-select": document.getElementsByClassName("civilstatus-select")
+  "civilstatus-select": document.getElementsByClassName("civilstatus-select"),
+  "country-select": document.getElementsByClassName("country-select")
 };
 
 for (const [className, nodeList] of Object.entries(elements)) {

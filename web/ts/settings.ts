@@ -36,3 +36,5 @@ if (nordDarkTheme) {
     changeTheme("nord-dark");
   });
 }
+
+export {};

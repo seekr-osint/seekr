@@ -1,3 +1,5 @@
+const channel = new BroadcastChannel("theme-channel");
+
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
@@ -7,9 +9,6 @@ channel.addEventListener('message', (event) => {
     document.documentElement.setAttribute("data-theme", theme);
   }
 });
-
-
-
 
 
 const myBtn = document.querySelector(".create-mail-btn");
