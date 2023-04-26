@@ -172,12 +172,10 @@ function createCards(obj: any) {
   const editAge = document.querySelector(".e-age") as HTMLInputElement;
   const editBday = document.querySelector(".e-bday") as HTMLInputElement;
   const editAddress = document.querySelector(".e-address") as HTMLInputElement;
-  const editCivilStatus = document.querySelector(".e-civilstatus") as HTMLInputElement;
   const editKids = document.querySelector(".e-kids") as HTMLInputElement;
   const editOccupation = document.querySelector(".e-occupation") as HTMLInputElement;
   const editPrevOccupation = document.querySelector(".e-prevoccupation") as HTMLInputElement;
   const editEducation = document.querySelector(".e-education") as HTMLInputElement;
-  const editReligion = document.querySelector(".e-religion") as HTMLInputElement;
   const editPets = document.querySelector(".e-pets") as HTMLInputElement;
   const editLegal = document.querySelector(".e-legal") as HTMLInputElement;
   const editPolitical = document.querySelector(".e-political") as HTMLInputElement;
@@ -1315,27 +1313,28 @@ function createCards(obj: any) {
 }
 
 const editSaveBtn = document.querySelector("#e-savebtn")! as HTMLDivElement;
-const editShowID = document.querySelector("#e-showid")! as HTMLParagraphElement;
-
-const editNameTag = document.querySelector(".e-name-tag")! as HTMLInputElement;
-const editAge = document.querySelector(".e-age")! as HTMLParagraphElement;
-const editBday = document.querySelector(".e-bday")! as HTMLParagraphElement;
-const editAddress = document.querySelector(".e-address")! as HTMLParagraphElement;
-const editPhoneContainers = document.querySelectorAll(".phone-container")! as NodeListOf<HTMLDivElement>;
-const editKids = document.querySelector(".e-kids")! as HTMLParagraphElement;
-const editHobbyContainers = document.querySelectorAll(".hobby-container") as NodeListOf<HTMLDivElement>;
-const editOccupation = document.querySelector(".e-occupation")! as HTMLParagraphElement;
-const editPrevOccupation = document.querySelector(".e-prevoccupation")! as HTMLParagraphElement;
-const editEducation = document.querySelector(".e-education")! as HTMLParagraphElement;
-const editPets = document.querySelector(".e-pets")! as HTMLParagraphElement;
-const editClubContainers = document.querySelectorAll(".club-container") as NodeListOf<HTMLDivElement>;
-const editLegal = document.querySelector(".e-legal")! as HTMLParagraphElement;
-const editPolitical = document.querySelector(".e-political")! as HTMLParagraphElement;
-const editNotes = document.querySelector(".e-notes")! as HTMLDivElement;
-const editEmailContainers = document.querySelectorAll(".email-container") as NodeListOf<HTMLDivElement>;
-const editIPContainers = document.querySelectorAll(".ip-container") as NodeListOf<HTMLDivElement>;
 
 editSaveBtn.onclick = async function () {
+  const editShowID = document.querySelector("#e-showid")! as HTMLParagraphElement;
+
+  const editNameTag = document.querySelector(".e-name-tag") as HTMLInputElement;
+  const editAge = document.querySelector(".e-age") as HTMLParagraphElement;
+  const editBday = document.querySelector(".e-bday") as HTMLParagraphElement;
+  const editAddress = document.querySelector(".e-address") as HTMLParagraphElement;
+  const editPhoneContainers = document.querySelectorAll(".phone-container") as NodeListOf<HTMLDivElement>;
+  const editKids = document.querySelector(".e-kids")! as HTMLParagraphElement;
+  const editHobbyContainers = document.querySelectorAll(".hobby-container") as NodeListOf<HTMLDivElement>;
+  const editOccupation = document.querySelector(".e-occupation") as HTMLParagraphElement;
+  const editPrevOccupation = document.querySelector(".e-prevoccupation") as HTMLParagraphElement;
+  const editEducation = document.querySelector(".e-education") as HTMLParagraphElement;
+  const editPets = document.querySelector(".e-pets") as HTMLParagraphElement;
+  const editClubContainers = document.querySelectorAll(".club-container") as NodeListOf<HTMLDivElement>;
+  const editLegal = document.querySelector(".e-legal") as HTMLParagraphElement;
+  const editPolitical = document.querySelector(".e-political") as HTMLParagraphElement;
+  const editNotes = document.querySelector(".e-notes") as HTMLDivElement;
+  const editEmailContainers = document.querySelectorAll(".email-container") as NodeListOf<HTMLDivElement>;
+  const editIPContainers = document.querySelectorAll(".ip-container") as NodeListOf<HTMLDivElement>;
+
   let id = editShowID.innerHTML;
 
   let name = editNameTag.value;
@@ -1360,13 +1359,12 @@ editSaveBtn.onclick = async function () {
     const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]');
     if (phoneInput) {
       const phoneNumber: string = phoneInput.value;
+
       phoneNumbers[phoneNumber] = {
         "number": phoneNumber
       };
     }
   });
-
-  console.log(phoneNumbers);
 
   let civilstatus = checkDropdownValue("edit", "civilstatus");
 
@@ -1490,7 +1488,6 @@ async function searchEntries() {
     let obj = data[Number(i)] as any;
 
     if (obj.name.toLowerCase().includes(input)) {
-      console.log(obj.name)
       // Create Cards For Each Person
 
       createCards(obj);
