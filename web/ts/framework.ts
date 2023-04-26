@@ -133,7 +133,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
   }
 }
 
-function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilstatus", dropdownValue: string) {
+function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilstatus", dropdownValue: string): string | undefined {
   if (dropdownType == "gender") {
     const genderIndex: { [key: string]: string } = {};
 

@@ -157,7 +157,7 @@ function preListHandler() {
   }
 }
 
-document.querySelector(".select-selected")?.addEventListener("DOMSubtreeModified", preListHandler);
+document.querySelector(".select-selected")!.addEventListener("DOMSubtreeModified", preListHandler);
 
 checkboxName.addEventListener('change', preListHandler);
 

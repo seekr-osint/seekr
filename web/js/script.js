@@ -32,6 +32,9 @@ async function main() {
 
   let data = await res.json();
 
+  console.log(typeof data);
+  console.log(data);
+
 
   element.addEventListener("keyup", search_users);
   search_users();
@@ -51,6 +54,8 @@ async function main() {
 
     for (const [i, _] of Object.entries(data)) {
       let obj = data[i];
+
+      console.log(obj)
 
       if (obj.name.toLowerCase().includes(input)) {
 
