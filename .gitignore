@@ -15,3 +15,4 @@ seekr.exe
 # Dev stuff
 .direnv
 examples/plugins/basic/basic.so
+cmd/seekr-cli/seekr-cli
