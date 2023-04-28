@@ -224,7 +224,7 @@ function createCards(obj: any) {
       let tempText = item.innerHTML.substring(item.innerHTML.indexOf(':') + 1).trim();
 
       // Check if the text is empty, null, or undefined
-      if (tempText.length <= 0 || tempText == "" || tempText == " " || tempText == null || tempText == undefined || tempText == "0") {
+      if (tempText.length <= 0 || tempText.replace(" ","") == "" || tempText == null || tempText == undefined || tempText == "0") {
         // Remove the object from the page
         // allObjects[i].remove();
 
@@ -383,8 +383,6 @@ function createCards(obj: any) {
           phone_input.id = "v-phone";
           phone_input.type = "phone";
           phone_input.placeholder = "Enter phone number";
-          phone_input.spellcheck = false;
-          phone_input.required = true;
           phone_input.value = phoneVar.number;
           phone_input.disabled = true;
 
@@ -409,7 +407,7 @@ function createCards(obj: any) {
               infoDiv.className = "v-info-div";
 
               container.appendChild(infoDiv);
-
+              // use a function and parse the arg valid/invalid and use the literal string everywhere
               if (phoneVar.valid == true) {
                 const abbrContainerValidity = document.createElement("abbr")
                 abbrContainerValidity.className = "validity-abbr";
@@ -1346,8 +1344,8 @@ editSaveBtn.onclick = async function () {
   if (age < 0) {
     age *= -1;
   }
-  if (age > 120) {
-    age = 120;
+  if (age > 128) {
+    age = 128;
   }
 
   let bday = editBday.innerHTML;
@@ -1356,14 +1354,13 @@ editSaveBtn.onclick = async function () {
   let phoneNumbers: {[key: string]: {number: string}} = {};
 
   editPhoneContainers.forEach((container: HTMLDivElement) => {
-    const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]');
-    if (phoneInput) {
-      const phoneNumber: string = phoneInput.value;
+    const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
 
-      phoneNumbers[phoneNumber] = {
-        "number": phoneNumber
-      };
-    }
+    const phoneNumber: string = phoneInput.value;
+
+    phoneNumbers[phoneNumber] = {
+      "number": phoneNumber
+    };
   });
 
   let civilstatus = checkDropdownValue("edit", "civilstatus");
@@ -1404,7 +1401,8 @@ editSaveBtn.onclick = async function () {
 
   editEmailContainers.forEach(function (container) {
     let hiddenElement = container.querySelector(".hidden-email-save")!;
-
+    
+    // FIXME this is beatiful
     let hiddenElementVal = null;
 
     if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
@@ -1444,10 +1442,11 @@ editSaveBtn.onclick = async function () {
   });
 }
 
-document.getElementById("backbtn")!.onclick = function () {
-  const mainContainer = document.querySelector(".main")! as HTMLDivElement;
-  const container = document.querySelector(".container")! as HTMLDivElement;
+const mainContainer = document.querySelector(".main")! as HTMLDivElement;
+const container = document.querySelector(".container")! as HTMLDivElement;
+const editContainer = document.querySelector(".edit-container")! as HTMLDivElement;
 
+document.getElementById("backbtn")!.onclick = function () {
   mainContainer.style.display = "flex";
   container.style.display = "none";
 
@@ -1470,6 +1469,44 @@ document.getElementById("backbtn")!.onclick = function () {
   while (elements.length > 0) {
     elements[0].parentNode!.removeChild(elements[0]);
   }
+}
+
+document.getElementById("e-backbtn")!.onclick = function () {
+  mainContainer.style.display = "flex";
+  editContainer.style.display = "none";
+
+  var phoneElements = document.getElementsByClassName("phone-container");
+
+  while (phoneElements.length > 0) {
+    phoneElements[0].parentNode!.removeChild(phoneElements[0]);
+  }
+
+  var mailElements = document.getElementsByClassName("email-container");
+
+  while (mailElements.length > 0) {
+    mailElements[0].parentNode!.removeChild(mailElements[0]);
+  }
+
+  var hobbyElements = document.getElementsByClassName("hobby-container");
+
+  while (hobbyElements.length > 0) {
+    hobbyElements[0].parentNode!.removeChild(hobbyElements[0]);
+  }
+
+  var clubElements = document.getElementsByClassName("club-container");
+
+  while (clubElements.length > 0) {
+    clubElements[0].parentNode!.removeChild(clubElements[0]);
+  }
+
+  var ipElements = document.getElementsByClassName("ip-container");
+
+  while (ipElements.length > 0) {
+    ipElements[0].parentNode!.removeChild(ipElements[0]);
+  }
+
+  const parentElement = document.querySelector(".e-accounts") as HTMLDivElement;
+  parentElement.innerHTML = "";
 }
 
 searchEntries();
