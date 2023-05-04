@@ -1,25 +1,17 @@
 const bg_var = getComputedStyle(document.documentElement).getPropertyValue('[data-theme]--bg');
 
-
-
 // Create a new broadcast channel with the same name as in the first code block
-const channel = new BroadcastChannel('dark-mode-channel');
+const channel = new BroadcastChannel("theme-channel");
 
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
-  if (event.data.type === 'dark-mode') {
-    const isDarkMode = event.data.isDarkMode;
-    localStorage.setItem('isDarkMode', isDarkMode);
+  if (event.data.type === "theme") {
+    const theme = event.data.theme;
+    localStorage.setItem("theme", theme);
 
-    if (isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
+    document.documentElement.setAttribute("data-theme", theme);
   }
 });
-
-
 
 
 function createSeekrWindow() {

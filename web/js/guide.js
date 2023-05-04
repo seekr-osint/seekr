@@ -1,17 +1,19 @@
 // Create a new broadcast channel with the same name as in the first code block
-const channel = new BroadcastChannel('dark-mode-channel');
+const channel = new BroadcastChannel("theme-channel");
 
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
-  if (event.data.type === 'dark-mode') {
-    const isDarkMode = event.data.isDarkMode;
-    localStorage.setItem('isDarkMode', isDarkMode);
+  if (event.data.type === "theme") {
+    const theme = event.data.theme;
 
-    if (isDarkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
+    console.log(theme);
+    localStorage.setItem("theme", theme);
+
+    console.log(document.documentElement.getAttribute('data-theme'))
+
+    document.documentElement.setAttribute("data-theme", theme);
+
+    console.log(document.documentElement.getAttribute('data-theme'))
   }
 });
 

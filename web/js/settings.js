@@ -1,35 +1,32 @@
-const frame = document.querySelector('.frame');
+const defaultWhiteTheme = document.getElementById("default-white-theme");
+const defaultDarkTheme = document.getElementById("default-dark-theme");
 
-function checkSettingsFromLocalStorage() {
-  const isDarkMode = localStorage.getItem("isDarkMode");
-  const isDarkModeChecked = isDarkMode === "true" ? true : false;
+const nordDarkTheme = document.getElementById("nord-dark-theme");
 
-  document.querySelector(".darkMode-switch-input").checked = isDarkModeChecked;
-}
+const channel = new BroadcastChannel("theme-channel");
 
-
-checkSettingsFromLocalStorage();
-
-
-
-// Create a new broadcast channel with a specific name
-const channel = new BroadcastChannel('dark-mode-channel');
-
-document.querySelector(".darkMode-switch-input").addEventListener("change", e => {
-  const isDarkMode = e.target.checked;
-
+function changeTheme(theme) {
   // Get the file path of the target iframe
-  const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html"];
-
-  if (isDarkMode) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'light');
-  }
+  const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html", "./settings.html", "./tempmail.html"];
 
   // Send a message to the broadcast channel with the target file path and the new state of the switch for each html file in targetFilePaths
   targetFilePaths.forEach(targetFilePath => {
-    channel.postMessage({ type: 'dark-mode', targetFilePath, isDarkMode });
-    localStorage.setItem("isDarkMode", true);
+    channel.postMessage({ type: "theme", targetFilePath, theme });
+    localStorage.setItem("theme", theme);
   });
+
+  document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
+}
+
+
+defaultWhiteTheme.addEventListener("click", () => {
+  changeTheme("default-white");
+});
+
+defaultDarkTheme.addEventListener("click", () => {
+  changeTheme("default-dark");
+});
+
+nordDarkTheme.addEventListener("click", () => {
+  changeTheme("nord-dark");
 });
