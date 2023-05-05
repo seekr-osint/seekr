@@ -118,15 +118,72 @@ function createCards(obj: any) {
   d_icon.className = "icon"
   d_icon.setAttribute("name", "trash-outline");
 
+
+
+  // General
+
+  const mainContainer = document.querySelector(".main") as HTMLDivElement;
+  const container = document.querySelector(".container") as HTMLDivElement;
+  const editContainer = document.querySelector(".edit-container") as HTMLDivElement;
+
+  // View
+
+  const viewShowId = document.querySelector("#v-showid") as HTMLParagraphElement;
+  const viewNameTag = document.querySelector(".name-tag") as HTMLInputElement;
+
+  const viewGender = document.querySelector(".gender") as HTMLParagraphElement;
+  const viewAge = document.querySelector(".age") as HTMLParagraphElement;
+  const viewBday = document.querySelector(".bday") as HTMLParagraphElement;
+  const viewAddress = document.querySelector(".address") as HTMLParagraphElement;
+  const viewCivilStatus = document.querySelector(".civilstatus") as HTMLParagraphElement;
+  const viewKids = document.querySelector(".kids") as HTMLParagraphElement;
+  const viewOccupation = document.querySelector(".occupation") as HTMLParagraphElement;
+  const viewPrevOccupation = document.querySelector(".prevoccupation") as HTMLParagraphElement;
+  const viewEducation = document.querySelector(".education") as HTMLParagraphElement;
+  const viewReligion = document.querySelector(".religion") as HTMLParagraphElement;
+  const viewPets = document.querySelector(".pets") as HTMLParagraphElement;
+  const viewLegal = document.querySelector(".legal") as HTMLParagraphElement;
+  const viewPolitical = document.querySelector(".political") as HTMLParagraphElement;
+  const viewNotes = document.getElementById("notes") as HTMLDivElement;
+
+  // Edit
+
+  const editShowID = document.querySelector("#e-showid") as HTMLParagraphElement;
+  const editNameTag = document.querySelector(".e-name-tag") as HTMLInputElement;
+
+  const editAge = document.querySelector(".e-age") as HTMLInputElement;
+  const editBday = document.querySelector(".e-bday") as HTMLInputElement;
+  const editAddress = document.querySelector(".e-address") as HTMLInputElement;
+  const editKids = document.querySelector(".e-kids") as HTMLInputElement;
+  const editOccupation = document.querySelector(".e-occupation") as HTMLInputElement;
+  const editPrevOccupation = document.querySelector(".e-prevoccupation") as HTMLInputElement;
+  const editEducation = document.querySelector(".e-education") as HTMLInputElement;
+  const editPets = document.querySelector(".e-pets") as HTMLInputElement;
+  const editLegal = document.querySelector(".e-legal") as HTMLInputElement;
+  const editPolitical = document.querySelector(".e-political") as HTMLInputElement;
+  const editNotes = document.getElementById("e-notes") as HTMLDivElement;
+
+  // Accs
+
+  const accNameTag = document.getElementById("acc-name-tag") as HTMLInputElement;
+  const accContainer = document.querySelector(".acc-container") as HTMLDivElement;
+  const accSearchChip = document.getElementById("acc-search-chip") as HTMLDivElement;
+  const accNoResults = document.getElementById("acc-no-results") as HTMLDivElement;
+  const accScrollBox = document.getElementById("acc-scroll-box") as HTMLDivElement;
+  const accAccounts = document.getElementById("accounts") as HTMLDivElement;
+
+  const accLoadingSpinner = document.getElementById("loading-spinner") as HTMLDivElement;
+
+
   acc_icon_div.onclick = function () {
     editShowID.innerHTML = obj.id;
-    document.querySelector('.main').style.display = "none";
-    document.querySelector('.acc-container').style.display = "flex";
+    mainContainer.style.display = "none";
+    accContainer.style.display = "flex";
   }
 
-  document.getElementById("acc-search-chip").onclick = search;
+  accSearchChip.onclick = search;
 
-  document.getElementById("acc-name-tag").onkeypress = function (event) {
+  accNameTag.onkeypress = function (event) {
     // Check if the pressed key is the Enter key
     if (event.key === "Enter") {
       event.preventDefault();
@@ -142,7 +199,7 @@ function createCards(obj: any) {
   let isButtonEnabled = true;
 
   async function search() {
-    if (document.getElementById("acc-name-tag").value == "") {
+    if (accNameTag.value == "") {
       return;
     }
     // Check if the button is enabled
@@ -153,10 +210,10 @@ function createCards(obj: any) {
     // Disable the button
     isButtonEnabled = false;
 
-    document.getElementById("loading-spinner").style.display = "inline-block";
+    accLoadingSpinner.style.display = "inline-block";
 
     // Set the flag to indicate that a request is in progress
-    const response = await fetch(apiUrl + '/getAccounts/' + document.getElementById("acc-name-tag").value);
+    const response = await fetch(apiUrl + '/getAccounts/' + accNameTag.value);
     const data = await response.json();
 
     const term_container = document.createElement("div");
@@ -164,18 +221,18 @@ function createCards(obj: any) {
 
     const term_header = document.createElement("p");
     term_header.className = "term-header";
-    term_header.innerHTML = document.getElementById("acc-name-tag").value;
+    term_header.innerHTML = accNameTag.value;
 
     term_container.appendChild(term_header);
 
     if (data != null && Object.entries(data).length >= 1) {
-      document.getElementById("acc-no-results").style.display = "none";
-      document.getElementById("acc-scroll-box").style.display = "block";
+      accNoResults.style.display = "none";
+      accScrollBox.style.display = "block";
 
       const row_div = document.createElement("div");
       row_div.className = "acc-row";
 
-      document.getElementById("accounts").appendChild(row_div);
+      accAccounts.appendChild(row_div);
 
 
       for (const [i, _] of Object.entries(data)) {
@@ -253,7 +310,7 @@ function createCards(obj: any) {
 
         accept_btn.onclick = async function () {
           // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
-          let getId = document.getElementById("e-showid").innerHTML
+          let getId = editShowID.innerHTML
 
           const res = await fetch(apiUrl + "/people/" + getId)
 
@@ -282,13 +339,13 @@ function createCards(obj: any) {
     } else {
       // No accounts found
 
-      if (document.getElementById("accounts").childElementCount <= 0) {
-        document.getElementById("acc-no-results").style.display = "flex";
-        document.getElementById("acc-scroll-box").style.display = "none";
+      if (accAccounts.childElementCount <= 0) {
+        accNoResults.style.display = "flex";
+        accScrollBox.style.display = "none";
       }
     }
 
-    document.getElementById("loading-spinner").style.display = "none";
+    accLoadingSpinner.style.display = "none";
     isButtonEnabled = true;
   }
 
@@ -310,50 +367,6 @@ function createCards(obj: any) {
 
   name_p.innerHTML = `${obj.name}`
   x.appendChild(base_div);
-
-
-  // General
-
-  const mainContainer = document.querySelector(".main") as HTMLDivElement;
-  const container = document.querySelector(".container") as HTMLDivElement;
-  const editContainer = document.querySelector(".edit-container") as HTMLDivElement;
-
-  // View
-
-  const viewShowId = document.querySelector("#v-showid") as HTMLParagraphElement;
-  const viewNameTag = document.querySelector(".name-tag") as HTMLInputElement;
-
-  const viewGender = document.querySelector(".gender") as HTMLParagraphElement;
-  const viewAge = document.querySelector(".age") as HTMLParagraphElement;
-  const viewBday = document.querySelector(".bday") as HTMLParagraphElement;
-  const viewAddress = document.querySelector(".address") as HTMLParagraphElement;
-  const viewCivilStatus = document.querySelector(".civilstatus") as HTMLParagraphElement;
-  const viewKids = document.querySelector(".kids") as HTMLParagraphElement;
-  const viewOccupation = document.querySelector(".occupation") as HTMLParagraphElement;
-  const viewPrevOccupation = document.querySelector(".prevoccupation") as HTMLParagraphElement;
-  const viewEducation = document.querySelector(".education") as HTMLParagraphElement;
-  const viewReligion = document.querySelector(".religion") as HTMLParagraphElement;
-  const viewPets = document.querySelector(".pets") as HTMLParagraphElement;
-  const viewLegal = document.querySelector(".legal") as HTMLParagraphElement;
-  const viewPolitical = document.querySelector(".political") as HTMLParagraphElement;
-  const viewNotes = document.getElementById("notes") as HTMLDivElement;
-
-  // Edit
-
-  const editShowID = document.querySelector("#e-showid") as HTMLParagraphElement;
-  const editNameTag = document.querySelector(".e-name-tag") as HTMLInputElement;
-
-  const editAge = document.querySelector(".e-age") as HTMLInputElement;
-  const editBday = document.querySelector(".e-bday") as HTMLInputElement;
-  const editAddress = document.querySelector(".e-address") as HTMLInputElement;
-  const editKids = document.querySelector(".e-kids") as HTMLInputElement;
-  const editOccupation = document.querySelector(".e-occupation") as HTMLInputElement;
-  const editPrevOccupation = document.querySelector(".e-prevoccupation") as HTMLInputElement;
-  const editEducation = document.querySelector(".e-education") as HTMLInputElement;
-  const editPets = document.querySelector(".e-pets") as HTMLInputElement;
-  const editLegal = document.querySelector(".e-legal") as HTMLInputElement;
-  const editPolitical = document.querySelector(".e-political") as HTMLInputElement;
-  const editNotes = document.getElementById("e-notes") as HTMLDivElement;
 
   hitbox_div.onclick = async function () {
     mainContainer.style.display = "none";
@@ -1381,6 +1394,8 @@ function createCards(obj: any) {
 
             icon_space.appendChild(deepInvResIcon);
 
+            console.log(data);
+
             if (data != null && data != "{}" && res.status == 200) {
               deep_btn_txt.innerHTML = "Deep Investigation";
 
@@ -1403,8 +1418,6 @@ function createCards(obj: any) {
                 email_input.id = "e-mail";
                 email_input.type = "email";
                 email_input.placeholder = "Enter email address";
-                email_input.spellcheck = false;
-                email_input.required = true;
 
                 email_input.value = obj.mail;
 
@@ -1680,6 +1693,10 @@ document.getElementById("e-backbtn")!.onclick = function () {
 
   const parentElement = document.querySelector(".e-accounts") as HTMLDivElement;
   parentElement.innerHTML = "";
+}
+
+document.getElementById("acc-backbtn")!.onclick = function () { // account back button
+  location.reload();
 }
 
 searchEntries();
