@@ -1,10 +1,10 @@
 package functions
 
 import (
+	"fmt"
 	"reflect"
 	"sort"
 	"strings"
-	"fmt"
 )
 
 func SortMapKeys[T any](m map[string]T) []string {
@@ -29,12 +29,14 @@ func DeleteEmptyKey[T any](m map[string]T) map[string]T {
 func FullParseMapRet[T interface{ Parse() (T, error) }](m map[string]T, fieldName string) (map[string]T, error) {
 	newMap := make(map[string]T)
 	m = DeleteEmptyKey(m)
-	for k, v := range m {
-		if k != "" {
-			parsed, err := ParseRet(v)
+	for fieldKey, fieldValue := range m {
+		if fieldKey != "" {
+			// Parse field
+			parsed, err := Parse(fieldValue)
 			if err != nil {
 				return newMap, err
 			}
+
 			parsedFieldValue := reflect.ValueOf(parsed).FieldByName(fieldName).String()
 			newMap[parsedFieldValue] = parsed
 		}
@@ -42,7 +44,7 @@ func FullParseMapRet[T interface{ Parse() (T, error) }](m map[string]T, fieldNam
 	return newMap, nil
 }
 
-func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
+func Parse[T interface{ Parse() (T, error) }](t T) (T, error) {
 	parsed, err := t.Parse()
 	if err != nil {
 		return parsed, err
@@ -50,36 +52,94 @@ func ParseRet[T interface{ Parse() (T, error) }](t T) (T, error) {
 	return parsed, nil
 }
 
+func Merge[T interface{}](t1 T, t2 T) (T, error) { // FIXME merge a map too
+	switch reflect.TypeOf(t1).Kind() {
+	case reflect.String:
+		if reflect.ValueOf(t2).String() != "" {
+			t1 = t2
+		}
+	case reflect.Int:
+		if reflect.ValueOf(t2).Int() != 0 {
+			t1 = t2
+		}
+	case reflect.Struct:
 
-func Markdown[T interface{}](t T) (string, error) {
-    // Check that T is actually a struct
-    if reflect.TypeOf(t).Kind() != reflect.Struct {
-        return "", ErrOnlyStruct
-    }
-    var sb strings.Builder
-
-    // Get the type and value of the struct
-    typ := reflect.TypeOf(t)
-    val := reflect.ValueOf(t)
-
-    // Iterate over all fields of the struct
-    for i := 0; i < typ.NumField(); i++ {
-        field := typ.Field(i)
-        fieldValue := val.Field(i)
-
-        // Write the field name as a markdown header
-        if field.Type.Kind() != reflect.Struct {
-            sb.WriteString(fmt.Sprintf("- %s: %s\n", field.Name, fieldValue.Interface()))
-        } else {
-            // Use recursion to handle nested structs
-            nestedMarkdown, err := Markdown(fieldValue.Interface())
-            if err != nil {
-                return "", err
-            }
-            sb.WriteString(fmt.Sprintf("# %s\n%s", field.Name, nestedMarkdown))
-        }
-    }
-
-    return sb.String(), nil
+		for i := 0; i < reflect.TypeOf(t1).NumField(); i++ {
+			field1 := reflect.TypeOf(t1).Field(i)
+			field2 := reflect.TypeOf(t2).Field(i)
+			field1Value := reflect.ValueOf(t1).Field(i)
+			field2Value := reflect.ValueOf(t2).Field(i)
+			if field1.Name != field2.Name {
+				return t1, ErrDifferentTypes
+			}
+			if field1Value.Kind() != field2Value.Kind() {
+				return t1, ErrDifferentTypes
+			}
+			switch field1.Type.Kind() {
+			case reflect.String:
+				merged, err := Merge(field1Value.String(), field2Value.String())
+				if err != nil {
+					return t1, err
+				}
+				reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).SetString(merged)
+			case reflect.Int:
+				merged, err := Merge(field1Value.Int(), field2Value.Int())
+				if err != nil {
+					return t1, err
+				}
+				reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).SetInt(merged)
+			case reflect.Struct:
+				merged, err := Merge(field1Value.Interface(), field2Value.Interface())
+				if err != nil {
+					return t1, err
+				}
+				reflect.ValueOf(&t1).Elem().FieldByName(field2.Name).Set(reflect.ValueOf(merged))
+			}
+		}
+	}
+	return t1, nil
 }
 
+func Markdown[T interface{}](t T) (string, error) {
+	if reflect.TypeOf(t).Kind() != reflect.Struct {
+		return "", ErrOnlyStruct
+	}
+	var sb strings.Builder
+
+	typ := reflect.TypeOf(t)
+	val := reflect.ValueOf(t)
+
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		fieldValue := val.Field(i)
+
+		if field.Type.Kind() != reflect.Struct {
+			sb.WriteString(fmt.Sprintf("- %s: %s\n", field.Name, fieldValue.Interface()))
+		} else {
+			nestedMarkdown, err := Markdown(fieldValue.Interface())
+			if err != nil {
+				return "", err
+			}
+			sb.WriteString(fmt.Sprintf("# %s\n%s", field.Name, nestedMarkdown))
+		}
+	}
+
+	return sb.String(), nil
+}
+
+func MarkdownMap[T interface{ Markdown() (string, error) }](m map[string]T, header string) (string, error) {
+	var sb strings.Builder
+	if len(m) >= 1 {
+		sb.WriteString(fmt.Sprintf("## %s\n", header))
+	}
+	for _, key := range SortMapKeys(map[string]T(m)) {
+		v := m[key]
+		sb.WriteString(fmt.Sprintf("### %s\n", key))
+		markdown, err := v.Markdown()
+		if err != nil {
+			return sb.String(), err
+		}
+		sb.WriteString(markdown)
+	}
+	return sb.String(), nil
+}

@@ -14,3 +14,7 @@ func (ip Ip) Parse() (Ip, error) {
 func (ip Ip) Markdown() (string, error) {
 	return functions.Markdown(ip)
 }
+
+func (ips Ips) Markdown() (string, error) {
+	return functions.MarkdownMap(ips, "IPs")
+}
