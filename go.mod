@@ -13,7 +13,7 @@ require (
 	github.com/likexian/whois v1.15.0
 	github.com/nyaruka/phonenumbers v1.1.6
 	github.com/rocketlaunchr/google-search v1.1.5
-	github.com/sundowndev/phoneinfoga/v2 v2.10.4
+	github.com/sundowndev/phoneinfoga/v2 v2.10.5
 	golang.org/x/oauth2 v0.7.0
 )
 
@@ -49,6 +49,7 @@ require (
 	github.com/google/flatbuffers v1.12.1 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/go-immutable-radix v1.1.0 // indirect
+	github.com/hashicorp/go-uuid v1.0.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
@@ -72,7 +73,7 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.9 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
-	go.opencensus.io v0.23.0 // indirect
+	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/arch v0.1.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
