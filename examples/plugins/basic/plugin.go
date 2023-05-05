@@ -5,10 +5,6 @@ import (
 
 	"github.com/seekr-osint/seekr/api"
 )
-func Entry() error {
-	fmt.Printf("Entry")
-	return nil
-}
 
 func ConfigParser(apiConfig api.ApiConfig) (api.ApiConfig,error) {
 	fmt.Printf("running config parser")

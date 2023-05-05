@@ -16,3 +16,6 @@ seekr.exe
 .direnv
 examples/plugins/basic/basic.so
 cmd/seekr-cli/seekr-cli
+examples/plugins/basic/BrowserPort.bundle
+examples/plugins/basic/plugin.so
+examples/plugins/basic/plugin.bundle
