@@ -11,11 +11,11 @@ require (
 	github.com/go-git/go-git/v5 v5.6.1
 	github.com/gocolly/colly v1.2.0
 	github.com/google/go-github/v50 v50.2.0
-	github.com/likexian/whois v1.14.6
 	github.com/mholt/archiver/v4 v4.0.0-alpha.7
+	github.com/likexian/whois v1.15.0
 	github.com/nyaruka/phonenumbers v1.1.6
 	github.com/rocketlaunchr/google-search v1.1.5
-	github.com/sundowndev/phoneinfoga/v2 v2.10.4
+	github.com/sundowndev/phoneinfoga/v2 v2.10.5
 	golang.org/x/oauth2 v0.7.0
 )
 
@@ -53,6 +53,9 @@ require (
 	github.com/google/flatbuffers v23.3.3+incompatible // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
+
+	github.com/hashicorp/go-uuid v1.0.1 // indirect
+
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/imdario/mergo v0.3.15 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
@@ -85,6 +88,9 @@ require (
 	golang.org/x/arch v0.3.0 // indirect
 	golang.org/x/crypto v0.8.0 // indirect
 	golang.org/x/mod v0.10.0 // indirect
+
+	golang.org/x/arch v0.1.0 // indirect
+	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/net v0.9.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect
 	golang.org/x/text v0.9.0 // indirect

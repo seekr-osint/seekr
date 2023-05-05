@@ -22,7 +22,6 @@ var content embed.FS
 var dataBase = make(api.DataBase)
 
 func main() {
-	// liveServer := flag.Bool("live", false, "serve html files from seekr source code")
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")
