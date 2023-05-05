@@ -10,43 +10,26 @@ import (
 	//"sync"
 )
 
-func (es1 EmailServices) Merge(es2 EmailServices) EmailServices {
+func (ess1 EmailServices) Merge(ess2 EmailServices) (EmailServices, error) { // FIXME don't merge just return ess2
+	var err error
 	// Merge fields one by one
-	merged := EmailServices{}
-	for name, obj := range es1 {
-		merged[name] = obj
-	}
-	// overwriting the Services
-	for name, obj := range es2 {
-		merged[name] = obj
-	}
-	return merged
+	//merged := EmailServices{}
+	//for name, es1 := range ess1 {
+	//	merged[name],err = es1.Merge(ess2[name])
+	//	//merged[name], err = functions.Merge(es1, ess2[name])
+	//	if err != nil {
+	//		return merged, err
+	//	}
+	//}
+	return ess2, err
 }
 
-func (emailService1 EmailService) Merge(emailService2 EmailService) EmailService {
-	// Merge fields one by one
-	merged := EmailService{
-		Name:     emailService1.Name,
-		Link:     emailService1.Link,
-		Username: emailService1.Username,
-		Icon:     emailService1.Icon,
-	}
-	if emailService2.Name != "" {
-		merged.Name = emailService2.Name
-	}
-	if emailService2.Link != "" {
-		merged.Link = emailService2.Link
-	}
-	if emailService2.Username != "" {
-		merged.Username = emailService2.Username
-	}
-	if emailService2.Icon != "" {
-		merged.Icon = emailService2.Icon
-	}
-	return merged
+func (emailService1 EmailService) Merge(emailService2 EmailService) (EmailService, error) {
+
+	return functions.Merge(emailService1, emailService2)
 }
 
-func (email Email) GetExistingEmailServices(mailServices MailServices, apiConfig ApiConfig) (EmailServices, SkippedServices) {
+func (email Email) GetExistingEmailServices(mailServices MailServices, apiConfig ApiConfig) (EmailServices, SkippedServices, error) {
 	emailServices := make(EmailServices)
 	skippedServices := make(SkippedServices)
 
@@ -73,22 +56,32 @@ func (email Email) GetExistingEmailServices(mailServices MailServices, apiConfig
 		}
 		close(emailServiceChan)
 	}()
-
+	var err error
 	for emailService := range emailServiceChan {
 		if oldEmailService, ok := email.Services[emailService.Name]; ok {
-			emailServices[emailService.Name] = emailService.Merge(oldEmailService) // Merging and prfering the new service
+			emailServices[emailService.Name], err = oldEmailService.Merge(emailService) // Merging and prfering the new service
+			if err != nil {
+				return emailServices, skippedServices, err
+			}
 		} else {
 			emailServices[emailService.Name] = emailService
 		}
 	}
 
-	return emailServices, skippedServices
+	return emailServices, skippedServices, nil
 }
 
 func (email Email) CheckMail(config ApiConfig) (Email, error) {
-	emailServices, emailSkippedServices := email.Parse().GetExistingEmailServices(DefaultMailServices, config)
+	var err error
+	emailServices, emailSkippedServices, err := email.Parse().GetExistingEmailServices(DefaultMailServices, config)
+	if err != nil {
+		return email, err
+	}
 	email.SkippedServices = emailSkippedServices
-	email.Services = email.Services.Merge(emailServices)
+	email.Services, err = email.Services.Merge(emailServices)
+	if err != nil {
+		return email, err
+	}
 	return email, nil
 }
 
