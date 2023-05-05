@@ -221,7 +221,7 @@ function createCards(obj: any) {
 
     const term_header = document.createElement("p");
     term_header.className = "term-header";
-    term_header.innerHTML = accNameTag.value;
+    term_header.textContent  = accNameTag.value;
 
     term_container.appendChild(term_header);
 
