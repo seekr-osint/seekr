@@ -47,9 +47,12 @@ func (receivedGitHubEmail ReceivedGitHubEmail) GetUser() ReceivedGitHubEmail {
 	c := colly.NewCollector()
 
 	// Find and extract the text inside the <div> tag with class "AvatarStack-body"
-	c.OnHTML("div.AvatarStack-body", func(e *colly.HTMLElement) {
-		username := e.Attr("aria-label")
-		receivedGitHubEmail.User = username
+	//	c.OnHTML("div.AvatarStack-body", func(e *colly.HTMLElement) {
+	//		username := e.Attr("aria-label")
+	//		receivedGitHubEmail.User = username
+	//	})
+	c.OnHTML("a.commit-author.user-mention", func(e *colly.HTMLElement) {
+		receivedGitHubEmail.User = e.Text
 	})
 
 	// Visit the webpage
