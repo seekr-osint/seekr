@@ -1394,8 +1394,6 @@ function createCards(obj: any) {
 
             icon_space.appendChild(deepInvResIcon);
 
-            console.log(data);
-
             if (data != null && data != "{}" && res.status == 200) {
               deep_btn_txt.innerHTML = "Deep Investigation";
 
@@ -1404,8 +1402,6 @@ function createCards(obj: any) {
 
               for (const [i, _] of Object.entries(data)) {
                 let obj = data[i];
-
-                const email_base = document.querySelector(".email-base");
 
                 const email_container = document.createElement("div");
                 email_container.className = "email-container";
