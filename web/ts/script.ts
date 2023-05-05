@@ -687,8 +687,8 @@ function createCards(obj: any) {
 
         const phone_input = document.createElement("input");
         phone_input.className = "form-input phone";
-        phone_input.id = "e-mail";
-        phone_input.type = "email";
+        phone_input.id = "e-phone";
+        phone_input.type = "tel";
         phone_input.placeholder = "Enter phone number";
         phone_input.spellcheck = false;
         phone_input.required = true;
@@ -779,8 +779,7 @@ function createCards(obj: any) {
 
         const hobby_input = document.createElement("input") as HTMLInputElement;
         hobby_input.className = "form-input hobby";
-        hobby_input.id = "e-mail";
-        hobby_input.type = "email";
+        hobby_input.id = "e-hobby";
         hobby_input.placeholder = "Enter hobby";
         hobby_input.spellcheck = false;
         hobby_input.value = hobbyVar.hobby;
@@ -898,20 +897,20 @@ function createCards(obj: any) {
       };
     }
 
-    document.getElementById("hobby-add-btn")!.onclick = function () {
-      const hobby_container = document.createElement("div");
-      hobby_container.className = "hobby-container";
+    document.getElementById("club-add-btn")!.onclick = function () {
+      const club_container = document.createElement("div");
+      club_container.className = "club-container";
 
       const subContainer = document.createElement("div");
-      subContainer.className = "hobby-subcontainer";
+      subContainer.className = "club-subcontainer";
 
-      const hobby_input = document.createElement("input");
-      hobby_input.className = "form-input e-hobby";
-      hobby_input.id = "hobby";
-      hobby_input.type = "text";
-      hobby_input.placeholder = "Enter hobby";
-      hobby_input.spellcheck = false;
-      hobby_input.required = true;
+      const club_input = document.createElement("input");
+      club_input.className = "form-input e-club";
+      club_input.id = "club";
+      club_input.type = "text";
+      club_input.placeholder = "Enter club";
+      club_input.spellcheck = false;
+      club_input.required = true;
 
       const del_btn_div = document.createElement("div");
       del_btn_div.className = "del-btn";
@@ -919,14 +918,14 @@ function createCards(obj: any) {
       const del_btn = document.createElement("ion-icon") as IonIconElement;
       del_btn.name = "remove-outline";
 
-      clubBase.appendChild(hobby_container);
-      hobby_container.appendChild(subContainer);
-      subContainer.appendChild(hobby_input);
+      clubBase.appendChild(club_container);
+      club_container.appendChild(subContainer);
+      subContainer.appendChild(club_input);
       subContainer.appendChild(del_btn_div);
       del_btn_div.appendChild(del_btn);
 
       del_btn_div.onclick = function () {
-        hobby_container.remove();
+        club_container.remove();
       }
     }
 
@@ -1356,7 +1355,7 @@ editSaveBtn.onclick = async function () {
   editPhoneContainers.forEach((container: HTMLDivElement) => {
     const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
 
-    const phoneNumber: string = phoneInput.value;
+    const phoneNumber: string = phoneInput.value.toString();
 
     phoneNumbers[phoneNumber] = {
       "number": phoneNumber
