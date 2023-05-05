@@ -10,7 +10,7 @@ require (
 	github.com/go-git/go-git/v5 v5.6.1
 	github.com/gocolly/colly v1.2.0
 	github.com/google/go-github/v50 v50.2.0
-	github.com/likexian/whois v1.14.6
+	github.com/likexian/whois v1.15.0
 	github.com/nyaruka/phonenumbers v1.1.6
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/sundowndev/phoneinfoga/v2 v2.10.4
