@@ -1,7 +1,8 @@
 const bg_var = getComputedStyle(document.documentElement).getPropertyValue('[data-theme]--bg');
 
+const channelDesktop = new BroadcastChannel("theme-channel");
 // Listen for messages on the broadcast channel
-channel.addEventListener('message', (event) => {
+channelDesktop.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
     localStorage.setItem("theme", theme);
@@ -119,6 +120,5 @@ function createSeekrSettingsWindow() {
 const shortcutMenu = document.querySelector('.shortcut-menu');
 const appBar = document.querySelector('.app-bar');
 shortcutMenu!.addEventListener('click', function() {
-  console.log("clicked");
   appBar!.classList.toggle('clicked');
 });
