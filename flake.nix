@@ -70,6 +70,8 @@
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
             nixpkgsFor.${system}.goreleaser
+
+            nixpkgsFor.${system}.gcc
             self.packages.${system}.seekr
           ];
         };

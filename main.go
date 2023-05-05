@@ -34,7 +34,7 @@ func main() {
 	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 	plugins := []string{
-		"./examples/plugins/basic/basic.so",
+		"./examples/plugins/basic/plugin.so",
 	}
 	flag.Parse()
 
