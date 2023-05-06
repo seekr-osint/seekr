@@ -5,8 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 
 	api "github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/server"
@@ -22,6 +24,7 @@ var content embed.FS
 var dataBase = make(api.DataBase)
 
 func main() {
+	fmt.Printf("seekr osint - Multi purpouse OSINT toolkit\n")
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")
@@ -33,8 +36,10 @@ func main() {
 	enableApiServer := true
 	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
-	plugins := []string{
-		"./examples/plugins/basic/plugin.so",
+	pluginList := os.Getenv("SEEKR_PLUGINS")
+	plugins := []string{}
+	if pluginList != "" {
+		plugins = strings.Split(pluginList, ",")
 	}
 	flag.Parse()
 
