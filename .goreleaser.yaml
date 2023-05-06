@@ -27,6 +27,7 @@ builds:
       - -trimpath
     ldflags:
       - -s -w
+      - "-X main.version={{ incpatch .Version }}"
     env:
       - CGO_ENABLED=0
     ignore:
