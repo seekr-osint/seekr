@@ -14,6 +14,10 @@ RUN go mod download
 # Copy the source code to the container
 COPY . .
 
+# FIXME
+# Build typescript 
+# RUN tsc --project web --outDir web/dist --watch=false
+
 # Build the Go binary
 RUN go build -o seekr main.go
 

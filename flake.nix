@@ -64,6 +64,7 @@
       devShells = forAllSystems (system: {
         default = nixpkgsFor.${system}.mkShell {
           packages = [
+            nixpkgsFor.${system}.nodePackages_latest.typescript
             nixpkgsFor.${system}.go
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
