@@ -31,8 +31,10 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-
-      - uses: Tyler887/TypeScript-GitHub-Actions@1.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2.5.2
+      - name: install tsc
+        run: npm install -g typescript
       - uses: sigstore/cosign-installer@v2.8.1         # installs cosign
       - uses: goreleaser/goreleaser-action@v4.2.0          # run goreleaser
         with:
