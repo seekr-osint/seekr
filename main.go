@@ -23,8 +23,14 @@ var content embed.FS
 
 var dataBase = make(api.DataBase)
 
+var version string
+
 func main() {
-	fmt.Printf("seekr osint - Multi purpouse OSINT toolkit\n")
+	if version != "" {
+		fmt.Printf("Welcome to seekr v%s\n", version)
+	} else {
+		fmt.Printf("Welcome to seekr unstable\nplease note that this version of seekr is NOT officially supported\n")
+	}
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")

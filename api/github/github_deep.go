@@ -77,6 +77,8 @@ func (repoObj GithubRepo) ReturnEmails() (ReceivedGitHubEmails, error) {
 		return nil, fmt.Errorf("failed to get commit history: %v", err)
 	}
 	err = iter.ForEach(func(c *gitobject.Commit) error {
+		log.Printf("foundemail: %s", c.Author.Email)
+
 		if _, ok := emailMap[c.Author.Email]; !ok {
 			emailMap[c.Author.Email] = ReceivedGitHubEmail{
 				Email:      c.Author.Email,
@@ -127,6 +129,7 @@ func (deep DeepInvestigation) GetAllEmailsFromRepos(repos GithubRepos) (Received
 	computedEmails := make(ReceivedGitHubEmails)
 	for emailMap := range emails {
 		for email, user := range emailMap {
+			log.Printf("email: %s", email)
 			computedEmails[email] = user
 		}
 	}
@@ -134,15 +137,16 @@ func (deep DeepInvestigation) GetAllEmailsFromRepos(repos GithubRepos) (Received
 	return computedEmails, nil
 }
 
-func (deep DeepInvestigation) FilterEmails(recivedEmails ReceivedGitHubEmails) ([]ReceivedGitHubEmail, error) {
+func (deep DeepInvestigation) FilterEmails(recievedEmails ReceivedGitHubEmails) ([]ReceivedGitHubEmail, error) {
 	err := deep.Validate()
 	if err != nil {
 		return nil, err
 	}
-	emails := []ReceivedGitHubEmail{} // FIXME type missmatch if github recived github Emails type changes
-	for _, recivedEmail := range recivedEmails {
-		if strings.EqualFold(recivedEmail.User, deep.Username) && !recivedEmail.GithubMail {
-			emails = append(emails, recivedEmail)
+	emails := []ReceivedGitHubEmail{} // FIXME type missmatch if github recieved github Emails type changes
+	for _, recievedEmail := range recievedEmails {
+		if strings.EqualFold(recievedEmail.User, deep.Username) && !recievedEmail.GithubMail {
+			log.Printf("verified email: %s\n", recievedEmail.Email)
+			emails = append(emails, recievedEmail)
 		}
 	}
 	return emails, nil
@@ -156,10 +160,10 @@ func (deep DeepInvestigation) GetEmails() ([]ReceivedGitHubEmail, int, error) { 
 		log.Printf("Error getting repos: %v", err)
 		return nil, rateLimitRate, err
 	}
-	recivedGitHubEmails, err := deep.GetAllEmailsFromRepos(repos)
+	recievedGitHubEmails, err := deep.GetAllEmailsFromRepos(repos)
 	if err != nil {
 		return nil, rateLimitRate, err
 	}
-	filterdEmails, err := deep.FilterEmails(recivedGitHubEmails)
+	filterdEmails, err := deep.FilterEmails(recievedGitHubEmails)
 	return filterdEmails, rateLimitRate, err
 }

@@ -4,15 +4,16 @@ FROM golang:1.20-alpine3.16 AS build
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Go module files to the container
-COPY go.mod .
-COPY go.sum .
-
-# Download the Go module dependencies
-RUN go mod download
-
 # Copy the source code to the container
 COPY . .
+
+RUN go mod download
+RUN apk add --no-cache nodejs npm
+
+# Install TypeScript
+RUN npm install -g typescript
+
+RUN tsc --project web --watch false
 
 # Build the Go binary
 RUN go build -o seekr main.go
