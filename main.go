@@ -4,8 +4,11 @@ import (
 	"embed"
 	"flag"
 	"fmt"
+	"io"
 	"log"
+	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 
 	api "github.com/seekr-osint/seekr/api"
@@ -23,11 +26,55 @@ var dataBase = make(api.DataBase)
 var version string
 
 func main() {
+	destPath := os.Getenv("_SEEKR_UPDATE_BINARY")
+	if destPath != "" {
+		exePath, err := os.Executable()
+		if err != nil {
+			panic(err)
+		}
+		exeFile, err := os.Open(exePath)
+		if err != nil {
+			panic(err)
+		}
+		defer exeFile.Close()
+
+		destFile, err := os.Create(filepath.Join(destPath, filepath.Base(exePath)))
+		if err != nil {
+			panic(err)
+		}
+		defer destFile.Close()
+
+		_, err = io.Copy(destFile, exeFile)
+		if err != nil {
+			panic(err)
+		}
+	}
 	if version != "" {
 		fmt.Printf("Welcome to seekr v%s\n", version)
+		schematicVersion, err := ParseSchematicVersion(version)
+		if err != nil {
+			log.Panicf("error checking version: %s\n", version)
+		}
+		latestVersion, err := GetLatestSeekrVersion()
+		if err != nil {
+			log.Printf("error getting latest seekr version: %s\n", version)
+		}
+		if !schematicVersion.Latest(latestVersion) {
+			downloadUrl := fmt.Sprintf("https://github.com/seekr-osint/seekr/releases/download/%s/%s", latestVersion, GetBinaryName(latestVersion))
+			fmt.Printf("You are running an old seekr version.\nDownload the latest seekr version at: %s\n", downloadUrl)
+			if promptYesNo("Update seekr") {
+				err := updateBinary(downloadUrl)
+				if err != nil {
+					log.Panicf("error downloading seekr update: %s\n", err)
+				}
+				os.Exit(0)
+			}
+		}
+
 	} else {
 		fmt.Printf("Welcome to seekr unstable\nplease note that this version of seekr is NOT officially supported\n")
 	}
+
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")

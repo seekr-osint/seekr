@@ -11,6 +11,7 @@ require (
 	github.com/gocolly/colly v1.2.0
 	github.com/google/go-github/v50 v50.2.0
 	github.com/likexian/whois v1.15.0
+	github.com/manifoldco/promptui v0.9.0
 	github.com/nyaruka/phonenumbers v1.1.6
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
@@ -28,6 +29,7 @@ require (
 	github.com/bytedance/sonic v1.8.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
+	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/cloudflare/circl v1.1.0 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
