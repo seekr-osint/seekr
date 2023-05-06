@@ -15,7 +15,7 @@ var apiUrl = "http://" + baseUrl;
 // Listen for messages on the broadcast channel
 const channel = new BroadcastChannel("theme-channel");
 
-channel.addEventListener('message', (event) => {
+channel.addEventListener("message", (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
     localStorage.setItem("theme", theme);
@@ -28,6 +28,67 @@ channel.addEventListener('message', (event) => {
 interface IonIconElement extends HTMLElement {
   name: string;
 }
+
+// Variables for HTML elements
+
+  // General
+
+const mainContainer = document.querySelector(".main") as HTMLDivElement;
+const container = document.querySelector(".container") as HTMLDivElement;
+const editContainer = document.querySelector(".edit-container") as HTMLDivElement;
+const createContainer = document.querySelector(".create-container") as HTMLDivElement;
+
+// View
+
+const viewShowId = document.querySelector("#v-showid") as HTMLParagraphElement;
+const viewNameTag = document.querySelector(".name-tag") as HTMLInputElement;
+
+const viewGender = document.querySelector(".gender") as HTMLParagraphElement;
+const viewAge = document.querySelector(".age") as HTMLParagraphElement;
+const viewBday = document.querySelector(".bday") as HTMLParagraphElement;
+const viewAddress = document.querySelector(".address") as HTMLParagraphElement;
+const viewCivilStatus = document.querySelector(".civilstatus") as HTMLParagraphElement;
+const viewKids = document.querySelector(".kids") as HTMLParagraphElement;
+const viewOccupation = document.querySelector(".occupation") as HTMLParagraphElement;
+const viewPrevOccupation = document.querySelector(".prevoccupation") as HTMLParagraphElement;
+const viewEducation = document.querySelector(".education") as HTMLParagraphElement;
+const viewReligion = document.querySelector(".religion") as HTMLParagraphElement;
+const viewPets = document.querySelector(".pets") as HTMLParagraphElement;
+const viewLegal = document.querySelector(".legal") as HTMLParagraphElement;
+const viewPolitical = document.querySelector(".political") as HTMLParagraphElement;
+const viewNotes = document.getElementById("notes") as HTMLDivElement;
+
+// Edit
+
+const editShowID = document.querySelector("#e-showid") as HTMLParagraphElement;
+const editNameTag = document.querySelector(".e-name-tag") as HTMLInputElement;
+
+const editAge = document.querySelector(".e-age") as HTMLInputElement;
+const editBday = document.querySelector(".e-bday") as HTMLInputElement;
+const editAddress = document.querySelector(".e-address") as HTMLInputElement;
+const editKids = document.querySelector(".e-kids") as HTMLInputElement;
+const editOccupation = document.querySelector(".e-occupation") as HTMLInputElement;
+const editPrevOccupation = document.querySelector(".e-prevoccupation") as HTMLInputElement;
+const editEducation = document.querySelector(".e-education") as HTMLInputElement;
+const editPets = document.querySelector(".e-pets") as HTMLInputElement;
+const editLegal = document.querySelector(".e-legal") as HTMLInputElement;
+const editPolitical = document.querySelector(".e-political") as HTMLInputElement;
+const editNotes = document.getElementById("e-notes") as HTMLDivElement;
+
+// Create
+
+const createNameTag = document.querySelector(".c-name-tag") as HTMLInputElement;
+
+// Accs
+
+const accNameTag = document.getElementById("acc-name-tag") as HTMLInputElement;
+const accContainer = document.querySelector(".acc-container") as HTMLDivElement;
+const accSearchChip = document.getElementById("acc-search-chip") as HTMLDivElement;
+const accNoResults = document.getElementById("acc-no-results") as HTMLDivElement;
+const accScrollBox = document.getElementById("acc-scroll-box") as HTMLDivElement;
+const accAccounts = document.getElementById("accounts") as HTMLDivElement;
+
+const accLoadingSpinner = document.getElementById("loading-spinner") as HTMLDivElement;
 
 async function getData(): Promise<object> {
   const res = await fetch(apiUrl + "/")
@@ -48,6 +109,11 @@ document.getElementById("savemdbtn")!.onclick = async function () {
 
 
   saveAsFile(textToSave.markdown, getName!.value.toLowerCase().replace(/ /g, "") + ".md");
+}
+
+document.getElementById("newbtn")!.onclick = function () {
+  mainContainer.style.display = "none";
+  createContainer.style.display = "flex";
 }
 
 document.getElementById("exportbtn")!.onclick = function () {
@@ -118,62 +184,14 @@ function createCards(obj: any) {
   d_icon.className = "icon"
   d_icon.setAttribute("name", "trash-outline");
 
-
-
-  // General
-
-  const mainContainer = document.querySelector(".main") as HTMLDivElement;
-  const container = document.querySelector(".container") as HTMLDivElement;
-  const editContainer = document.querySelector(".edit-container") as HTMLDivElement;
-
-  // View
-
-  const viewShowId = document.querySelector("#v-showid") as HTMLParagraphElement;
-  const viewNameTag = document.querySelector(".name-tag") as HTMLInputElement;
-
-  const viewGender = document.querySelector(".gender") as HTMLParagraphElement;
-  const viewAge = document.querySelector(".age") as HTMLParagraphElement;
-  const viewBday = document.querySelector(".bday") as HTMLParagraphElement;
-  const viewAddress = document.querySelector(".address") as HTMLParagraphElement;
-  const viewCivilStatus = document.querySelector(".civilstatus") as HTMLParagraphElement;
-  const viewKids = document.querySelector(".kids") as HTMLParagraphElement;
-  const viewOccupation = document.querySelector(".occupation") as HTMLParagraphElement;
-  const viewPrevOccupation = document.querySelector(".prevoccupation") as HTMLParagraphElement;
-  const viewEducation = document.querySelector(".education") as HTMLParagraphElement;
-  const viewReligion = document.querySelector(".religion") as HTMLParagraphElement;
-  const viewPets = document.querySelector(".pets") as HTMLParagraphElement;
-  const viewLegal = document.querySelector(".legal") as HTMLParagraphElement;
-  const viewPolitical = document.querySelector(".political") as HTMLParagraphElement;
-  const viewNotes = document.getElementById("notes") as HTMLDivElement;
-
-  // Edit
-
-  const editShowID = document.querySelector("#e-showid") as HTMLParagraphElement;
-  const editNameTag = document.querySelector(".e-name-tag") as HTMLInputElement;
-
-  const editAge = document.querySelector(".e-age") as HTMLInputElement;
-  const editBday = document.querySelector(".e-bday") as HTMLInputElement;
-  const editAddress = document.querySelector(".e-address") as HTMLInputElement;
-  const editKids = document.querySelector(".e-kids") as HTMLInputElement;
-  const editOccupation = document.querySelector(".e-occupation") as HTMLInputElement;
-  const editPrevOccupation = document.querySelector(".e-prevoccupation") as HTMLInputElement;
-  const editEducation = document.querySelector(".e-education") as HTMLInputElement;
-  const editPets = document.querySelector(".e-pets") as HTMLInputElement;
-  const editLegal = document.querySelector(".e-legal") as HTMLInputElement;
-  const editPolitical = document.querySelector(".e-political") as HTMLInputElement;
-  const editNotes = document.getElementById("e-notes") as HTMLDivElement;
-
-  // Accs
-
-  const accNameTag = document.getElementById("acc-name-tag") as HTMLInputElement;
-  const accContainer = document.querySelector(".acc-container") as HTMLDivElement;
-  const accSearchChip = document.getElementById("acc-search-chip") as HTMLDivElement;
-  const accNoResults = document.getElementById("acc-no-results") as HTMLDivElement;
-  const accScrollBox = document.getElementById("acc-scroll-box") as HTMLDivElement;
-  const accAccounts = document.getElementById("accounts") as HTMLDivElement;
-
-  const accLoadingSpinner = document.getElementById("loading-spinner") as HTMLDivElement;
-
+  d_icon_div.onclick = function () {
+    fetch(apiUrl + "/people/" + obj.id + "/delete", {
+      method: "GET",
+      mode: "no-cors"
+    }).then(function () {
+      location.reload();
+    });
+  }
 
   acc_icon_div.onclick = function () {
     editShowID.innerHTML = obj.id;
@@ -1490,6 +1508,144 @@ function createCards(obj: any) {
       }
     }
   }
+
+  // CREATE
+
+  const createSaveBtn = document.getElementById("c-savebtn") as HTMLDivElement;
+
+  createSaveBtn.onclick = async function () { // new document save button
+    const data = await getData() as object[];
+
+    let totalIds = Object.keys(data).length;
+    let preId = String(totalIds + 1);
+
+    //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
+    function checkId(preId: string): string {
+      let idExists = false;
+
+      for (let i = 0; i < totalIds; i++) {
+        if (Object.keys(obj)[i] == preId) {
+          idExists = true;
+          break;
+        }
+      }
+
+      if (idExists) {
+        preId = String(parseInt(preId) + 1);
+        return checkId(preId);
+      }
+      return preId;
+    }
+
+    let id = checkId(preId);
+
+    let name = createNameTag.value;
+
+    let gender = checkDropdownValue("create", "gender");
+
+    let age = parseInt(document.querySelector(".c-age")!.innerHTML);
+
+    if (age <= 0) {
+      age *= -1
+    }
+    if (age > 120) {
+      age = 120
+    }
+
+    let bday = document.querySelector(".c-bday")!.innerHTML;
+    let address = document.querySelector(".c-address")!.innerHTML;
+
+    let createPhoneContainers = document.querySelectorAll(".c-phone-container") as NodeListOf<HTMLDivElement>;
+    let phoneNumbers: {[key: string]: {number: string}} = {};
+
+    createPhoneContainers.forEach((container: HTMLDivElement) => {
+      const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
+
+      const phoneNumber: string = phoneInput.value.toString();
+
+      phoneNumbers[phoneNumber] = {
+        "number": phoneNumber
+      };
+    });
+
+    let civilstatus = checkDropdownValue("create", "civilstatus");
+
+    let kids = document.querySelector(".c-kids")!.innerHTML;
+
+    let createHobbyContainers = document.querySelectorAll(".c-hobby-container") as NodeListOf<HTMLDivElement>;
+    let hobbies: {[key: string]: {hobby: string}} = {};
+
+    createHobbyContainers.forEach(function (container) {
+      let hobbyInput = container.querySelector("input")!;
+      hobbies[hobbyInput.value] = {
+        "hobby": hobbyInput.value
+      };
+    });
+
+    let occupation = document.querySelector(".c-occupation")!.innerHTML;
+    let prevoccupation = document.querySelector(".c-prevoccupation")!.innerHTML;
+    let education = document.querySelector(".c-education")!.innerHTML;
+
+    let religion = checkDropdownValue("create", "religion");
+
+    let pets = document.querySelector(".c-pets")!.innerHTML;
+
+    let editClubContainers = document.querySelectorAll(".c-club-container") as NodeListOf<HTMLDivElement>;
+    let clubs: {[key: string]: {club: string}} = {};
+
+    editClubContainers.forEach(function (container) {
+      let clubInput = container.querySelector("input")!;
+      clubs[clubInput.value] = {
+        "club": clubInput.value
+      };
+    });
+
+    let legal = document.querySelector(".c-legal")!.innerHTML;
+    let political = document.querySelector(".c-political")!.innerHTML;
+    let notes = document.querySelector(".c-notes")!.innerHTML;
+
+    let createEmailContainers = document.querySelectorAll(".c-email-container") as NodeListOf<HTMLDivElement>;
+    let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
+
+    createEmailContainers.forEach(function (container) {
+      let hiddenElement = container.querySelector(".hidden-email-save")!;
+      
+      // FIXME this is beatiful
+      let hiddenElementVal = null;
+  
+      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
+        hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
+      }
+  
+      let emailInput = container.querySelector("input")!;
+      emailAddresses[emailInput.value] = {
+        "mail": emailInput.value,
+        "src": "manual",
+        "services": hiddenElementVal
+      };
+    });
+
+    let createIPContainers = document.querySelectorAll(".c-ip-container");
+    let ips: {[key: string]: {ip: string}} = {};
+
+    createIPContainers.forEach(function (container) {
+      let ipInput = container.querySelector("input")!;
+      ips[ipInput.value] = {
+        "ip": ipInput.value
+      };
+    });
+
+    const loadingSpinner = document.querySelector("#c-loading-spinner") as HTMLDivElement;
+    loadingSpinner.style.display = "flex"
+
+    fetch(apiUrl + "/person", {
+      method: "POST",
+      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
+    }).then(function () {
+      loadingSpinner.style.display = "none"
+      location.reload();
+    });
+  }
 }
 
 const editSaveBtn = document.querySelector("#e-savebtn")! as HTMLDivElement;
@@ -1624,10 +1780,6 @@ editSaveBtn.onclick = async function () {
   });
 }
 
-const mainContainer = document.querySelector(".main")! as HTMLDivElement;
-const container = document.querySelector(".container")! as HTMLDivElement;
-const editContainer = document.querySelector(".edit-container")! as HTMLDivElement;
-
 document.getElementById("backbtn")!.onclick = function () {
   mainContainer.style.display = "flex";
   container.style.display = "none";
@@ -1691,8 +1843,233 @@ document.getElementById("e-backbtn")!.onclick = function () {
   parentElement.innerHTML = "";
 }
 
+document.getElementById("c-backbtn")!.onclick = function () {
+  mainContainer.style.display = "flex";
+  createContainer.style.display = "none";
+}
+
 document.getElementById("acc-backbtn")!.onclick = function () { // account back button
   location.reload();
+}
+
+// Clubs
+
+document.getElementById("c-club-add-btn")!.onclick = function () {
+  const club_base = document.querySelector(".c-club-base") as HTMLDivElement;
+
+  const club_container = document.createElement("div");
+  club_container.className = "c-club-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "club-subcontainer";
+
+  const club_input = document.createElement("input");
+  club_input.className = "form-input e-club";
+  club_input.id = "club";
+  club_input.type = "text";
+  club_input.placeholder = "Enter club";
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  club_base.appendChild(club_container);
+  club_container.appendChild(subContainer);
+  subContainer.appendChild(club_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    club_container.remove();
+  }
+}
+
+// IPs
+
+document.getElementById("c-ip-add-btn")!.onclick = function () {
+  const ip_base = document.querySelector(".c-ip-base") as HTMLDivElement;
+
+  const ip_container = document.createElement("div");
+  ip_container.className = "c-ip-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "ip-subcontainer";
+
+  const ip_input = document.createElement("input");
+  ip_input.className = "form-input e-ip";
+  ip_input.id = "ip";
+  ip_input.type = "text";
+  ip_input.placeholder = "Enter IP";
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  ip_base.appendChild(ip_container);
+  ip_container.appendChild(subContainer);
+  subContainer.appendChild(ip_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    ip_container.remove();
+  }
+}
+
+// Phone
+
+document.getElementById("c-phone-add-btn")!.onclick = function () {
+  const phone_base = document.querySelector(".c-phone-base") as HTMLDivElement;
+
+  const phone_container = document.createElement("div");
+  phone_container.className = "c-phone-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "phone-subcontainer";
+
+  const phone_input = document.createElement("input");
+  phone_input.className = "form-input e-phone";
+  phone_input.id = "phone";
+  phone_input.type = "tel";
+  phone_input.placeholder = "Enter phone number";
+  phone_input.spellcheck = false;
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  phone_base.appendChild(phone_container);
+  phone_container.appendChild(subContainer);
+  subContainer.appendChild(phone_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    phone_container.remove();
+  }
+}
+
+// Hobbies
+
+document.getElementById("c-hobby-add-btn")!.onclick = function () {
+  const hobby_base = document.querySelector(".c-hobby-base") as HTMLDivElement;
+
+  const hobby_container = document.createElement("div");
+  hobby_container.className = "c-hobby-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "hobby-subcontainer";
+
+  const hobby_input = document.createElement("input");
+  hobby_input.className = "form-input e-hobby";
+  hobby_input.id = "hobby";
+  hobby_input.type = "tel";
+  hobby_input.placeholder = "Enter hobby";
+  hobby_input.spellcheck = false;
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  hobby_base.appendChild(hobby_container);
+  hobby_container.appendChild(subContainer);
+  subContainer.appendChild(hobby_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    hobby_container.remove();
+  }
+}
+
+// IPs
+
+document.getElementById("c-ip-add-btn")!.onclick = function () {
+  const ip_base = document.querySelector(".c-ip-base") as HTMLDivElement;
+
+  const ip_container = document.createElement("div");
+  ip_container.className = "c-ip-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "ip-subcontainer";
+
+  const ip_input = document.createElement("input");
+  ip_input.className = "form-input e-ip";
+  ip_input.id = "ip";
+  ip_input.type = "tel";
+  ip_input.placeholder = "Enter IP";
+  ip_input.spellcheck = false;
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  ip_base.appendChild(ip_container);
+  ip_container.appendChild(subContainer);
+  subContainer.appendChild(ip_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    ip_container.remove();
+  }
+}
+
+// Email
+
+document.getElementById("c-add-btn")!.onclick = function () {
+  const email_base = document.querySelector(".c-email-base") as HTMLDivElement;
+
+  const email_container = document.createElement("div");
+  email_container.className = "c-email-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "c-email-subcontainer";
+
+  const email_input = document.createElement("input");
+  email_input.className = "form-input e-mail";
+  email_input.id = "c-e-mail";
+  email_input.type = "email";
+  email_input.placeholder = "Enter email address";
+  email_input.spellcheck = false;
+
+
+
+  email_input.autocomplete = "off";
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  email_base.appendChild(email_container);
+  email_container.appendChild(email_input);
+  email_container.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  const hidden_email_save = document.createElement("p");
+  hidden_email_save.className = "hidden-email-save";
+  email_container.appendChild(hidden_email_save);
+
+  del_btn_div.onclick = function () {
+    email_container.remove();
+  }
+
+  email_container.appendChild(subContainer);
+  subContainer.appendChild(email_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
 }
 
 searchEntries();
