@@ -15,7 +15,7 @@ builds:
       - linux
       - windows
       - darwin
-        #- freebsd
+      - freebsd
     goarch:
       - amd64
       - arm64
@@ -27,6 +27,7 @@ builds:
       - -trimpath
     ldflags:
       - -s -w
+      - "-X main.version={{ .Version }}"
     env:
       - CGO_ENABLED=0
     ignore:
