@@ -1508,144 +1508,144 @@ function createCards(obj: any) {
       }
     }
   }
+}
 
-  // CREATE
+// CREATE
 
-  const createSaveBtn = document.getElementById("c-savebtn") as HTMLDivElement;
+const createSaveBtn = document.getElementById("c-savebtn") as HTMLDivElement;
 
-  createSaveBtn.onclick = async function () { // new document save button
-    const data = await getData() as object[];
+createSaveBtn.onclick = async function () { // new document save button
+  const data = await getData() as object[];
 
-    let totalIds = Object.keys(data).length;
-    let preId = String(totalIds + 1);
+  let totalIds = Object.keys(data).length;
+  let preId = String(totalIds + 1);
 
-    //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
-    function checkId(preId: string): string {
-      let idExists = false;
+  //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
+  function checkId(preId: string): string {
+    let idExists = false;
 
-      for (let i = 0; i < totalIds; i++) {
-        if (Object.keys(obj)[i] == preId) {
-          idExists = true;
-          break;
-        }
+    for (let i = 0; i < totalIds; i++) {
+      if (Object.keys(data)[i] == preId) {
+        idExists = true;
+        break;
       }
-
-      if (idExists) {
-        preId = String(parseInt(preId) + 1);
-        return checkId(preId);
-      }
-      return preId;
     }
 
-    let id = checkId(preId);
-
-    let name = createNameTag.value;
-
-    let gender = checkDropdownValue("create", "gender");
-
-    let age = parseInt(document.querySelector(".c-age")!.innerHTML);
-
-    if (age <= 0) {
-      age *= -1
+    if (idExists) {
+      preId = String(parseInt(preId) + 1);
+      return checkId(preId);
     }
-    if (age > 120) {
-      age = 120
-    }
-
-    let bday = document.querySelector(".c-bday")!.innerHTML;
-    let address = document.querySelector(".c-address")!.innerHTML;
-
-    let createPhoneContainers = document.querySelectorAll(".c-phone-container") as NodeListOf<HTMLDivElement>;
-    let phoneNumbers: {[key: string]: {number: string}} = {};
-
-    createPhoneContainers.forEach((container: HTMLDivElement) => {
-      const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
-
-      const phoneNumber: string = phoneInput.value.toString();
-
-      phoneNumbers[phoneNumber] = {
-        "number": phoneNumber
-      };
-    });
-
-    let civilstatus = checkDropdownValue("create", "civilstatus");
-
-    let kids = document.querySelector(".c-kids")!.innerHTML;
-
-    let createHobbyContainers = document.querySelectorAll(".c-hobby-container") as NodeListOf<HTMLDivElement>;
-    let hobbies: {[key: string]: {hobby: string}} = {};
-
-    createHobbyContainers.forEach(function (container) {
-      let hobbyInput = container.querySelector("input")!;
-      hobbies[hobbyInput.value] = {
-        "hobby": hobbyInput.value
-      };
-    });
-
-    let occupation = document.querySelector(".c-occupation")!.innerHTML;
-    let prevoccupation = document.querySelector(".c-prevoccupation")!.innerHTML;
-    let education = document.querySelector(".c-education")!.innerHTML;
-
-    let religion = checkDropdownValue("create", "religion");
-
-    let pets = document.querySelector(".c-pets")!.innerHTML;
-
-    let editClubContainers = document.querySelectorAll(".c-club-container") as NodeListOf<HTMLDivElement>;
-    let clubs: {[key: string]: {club: string}} = {};
-
-    editClubContainers.forEach(function (container) {
-      let clubInput = container.querySelector("input")!;
-      clubs[clubInput.value] = {
-        "club": clubInput.value
-      };
-    });
-
-    let legal = document.querySelector(".c-legal")!.innerHTML;
-    let political = document.querySelector(".c-political")!.innerHTML;
-    let notes = document.querySelector(".c-notes")!.innerHTML;
-
-    let createEmailContainers = document.querySelectorAll(".c-email-container") as NodeListOf<HTMLDivElement>;
-    let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
-
-    createEmailContainers.forEach(function (container) {
-      let hiddenElement = container.querySelector(".hidden-email-save")!;
-      
-      // FIXME this is beatiful
-      let hiddenElementVal = null;
-  
-      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
-        hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
-      }
-  
-      let emailInput = container.querySelector("input")!;
-      emailAddresses[emailInput.value] = {
-        "mail": emailInput.value,
-        "src": "manual",
-        "services": hiddenElementVal
-      };
-    });
-
-    let createIPContainers = document.querySelectorAll(".c-ip-container");
-    let ips: {[key: string]: {ip: string}} = {};
-
-    createIPContainers.forEach(function (container) {
-      let ipInput = container.querySelector("input")!;
-      ips[ipInput.value] = {
-        "ip": ipInput.value
-      };
-    });
-
-    const loadingSpinner = document.querySelector("#c-loading-spinner") as HTMLDivElement;
-    loadingSpinner.style.display = "flex"
-
-    fetch(apiUrl + "/person", {
-      method: "POST",
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
-    }).then(function () {
-      loadingSpinner.style.display = "none"
-      location.reload();
-    });
+    return preId;
   }
+
+  let id = checkId(preId);
+
+  let name = createNameTag.value;
+
+  let gender = checkDropdownValue("create", "gender");
+
+  let age = parseInt(document.querySelector(".c-age")!.innerHTML);
+
+  if (age <= 0) {
+    age *= -1
+  }
+  if (age > 120) {
+    age = 120
+  }
+
+  let bday = document.querySelector(".c-bday")!.innerHTML;
+  let address = document.querySelector(".c-address")!.innerHTML;
+
+  let createPhoneContainers = document.querySelectorAll(".c-phone-container") as NodeListOf<HTMLDivElement>;
+  let phoneNumbers: {[key: string]: {number: string}} = {};
+
+  createPhoneContainers.forEach((container: HTMLDivElement) => {
+    const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
+
+    const phoneNumber: string = phoneInput.value.toString();
+
+    phoneNumbers[phoneNumber] = {
+      "number": phoneNumber
+    };
+  });
+
+  let civilstatus = checkDropdownValue("create", "civilstatus");
+
+  let kids = document.querySelector(".c-kids")!.innerHTML;
+
+  let createHobbyContainers = document.querySelectorAll(".c-hobby-container") as NodeListOf<HTMLDivElement>;
+  let hobbies: {[key: string]: {hobby: string}} = {};
+
+  createHobbyContainers.forEach(function (container) {
+    let hobbyInput = container.querySelector("input")!;
+    hobbies[hobbyInput.value] = {
+      "hobby": hobbyInput.value
+    };
+  });
+
+  let occupation = document.querySelector(".c-occupation")!.innerHTML;
+  let prevoccupation = document.querySelector(".c-prevoccupation")!.innerHTML;
+  let education = document.querySelector(".c-education")!.innerHTML;
+
+  let religion = checkDropdownValue("create", "religion");
+
+  let pets = document.querySelector(".c-pets")!.innerHTML;
+
+  let editClubContainers = document.querySelectorAll(".c-club-container") as NodeListOf<HTMLDivElement>;
+  let clubs: {[key: string]: {club: string}} = {};
+
+  editClubContainers.forEach(function (container) {
+    let clubInput = container.querySelector("input")!;
+    clubs[clubInput.value] = {
+      "club": clubInput.value
+    };
+  });
+
+  let legal = document.querySelector(".c-legal")!.innerHTML;
+  let political = document.querySelector(".c-political")!.innerHTML;
+  let notes = document.querySelector(".c-notes")!.innerHTML;
+
+  let createEmailContainers = document.querySelectorAll(".c-email-container") as NodeListOf<HTMLDivElement>;
+  let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
+
+  createEmailContainers.forEach(function (container) {
+    let hiddenElement = container.querySelector(".hidden-email-save")!;
+    
+    // FIXME this is beatiful
+    let hiddenElementVal = null;
+
+    if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
+      hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
+    }
+
+    let emailInput = container.querySelector("input")!;
+    emailAddresses[emailInput.value] = {
+      "mail": emailInput.value,
+      "src": "manual",
+      "services": hiddenElementVal
+    };
+  });
+
+  let createIPContainers = document.querySelectorAll(".c-ip-container");
+  let ips: {[key: string]: {ip: string}} = {};
+
+  createIPContainers.forEach(function (container) {
+    let ipInput = container.querySelector("input")!;
+    ips[ipInput.value] = {
+      "ip": ipInput.value
+    };
+  });
+
+  const loadingSpinner = document.querySelector("#c-loading-spinner") as HTMLDivElement;
+  loadingSpinner.style.display = "flex"
+
+  fetch(apiUrl + "/person", {
+    method: "POST",
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
+  }).then(function () {
+    loadingSpinner.style.display = "none"
+    location.reload();
+  });
 }
 
 const editSaveBtn = document.querySelector("#e-savebtn")! as HTMLDivElement;
