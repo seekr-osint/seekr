@@ -69,4 +69,5 @@ This tool is intended for legitimate and lawful use only. It is provided for edu
 [![Stargazers repo roster for @seekr-osint/seekr](https://reporoster.com/stars/seekr-osint/seekr)](https://github.com/seekr-osint/seekr/stargazers)
 
 - [WinBox.js](https://github.com/nextapps-de/winbox)
+- [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 - [WAU/discord.go](https://github.com/alpkeskin/wau/blob/main/cmd/apps/discord.go)
