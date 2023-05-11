@@ -30,6 +30,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Database for OSINT targets
 - Integration / adaptation of many popular OSINT-tools (e.g. phoneinfoga)
 - GitHub to email
+- Guide (Enter information you have and get web-tools recommended to help you)
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
