@@ -5,12 +5,15 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 
 	api "github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
+	"github.com/seekr-osint/seekr/seekrplugin"
 )
 
 // Web server content
@@ -39,7 +42,11 @@ func main() {
 	enableApiServer := true
 	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
 	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
-
+	pluginList := os.Getenv("SEEKR_PLUGINS")
+	plugins := []string{}
+	if pluginList != "" {
+		plugins = strings.Split(pluginList, ",")
+	}
 	flag.Parse()
 
 	apiConfig, err := api.ApiConfig{
@@ -65,6 +72,11 @@ func main() {
 	if err != nil {
 		log.Panicf("error: %s", err)
 	}
+	apiConfig, err = seekrplugin.Open(plugins, apiConfig)
+	if err != nil {
+		log.Panicf("error: %s", err)
+	}
+
 	if *browser && !apiConfig.Server.WebServer.Disable {
 		openbrowser(fmt.Sprintf("http://%s:%d/web/index.html", apiConfig.Server.Ip, apiConfig.Server.Port))
 	}

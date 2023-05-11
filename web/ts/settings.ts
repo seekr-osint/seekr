@@ -1,10 +1,4 @@
-const arcticTheme = document.getElementById("arctic-theme");
-const duskTheme = document.getElementById("dusk-theme");
-
-const nordTheme = document.getElementById("nord-theme");
-
 const channel = new BroadcastChannel("theme-channel");
-
 
 function changeTheme(theme: string): void {
   // Get the file path of the target iframe
@@ -18,23 +12,38 @@ function changeTheme(theme: string): void {
   document.documentElement.setAttribute("data-theme", theme);
 }
 
+function createThemeCards(theme: string) {
+  console.log(theme);
 
-if (arcticTheme) {
-  arcticTheme.addEventListener("click", () => {
-    changeTheme("arctic");
+  const themeCardContainer = document.querySelector(".theme-option") as HTMLDivElement;
+
+  const themeCardOuter = document.createElement("div") as HTMLDivElement;
+  themeCardOuter.id = `${theme}-theme`;
+  themeCardOuter.classList.add("theme-card", "big-card", "chip");
+  themeCardOuter.dataset.theme = theme;
+
+  const themeCardInner = document.createElement("div") as HTMLDivElement;
+  themeCardInner.classList.add("theme-card", "small-card", "chip");
+  themeCardInner.dataset.theme = theme;
+
+  const themeCardColors = document.createElement("div") as HTMLDivElement;
+  themeCardColors.classList.add("colors");
+
+  const themeCardText = document.createElement("p") as HTMLParagraphElement;
+
+  themeCardText.classList.add("theme-text");
+  themeCardText.dataset.theme = theme;
+  themeCardText.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+
+
+  themeCardContainer.appendChild(themeCardOuter);
+  themeCardOuter.appendChild(themeCardInner);
+  themeCardInner.appendChild(themeCardColors);
+  themeCardColors.appendChild(themeCardText);
+
+  themeCardOuter.addEventListener("click", () => {
+    changeTheme(theme);
   });
 }
 
-if (duskTheme) {
-  duskTheme.addEventListener("click", () => {
-    changeTheme("dusk");
-  });
-}
-
-if (nordTheme) {
-  nordTheme.addEventListener("click", () => {
-    changeTheme("nord");
-  });
-}
-
-export {};
+export { createThemeCards };
