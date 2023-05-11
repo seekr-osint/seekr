@@ -13,7 +13,7 @@ require (
 	github.com/google/go-github/v50 v50.2.0
 	github.com/likexian/whois v1.15.0
 	github.com/mholt/archiver/v4 v4.0.0-alpha.7
-	github.com/nyaruka/phonenumbers v1.1.6
+	github.com/nyaruka/phonenumbers v1.1.7
 	github.com/projectdiscovery/subfinder/v2 v2.5.8
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
