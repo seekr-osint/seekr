@@ -1,7 +1,7 @@
-const defaultWhiteTheme = document.getElementById("default-white-theme");
-const defaultDarkTheme = document.getElementById("default-dark-theme");
+const arcticTheme = document.getElementById("arctic-theme");
+const duskTheme = document.getElementById("dusk-theme");
 
-const nordDarkTheme = document.getElementById("nord-dark-theme");
+const nordTheme = document.getElementById("nord-theme");
 
 const channel = new BroadcastChannel("theme-channel");
 
@@ -19,21 +19,21 @@ function changeTheme(theme: string): void {
 }
 
 
-if (defaultWhiteTheme) {
-  defaultWhiteTheme.addEventListener("click", () => {
-    changeTheme("default-white");
+if (arcticTheme) {
+  arcticTheme.addEventListener("click", () => {
+    changeTheme("arctic");
   });
 }
 
-if (defaultDarkTheme) {
-  defaultDarkTheme.addEventListener("click", () => {
-    changeTheme("default-dark");
+if (duskTheme) {
+  duskTheme.addEventListener("click", () => {
+    changeTheme("dusk");
   });
 }
 
-if (nordDarkTheme) {
-  nordDarkTheme.addEventListener("click", () => {
-    changeTheme("nord-dark");
+if (nordTheme) {
+  nordTheme.addEventListener("click", () => {
+    changeTheme("nord");
   });
 }
 
