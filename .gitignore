@@ -15,6 +15,9 @@ seekr.exe
 # Dev stuff
 .direnv
 
-# Type scritp because java script sucks
+cmd/seekr-cli/seekr-cli
+examples/plugins/**/**.bundle
+examples/plugins/**/plugin.so
 
+# Type scritp because java script sucks
 ./web/dist

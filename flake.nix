@@ -48,7 +48,8 @@
             src = ./.;
 
             #vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-4fEz4DUFwTAxHR+jIxsy65opiBSOe5bF3phFOw+I0uY=";
+            vendorSha256 = "sha256-1KdyKUEVbE/Qw7y2CcKB9VWzoi43vdU1USDs5znsiyo=";
+
           };
         });
 
@@ -66,9 +67,12 @@
           packages = [
             nixpkgsFor.${system}.nodePackages_latest.typescript
             nixpkgsFor.${system}.go
+            nixpkgsFor.${system}.gcc
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
             nixpkgsFor.${system}.goreleaser
+
+            nixpkgsFor.${system}.gcc
             self.packages.${system}.seekr
           ];
         };

@@ -80,7 +80,16 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
 	if err != nil {
-		log.Println(err) // Fix me (breaks tests)
+		log.Println(err) // FIXME should panic?
+	}
+	if config.Parsers != nil {
+		for _, parser := range config.Parsers {
+			fmt.Printf("running postParseParser\n")
+			config, err = parser(config)
+			if err != nil {
+				log.Panicf("error runing postParseParser of a plugin: %s\n", err)
+			}
+		}
 	}
 	config.SaveDB()
 
