@@ -1407,7 +1407,7 @@ function createCards(obj: any) {
 
             loadingSpinner.remove();
 
-            const deepInvResIcon = document.createElement("img");
+            const deepInvResIcon = document.createElement("ion-icon") as IonIconElement;
             deepInvResIcon.className = "deepInvResIcon";
 
             icon_space.appendChild(deepInvResIcon);
@@ -1415,7 +1415,7 @@ function createCards(obj: any) {
             if (data != null && data != "{}" && res.status == 200) {
               deep_btn_txt.innerHTML = "Deep Investigation";
 
-              deepInvResIcon.src = "./images/checkmark.png";
+              deepInvResIcon.name = "checkmark-outline";
               deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
 
               for (const [i, _] of Object.entries(data)) {
@@ -1458,10 +1458,10 @@ function createCards(obj: any) {
                 }
               }
             } else if (res.status == 403 && data["fatal"] == "rate limited") {
-              deepInvResIcon.src = "./images/limited.png";
+              deepInvResIcon.name = "timer-outline";
               deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.15rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
             } else {
-              deepInvResIcon.src = "./images/cross.png";
+              deepInvResIcon.name = "close-outline";
               deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
             }
           }
