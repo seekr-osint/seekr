@@ -25,7 +25,7 @@ var dataBase = make(api.DataBase)
 
 var version string
 
-func main() {
+func checkVer() {
 	destPath := os.Getenv("_SEEKR_UPDATE_BINARY")
 	if destPath != "" {
 		exePath, err := os.Executable()
@@ -49,6 +49,8 @@ func main() {
 			panic(err)
 		}
 	}
+}
+func main() {
 	if version != "" {
 		fmt.Printf("Welcome to seekr v%s\n", version)
 		schematicVersion, err := ParseSchematicVersion(version)
