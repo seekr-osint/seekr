@@ -119,7 +119,6 @@ func (reqresp ReqResp) WriteCache() error {
 			}
 		}
 		reqresp.Header = cloneHeaders
-		fmt.Printf("length: %d,%d", len(reqresp.Header), len(reqresp.Resp.Header))
 		reqresp.Resp.Body.Close()
 		if !reqresp.Pending {
 			GlobalCache[reqresp.Rid] = CachedReq{reqresp}

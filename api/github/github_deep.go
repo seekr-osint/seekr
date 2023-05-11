@@ -76,7 +76,6 @@ func (repoObj GithubRepo) ReturnEmails() (ReceivedGitHubEmails, error) {
 	}
 	defer os.RemoveAll(tmpDir) // clean up temp dir at end of function
 
-	fmt.Printf("%s", repoObj.Url)
 	repo, err := git.PlainClone(tmpDir, true, &git.CloneOptions{
 		URL: repoObj.Url,
 	})
