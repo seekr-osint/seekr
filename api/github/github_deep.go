@@ -11,6 +11,9 @@ import (
 	"sync"
 
 	git "github.com/go-git/go-git/v5"
+	"github.com/seekr-osint/seekr/api/errortypes"
+	"github.com/seekr-osint/seekr/api/reqcache"
+
 	//gitplumbing "github.com/go-git/go-git/v5/plumbing"
 
 	gitobject "github.com/go-git/go-git/v5/plumbing/object"
@@ -19,11 +22,16 @@ import (
 func (deep DeepInvestigation) GetGithubRepos() (GithubRepos, int, error) {
 	err := deep.Validate()
 	if err != nil {
-		return nil, 0, err
+		log.Printf("error validating: %s\n",err)
+		return nil, 0, errortypes.APIError{
+			Message: fmt.Sprintf("%s",err),
+			Status: http.StatusInternalServerError,
+		}
 	}
 	url := fmt.Sprintf("https://api.github.com/users/%s/repos", deep.Username)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
+		log.Printf("error creating request: %s\n",err)
 		return nil, 0, err
 	}
 	if len(deep.Tokens) >= 1 {
@@ -32,14 +40,19 @@ func (deep DeepInvestigation) GetGithubRepos() (GithubRepos, int, error) {
 		}
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	reqresp,err := reqcache.Reqcache(*req)
 	if err != nil {
-		return nil, 0, err
+		log.Printf("err cachreq: %s\n",err)
+		return nil, 0, errortypes.APIError{
+			Message: fmt.Sprintf("%s",err),
+			Status: http.StatusInternalServerError,
+		}
 	}
-	defer resp.Body.Close()
 
-	remaining, err := strconv.Atoi(resp.Header.Get("X-Ratelimit-Remaining"))
+	fmt.Printf("%d\n",len(reqresp.Header))
+	remaining, err := strconv.Atoi(reqresp.Header.Get("X-Ratelimit-Remaining"))
 	if err != nil {
+		log.Printf("error calculating rate limit: %s\n",err)
 		return nil, 0, ErrCalcRateLimit
 	}
 	if remaining == 0 {
@@ -47,8 +60,9 @@ func (deep DeepInvestigation) GetGithubRepos() (GithubRepos, int, error) {
 	}
 
 	var repos GithubRepos
-	err = json.NewDecoder(resp.Body).Decode(&repos)
+	err = json.Unmarshal(reqresp.Body,&repos)
 	if err != nil {
+		log.Printf("error Unmarshaling: %s\n",err)
 		return nil, remaining, err
 	}
 
@@ -140,7 +154,10 @@ func (deep DeepInvestigation) GetAllEmailsFromRepos(repos GithubRepos) (Received
 func (deep DeepInvestigation) FilterEmails(recievedEmails ReceivedGitHubEmails) ([]ReceivedGitHubEmail, error) {
 	err := deep.Validate()
 	if err != nil {
-		return nil, err
+		return nil, errortypes.APIError{
+			Message: fmt.Sprintf("%s",err),
+			Status: http.StatusInternalServerError,
+		}
 	}
 	emails := []ReceivedGitHubEmail{} // FIXME type missmatch if github recieved github Emails type changes
 	for _, recievedEmail := range recievedEmails {
@@ -157,8 +174,11 @@ func (deep DeepInvestigation) GetEmails() ([]ReceivedGitHubEmail, int, error) { 
 	if rateLimitRate == 0 || err == ErrRateLimited {
 		return nil, rateLimitRate, ErrRateLimited
 	} else if err != nil {
-		log.Printf("Error getting repos: %v", err)
-		return nil, rateLimitRate, err
+		log.Printf("Error getting repos: %s\n", err)
+		return nil, rateLimitRate, errortypes.APIError {
+			Message: fmt.Sprintf("%s",err),
+			Status: http.StatusInternalServerError,
+		}
 	}
 	recievedGitHubEmails, err := deep.GetAllEmailsFromRepos(repos)
 	if err != nil {
