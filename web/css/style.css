@@ -122,6 +122,7 @@ html {
   height: 4rem;
   filter: drop-shadow(0.3rem 0.3rem 0.2rem var(--shadow-1)) 
           drop-shadow(-0.2rem -0.2rem 0.5rem var(--shadow-2));
+  color: var(--iconColor-1);
 }
 
 .icon-space {
