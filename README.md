@@ -30,6 +30,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Database for OSINT targets
 - Integration / adaptation of many popular OSINT-tools (e.g. phoneinfoga)
 - GitHub to email
+- Guide (Enter information you have and get web-tools recommended to help you)
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
@@ -69,4 +70,5 @@ This tool is intended for legitimate and lawful use only. It is provided for edu
 [![Stargazers repo roster for @seekr-osint/seekr](https://reporoster.com/stars/seekr-osint/seekr)](https://github.com/seekr-osint/seekr/stargazers)
 
 - [WinBox.js](https://github.com/nextapps-de/winbox)
+- [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 - [WAU/discord.go](https://github.com/alpkeskin/wau/blob/main/cmd/apps/discord.go)
