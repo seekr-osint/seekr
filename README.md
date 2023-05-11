@@ -34,6 +34,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
+- Themes & Plugins
 ## Getting Started - Installation
 ### Windows
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
