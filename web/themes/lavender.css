@@ -1,38 +1,33 @@
-/* 
-  This file has to exist, since when no theme is loaded it will fall back to this.
-  By default, this will be the arctic theme.
-*/
-
-[data-theme="default"] {
+[data-theme="lavender"] {
   /* Background */
 
-  --bg: #E4EBF5;
-  --bg-bright: #e9edf1;
+  --bg: #3f2739;
+  --bg-bright: #40293b;
 
   /* Text */
 
-  --textColor-1: #9baacf;
-  --textColor-hover: #6d5dfc;
+  --textColor-1: #784662;
+  --textColor-hover: #95617d;
 
   /* Icons */
 
   --iconColor-1: #9CCF9B;
-  --iconColor-2: #E4EBF5;
+  --iconColor-2: #8c94A4;
   --iconColor-3: #CF9B9B;
 
   /* Loading spinner */
 
-  --loadingColor: #6d5dfc;
-  --loadingColor-dark: #5b0eeb;
+  --loadingColor: #d794b8;
+  --loadingColor-dark: #6f616e;
 
   /* No search results text */
 
-  --noResultsText: rgba(155, 170, 207, 0.5);  
+  --noResultsText: #63445575;
 
-  /* Shadows */
+  /* Shadow */
 
-  --shadow-1: #c8d0e7;
-  --shadow-2: #FFFFFF;
+  --shadow-1: #361f2d;
+  --shadow-2: #3c2131;
 
   --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
   --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
