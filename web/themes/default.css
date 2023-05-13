@@ -3,7 +3,7 @@
   By default, this will be the arctic theme.
 */
 
-:root {
+[data-theme="default"] {
   /* Background */
 
   --bg: #E4EBF5;
