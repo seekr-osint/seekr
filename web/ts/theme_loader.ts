@@ -30,3 +30,7 @@ fetch(cssFolder)
     });
   }
 );
+
+if (!localStorage.getItem("theme")) {
+  localStorage.setItem("theme", "default");
+}
