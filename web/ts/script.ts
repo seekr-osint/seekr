@@ -562,6 +562,46 @@ function createCards(obj: any) {
       viewClubSpacemaker.style.display = "none";
     }
 
+    // Sources
+
+    const viewSourceBase = document.querySelector(".v-source-base") as HTMLDivElement;
+    const viewSourceSpacemaker = document.querySelector(".v-source-space-maker") as HTMLDivElement;
+
+    viewSourceBase.style.display = "block";
+
+    if (Object.keys(obj.sources).length >= 1) {
+      const sourceContainer = document.querySelector(".v-source-base") as HTMLDivElement;
+
+      for (const [_, source] of Object.entries(obj.sources)) {
+        const sourceVar = (source as { source: string })
+
+        if (sourceVar.source != "" && sourceVar.source != null && sourceVar.source != undefined) {
+          viewSourceSpacemaker.style.display = "block";
+          const container = document.createElement("div");
+          container.className = "v-source-container";
+
+          const subContainer = document.createElement("div");
+          subContainer.className = "source-subcontainer";
+
+          const source_input = document.createElement("input");
+          source_input.className = "form-input v-source";
+          source_input.id = "v-source";
+          source_input.type = "source";
+          source_input.placeholder = "Enter source";
+          source_input.spellcheck = false;
+          source_input.required = true;
+          source_input.value = sourceVar.source;
+          source_input.disabled = true;
+
+          sourceContainer.appendChild(container);
+          container.appendChild(subContainer);
+          subContainer.appendChild(source_input);
+        }
+      };
+    } else {
+      viewSourceSpacemaker.style.display = "none";
+    }
+
     // Phone
 
     const viewPhoneBase = document.querySelector(".v-phone-base") as HTMLDivElement;
@@ -1136,6 +1176,80 @@ function createCards(obj: any) {
 
     editLegal.innerHTML = obj.legal;
     editPolitical.innerHTML = obj.political;
+
+    // Sources
+
+    const sourceBase = document.querySelector(".e-source-base") as HTMLDivElement;
+
+    if (Object.keys(obj.sources).length >= 1) {
+      for (const [_, source] of Object.entries(obj.sources)) {
+        const sourceVar = (source as { source: string })
+
+        const container = document.createElement("div");
+        container.className = "source-container";
+
+        const subContainer = document.createElement("div");
+        subContainer.className = "source-subcontainer";
+
+        const source_input = document.createElement("input");
+        source_input.className = "form-input source";
+        source_input.id = "e-source";
+        source_input.type = "text";
+        source_input.placeholder = "Enter source";
+        source_input.spellcheck = false;
+        source_input.value = sourceVar.source;
+
+        const del_btn_div = document.createElement("div");
+        del_btn_div.className = "del-btn";
+
+        const del_btn = document.createElement("ion-icon") as IonIconElement;
+        del_btn.name = "remove-outline";
+
+        container.appendChild(subContainer);
+        subContainer.appendChild(source_input);
+        sourceBase.appendChild(container);
+        subContainer.appendChild(del_btn_div);
+        del_btn_div.appendChild(del_btn);
+
+
+        del_btn.onclick = function () {
+          container.remove();
+        }
+      };
+    }
+
+    document.getElementById("source-add-btn")!.onclick = function () {
+      const source_container = document.createElement("div");
+      source_container.className = "source-container";
+
+      const subContainer = document.createElement("div");
+      subContainer.className = "source-subcontainer";
+
+      const source_input = document.createElement("input");
+      source_input.className = "form-input e-source";
+      source_input.id = "source";
+      source_input.type = "text";
+      source_input.placeholder = "Enter source";
+      source_input.spellcheck = false;
+      source_input.required = true;
+
+      const del_btn_div = document.createElement("div");
+      del_btn_div.className = "del-btn";
+
+      const del_btn = document.createElement("ion-icon") as IonIconElement;
+      del_btn.name = "remove-outline";
+
+      sourceBase.appendChild(source_container);
+      source_container.appendChild(subContainer);
+      subContainer.appendChild(source_input);
+      subContainer.appendChild(del_btn_div);
+      del_btn_div.appendChild(del_btn);
+
+      del_btn_div.onclick = function () {
+        source_container.remove();
+      }
+    }
+
     editNotes.innerHTML = obj.notes;
 
     // IPs
@@ -1603,6 +1717,17 @@ createSaveBtn.onclick = async function () { // new document save button
 
   let legal = document.querySelector(".c-legal")!.innerHTML;
   let political = document.querySelector(".c-political")!.innerHTML;
+
+  let editSourceContainers = document.querySelectorAll(".c-source-container") as NodeListOf<HTMLDivElement>;
+  let sources: {[key: string]: {source: string}} = {};
+
+  editSourceContainers.forEach(function (container) {
+    let sourceInput = container.querySelector("input")!;
+    sources[sourceInput.value] = {
+      "source": sourceInput.value
+    };
+  });
+
   let notes = document.querySelector(".c-notes")!.innerHTML;
 
   let createEmailContainers = document.querySelectorAll(".c-email-container") as NodeListOf<HTMLDivElement>;
@@ -1641,7 +1766,7 @@ createSaveBtn.onclick = async function () { // new document save button
 
   fetch(apiUrl + "/person", {
     method: "POST",
-    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes })
   }).then(function () {
     loadingSpinner.style.display = "none"
     location.reload();
@@ -1667,6 +1792,7 @@ editSaveBtn.onclick = async function () {
   const editClubContainers = document.querySelectorAll(".club-container") as NodeListOf<HTMLDivElement>;
   const editLegal = document.querySelector(".e-legal") as HTMLParagraphElement;
   const editPolitical = document.querySelector(".e-political") as HTMLParagraphElement;
+  const editSourceContainers = document.querySelectorAll(".source-container") as NodeListOf<HTMLDivElement>;
   const editNotes = document.querySelector(".e-notes") as HTMLDivElement;
   const editEmailContainers = document.querySelectorAll(".email-container") as NodeListOf<HTMLDivElement>;
   const editIPContainers = document.querySelectorAll(".ip-container") as NodeListOf<HTMLDivElement>;
@@ -1733,6 +1859,16 @@ editSaveBtn.onclick = async function () {
 
   let legal = editLegal.innerHTML;
   let political = editPolitical.innerHTML;
+
+  let sources: {[key: string]: {source: string}} = {};
+
+  editSourceContainers.forEach(function (container) {
+    let sourceInput = container.querySelector("input")!;
+    sources[sourceInput.value] = {
+      "source": sourceInput.value
+    };
+  });
+
   let notes = editNotes.innerHTML;
 
   let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
@@ -1773,7 +1909,7 @@ editSaveBtn.onclick = async function () {
 
   fetch(apiUrl + '/person', {
     method: 'POST',
-    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes, "accounts": data.accounts })
   }).then(function () {
     loadingSpinner.style.display = "none"
     location.reload();
@@ -1839,6 +1975,12 @@ document.getElementById("e-backbtn")!.onclick = function () {
     ipElements[0].parentNode!.removeChild(ipElements[0]);
   }
 
+  var sourceElements = document.getElementsByClassName("source-container");
+
+  while (sourceElements.length > 0) {
+    sourceElements[0].parentNode!.removeChild(sourceElements[0]);
+  }
+
   const parentElement = document.querySelector(".e-accounts") as HTMLDivElement;
   parentElement.innerHTML = "";
 }
@@ -1883,6 +2025,40 @@ document.getElementById("c-club-add-btn")!.onclick = function () {
 
   del_btn_div.onclick = function () {
     club_container.remove();
+  }
+}
+
+// Sources
+
+document.getElementById("c-source-add-btn")!.onclick = function () {
+  const source_base = document.querySelector(".c-source-base") as HTMLDivElement;
+
+  const source_container = document.createElement("div");
+  source_container.className = "c-source-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "source-subcontainer";
+
+  const source_input = document.createElement("input");
+  source_input.className = "form-input e-source";
+  source_input.id = "source";
+  source_input.type = "text";
+  source_input.placeholder = "Enter source";
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  source_base.appendChild(source_container);
+  source_container.appendChild(subContainer);
+  subContainer.appendChild(source_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    source_container.remove();
   }
 }
 
