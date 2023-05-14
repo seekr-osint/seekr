@@ -467,8 +467,6 @@ function createCards(obj: any) {
           hobby_input.className = "form-input v-hobby";
           hobby_input.id = "v-hobby";
           hobby_input.type = "hobby";
-          hobby_input.placeholder = "Enter hobby";
-          hobby_input.spellcheck = false;
           hobby_input.required = true;
           hobby_input.value = hobbyVar.hobby;
           hobby_input.disabled = true;
@@ -507,9 +505,7 @@ function createCards(obj: any) {
           ip_input.className = "form-input v-ip";
           ip_input.id = "v-ip";
           ip_input.type = "ip";
-          ip_input.placeholder = "Enter IP";
           ip_input.spellcheck = false;
-          ip_input.required = true;
           ip_input.value = ipVar.ip;
           ip_input.disabled = true;
 
@@ -547,9 +543,7 @@ function createCards(obj: any) {
           club_input.className = "form-input v-club";
           club_input.id = "v-club";
           club_input.type = "club";
-          club_input.placeholder = "Enter club";
           club_input.spellcheck = false;
-          club_input.required = true;
           club_input.value = clubVar.club;
           club_input.disabled = true;
 
@@ -572,10 +566,10 @@ function createCards(obj: any) {
     if (Object.keys(obj.sources).length >= 1) {
       const sourceContainer = document.querySelector(".v-source-base") as HTMLDivElement;
 
-      for (const [_, source] of Object.entries(obj.sources)) {
-        const sourceVar = (source as { source: string })
+      for (const [_, url] of Object.entries(obj.sources)) {
+        const sourceVar = (url as { url: string })
 
-        if (sourceVar.source != "" && sourceVar.source != null && sourceVar.source != undefined) {
+        if (sourceVar.url != "" && sourceVar.url != null && sourceVar.url != undefined) {
           viewSourceSpacemaker.style.display = "block";
           const container = document.createElement("div");
           container.className = "v-source-container";
@@ -583,19 +577,18 @@ function createCards(obj: any) {
           const subContainer = document.createElement("div");
           subContainer.className = "source-subcontainer";
 
-          const source_input = document.createElement("input");
-          source_input.className = "form-input v-source";
-          source_input.id = "v-source";
-          source_input.type = "source";
-          source_input.placeholder = "Enter source";
-          source_input.spellcheck = false;
-          source_input.required = true;
-          source_input.value = sourceVar.source;
-          source_input.disabled = true;
+          const source_field = document.createElement("a");
+          source_field.className = "source-link v-source";
+          source_field.id = "v-source";
+          source_field.type = "source";
+          source_field.spellcheck = false;
+          source_field.innerHTML = sourceVar.url;
+          source_field.href = sourceVar.url;
+          source_field.target = "_blank";
 
           sourceContainer.appendChild(container);
           container.appendChild(subContainer);
-          subContainer.appendChild(source_input);
+          subContainer.appendChild(source_field);
         }
       };
     } else {
@@ -1182,8 +1175,8 @@ function createCards(obj: any) {
     const sourceBase = document.querySelector(".e-source-base") as HTMLDivElement;
 
     if (Object.keys(obj.sources).length >= 1) {
-      for (const [_, source] of Object.entries(obj.sources)) {
-        const sourceVar = (source as { source: string })
+      for (const [_, url] of Object.entries(obj.sources)) {
+        const sourceVar = (url as { url: string })
 
         const container = document.createElement("div");
         container.className = "source-container";
@@ -1197,7 +1190,7 @@ function createCards(obj: any) {
         source_input.type = "text";
         source_input.placeholder = "Enter source";
         source_input.spellcheck = false;
-        source_input.value = sourceVar.source;
+        source_input.value = sourceVar.url;
 
         const del_btn_div = document.createElement("div");
         del_btn_div.className = "del-btn";
@@ -1719,12 +1712,12 @@ createSaveBtn.onclick = async function () { // new document save button
   let political = document.querySelector(".c-political")!.innerHTML;
 
   let editSourceContainers = document.querySelectorAll(".c-source-container") as NodeListOf<HTMLDivElement>;
-  let sources: {[key: string]: {source: string}} = {};
+  let sources: {[key: string]: {url: string}} = {};
 
   editSourceContainers.forEach(function (container) {
     let sourceInput = container.querySelector("input")!;
     sources[sourceInput.value] = {
-      "source": sourceInput.value
+      "url": sourceInput.value
     };
   });
 
@@ -1860,12 +1853,12 @@ editSaveBtn.onclick = async function () {
   let legal = editLegal.innerHTML;
   let political = editPolitical.innerHTML;
 
-  let sources: {[key: string]: {source: string}} = {};
+  let sources: {[key: string]: {url: string}} = {};
 
   editSourceContainers.forEach(function (container) {
     let sourceInput = container.querySelector("input")!;
     sources[sourceInput.value] = {
-      "source": sourceInput.value
+      "url": sourceInput.value
     };
   });
 

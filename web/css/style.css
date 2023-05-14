@@ -288,6 +288,19 @@ html {
   color: black;
 }
 
+.source-link {
+  display: inline-block;
+  height: fit-content;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  padding: 0.5rem;
+  box-shadow: var(--shadowPreset-2);
+  background: none;
+  font-family: inherit;
+  color: var(--textColor-1);
+}
+
 #e-mail,
 #c-e-mail,
 #v-e-mail,
