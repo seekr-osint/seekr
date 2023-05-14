@@ -3,7 +3,7 @@ package sources
 import "github.com/seekr-osint/seekr/api/functions"
 
 func (sources Sources) Parse() (Sources, error) {
-	return functions.FullParseMapRet(sources, "url")
+	return functions.FullParseMapRet(sources, "Url")
 }
 
 func (source Source) Parse() (Source, error) {

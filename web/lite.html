@@ -15,11 +15,10 @@
     <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script type="module" src="./dist/theme_loader.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <script type="module" src="./dist/framework.js" defer></script>
     <script type="module" src="./dist/script.js" defer></script>
-
-    <script type="module" src="./dist/theme_loader.js"></script>
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -145,6 +144,20 @@
 
           <p class="viewtag tag legal">Legal: x</p>
           <p class="viewtag tag political">Political: x</p>
+
+          <div class="chip v-source-space-maker" id="v-space-maker">
+            <p id="v-notes-header">Sources</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="v-source-base">
+
+                  <!-- When add btn was clicked, a dupe of the element above is created -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="chip" id="space-maker">
             <p id="notes-header">Notes</p>
 
@@ -328,6 +341,18 @@
           <div class="table">
             <p class="tag">Political: </p>
             <div class="form"><span type="text" class="form-input e-political" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="chip" id="e-space-maker">
+            <p id="e-notes-header">Sources</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="e-source-base"></div>
+
+                <div id="source-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="e-space-maker">
@@ -518,6 +543,18 @@
           <div class="table">
             <p class="tag">Political: </p>
             <div class="form"><span type="text" class="form-input c-political" role="textbox" spellcheck="false" contenteditable></span></div>
+          </div>
+
+          <div class="chip" id="c-space-maker">
+            <p id="c-notes-header">Sources</p>
+
+            <div class="table">
+              <div class="form">
+                <div class="c-source-base"></div>
+
+                <div id="c-source-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
+              </div>
+            </div>
           </div>
 
           <div class="chip" id="c-space-maker">
