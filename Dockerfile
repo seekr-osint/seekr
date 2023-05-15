@@ -19,7 +19,7 @@ RUN tsc --project web --watch false
 RUN go build -o seekr main.go
 
 # Use a lightweight base image
-FROM alpine:3.17
+FROM alpine:3.18
 
 # Copy the Seekr binary from the build container to the final container
 COPY --from=build /app/seekr /bin/seekr
