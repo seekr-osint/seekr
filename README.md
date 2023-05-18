@@ -66,9 +66,12 @@ seekr
 ## Feedback
 We would love to hear from you. Tell us about your opinions on seekr. Where do we need to improve?...
 You can do this by just opening up an issue or maybe even telling others in your blog or somewhere else about your experience.
-Let us know at **seekr-osint@proton.me**!
+### Contact
+Let us know at **[seekr-osint@proton.me](mailto:seekr-osint@proton.me)**!
 ## Legal Disclaimer
 This tool is intended for legitimate and lawful use only. It is provided for educational and research purposes, and should not be used for any illegal or malicious activities, including doxxing. Doxxing is the practice of researching and broadcasting private or identifying information about an individual, without their consent and can be illegal. The creators and contributors of this tool will not be held responsible for any misuse or damage caused by this tool. By using this tool, you agree to use it only for lawful purposes and to comply with all applicable laws and regulations. It is the responsibility of the user to ensure compliance with all relevant laws and regulations in the jurisdiction in which they operate. Misuse of this tool may result in criminal and/or civil prosecution.
+### Contact
+For legal Questions contact us at **[seekr-osint@proton.me](mailto:seekr-osint@proton.me)**!
 ## Thanks to
 [![Stargazers repo roster for @seekr-osint/seekr](https://reporoster.com/stars/seekr-osint/seekr)](https://github.com/seekr-osint/seekr/stargazers)
 
