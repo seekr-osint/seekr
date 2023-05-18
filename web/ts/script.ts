@@ -2241,32 +2241,73 @@ document.getElementById("c-add-btn")!.onclick = function () {
   del_btn_div.appendChild(del_btn);
 }
 
-searchEntries();
+
+runOnStart();
 
 
-async function searchEntries() {
-  const inputElement = document.getElementById("searchbar") as HTMLInputElement;
-  let input = inputElement.value.toLowerCase();
+async function runOnStart() {
   const noResults = document.getElementById("base-no-results") as HTMLDivElement;
-  let x = document.querySelector('#list-holder')!;
-  x.innerHTML = ""
+
+  const exportBtn = document.getElementById("exportbtn") as HTMLDivElement;
+
+  let x = document.querySelector("#list-holder") as HTMLDivElement;
 
   const data = await getData() as object[];
 
-  for (const [i, _] of Object.entries(data)) {
-    let obj = data[Number(i)] as any;
-
-    if (obj.name.toLowerCase().includes(input)) {
-      // Create Cards For Each Person
-
+  if (Object.entries(data).length == 0) {
+    exportBtn.style.display = "none";
+  } else {
+    for (const [i, _] of Object.entries(data)) {
+      let obj = data[Number(i)] as any;
+  
       createCards(obj);
     }
   }
 
   if (x.childElementCount <= 0) {
     noResults.style.display = "flex";
+
+    x.style.display = "none";
   } else {
     noResults.style.display = "none";
+
+    x.style.display = "flex";
+  }
+}
+
+async function searchEntries() {
+  const inputElement = document.getElementById("searchbar") as HTMLInputElement;
+  let input = inputElement.value.toLowerCase();
+
+  const noResults = document.getElementById("base-no-results") as HTMLDivElement;
+  let x = document.querySelector('#list-holder') as HTMLDivElement;
+
+  let amountOfResults = x.childElementCount;
+
+  for (let i = 0; i < x.childElementCount; i++) {
+    let card = x.children[i];
+
+    let name = card.querySelector(".hitbox-abbr > .hitbox > div.text-container > p.card-text")!;
+
+    if (!name.innerHTML.toLowerCase().includes(input)) {
+      card.classList.add("dont-show");
+
+      amountOfResults--;
+    } else {
+      card.classList.remove("dont-show");
+
+      amountOfResults++;
+    }
+  }
+
+  if (amountOfResults <= 0) {
+    noResults.style.display = "flex";
+
+    x.style.display = "none";
+  } else {
+    noResults.style.display = "none";
+
+    x.style.display = "flex";
   }
 }
 

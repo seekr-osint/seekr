@@ -22,6 +22,11 @@ html {
   }
 }
 
+.dont-show {
+  display: none !important;
+  height: 0 !important;
+}
+
 .phone-icon {
   height: unset !important;
 }
@@ -701,6 +706,7 @@ a {
 }
 
 #exportbtn {
+  display: none;
   margin-right: 12rem;
 }
 
