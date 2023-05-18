@@ -2271,7 +2271,7 @@ async function runOnStart() {
   } else {
     noResults.style.display = "none";
 
-    x.style.display = "flex";
+    x.style.display = "block";
   }
 }
 
