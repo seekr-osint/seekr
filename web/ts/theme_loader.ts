@@ -1,9 +1,23 @@
-import { createThemeCards } from "./settings.js";
+import { createThemeCards, changeTheme } from "./settings.js";
 
 const head = document.getElementsByTagName("head")[0];
 const cssFolder = "./themes/";
 
+const defaultTheme = "arctic";
+
 // This loads all css files in the themes directory
+
+function setDefaultIfNotStored(): void {
+  if (!localStorage.getItem("theme")) {
+    localStorage.setItem("theme", defaultTheme);
+
+    changeTheme(defaultTheme);
+
+    console.log(localStorage.getItem("theme"));
+  }
+}
+
+setDefaultIfNotStored();
 
 fetch(cssFolder)
   .then((response) => response.text())
@@ -30,7 +44,3 @@ fetch(cssFolder)
     });
   }
 );
-
-if (!localStorage.getItem("theme")) {
-  localStorage.setItem("theme", "default");
-}

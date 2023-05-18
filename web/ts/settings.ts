@@ -46,4 +46,4 @@ function createThemeCards(theme: string) {
   }
 }
 
-export { createThemeCards };
+export { createThemeCards, changeTheme };
