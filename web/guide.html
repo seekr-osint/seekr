@@ -26,9 +26,7 @@
       // Check local storage for theme setting
 
       if (localStorage.getItem("theme")) {
-        console.log(localStorage.getItem("theme"));
         document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
-        console.log(document.documentElement.getAttribute("data-theme"));
       }
     </script>
   </head>
