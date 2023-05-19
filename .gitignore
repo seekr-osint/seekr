@@ -21,3 +21,4 @@ examples/plugins/**/plugin.so
 
 # Type scritp because java script sucks
 ./web/dist
+Seekr.AppDir

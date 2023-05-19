@@ -35,22 +35,73 @@
     {
 
       # Provide some binary packages for selected system types.
-      packages = forAllSystems (system:
-        let
-          pkgs = nixpkgsFor.${system};
-        in
-        {
-          seekr = pkgs.buildGoModule {
-            pname = "seekr";
-            inherit version;
-            # In 'nix develop', we don't need a copy of the source tree
-            # in the Nix store.
-            src = ./.;
+      packages = forAllSystems
+        (system:
+          let
+            pkgs = nixpkgsFor.${system};
+            name = "Seekr";
+            appdir = "${name}.AppDir";
+          in
+          {
 
-            #vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-fDwFguS/54T5EvtHsfPfVkj8+RM26f8OnUDKu/2RU90=";
-          };
-        });
+            seekr-appimage = pkgs.stdenv.mkDerivation {
+              name = "seekr-appimage";
+
+              #src = self.packages.${system}.seekr;
+              src = ./.;
+              buildInputs = [
+                pkgs.appimagekit
+                self.packages.${system}.seekr
+              ];
+              buildPhase = ''
+                mkdir -p ${appdir}/usr/bin
+                cp web/images/256x256.png ${appdir}/${name}.png
+                
+                install ${self.packages.${system}.seekr}/bin/seekr ${appdir}/usr/bin/seekr
+                cat > ${appdir}/${name}.desktop <<EOF
+                [Desktop Entry]
+                Type=Application
+                Name=Seekr
+                Exec=seekr %U
+                Icon=Seekr
+                StartupNotify=true
+                Categories=Network;
+                EOF
+                cp AppRun ${appdir}/AppRun
+                chmod +x ${appdir}/AppRun
+                appimagetool -v -n ./Seekr.AppDir ./Seekr.AppImage
+                appimagetool -l ./Seekr.AppImage
+              '';
+              installPhase = ''
+                mkdir -p $out/bin
+                cp -r ${appdir} $out/${appdir}
+
+                install Seekr.AppImage $out/Seekr.AppImage
+              '';
+
+            };
+            seekr = pkgs.buildGoModule {
+              preBuild = ''
+                ${pkgs.nodePackages_latest.typescript}/bin/tsc --project web --watch false
+              '';
+              pname = "seekr";
+              inherit version;
+              src = ./.;
+              CGO_ENABLED = 0;
+              tags = [
+                "osusergo"
+                "netgo"
+                "static_build"
+              ];
+              ldflags = [
+                "-s -w"
+                "-extldflags=-static"
+                #"-X main.version=${version}"
+              ];
+
+              vendorSha256 = "sha256-fDwFguS/54T5EvtHsfPfVkj8+RM26f8OnUDKu/2RU90=";
+            };
+          });
 
       apps = forAllSystems (system: {
         default = {
