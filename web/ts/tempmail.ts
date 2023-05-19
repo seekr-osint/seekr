@@ -4,7 +4,6 @@ const channel = new BroadcastChannel("theme-channel");
 channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
-    localStorage.setItem("theme", theme);
 
     document.documentElement.setAttribute("data-theme", theme);
   }

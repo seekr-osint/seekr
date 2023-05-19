@@ -5,9 +5,10 @@ const channelDesktop = new BroadcastChannel("theme-channel");
 channelDesktop.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
-    localStorage.setItem("theme", theme);
 
     document.documentElement.setAttribute("data-theme", theme);
+
+    replaceIconColors();
   }
 });
 
@@ -193,6 +194,8 @@ const interval = setInterval(() => {
   }
 }, 100);
 
+let lastReplaced = "#9BAACF";
+
 function replaceIconColors() {
   // If the .css link has been loaded
   if (document.head.innerHTML.includes(localStorage.getItem("theme")!)) {
@@ -202,9 +205,10 @@ function replaceIconColors() {
 
     // Replace the hex color code with the desired one
     appIcons.forEach((appIcon) => {
-      replaceHexColor(appIcon, "#9BAACF", currentTextColor, 10);
+      replaceHexColor(appIcon, lastReplaced, currentTextColor, 10);
     });
 
+    lastReplaced = currentTextColor;
     hasBeenLoaded = true;
     clearInterval(interval);
   }
