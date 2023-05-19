@@ -43,7 +43,7 @@ func load(apiConfig api.ApiConfig, bundle string) (api.ApiConfig, error) {
 		log.Printf("load plugin error: %s", err)
 		return apiConfig, ErrOpeningPlugin
 	}
-	entry, err := loadedPlugin.Lookup("Entry")
+	entry, err := loadedPlugin.Lookup("Main")
 	if err != nil {
 		return apiConfig, ErrCantFindEntrySymbol
 	}
@@ -51,9 +51,9 @@ func load(apiConfig api.ApiConfig, bundle string) (api.ApiConfig, error) {
 	if err != nil {
 		return apiConfig, err
 	}
-	configParser, err := loadedPlugin.Lookup("ConfigParser")
+	preParser, err := loadedPlugin.Lookup("PreParser")
 	if err == nil {
-		parsedApiConfig, err := configParser.(func(api.ApiConfig) (api.ApiConfig, error))(apiConfig)
+		parsedApiConfig, err := preParser.(func(api.ApiConfig) (api.ApiConfig, error))(apiConfig)
 		if err != nil {
 			return apiConfig, err
 		}
@@ -62,9 +62,9 @@ func load(apiConfig api.ApiConfig, bundle string) (api.ApiConfig, error) {
 			return apiConfig, err
 		}
 	}
-	postParseConfigParser, err := loadedPlugin.Lookup("PostParseConfigParser")
+	postParser, err := loadedPlugin.Lookup("PostParser")
 	if err == nil {
-		parser := postParseConfigParser.(func(api.ApiConfig) (api.ApiConfig, error))
+		parser := postParser.(func(api.ApiConfig) (api.ApiConfig, error))
 		apiConfig.Parsers = append(apiConfig.Parsers, parser)
 	}
 	return apiConfig, nil
