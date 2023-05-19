@@ -38,9 +38,7 @@ fetch(cssFolder)
 
       const theme = href.trim().replace(/^\.\/themes\/|\.css$/g, '');
 
-      if (theme != "default") {
-        createThemeCards(theme);
-      }
+      createThemeCards(theme);
     });
   }
 );
