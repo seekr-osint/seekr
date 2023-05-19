@@ -3,22 +3,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/seekr-osint/seekr/api"
 	"net/http"
+
+	"github.com/seekr-osint/seekr/api"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Entry() error {
+func Main() error {
 	return nil
 }
 
-func ConfigParser(apiConfig api.ApiConfig) (api.ApiConfig, error) {
+func PreParser(apiConfig api.ApiConfig) (api.ApiConfig, error) {
 	fmt.Printf("running config parser\n")
 	apiConfig.Server.Port = uint16(8080)
 	return apiConfig, nil
 }
-func PostParseConfigParser(apiConfig api.ApiConfig) (api.ApiConfig, error) {
+
+func PostParser(apiConfig api.ApiConfig) (api.ApiConfig, error) {
 	fmt.Printf("running post parse config parser\nadded /plug api call\n")
 	apiConfig.GinRouter.GET("/plug", func(c *gin.Context) {
 		c.String(http.StatusOK, "Hello, World!")

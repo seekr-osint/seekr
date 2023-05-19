@@ -5,20 +5,22 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/seekr-osint/seekr/api"
 	"net/http"
+
+	"github.com/seekr-osint/seekr/api"
+
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/projectdiscovery/subfinder/v2/pkg/resolve"
 	"github.com/projectdiscovery/subfinder/v2/pkg/runner"
-	"log"
 )
 
-func Entry() error {
+func Main() error {
 	return nil
 }
 
-func PostParseConfigParser(apiConfig api.ApiConfig) (api.ApiConfig, error) {
+func PostParser(apiConfig api.ApiConfig) (api.ApiConfig, error) {
 	fmt.Printf("running post parse config parser\n")
 	apiConfig.GinRouter.GET("/deep/subfinder/:url", getSubdomains)
 	return apiConfig, nil
@@ -64,7 +66,4 @@ func getSubdomains(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"subdomains": string(data),
 	})
-}
-func main() {
-
 }
