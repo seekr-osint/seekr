@@ -1,5 +1,6 @@
 # goreleaser
 dist
+result
 
 # Data Base and log files
 data
@@ -22,3 +23,4 @@ examples/plugins/**/plugin.so
 # Type scritp because java script sucks
 ./web/dist
 Seekr.AppDir
+
