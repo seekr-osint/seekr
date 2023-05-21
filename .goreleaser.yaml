@@ -55,7 +55,10 @@ builds:
       - goos: windows
         goarch: arm64
 archives:
-  - format: binary
+  -
+    format: binary
+    files:
+      - ./result/Seekr.AppImage
 checksum:
   name_template: 'checksums.txt'
 snapshot:

@@ -29,8 +29,11 @@ jobs:
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          restore-keys: | ${{ runner.os }}-go-
+      - uses: cachix/install-nix-action@v19
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: nix build .#appimage
       - name: Setup Node.js
         uses: actions/setup-node@v2.5.2
       - name: install tsc
