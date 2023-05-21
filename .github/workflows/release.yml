@@ -25,12 +25,10 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: '1.20.3'
-      - uses: actions/cache@v2
+      - uses: cachix/install-nix-action@v19
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - run: nix build .#seekr-appimage
       - name: Setup Node.js
         uses: actions/setup-node@v2.5.2
       - name: install tsc
