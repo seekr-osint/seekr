@@ -33,7 +33,7 @@ jobs:
       - uses: cachix/install-nix-action@v19
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: nix build .#appimage
+      - run: nix build .#seekr-appimage
       - name: Setup Node.js
         uses: actions/setup-node@v2.5.2
       - name: install tsc
