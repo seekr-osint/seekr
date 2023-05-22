@@ -12,7 +12,7 @@ function saveAsFile(textContent: string, fileName: string) {
   }
 }
 
-const elements: {[key: string]: HTMLCollectionOf<Element>} = {
+const elements: { [key: string]: HTMLCollectionOf<Element> } = {
   "gender-select": document.getElementsByClassName("gender-select"),
   "religion-select": document.getElementsByClassName("religion-select"),
   "civilstatus-select": document.getElementsByClassName("civilstatus-select"),
@@ -26,23 +26,43 @@ for (const [className, nodeList] of Object.entries(elements)) {
     const ll = selElmnt.length;
     let a = document.createElement("DIV");
     a.setAttribute("class", "select-selected");
-    a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+
+    // Modify the label text and lng-tag attribute
+    const labelText = selElmnt.options[0].innerHTML;
+    const lngTagValue = labelText
+      .toLowerCase()
+      .replace(/\s/g, "_")
+      .replace(":", "_colon");
+    a.setAttribute("lng-tag", lngTagValue);
+
+    a.innerHTML = labelText;
     x.appendChild(a);
     let b = document.createElement("DIV");
     b.setAttribute("class", "select-items select-hide");
     for (let j = 1; j < ll; j++) {
       const c = document.createElement("DIV");
-      c.innerHTML = selElmnt.options[j].innerHTML;
+      const optionValue = selElmnt.options[j].innerHTML;
+      const lngTagValue = optionValue.toLowerCase().replace(/\s/g, "_");
+      c.setAttribute("lng-tag", lngTagValue);
+      c.innerHTML = optionValue;
       c.addEventListener("click", function (e) {
-        if (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.querySelectorAll("select")[0]) {
-          const y = this.parentNode.parentNode.querySelectorAll("select")[0] as HTMLSelectElement;
+        if (
+          this.parentNode &&
+          this.parentNode.parentNode &&
+          this.parentNode.parentNode.querySelectorAll("select")[0]
+        ) {
+          const y = this.parentNode.parentNode.querySelectorAll(
+            "select"
+          )[0] as HTMLSelectElement;
           const h = this.parentNode.previousSibling as HTMLElement;
 
           for (let k = 0; k < y.length; k++) {
             if (y.options[k].innerHTML == this.innerHTML) {
               y.selectedIndex = k;
               h.innerHTML = this.innerHTML;
-              let yl = this.parentNode.querySelector(".same-as-selected") as HTMLSelectElement;
+              let yl = this.parentNode.querySelector(
+                ".same-as-selected"
+              ) as HTMLSelectElement;
               if (yl) {
                 for (let l = 0; l < yl.length; l++) {
                   yl[l].removeAttribute("class");
@@ -69,6 +89,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
     });
   }
 }
+
 
 function closeAllSelect(elmnt: HTMLElement) {
   const arrNo = [];
