@@ -46,4 +46,23 @@ function createThemeCards(theme: string) {
   }
 }
 
-export { createThemeCards, changeTheme };
+function setLanguage(language: string) {
+  localStorage.setItem("language", language);
+}
+
+function checkLanguage(): "en" | "de" | undefined {
+  if (document) {
+    const selectedLanguage = document.querySelector(".select-selected");
+
+    if (selectedLanguage) {
+      const languages: { [key: string]: "en" | "de" } = {};
+
+      languages["English"] = "en";
+      languages["German"] = "de";
+
+      return languages[selectedLanguage.innerHTML];
+    }
+  }
+}
+
+export { createThemeCards, changeTheme, setLanguage, checkLanguage };

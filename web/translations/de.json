@@ -64,5 +64,10 @@
   "judaism": "Judentum",
   "select_gender_colon": "Wähle ein Geschlecht:",
   "select_civil_status_colon": "Wähle einen Zivilstatus:",
-  "select_religion_colon": "Wähle eine Religion:"
+  "select_religion_colon": "Wähle eine Religion:",
+  "select_country_colon": "Wähle ein Land:",
+  "worldwide": "WeltWeit",
+  "united_kingdom": "Vereinigtes Königreich",
+  "united_states": "Vereinigte Staaten",
+  "canada": "Kanada"
 }

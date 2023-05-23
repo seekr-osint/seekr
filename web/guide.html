@@ -22,6 +22,8 @@
 
     <script type="module" src="./dist/theme_loader.js"></script>
 
+    <script type="module" src="./dist/translate.js"></script>
+
     <script type="text/javascript" defer>
       // Check local storage for theme setting
 
@@ -30,7 +32,7 @@
       }
     </script>
   </head>
-  <body>
+  <body onload="translate('de','lng-tag')">
     <div class="dd-nav-bar-top"></div>
     <div class="dd-nav-bar">
       <div class="country-select">
@@ -38,7 +40,7 @@
           <option value="0">Select country:</option>
           <option value="WW">WorldWide</option>
           <option value="UK">United Kingdom</option>
-          <option value="US">United States of America</option>
+          <option value="US">United States</option>
           <option value="CA">Canada</option>
         </select>
       </div>

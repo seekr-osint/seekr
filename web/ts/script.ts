@@ -1,4 +1,5 @@
 import { saveAsFile, checkDropdownValue, getDropdownElementIndex } from "./framework.js";
+import { refreshTranslation } from "./translate.js";
 
 const searchBar = document.getElementById("searchbar");
 

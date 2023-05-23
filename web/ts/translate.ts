@@ -1,3 +1,5 @@
+import { setLanguage } from "./settings.js";
+
 class Translate {
   attribute: string;
   lng: string;
@@ -35,6 +37,24 @@ class Translate {
     xhrFile.send();
   }
 
+  translateText(word: string): string | undefined {
+    const xhrFile = new XMLHttpRequest();
+    let translatedWord: string | undefined;
+  
+    xhrFile.open("GET", `translations/${this.lng}.json`, false);
+    xhrFile.onreadystatechange = () => {
+      if (xhrFile.readyState === 4) {
+        if (xhrFile.status === 200 || xhrFile.status === 0) {
+          const LngObject = JSON.parse(xhrFile.responseText);
+          translatedWord = LngObject[word];
+        }
+      }
+    };
+    xhrFile.send();
+  
+    return translatedWord;
+  }
+
   translateAllElements(): void {
     const allDom = document.querySelectorAll(`[${this.attribute}]`);
     allDom.forEach((element) => {
@@ -53,6 +73,16 @@ function translate(lng: string, tagAttr: string): void {
 
 // This function is used to refresh translation
 function refreshTranslation(): void {
-  const translator = new Translate("lng-tag", "de");
+  let lang = localStorage.getItem("language");
+
+  if (!lang) {
+    lang = "en";
+    
+    setLanguage(lang);
+  }
+
+  const translator = new Translate("lng-tag", lang);
   translator.translateAllElements();
 }
+
+export { Translate, translate, refreshTranslation };
