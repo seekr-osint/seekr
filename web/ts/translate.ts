@@ -1,5 +1,3 @@
-import { setLanguage } from "./settings.js";
-
 class Translate {
   attribute: string;
   lng: string;
@@ -66,8 +64,16 @@ class Translate {
 }
 
 // This function will be called when the user clicks to change the language
-function translate(lng: string, tagAttr: string): void {
-  const translator = new Translate(tagAttr, lng);
+function translate(): void {
+  let lang = localStorage.getItem("language");
+
+  if (!lang) {
+    lang = "en";
+    
+    setLanguage(lang);
+  }
+
+  const translator = new Translate("lng-tag", lang);
   translator.translateAllElements();
 }
 
@@ -85,4 +91,6 @@ function refreshTranslation(): void {
   translator.translateAllElements();
 }
 
-export { Translate, translate, refreshTranslation };
+function setLanguage(language: string) {
+  localStorage.setItem("language", language);
+}

@@ -91,7 +91,6 @@ for (const [className, nodeList] of Object.entries(elements)) {
   }
 }
 
-
 function closeAllSelect(elmnt: HTMLElement) {
   const arrNo = [];
   const x = document.getElementsByClassName("select-items") as HTMLCollectionOf<HTMLElement>;
@@ -119,10 +118,19 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     const selectedGender = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(1) > div > div.select-selected")?.innerHTML ?? "";
     const gender: { [key: string]: string } = {};
   
+    // English
+
     gender["Select gender:"] = "";
     gender["Male"] = "Male";
     gender["Female"] = "Female";
     gender["Other"] = "Other";
+
+    // German
+
+    gender["Wähle Geschlecht:"] = "";
+    gender["Männlich"] = "Male";
+    gender["Weiblich"] = "Female";
+    gender["Sonstiges"] = "Other";
   
     return gender[selectedGender];
   } else if (dropdownType == "religion") {
@@ -160,9 +168,18 @@ function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilsta
     const genderIndex: { [key: string]: string } = {};
 
     genderIndex[""] = "";
+
+    // English
+
     genderIndex["Male"] = "0";
     genderIndex["Female"] = "1";
     genderIndex["Other"] = "2";
+
+    // German
+
+    genderIndex["Männlich"] = "0";
+    genderIndex["Weiblich"] = "1";
+    genderIndex["Sonstiges"] = "2";
   
     return genderIndex[dropdownValue];
   } else if (dropdownType == "religion") {

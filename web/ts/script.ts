@@ -1,5 +1,4 @@
 import { saveAsFile, checkDropdownValue, getDropdownElementIndex } from "./framework.js";
-import { refreshTranslation } from "./translate.js";
 
 const searchBar = document.getElementById("searchbar");
 
@@ -23,6 +22,10 @@ channel.addEventListener("message", (event) => {
     document.documentElement.setAttribute("data-theme", theme);
   }
 });
+
+if (!localStorage.getItem("language")) {
+  setLanguage("en"); // Default language
+}
 
 // Interface for IonIcons
 interface IonIconElement extends HTMLElement {

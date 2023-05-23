@@ -46,10 +46,6 @@ function createThemeCards(theme: string) {
   }
 }
 
-function setLanguage(language: string) {
-  localStorage.setItem("language", language);
-}
-
 function checkLanguage(): "en" | "de" | undefined {
   if (document) {
     const selectedLanguage = document.querySelector(".select-selected");
@@ -65,4 +61,4 @@ function checkLanguage(): "en" | "de" | undefined {
   }
 }
 
-export { createThemeCards, changeTheme, setLanguage, checkLanguage };
+export { createThemeCards, changeTheme, checkLanguage };
