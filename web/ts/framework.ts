@@ -12,7 +12,7 @@ function saveAsFile(textContent: string, fileName: string) {
   }
 }
 
-const elements: { [key: string]: HTMLCollectionOf<Element> } = {
+const elements: { [key: string]: HTMLCollectionOf<Element> } = { // used to select a element in the dropdown
   "gender-select": document.getElementsByClassName("gender-select"),
   "religion-select": document.getElementsByClassName("religion-select"),
   "civilstatus-select": document.getElementsByClassName("civilstatus-select"),
@@ -22,11 +22,11 @@ const elements: { [key: string]: HTMLCollectionOf<Element> } = {
 
 for (const [className, nodeList] of Object.entries(elements)) {
   for (let i = 0; i < nodeList.length; i++) {
-    const x = nodeList[i] as HTMLElement;
-    const selElmnt = x.getElementsByTagName("select")[0] as HTMLSelectElement;
-    const ll = selElmnt.length;
-    let a = document.createElement("DIV");
-    a.setAttribute("class", "select-selected");
+    const node = nodeList[i] as HTMLElement;
+    const selElmnt = node.getElementsByTagName("select")[0] as HTMLSelectElement;
+    const selElmntLength = selElmnt.length;
+    let selectSelectedDiv = document.createElement("DIV");
+    selectSelectedDiv.setAttribute("class", "select-selected");
 
     // Modify the label text and lng-tag attribute
     const labelText = selElmnt.options[0].innerHTML;
@@ -34,16 +34,16 @@ for (const [className, nodeList] of Object.entries(elements)) {
       .toLowerCase()
       .replace(/\s/g, "_")
       .replace(":", "_colon");
-    a.setAttribute("lng-tag", lngTagValue);
+    selectSelectedDiv.setAttribute("lng-tag", lngTagValue);
 
-    a.innerHTML = labelText;
+    selectSelectedDiv.innerHTML = labelText;
 
-    translateElement(a);
+    translateElement(selectSelectedDiv);
 
-    x.appendChild(a);
+    node.appendChild(selectSelectedDiv);
     let b = document.createElement("DIV");
     b.setAttribute("class", "select-items select-hide");
-    for (let j = 1; j < ll; j++) {
+    for (let j = 1; j < selElmntLength; j++) {
       const c = document.createElement("DIV");
       const optionValue = selElmnt.options[j].innerHTML;
       const lngTagValue = optionValue.toLowerCase().replace(/\s/g, "_");
@@ -61,7 +61,15 @@ for (const [className, nodeList] of Object.entries(elements)) {
           const h = this.parentNode.previousSibling as HTMLElement;
 
           for (let k = 0; k < y.length; k++) {
-            if (y.options[k].innerHTML == this.innerHTML) {
+            console.log(this.innerHTML)
+            //console.log(this.getAttribute("lng-tag").charAt(0).toUpperCase() + string.slice(1))
+            console.log(translateText(this.innerHTML))
+            console.log(y.options[k].innerHTML)
+            // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
+            // value is basically .innerHTML translated to English
+            let value = this.getAttribute("lng-tag")!.charAt(0).toUpperCase() + this.getAttribute("lng-tag")!.slice(1)
+            console.log(value)
+            if (y.options[k].innerHTML == value!) { //translateText(this.innerHTML)) {
               y.selectedIndex = k;
               h.innerHTML = this.innerHTML;
               let yl = this.parentNode.querySelector(
@@ -81,8 +89,8 @@ for (const [className, nodeList] of Object.entries(elements)) {
       });
       b.appendChild(c);
     }
-    x.appendChild(b);
-    a.addEventListener("click", function (e) {
+    node.appendChild(b);
+    selectSelectedDiv.addEventListener("click", function (e) {
       e.stopPropagation();
       closeAllSelect(this);
       if (this.nextSibling) {
@@ -96,18 +104,18 @@ for (const [className, nodeList] of Object.entries(elements)) {
 
 function closeAllSelect(elmnt: HTMLElement) {
   const arrNo = [];
-  const x = document.getElementsByClassName("select-items") as HTMLCollectionOf<HTMLElement>;
-  const y = document.getElementsByClassName("select-selected") as HTMLCollectionOf<HTMLElement>;
-  for (let i = 0; i < y.length; i++) {
-    if (elmnt == y[i]) {
-      arrNo.push(i);
+  const selectItemsElements = document.getElementsByClassName("select-items") as HTMLCollectionOf<HTMLElement>;
+  const selectSelectedElements = document.getElementsByClassName("select-selected") as HTMLCollectionOf<HTMLElement>;
+  for (let selectSelectedElementsIndex = 0; selectSelectedElementsIndex < selectSelectedElements.length; selectSelectedElementsIndex++) {
+    if (elmnt == selectSelectedElements[selectSelectedElementsIndex]) {
+      arrNo.push(selectSelectedElementsIndex);
     } else {
-      y[i].classList.remove("select-arrow-active");
+      selectSelectedElements[selectSelectedElementsIndex].classList.remove("select-arrow-active");
     }
   }
-  for (let i = 0; i < x.length; i++) {
-    if (arrNo.indexOf(i)) {
-      x[i].classList.add("select-hide");
+  for (let selectItemsElementsIndex = 0; selectItemsElementsIndex < selectItemsElements.length; selectItemsElementsIndex++) {
+    if (arrNo.indexOf(selectItemsElementsIndex)) {
+      selectItemsElements[selectItemsElementsIndex].classList.add("select-hide");
     }
   }
 }
@@ -134,7 +142,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     gender["Männlich"] = "Male";
     gender["Weiblich"] = "Female";
     gender["Sonstiges"] = "Other";
-  
+
     return gender[selectedGender];
   } else if (dropdownType == "religion") {
     const selectedReligion = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(14) > div > div.select-selected")?.innerHTML ?? "";
