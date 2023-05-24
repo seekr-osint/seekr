@@ -99,7 +99,7 @@
                 #"-X main.version=${version}"
               ];
 
-              vendorSha256 = "sha256-fDwFguS/54T5EvtHsfPfVkj8+RM26f8OnUDKu/2RU90=";
+              vendorSha256 = "sha256-MHF9WyLQf2uXREoKL5onE0bobzTRBG8i3mQtwtEnpWk=";
             };
           });
 

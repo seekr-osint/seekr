@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	api "github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
 	"github.com/seekr-osint/seekr/seekrplugin"
@@ -26,6 +27,10 @@ var dataBase = make(api.DataBase)
 var version string
 
 func main() {
+	err := discord.Rich()
+	if err != nil {
+		panic(err)
+	}
 	if version != "" {
 		fmt.Printf("Welcome to seekr v%s\n", version)
 	} else {

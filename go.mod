@@ -11,6 +11,7 @@ require (
 	github.com/go-git/go-git/v5 v5.6.1
 	github.com/gocolly/colly v1.2.0
 	github.com/google/go-github/v50 v50.2.0
+	github.com/hugolgst/rich-go v0.0.0-20210925091458-d59fb695d9c0
 	github.com/likexian/whois v1.15.0
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
 	github.com/nyaruka/phonenumbers v1.1.7
@@ -152,6 +153,7 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/djherbis/times.v1 v1.3.0 // indirect
+	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
