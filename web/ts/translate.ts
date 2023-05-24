@@ -94,3 +94,8 @@ function refreshTranslation(): void {
 function setLanguage(language: string) {
   localStorage.setItem("language", language);
 }
+
+function translateElement(element: HTMLElement): void {
+  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+  translator.translateElement(element);
+}

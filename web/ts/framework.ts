@@ -37,6 +37,9 @@ for (const [className, nodeList] of Object.entries(elements)) {
     a.setAttribute("lng-tag", lngTagValue);
 
     a.innerHTML = labelText;
+
+    translateElement(a);
+
     x.appendChild(a);
     let b = document.createElement("DIV");
     b.setAttribute("class", "select-items select-hide");
@@ -45,13 +48,13 @@ for (const [className, nodeList] of Object.entries(elements)) {
       const optionValue = selElmnt.options[j].innerHTML;
       const lngTagValue = optionValue.toLowerCase().replace(/\s/g, "_");
       c.setAttribute("lng-tag", lngTagValue);
+
       c.innerHTML = optionValue;
+      
+      translateElement(c);
+
       c.addEventListener("click", function (e) {
-        if (
-          this.parentNode &&
-          this.parentNode.parentNode &&
-          this.parentNode.parentNode.querySelectorAll("select")[0]
-        ) {
+        if (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.querySelectorAll("select")[0]) {
           const y = this.parentNode.parentNode.querySelectorAll(
             "select"
           )[0] as HTMLSelectElement;
