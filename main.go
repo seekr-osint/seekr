@@ -27,10 +27,6 @@ var dataBase = make(api.DataBase)
 var version string
 
 func main() {
-	err := discord.Rich()
-	if err != nil {
-		fmt.Printf("%s", err)
-	}
 	if version != "" {
 		fmt.Printf("Welcome to seekr v%s\n", version)
 	} else {
@@ -41,6 +37,8 @@ func main() {
 	data := flag.String("db", "data", "Database location")
 	port := flag.Uint64("port", 8569, "Port to serve API on")
 	enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
+
+	enableRichCord := flag.Bool("discord", true, "Enable the discord rich appearance")
 
 	forcePort := flag.Bool("forcePort", false, "forcePort")
 	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
@@ -53,6 +51,13 @@ func main() {
 		plugins = strings.Split(pluginList, ",")
 	}
 	flag.Parse()
+	if *enableRichCord {
+		err := discord.Rich()
+		if err == nil {
+			//fmt.Printf("%s\n", err)
+			fmt.Printf("setting discord status\n")
+		}
+	}
 
 	apiConfig, err := api.ApiConfig{
 		Server: server.Server{
