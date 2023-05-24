@@ -100,6 +100,7 @@
               ];
 
               vendorSha256 = "sha256-s1oe7qesJkCYZJqHOcFqE5KZ3jnUp9fwc89lBtD0NXI=";
+
             };
           });
 
