@@ -63,7 +63,6 @@ for (const [className, nodeList] of Object.entries(elements)) {
           for (let k = 0; k < y.length; k++) {
             console.log(this.innerHTML)
             //console.log(this.getAttribute("lng-tag").charAt(0).toUpperCase() + string.slice(1))
-            console.log(translateText(this.innerHTML))
             console.log(y.options[k].innerHTML)
             // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
             // value is basically .innerHTML translated to English
