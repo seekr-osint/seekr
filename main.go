@@ -54,8 +54,9 @@ func main() {
 	if *enableRichCord {
 		err := discord.Rich()
 		if err == nil {
+			// No error printing due it printing an error if discord is not running / installed
 			//fmt.Printf("%s\n", err)
-			fmt.Printf("setting discord status\n")
+			fmt.Printf("Setting discord rich presence\n")
 		}
 	}
 
