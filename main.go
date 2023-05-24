@@ -29,7 +29,7 @@ var version string
 func main() {
 	err := discord.Rich()
 	if err != nil {
-		panic(err)
+		fmt.Printf("%s", err)
 	}
 	if version != "" {
 		fmt.Printf("Welcome to seekr v%s\n", version)
