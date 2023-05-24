@@ -15,6 +15,7 @@ require (
 	github.com/likexian/whois v1.15.0
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
 	github.com/nyaruka/phonenumbers v1.1.7
+	github.com/pelletier/go-toml v1.9.5
 	github.com/projectdiscovery/subfinder/v2 v2.5.8
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5

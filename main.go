@@ -11,6 +11,8 @@ import (
 	"strings"
 
 	api "github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api/config"
+
 	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
@@ -32,19 +34,24 @@ func main() {
 	} else {
 		fmt.Printf("Welcome to seekr unstable\nplease note that this version of seekr is NOT officially supported\n")
 	}
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		fmt.Printf("Failed to load config: %s\n", err)
+		return
+	}
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
-	ip := flag.String("ip", "localhost", "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
+	ip := flag.String("ip", cfg.Server.Ip, "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")
-	port := flag.Uint64("port", 8569, "Port to serve API on")
+	port := flag.Uint64("port", cfg.Server.Port, "Port to serve the API on")
 	enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 
-	enableRichCord := flag.Bool("discord", true, "Enable the discord rich appearance")
+	browser := flag.Bool("browser", cfg.General.Browser, "open up the html interface in the default web browser")
+	forcePort := flag.Bool("forcePort", cfg.General.ForcePort, "forcePort")
 
-	forcePort := flag.Bool("forcePort", false, "forcePort")
+	enableRichCord := flag.Bool("discord", true, "Enable the discord rich appearance")
 	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 	enableApiServer := true
 	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
-	browser := flag.Bool("browser", true, "open up the html interface in the default web browser")
 	pluginList := os.Getenv("SEEKR_PLUGINS")
 	plugins := []string{}
 	if pluginList != "" {
