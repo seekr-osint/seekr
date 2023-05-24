@@ -21,7 +21,7 @@ type ApiConfig struct {
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
 	Testing        bool          `json:"testing"`
 	BadgerDBLogger badger.Logger `json:"badger_db_logger"`
-	Parsers 			 []func(ApiConfig) (ApiConfig,error)
+	Parsers        []func(ApiConfig) (ApiConfig, error)
 }
 type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
 type ApiKeys struct {
