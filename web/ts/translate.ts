@@ -99,3 +99,8 @@ function translateElement(element: HTMLElement): void {
   const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
   translator.translateElement(element);
 }
+
+function translateText(word: string): string | undefined {
+  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+  return translator.translateText(word);
+}
