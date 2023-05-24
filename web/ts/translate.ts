@@ -99,3 +99,15 @@ function translateElement(element: HTMLElement): void {
   const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
   translator.translateElement(element);
 }
+
+function translateText(word: string): string | undefined {
+  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+  return translator.translateText(word);
+}
+
+function translateRawWord(word: string): string | undefined {
+  word = word.toLowerCase().replace(/ /g, "_").replace(/:/g, "colon");
+
+  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+  return translator.translateText(word);
+}

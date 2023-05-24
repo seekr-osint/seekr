@@ -397,19 +397,19 @@ function createCards(obj: any) {
 
     viewNameTag.value = obj.name;
 
-    viewGender.innerHTML = "Gender: " + obj.gender;
-    viewAge.innerHTML = "Age: " + obj.age;
-    viewBday.innerHTML = "Birthdate: " + obj.bday;
-    viewAddress.innerHTML = "Address: " + obj.address;
-    viewCivilStatus.innerHTML = "Civil stand: " + obj.civilstatus;
-    viewKids.innerHTML = "Kids: " + obj.kids;
-    viewOccupation.innerHTML = "Occupation: " + obj.occupation;
-    viewPrevOccupation.innerHTML = "Previous Occupation: " + obj.prevoccupation;
-    viewEducation.innerHTML = "Education: " + obj.education;
-    viewReligion.innerHTML = "Religion: " + obj.religion;
-    viewPets.innerHTML = "Pets: " + obj.pets;
-    viewLegal.innerHTML = "Legal: " + obj.legal;
-    viewPolitical.innerHTML = "Political: " + obj.political;
+    viewGender.innerHTML = translateRawWord("Gender:")! + translateRawWord(obj.gender);
+    viewAge.innerHTML = translateRawWord("Age:")! + obj.age;
+    viewBday.innerHTML = translateRawWord("Birthdate:")! + obj.bday;
+    viewAddress.innerHTML = translateRawWord("Address:")! + obj.address;
+    viewCivilStatus.innerHTML = translateRawWord("Civil stand:")! + translateRawWord(obj.civilstatus);
+    viewKids.innerHTML = translateRawWord("Kids:")! + obj.kids;
+    viewOccupation.innerHTML = translateRawWord("Occupation:")! + obj.occupation;
+    viewPrevOccupation.innerHTML = translateRawWord("Previous Occupation:")! + obj.prevoccupation;
+    viewEducation.innerHTML = translateRawWord("Education:")! + obj.education;
+    viewReligion.innerHTML = translateRawWord("Religion:")! + translateRawWord(obj.religion);
+    viewPets.innerHTML = translateRawWord("Pets:")! + obj.pets;
+    viewLegal.innerHTML = translateRawWord("Legal:")! + obj.legal;
+    viewPolitical.innerHTML = translateRawWord("Political:")! + obj.political;
     viewNotes.innerHTML = obj.notes;
 
 
@@ -900,7 +900,7 @@ function createCards(obj: any) {
       if (genderIndex != undefined) {
         const genderElement = selectItems.children[parseInt(genderIndex)];
 
-        selectSelected.innerHTML = obj.gender;
+        selectSelected.innerHTML = translateRawWord(obj.gender)!;
         genderElement.className = "same-as-selected";
       }
     }
@@ -1000,7 +1000,7 @@ function createCards(obj: any) {
       if (civilstatusIndex != undefined) {
         const civilstatusElement = selectItems!.children[parseInt(civilstatusIndex)];
 
-        selectSelected!.innerHTML = obj.civilstatus;
+        selectSelected!.innerHTML = translateRawWord(obj.civilstatus)!;
         civilstatusElement.className = "same-as-selected";
       }
     }
@@ -1098,7 +1098,7 @@ function createCards(obj: any) {
       if (religionIndex != undefined) {
         const religionElement = selectItems.children[parseInt(religionIndex)];
 
-        selectSelected.innerHTML = obj.religion;
+        selectSelected.innerHTML = translateRawWord(obj.religion)!;
         religionElement.className = "same-as-selected";
       }
     }
