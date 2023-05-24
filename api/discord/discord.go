@@ -10,19 +10,20 @@ func Rich() error {
 	if err != nil {
 		return err
 	}
+	timeNow := time.Now()
 	err = client.SetActivity(client.Activity{
 		State:      "Gathering data...",
 		Details:    "Multi-purpose OSINT toolkit.",
 		LargeImage: "seekr-logo",
 		LargeText:  "seekr-osint",
 		Buttons: []*client.Button{
-			&client.Button{
+			{
 				Label: "GitHub",
 				Url:   "https://github.com/seekr-osint/seekr",
 			},
 		},
 		Timestamps: &client.Timestamps{
-			Start: time.Now(),
+			Start: &timeNow,
 		},
 	})
 
