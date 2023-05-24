@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	api "github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
 	"github.com/seekr-osint/seekr/seekrplugin"
@@ -37,6 +38,8 @@ func main() {
 	port := flag.Uint64("port", 8569, "Port to serve API on")
 	enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 
+	enableRichCord := flag.Bool("discord", true, "Enable the discord rich appearance")
+
 	forcePort := flag.Bool("forcePort", false, "forcePort")
 	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 	enableApiServer := true
@@ -48,6 +51,14 @@ func main() {
 		plugins = strings.Split(pluginList, ",")
 	}
 	flag.Parse()
+	if *enableRichCord {
+		err := discord.Rich()
+		if err == nil {
+			// No error printing due it printing an error if discord is not running / installed
+			//fmt.Printf("%s\n", err)
+			fmt.Printf("Setting discord rich presence\n")
+		}
+	}
 
 	apiConfig, err := api.ApiConfig{
 		Server: server.Server{
