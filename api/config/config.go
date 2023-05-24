@@ -4,11 +4,14 @@ import (
 	"os"
 	"path/filepath"
 
+	"errors"
 	"github.com/pelletier/go-toml"
+	"runtime"
 )
 
 var (
 	EmptyConfig = Config{}
+	ErrHome     = errors.New("unable to determine home directory")
 )
 
 func LoadConfig() (*Config, error) {
@@ -22,18 +25,34 @@ func LoadConfig() (*Config, error) {
 			Browser:   true,
 		},
 	}
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return nil, err
+
+	var homeDir string
+	var err error
+
+	if runtime.GOOS == "windows" {
+		homeDir, err = os.UserHomeDir()
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		homeDir = os.Getenv("HOME")
+		if homeDir == "" {
+			return nil, ErrHome
+		}
 	}
 
-	configPath := filepath.Join(homeDir, ".config", "seekr", "config.toml")
+	configPath := ""
+	if runtime.GOOS == "windows" {
+		configPath = filepath.Join(homeDir, "AppData", "Local", "seekr", "config.toml")
+	} else {
+		configPath = filepath.Join(homeDir, ".config", "seekr", "config.toml")
+	}
+
 	config, err := toml.LoadFile(configPath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return defaultConfig, nil
 		}
-
 		return nil, err
 	}
 
