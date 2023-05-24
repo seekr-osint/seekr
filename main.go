@@ -48,7 +48,6 @@ func main() {
 	browser := flag.Bool("browser", cfg.General.Browser, "open up the html interface in the default web browser")
 	forcePort := flag.Bool("forcePort", cfg.General.ForcePort, "forcePort")
 
-
 	enableRichCord := flag.Bool("discord", true, "Enable the discord rich appearance")
 	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 	enableApiServer := true
