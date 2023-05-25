@@ -12,9 +12,10 @@ func GetConfigPath() (string, error) {
 		return "", err
 	}
 
-	configPath := filepath.Join(configDir, "seekr", "config.toml")
+	configPath := filepath.Join(configDir, "config.toml")
 	return configPath, nil
 }
+
 
 func GetConfigDir() (string, error) {
 	xdgConfigHome := os.Getenv("XDG_CONFIG_HOME")

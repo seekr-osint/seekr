@@ -35,10 +35,11 @@ func main() {
 		fmt.Printf("Welcome to seekr unstable\nplease note that this version of seekr is NOT officially supported\n")
 	}
 	cfg, err := config.LoadConfig()
-	if err != nil {
+	if err != nil && err != config.ErrNoConfigFile {
 		fmt.Printf("Failed to load config: %s\n", err)
 		return
 	}
+	configError := err
 	// dir := flag.String("dir", "./web", "dir where the html source code is located")
 	ip := flag.String("ip", cfg.Server.Ip, "Ip to serve api + webServer on (0.0.0.0 or localhost usually)")
 	data := flag.String("db", "data", "Database location")
@@ -48,7 +49,9 @@ func main() {
 	browser := flag.Bool("browser", cfg.General.Browser, "open up the html interface in the default web browser")
 	forcePort := flag.Bool("forcePort", cfg.General.ForcePort, "forcePort")
 
-	enableRichCord := flag.Bool("discord", true, "Enable the discord rich appearance")
+	createConfig := flag.Bool("createConfigFile", false, "create toml config file if it doesn't exsist")
+
+	enableRichCord := flag.Bool("discord", cfg.General.Discord, "Enable the discord rich appearance")
 	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
 	enableApiServer := true
 	// webserverPort := flag.String("webserverPort", "5050", "Port to serve webserver on")
@@ -58,6 +61,12 @@ func main() {
 		plugins = strings.Split(pluginList, ",")
 	}
 	flag.Parse()
+	if configError == config.ErrNoConfigFile && *createConfig {
+		err = config.CreateConfig()
+		if err != nil {
+			fmt.Printf("error: %s\n",err)
+		}
+	}
 	if *enableRichCord {
 		err := discord.Rich()
 		if err == nil {

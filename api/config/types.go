@@ -7,6 +7,8 @@ type Server struct {
 type General struct {
 	ForcePort bool `toml:"force_port" default:"false"`
 	Browser   bool `toml:"browser" default:"true"`
+	Discord 	bool `toml:"discord" default:"true"`
+	//CreateConfigFile bool `toml:"create_config_file" default:"false"` // not needed
 }
 type Config struct {
 	Server  Server  `toml:"server"`
