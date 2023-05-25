@@ -13,6 +13,7 @@ require (
 	github.com/google/go-github/v50 v50.2.0
 	github.com/hugolgst/rich-go v0.0.0-20210925091458-d59fb695d9c0
 	github.com/likexian/whois v1.15.0
+	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
 	github.com/nyaruka/phonenumbers v1.1.7
 	github.com/pelletier/go-toml v1.9.5
