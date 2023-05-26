@@ -39,12 +39,16 @@ func LoadConfig() (Config, error) {
 	return cfg, nil
 }
 
-func CreateConfig() error {
+func CreateDefaultConfig() error {
+	return CreateConfig(DefaultConfig())
+}
+
+func CreateConfig(config Config) error {
 	configPath, err := GetConfigPath()
 	if err != nil {
 		return err
 	}
-	err = createFolderAndFile(configPath, DefaultConfig().String())
+	err = createFolderAndFile(configPath, config.String())
 	if err != nil {
 		fmt.Printf("Error creating file: %s\n", err)
 	} else {

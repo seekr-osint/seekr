@@ -62,7 +62,7 @@ func main() {
 	}
 	flag.Parse()
 	if configError == config.ErrNoConfigFile && *createConfig {
-		err = config.CreateConfig()
+		err = config.CreateDefaultConfig()
 		if err != nil {
 			fmt.Printf("error: %s\n", err)
 		}
