@@ -22,7 +22,6 @@ func (c Config) String() string {
 	}
 	return string(tomlString)
 }
-
 func (c Config) Markdown() string {
 	var sb strings.Builder
 	if c.String() == "" {
@@ -34,7 +33,7 @@ func (c Config) Markdown() string {
 	return sb.String()
 }
 
-func (config Config) CreateConfig() error {
+func (config Config) WriteConfig() error {
 	configPath, err := GetConfigPath()
 	if err != nil {
 		return err
@@ -45,5 +44,9 @@ func (config Config) CreateConfig() error {
 	} else {
 		fmt.Printf("Config file sucessfully created at %s.\n", configPath)
 	}
+	return nil
+}
+
+func (c Config) Validate() error {
 	return nil
 }

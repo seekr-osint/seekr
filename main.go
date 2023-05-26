@@ -77,6 +77,7 @@ func main() {
 	}
 
 	apiConfig, err := api.ApiConfig{
+		Config:    cfg,
 		Server: server.Server{
 			Ip:        *ip,
 			Port:      uint16(*port),

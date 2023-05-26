@@ -40,7 +40,7 @@ func LoadConfig() (Config, error) {
 }
 
 func CreateDefaultConfig() error {
-	return DefaultConfig().CreateConfig()
+	return DefaultConfig().WriteConfig()
 }
 
 func createFolderAndFile(filePath string, text string) error {
