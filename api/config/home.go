@@ -16,7 +16,6 @@ func GetConfigPath() (string, error) {
 	return configPath, nil
 }
 
-
 func GetConfigDir() (string, error) {
 	xdgConfigHome := os.Getenv("XDG_CONFIG_HOME")
 	if xdgConfigHome != "" {
@@ -28,7 +27,13 @@ func GetConfigDir() (string, error) {
 		return "", err
 	}
 
-	return filepath.Join(homeDir, ".config", "seekr"), nil
+	pathVar := filepath.Join(homeDir, ".config", "seekr")
+
+	if runtime.GOOS == "windows" {
+		pathVar = filepath.Join(homeDir, "AppData", "Local", "seekr")
+	}
+
+	return pathVar, nil
 }
 
 func GetHomeDir() (string, error) {

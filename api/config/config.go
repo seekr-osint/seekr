@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
+	"path/filepath"
 
 	"errors"
 
@@ -17,24 +17,23 @@ var (
 	ErrNoConfigFile = errors.New("no config file")
 )
 
-func LoadConfig() (*Config, error) {
+func LoadConfig() (Config, error) {
 	cfg := DefaultConfig()
 
 	configPath, err := GetConfigPath()
 	if err != nil {
-		return nil, err
+		return cfg, err
 	}
 
 	config, err := toml.LoadFile(configPath)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return cfg, ErrNoConfigFile
-		}
-		return nil, err
+		// This is bad, but os.IsNotExist() doesnt work here
+		fmt.Printf("Error loading config file: %s\n", err)
+		return cfg, ErrNoConfigFile
 	}
 
 	if err := config.Unmarshal(&cfg); err != nil {
-		return nil, err
+		return DefaultConfig(), err
 	}
 
 	return cfg, nil
@@ -47,7 +46,7 @@ func CreateConfig() error {
 	}
 	err = createFolderAndFile(configPath, DefaultConfig().String())
 	if err != nil {
-		fmt.Printf("Error: %s\n", err)
+		fmt.Printf("Error creating file: %s\n", err)
 	} else {
 		fmt.Printf("Config file sucessfully created at %s.\n", configPath)
 	}
@@ -55,7 +54,9 @@ func CreateConfig() error {
 }
 
 func createFolderAndFile(filePath string, text string) error {
-	err := os.MkdirAll(path.Dir(filePath), 0755)
+	fmt.Printf("Creating file at %s.\n", filePath)
+
+	err := os.MkdirAll(filepath.Dir(filePath), os.ModePerm)
 	if err != nil {
 		return err
 	}

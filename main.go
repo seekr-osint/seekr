@@ -49,7 +49,7 @@ func main() {
 	browser := flag.Bool("browser", cfg.General.Browser, "open up the html interface in the default web browser")
 	forcePort := flag.Bool("forcePort", cfg.General.ForcePort, "forcePort")
 
-	createConfig := flag.Bool("createConfigFile", false, "create toml config file if it doesn't exsist")
+	createConfig := flag.Bool("writeDefaultConfig", false, "create toml config file containing the default config if the config is invalid or doesn't exsist")
 
 	enableRichCord := flag.Bool("discord", cfg.General.Discord, "Enable the discord rich appearance")
 	//enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
@@ -64,7 +64,7 @@ func main() {
 	if configError == config.ErrNoConfigFile && *createConfig {
 		err = config.CreateConfig()
 		if err != nil {
-			fmt.Printf("error: %s\n",err)
+			fmt.Printf("error: %s\n", err)
 		}
 	}
 	if *enableRichCord {

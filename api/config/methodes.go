@@ -8,11 +8,11 @@ import (
 	"github.com/pelletier/go-toml"
 )
 
-func DefaultConfig() *Config {
+func DefaultConfig() Config {
 	config := new(Config)
 	defaults.SetDefaults(config)
 
-	return config
+	return *config
 }
 
 func (c Config) String() string {
@@ -28,8 +28,8 @@ func (c Config) Markdown() string {
 	if c.String() == "" {
 		return ""
 	}
-	
-	sb.WriteString(fmt.Sprintf("```toml\n%s\n```",c.String()))
-	
+
+	sb.WriteString(fmt.Sprintf("```toml\n%s\n```", c.String()))
+
 	return sb.String()
 }

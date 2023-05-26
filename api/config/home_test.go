@@ -4,10 +4,15 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
 func TestGetConfigPath(t *testing.T) {
+
+	if runtime.GOOS == "windows" {
+		t.Skipf("windows")
+	}
 	tempDir := t.TempDir()
 	os.Setenv("XDG_CONFIG_HOME", tempDir)
 
@@ -22,6 +27,10 @@ func TestGetConfigPath(t *testing.T) {
 }
 
 func TestGetConfigDir(t *testing.T) {
+
+	if runtime.GOOS == "windows" {
+		t.Skipf("windows")
+	}
 	tempDir := t.TempDir()
 	os.Setenv("XDG_CONFIG_HOME", tempDir)
 
@@ -36,6 +45,9 @@ func TestGetConfigDir(t *testing.T) {
 }
 
 func TestGetHomeDir(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skipf("windows")
+	}
 	// Test GetHomeDir on Linux
 	homeDir, err := GetHomeDir()
 	if err != nil {
