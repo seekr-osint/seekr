@@ -7,7 +7,36 @@
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
-	"id": "2"
+	"accounts": null,
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": null,
+	"custom": null,
+	"education": "",
+	"email": null,
+	"gender": "",
+	"hobbies": null,
+	"id": "2",
+	"ips": null,
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": null,
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": null,
+	"tags": null
 }'
 ```
 
@@ -152,14 +181,45 @@ curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
+	"address": "",
 	"age": 10,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": null,
+	"custom": null,
+	"education": "",
 	"email": {
 		"fsdfadsfasdfasdf@gmail.com": {
-			"mail": "fsdfadsfasdfasdf@gmail.com"
+			"mail": "fsdfadsfasdfasdf@gmail.com",
+			"provider": "",
+			"services": null,
+			"skipped_services": null,
+			"src": "",
+			"valid": false,
+			"value": 0
 		}
 	},
+	"gender": "",
+	"hobbies": null,
 	"id": "10",
-	"name": "Email test"
+	"ips": null,
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "Email test",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": null,
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": null,
+	"tags": null
 }'
 ```
 
@@ -589,6 +649,66 @@ curl -X GET http://localhost:8080/getAccounts/snapchat-exsists
 **Status Code:** 200
 
 
+## Get the current seekr config
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/config
+```
+
+**Response:**
+
+```json
+{
+	"general": {
+		"browser": true,
+		"discord": true,
+		"force_port": false
+	},
+	"server": {
+		"ip": "localhost",
+		"port": 8569
+	}
+}
+```
+
+**Status Code:** 200
+
+
+## Get the current seekr config
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/config \
+-H 'Content-Type: application/json' \
+-d '{
+	"general": {
+		"browser": true,
+		"discord": true,
+		"force_port": false
+	},
+	"server": {
+		"ip": "localhost",
+		"port": 8569
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "updated config"
+}
+```
+
+**Status Code:** 202
+
+
 ## Post Person (civil status)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 
@@ -652,8 +772,36 @@ Possible values are: Single,Married,Widowed,Divorced,Separated
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
+	"accounts": null,
+	"address": "",
+	"age": 0,
+	"bday": "",
 	"civilstatus": "Invalid",
-	"id": "16"
+	"clubs": null,
+	"custom": null,
+	"education": "",
+	"email": null,
+	"gender": "",
+	"hobbies": null,
+	"id": "16",
+	"ips": null,
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": null,
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": null,
+	"tags": null
 }'
 ```
 
@@ -699,8 +847,36 @@ Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_t
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
+	"accounts": null,
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": null,
+	"custom": null,
+	"education": "",
+	"email": null,
+	"gender": "",
+	"hobbies": null,
 	"id": "17",
-	"religion": "invalid"
+	"ips": null,
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": null,
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "Invalid",
+	"sources": null,
+	"tags": null
 }'
 ```
 
@@ -724,8 +900,36 @@ Possible values are: Male,Female,Other
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
+	"accounts": null,
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": null,
+	"custom": null,
+	"education": "",
+	"email": null,
 	"gender": "Invalid",
-	"id": "19"
+	"hobbies": null,
+	"id": "18",
+	"ips": null,
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": null,
+	"pictures": null,
+	"political": "",
+	"prevoccupation": "",
+	"relations": null,
+	"religion": "",
+	"sources": null,
+	"tags": null
 }'
 ```
 

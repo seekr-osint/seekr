@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/github"
 	"github.com/seekr-osint/seekr/api/server"
@@ -17,6 +18,7 @@ var DatabaseFile string
 
 func TestApi(dataBase DataBase) {
 	apiConfig, err := ApiConfig{
+		Config: config.DefaultConfig(),
 		Server: server.Server{
 			Ip:   "0.0.0.0",
 			Port: uint16(8080),
@@ -77,6 +79,8 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
 	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
+	config.GinRouter.POST("/config", Handler(PostConfig, config))                                // post config
+	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // post config
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
 	if err != nil {
@@ -156,6 +160,10 @@ func MarkdownPersonRequest(config ApiConfig, c *gin.Context) {
 	}
 }
 
+func GetConfig(apiConfig ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, apiConfig.Config)
+}
+
 func GetPersonByIDRequest(config ApiConfig, c *gin.Context) {
 	person, err := config.GetPerson(c.Param("id"))
 	if err != nil {
@@ -223,6 +231,39 @@ func GetAccounts(config ApiConfig, username string) Accounts {
 
 func GetAccountsRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, GetAccounts(config, strings.ToLower(c.Param("username"))))
+}
+
+func PostConfig(apiConfig ApiConfig, c *gin.Context) { // c.BindJSON is a person not people (POST "localhost:8080/person")
+	var cfg config.Config
+
+	// exit if the json is invalid
+	if err := c.BindJSON(&cfg); err != nil {
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid cfg"})
+		return
+	}
+	err := cfg.Validate()
+	if err != nil {
+		apiErr := err.(errortypes.APIError)
+		c.IndentedJSON(apiErr.Status, gin.H{"message": apiErr.Message})
+		return
+	}
+
+	// Testing
+	if apiConfig.Testing {
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "updated config"})
+		return
+	}
+
+	err = cfg.WriteConfig()
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("error writing config: %s", err)})
+		return
+	} else {
+		log.Printf("updated config")
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "updated config"})
+		return
+	}
+
 }
 
 // THIS HAS NO C.PARAM("id")

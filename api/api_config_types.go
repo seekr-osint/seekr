@@ -3,12 +3,14 @@ package api
 import (
 	"github.com/dgraph-io/badger/v4"
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/server"
 )
 
 type SaveDBFunc func(ApiConfig) error
 type LoadDBFunc func(ApiConfig) (ApiConfig, error)
 type ApiConfig struct {
+	Config         config.Config `json:"config"`
 	Server         server.Server `json:"server"`
 	LogFile        string        `json:"log_file"`
 	DataBaseFile   string        `json:"data_base_file"`

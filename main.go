@@ -62,7 +62,7 @@ func main() {
 	}
 	flag.Parse()
 	if configError == config.ErrNoConfigFile && *createConfig {
-		err = config.CreateConfig()
+		err = config.CreateDefaultConfig()
 		if err != nil {
 			fmt.Printf("error: %s\n", err)
 		}
@@ -77,6 +77,7 @@ func main() {
 	}
 
 	apiConfig, err := api.ApiConfig{
+		Config:    cfg,
 		Server: server.Server{
 			Ip:        *ip,
 			Port:      uint16(*port),

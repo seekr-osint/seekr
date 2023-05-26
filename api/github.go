@@ -3,20 +3,24 @@ package api
 import (
 	"context"
 	"encoding/json"
+
 	//"errors"
 	"errors"
 	"fmt"
+
 	"golang.org/x/oauth2"
 
 	//"fmt"
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/go-git/go-git/v5/storage/memory"
+
 	//"github.com/gofri/go-github-ratelimit/github_ratelimit"
-	"github.com/google/go-github/v50/github"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/google/go-github/v50/github"
 	//"sync"
 	//"github.com/go-git/go-git/v5/plumbing"
 )
@@ -321,7 +325,6 @@ func GithubInfoDeep2(username string, fork bool) EmailsType {
 				},
 			}
 		}
-		//}
 		return foundEmailArray
 	}
 	return EmailsType{}
