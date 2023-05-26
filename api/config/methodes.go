@@ -33,3 +33,17 @@ func (c Config) Markdown() string {
 
 	return sb.String()
 }
+
+func (config Config) CreateConfig() error {
+	configPath, err := GetConfigPath()
+	if err != nil {
+		return err
+	}
+	err = createFolderAndFile(configPath, config.String())
+	if err != nil {
+		fmt.Printf("Error creating file: %s\n", err)
+	} else {
+		fmt.Printf("Config file sucessfully created at %s.\n", configPath)
+	}
+	return nil
+}
