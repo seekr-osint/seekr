@@ -17,12 +17,12 @@ var (
 	ErrNoConfigFile = errors.New("no config file")
 )
 
-func LoadConfig() (*Config, error) {
+func LoadConfig() (Config, error) {
 	cfg := DefaultConfig()
 
 	configPath, err := GetConfigPath()
 	if err != nil {
-		return nil, err
+		return DefaultConfig(), err
 	}
 
 	config, err := toml.LoadFile(configPath)
@@ -32,8 +32,8 @@ func LoadConfig() (*Config, error) {
 		return cfg, ErrNoConfigFile
 	}
 
-	if err := config.Unmarshal(&cfg); err != nil {
-		return nil, err
+	if err := config.Unmarshal(cfg); err != nil {
+		return DefaultConfig(), err
 	}
 
 	return cfg, nil
