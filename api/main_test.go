@@ -142,6 +142,17 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"message": "updated config"},
 		StatusCode:       202,
 	},
+
+	"8d-info": { // No id
+		RequestType: "GET",
+		Name:        "Get info about seekr",
+		URL:         "http://localhost:8080/info",
+		PostData:    functions.Interface(config.DefaultConfig()),
+		//ExpectedResponse: functions.Interface(config.DefaultConfig()),
+		//ExpectedResponse: config.DefaultConfig().Interface(),
+		ExpectedResponse: map[string]interface{}{"version": "0.0.1"},
+		StatusCode:       200,
+	},
 	"9a-postPerson": { // ID 15
 		RequestType:      "POST",
 		Name:             "Post Person (civil status)",
