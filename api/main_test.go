@@ -23,10 +23,10 @@ func waitForFile() {
 
 var requests = Requests{
 	"1-postPerson": { // ID 2
-		RequestType:      "POST",
-		Name:             "Post Person",
-		URL:              "http://localhost:8080/person",
-		PostData:         functions.Interface(Person{
+		RequestType: "POST",
+		Name:        "Post Person",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
 			ID: "2",
 		}),
 		//ExpectedResponse: functions.ParsedConfigInterface(Person{
@@ -60,15 +60,15 @@ var requests = Requests{
 		StatusCode:       404,
 	},
 	"5-email": { // ID 10
-		RequestType:                "POST",
-		Name:                       "Post person with included email",
-		URL:                        "http://localhost:8080/person",
-		PostData: 									functions.Interface(Person{
+		RequestType: "POST",
+		Name:        "Post person with included email",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
 			Name: "Email test",
-			ID: "10",
+			ID:   "10",
 			Email: EmailsType{
-				"fsdfadsfasdfasdf@gmail.com" : Email{
-					Mail: "fsdfadsfasdfasdf@gmail.com",	
+				"fsdfadsfasdfasdf@gmail.com": Email{
+					Mail: "fsdfadsfasdfasdf@gmail.com",
 				},
 			},
 			Age: 10,
@@ -130,7 +130,17 @@ var requests = Requests{
 		PostData:         nil,
 		ExpectedResponse: functions.Interface(config.DefaultConfig()),
 		//ExpectedResponse: config.DefaultConfig().Interface(),
-		StatusCode:       200,
+		StatusCode: 200,
+	},
+	"8c-config": { // No id
+		RequestType: "POST",
+		Name:        "Get the current seekr config",
+		URL:         "http://localhost:8080/config",
+		PostData:    functions.Interface(config.DefaultConfig()),
+		//ExpectedResponse: functions.Interface(config.DefaultConfig()),
+		//ExpectedResponse: config.DefaultConfig().Interface(),
+		ExpectedResponse: map[string]interface{}{"message": "updated config"},
+		StatusCode:       202,
 	},
 	"9a-postPerson": { // ID 15
 		RequestType:      "POST",
@@ -142,12 +152,12 @@ var requests = Requests{
 		StatusCode:       201,
 	},
 	"9b-postPerson": { // ID 16
-		RequestType:      "POST",
-		Name:             "Post Person (invalid civil status)",
-		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
-		URL:              "http://localhost:8080/person",
-		PostData:         functions.Interface(Person{
-			ID: "16",
+		RequestType: "POST",
+		Name:        "Post Person (invalid civil status)",
+		Comment:     "Possible values are: Single,Married,Widowed,Divorced,Separated",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID:          "16",
 			Civilstatus: "Invalid",
 		}),
 		ExpectedResponse: map[string]interface{}{"message": "Invalid civil status"},
@@ -162,24 +172,24 @@ var requests = Requests{
 		StatusCode:       400,
 	},
 	"9d-postPerson": { // ID 17
-		RequestType:      "POST",
-		Name:             "Post Person (invalid religion)",
-		Comment:          "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
-		URL:              "http://localhost:8080/person",
-		PostData:         functions.Interface(Person{
-			ID: "17",
+		RequestType: "POST",
+		Name:        "Post Person (invalid religion)",
+		Comment:     "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID:       "17",
 			Religion: "Invalid",
 		}),
 		ExpectedResponse: map[string]interface{}{"message": "Invalid religion"},
 		StatusCode:       400,
 	},
 	"9f-postPerson": { // ID 18
-		RequestType:      "POST",
-		Name:             "Post Person (invalid Gender)",
-		Comment:          "Possible values are: Male,Female,Other",
-		URL:              "http://localhost:8080/person",
-		PostData:         functions.Interface(Person{
-			ID: "18",
+		RequestType: "POST",
+		Name:        "Post Person (invalid Gender)",
+		Comment:     "Possible values are: Male,Female,Other",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID:     "18",
 			Gender: "Invalid",
 		}),
 		ExpectedResponse: map[string]interface{}{"message": "Invalid gender"},

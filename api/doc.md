@@ -677,6 +677,38 @@ curl -X GET http://localhost:8080/config
 **Status Code:** 200
 
 
+## Get the current seekr config
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/config \
+-H 'Content-Type: application/json' \
+-d '{
+	"general": {
+		"browser": true,
+		"discord": true,
+		"force_port": false
+	},
+	"server": {
+		"ip": "localhost",
+		"port": 8569
+	}
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "updated config"
+}
+```
+
+**Status Code:** 202
+
+
 ## Post Person (civil status)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 
