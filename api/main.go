@@ -79,7 +79,8 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
 	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
-	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // post api config
+	config.GinRouter.POST("/config", Handler(PostConfig, config))                                // post config
+	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // post config
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
 	if err != nil {
