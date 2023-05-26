@@ -709,6 +709,26 @@ curl -X POST http://localhost:8080/config \
 **Status Code:** 202
 
 
+## Get info about seekr
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/info
+```
+
+**Response:**
+
+```json
+{
+	"version": "0.0.1"
+}
+```
+
+**Status Code:** 200
+
+
 ## Post Person (civil status)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 

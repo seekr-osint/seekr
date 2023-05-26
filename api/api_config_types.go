@@ -10,6 +10,7 @@ import (
 type SaveDBFunc func(ApiConfig) error
 type LoadDBFunc func(ApiConfig) (ApiConfig, error)
 type ApiConfig struct {
+	Version        string        `json:"version"`
 	Config         config.Config `json:"config"`
 	Server         server.Server `json:"server"`
 	LogFile        string        `json:"log_file"`
