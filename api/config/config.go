@@ -1,66 +1,69 @@
 package config
 
 import (
+	"fmt"
+	"io/ioutil"
 	"os"
-	"path/filepath"
+	"path"
 
 	"errors"
+
 	"github.com/pelletier/go-toml"
-	"runtime"
 )
 
 var (
-	EmptyConfig = Config{}
-	ErrHome     = errors.New("unable to determine home directory")
+	EmptyConfig     = Config{}
+	ErrHome         = errors.New("unable to determine home directory")
+	ErrNoConfigFile = errors.New("no config file")
 )
 
 func LoadConfig() (*Config, error) {
-	defaultConfig := &Config{
-		Server: Server{
-			Ip:   "localhost",
-			Port: 8569,
-		},
-		General: General{
-			ForcePort: false,
-			Browser:   true,
-		},
-	}
+	cfg := DefaultConfig()
 
-	var homeDir string
-	var err error
-
-	if runtime.GOOS == "windows" {
-		homeDir, err = os.UserHomeDir()
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		homeDir = os.Getenv("HOME")
-		if homeDir == "" {
-			return nil, ErrHome
-		}
-	}
-
-	configPath := ""
-	if runtime.GOOS == "windows" {
-		configPath = filepath.Join(homeDir, "AppData", "Local", "seekr", "config.toml")
-	} else {
-		configPath = filepath.Join(homeDir, ".config", "seekr", "config.toml")
+	configPath, err := GetConfigPath()
+	if err != nil {
+		return nil, err
 	}
 
 	config, err := toml.LoadFile(configPath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return defaultConfig, nil
+			return cfg, ErrNoConfigFile
 		}
 		return nil, err
 	}
-
-	var cfg = *defaultConfig
 
 	if err := config.Unmarshal(&cfg); err != nil {
 		return nil, err
 	}
 
-	return &cfg, nil
+	return cfg, nil
+}
+
+func CreateConfig() error {
+	configPath, err := GetConfigPath()
+	if err != nil {
+		return err
+	}
+	err = createFolderAndFile(configPath, DefaultConfig().String())
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
+	} else {
+		fmt.Printf("Config file sucessfully created at %s.\n", configPath)
+	}
+	return nil
+}
+
+func createFolderAndFile(filePath string, text string) error {
+	err := os.MkdirAll(path.Dir(filePath), 0755)
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(filePath, []byte(text), 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
