@@ -13,15 +13,21 @@ var apiUrl = "http://" + baseUrl;
 
 
 // Listen for messages on the broadcast channel
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
 
 channel.addEventListener("message", (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
     
     document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
   }
 });
+
+if (!localStorage.getItem("language")) {
+  setLanguage("en"); // Default language
+}
 
 // Interface for IonIcons
 interface IonIconElement extends HTMLElement {
@@ -393,19 +399,19 @@ function createCards(obj: any) {
 
     viewNameTag.value = obj.name;
 
-    viewGender.innerHTML = "Gender: " + obj.gender;
-    viewAge.innerHTML = "Age: " + obj.age;
-    viewBday.innerHTML = "Birthdate: " + obj.bday;
-    viewAddress.innerHTML = "Address: " + obj.address;
-    viewCivilStatus.innerHTML = "Civil stand: " + obj.civilstatus;
-    viewKids.innerHTML = "Kids: " + obj.kids;
-    viewOccupation.innerHTML = "Occupation: " + obj.occupation;
-    viewPrevOccupation.innerHTML = "Previous Occupation: " + obj.prevoccupation;
-    viewEducation.innerHTML = "Education: " + obj.education;
-    viewReligion.innerHTML = "Religion: " + obj.religion;
-    viewPets.innerHTML = "Pets: " + obj.pets;
-    viewLegal.innerHTML = "Legal: " + obj.legal;
-    viewPolitical.innerHTML = "Political: " + obj.political;
+    viewGender.innerHTML = translateRawWord("Gender:")! + translateRawWord(obj.gender);
+    viewAge.innerHTML = translateRawWord("Age:")! + obj.age;
+    viewBday.innerHTML = translateRawWord("Birthdate:")! + obj.bday;
+    viewAddress.innerHTML = translateRawWord("Address:")! + obj.address;
+    viewCivilStatus.innerHTML = translateRawWord("Civil stand:")! + translateRawWord(obj.civilstatus);
+    viewKids.innerHTML = translateRawWord("Kids:")! + obj.kids;
+    viewOccupation.innerHTML = translateRawWord("Occupation:")! + obj.occupation;
+    viewPrevOccupation.innerHTML = translateRawWord("Previous Occupation:")! + obj.prevoccupation;
+    viewEducation.innerHTML = translateRawWord("Education:")! + obj.education;
+    viewReligion.innerHTML = translateRawWord("Religion:")! + translateRawWord(obj.religion);
+    viewPets.innerHTML = translateRawWord("Pets:")! + obj.pets;
+    viewLegal.innerHTML = translateRawWord("Legal:")! + obj.legal;
+    viewPolitical.innerHTML = translateRawWord("Political:")! + obj.political;
     viewNotes.innerHTML = obj.notes;
 
 
@@ -619,7 +625,6 @@ function createCards(obj: any) {
           phone_input.className = "form-input v-phone";
           phone_input.id = "v-phone";
           phone_input.type = "phone";
-          phone_input.placeholder = "Enter phone number";
           phone_input.value = phoneVar.number;
           phone_input.disabled = true;
 
@@ -728,8 +733,6 @@ function createCards(obj: any) {
           email_input.className = "form-input v-mail";
           email_input.id = "v-e-mail";
           email_input.type = "email";
-          email_input.placeholder = "Enter email address";
-          email_input.spellcheck = false;
           email_input.required = true;
           email_input.value = emailVar.mail;
           email_input.disabled = true;
@@ -899,7 +902,7 @@ function createCards(obj: any) {
       if (genderIndex != undefined) {
         const genderElement = selectItems.children[parseInt(genderIndex)];
 
-        selectSelected.innerHTML = obj.gender;
+        selectSelected.innerHTML = translateRawWord(obj.gender)!;
         genderElement.className = "same-as-selected";
       }
     }
@@ -928,6 +931,7 @@ function createCards(obj: any) {
         phone_input.type = "tel";
         phone_input.placeholder = "Enter phone number";
         phone_input.spellcheck = false;
+        phone_input.setAttribute("lng-tag", "enter_phone_number")
         phone_input.required = true;
         phone_input.value = phoneVar.number;
 
@@ -947,6 +951,8 @@ function createCards(obj: any) {
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -963,6 +969,7 @@ function createCards(obj: any) {
       phone_input.type = "tel";
       phone_input.placeholder = "Enter phone number";
       phone_input.spellcheck = false;
+      phone_input.setAttribute("lng-tag", "enter_phone_number")
       //phone_input.maxLength = "15"; // FIXME some formattings can have more then 15 chars.
       phone_input.required = true;
 
@@ -981,6 +988,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         phone_container.remove();
       }
+
+      refreshTranslation();
     }
 
     if (obj.civilstatus != "") {
@@ -993,7 +1002,7 @@ function createCards(obj: any) {
       if (civilstatusIndex != undefined) {
         const civilstatusElement = selectItems!.children[parseInt(civilstatusIndex)];
 
-        selectSelected!.innerHTML = obj.civilstatus;
+        selectSelected!.innerHTML = translateRawWord(obj.civilstatus)!;
         civilstatusElement.className = "same-as-selected";
       }
     }
@@ -1019,6 +1028,7 @@ function createCards(obj: any) {
         hobby_input.id = "e-hobby";
         hobby_input.placeholder = "Enter hobby";
         hobby_input.spellcheck = false;
+        hobby_input.setAttribute("lng-tag", "enter_hobby")
         hobby_input.value = hobbyVar.hobby;
 
         const del_btn_div = document.createElement("div");
@@ -1033,10 +1043,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1052,6 +1063,7 @@ function createCards(obj: any) {
       hobby_input.id = "hobby";
       hobby_input.type = "text";
       hobby_input.placeholder = "Enter hobby";
+      hobby_input.setAttribute("lng-tag", "enter_hobby")
       hobby_input.spellcheck = false;
       hobby_input.required = true;
 
@@ -1070,6 +1082,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         hobby_container.remove();
       }
+
+      refreshTranslation();
     }
     
     editOccupation.innerHTML = obj.occupation;
@@ -1086,7 +1100,7 @@ function createCards(obj: any) {
       if (religionIndex != undefined) {
         const religionElement = selectItems.children[parseInt(religionIndex)];
 
-        selectSelected.innerHTML = obj.religion;
+        selectSelected.innerHTML = translateRawWord(obj.religion)!;
         religionElement.className = "same-as-selected";
       }
     }
@@ -1113,6 +1127,7 @@ function createCards(obj: any) {
         club_input.type = "text";
         club_input.placeholder = "Enter club";
         club_input.spellcheck = false;
+        club_input.setAttribute("lng-tag", "enter_club")
         club_input.value = clubVar.club;
 
         const del_btn_div = document.createElement("div");
@@ -1127,10 +1142,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1147,6 +1163,7 @@ function createCards(obj: any) {
       club_input.type = "text";
       club_input.placeholder = "Enter club";
       club_input.spellcheck = false;
+      club_input.setAttribute("lng-tag", "enter_club")
       club_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1164,6 +1181,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         club_container.remove();
       }
+
+      refreshTranslation();
     }
 
     editLegal.innerHTML = obj.legal;
@@ -1189,6 +1208,7 @@ function createCards(obj: any) {
         source_input.type = "text";
         source_input.placeholder = "Enter source";
         source_input.spellcheck = false;
+        source_input.setAttribute("lng-tag", "enter_source")
         source_input.value = sourceVar.url;
 
         const del_btn_div = document.createElement("div");
@@ -1203,10 +1223,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1223,6 +1244,7 @@ function createCards(obj: any) {
       source_input.type = "text";
       source_input.placeholder = "Enter source";
       source_input.spellcheck = false;
+      source_input.setAttribute("lng-tag", "enter_source")
       source_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1240,6 +1262,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         source_container.remove();
       }
+
+      refreshTranslation();
     }
 
     editNotes.innerHTML = obj.notes;
@@ -1264,6 +1288,7 @@ function createCards(obj: any) {
         ip_input.type = "text";
         ip_input.placeholder = "Enter IP";
         ip_input.spellcheck = false;
+        ip_input.setAttribute("lng-tag", "enter_ip")
         ip_input.value = ipVar.ip;
 
         const del_btn_div = document.createElement("div");
@@ -1278,10 +1303,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1298,6 +1324,7 @@ function createCards(obj: any) {
       ip_input.type = "text";
       ip_input.placeholder = "Enter IP";
       ip_input.spellcheck = false;
+      ip_input.setAttribute("lng-tag", "enter_ip")
       ip_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1315,6 +1342,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         ip_container.remove();
       }
+
+      refreshTranslation();
     }
 
     // Email
@@ -1337,6 +1366,7 @@ function createCards(obj: any) {
         email_input.type = "email";
         email_input.placeholder = "Enter email address";
         email_input.spellcheck = false;
+        email_input.setAttribute("lng-tag", "enter_email_address")
         email_input.required = true;
         email_input.value = emailVar.mail;
 
@@ -1360,10 +1390,11 @@ function createCards(obj: any) {
           container.appendChild(hidden_email_save);
         }
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1384,6 +1415,7 @@ function createCards(obj: any) {
       email_input.type = "email";
       email_input.placeholder = "Enter email address";
       email_input.spellcheck = false;
+      email_input.setAttribute("lng-tag", "enter_email_address")
       email_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1405,6 +1437,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         email_container.remove();
       }
+
+      refreshTranslation();
     }
 
     // Accounts
@@ -1538,7 +1572,8 @@ function createCards(obj: any) {
                 email_input.id = "e-mail";
                 email_input.type = "email";
                 email_input.placeholder = "Enter email address";
-
+                email_input.spellcheck = false;
+                email_input.setAttribute("lng-tag", "enter_email_address")
                 email_input.value = obj.mail;
 
                 const del_btn_div = document.createElement("div");
@@ -1562,6 +1597,8 @@ function createCards(obj: any) {
                 del_btn_div.onclick = function () {
                   email_container.remove();
                 }
+
+                refreshTranslation();
               }
             } else if (res.status == 403 && data["fatal"] == "rate limited") {
               deepInvResIcon.name = "timer-outline";
@@ -2002,6 +2039,8 @@ document.getElementById("c-club-add-btn")!.onclick = function () {
   club_input.id = "club";
   club_input.type = "text";
   club_input.placeholder = "Enter club";
+  club_input.spellcheck = false;
+  club_input.setAttribute("lng-tag", "enter_club")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2018,6 +2057,8 @@ document.getElementById("c-club-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     club_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Sources
@@ -2036,6 +2077,8 @@ document.getElementById("c-source-add-btn")!.onclick = function () {
   source_input.id = "source";
   source_input.type = "text";
   source_input.placeholder = "Enter source";
+  source_input.spellcheck = false;
+  source_input.setAttribute("lng-tag", "enter_source")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2052,6 +2095,8 @@ document.getElementById("c-source-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     source_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // IPs
@@ -2070,6 +2115,8 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   ip_input.id = "ip";
   ip_input.type = "text";
   ip_input.placeholder = "Enter IP";
+  ip_input.spellcheck = false;
+  ip_input.setAttribute("lng-tag", "enter_ip")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2086,6 +2133,8 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     ip_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Phone
@@ -2105,6 +2154,7 @@ document.getElementById("c-phone-add-btn")!.onclick = function () {
   phone_input.type = "tel";
   phone_input.placeholder = "Enter phone number";
   phone_input.spellcheck = false;
+  phone_input.setAttribute("lng-tag", "enter_phone_number")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2121,6 +2171,8 @@ document.getElementById("c-phone-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     phone_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Hobbies
@@ -2140,6 +2192,7 @@ document.getElementById("c-hobby-add-btn")!.onclick = function () {
   hobby_input.type = "tel";
   hobby_input.placeholder = "Enter hobby";
   hobby_input.spellcheck = false;
+  hobby_input.setAttribute("lng-tag", "enter_hobby")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2156,6 +2209,8 @@ document.getElementById("c-hobby-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     hobby_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // IPs
@@ -2175,6 +2230,7 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   ip_input.type = "tel";
   ip_input.placeholder = "Enter IP";
   ip_input.spellcheck = false;
+  ip_input.setAttribute("lng-tag", "enter_ip")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2191,6 +2247,8 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     ip_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Email
@@ -2210,10 +2268,7 @@ document.getElementById("c-add-btn")!.onclick = function () {
   email_input.type = "email";
   email_input.placeholder = "Enter email address";
   email_input.spellcheck = false;
-
-
-
-  email_input.autocomplete = "off";
+  email_input.setAttribute("lng-tag", "enter_email_address")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2238,6 +2293,8 @@ document.getElementById("c-add-btn")!.onclick = function () {
   subContainer.appendChild(email_input);
   subContainer.appendChild(del_btn_div);
   del_btn_div.appendChild(del_btn);
+  
+  refreshTranslation();
 }
 
 

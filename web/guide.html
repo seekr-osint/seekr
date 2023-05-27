@@ -15,12 +15,13 @@
     <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script type="module" src="./dist/theme_loader.js"></script>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/guide.css">
     <script type="module" src="./dist/framework.js" defer></script>
     <script type="module" src="./dist/guide.js" defer></script>
 
-    <script type="module" src="./dist/theme_loader.js"></script>
+    <script src="./dist/translate.js"></script>
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -30,7 +31,7 @@
       }
     </script>
   </head>
-  <body>
+  <body onload="translate()">
     <div class="dd-nav-bar-top"></div>
     <div class="dd-nav-bar">
       <div class="country-select">
@@ -38,7 +39,7 @@
           <option value="0">Select country:</option>
           <option value="WW">WorldWide</option>
           <option value="UK">United Kingdom</option>
-          <option value="US">United States of America</option>
+          <option value="US">United States</option>
           <option value="CA">Canada</option>
         </select>
       </div>
@@ -52,7 +53,7 @@
             </label>
           </div>
   
-          <p class="desc-text">Name</p>
+          <p class="desc-text" lng-tag="name">Name</p>
         </div>
 
         <div class="form-option">
@@ -63,7 +64,7 @@
             </label>
           </div>
   
-          <p class="desc-text">Address</p>
+          <p class="desc-text" lng-tag="address">Address</p>
         </div>
 
         <div class="form-option">
@@ -74,7 +75,7 @@
             </label>
           </div>
   
-          <p class="desc-text">Phone</p>
+          <p class="desc-text" lng-tag="phone">Phone</p>
         </div>
 
         <div class="form-option">
@@ -85,7 +86,7 @@
             </label>
           </div>
   
-          <p class="desc-text">VIN</p>
+          <p class="desc-text" lng-tag="vin">VIN</p>
         </div>
 
         <div class="form-option">
@@ -96,7 +97,7 @@
             </label>
           </div>
   
-          <p class="desc-text">Business</p>
+          <p class="desc-text" lng-tag="business">Business</p>
         </div>
 
         <div class="form-option">
@@ -107,7 +108,7 @@
             </label>
           </div>
   
-          <p class="desc-text">IP</p>
+          <p class="desc-text" lng-tag="ip">IP</p>
         </div>
 
         <div class="form-option">
@@ -118,7 +119,7 @@
             </label>
           </div>
   
-          <p class="desc-text">Username</p>
+          <p class="desc-text" lng-tag="username">Username</p>
         </div>
 
         <div class="form-option">
@@ -129,7 +130,7 @@
             </label>
           </div>
   
-          <p class="desc-text">Domain</p>
+          <p class="desc-text" lng-tag="domain">Domain</p>
         </div>
       </div>
     </div>
