@@ -58,16 +58,17 @@ function createThemeCards(theme: string) {
 
 const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
 
-function checkLanguage(): "en" | "de" | "gd" | undefined {
+function checkLanguage(): "en" | "de" | "gd" | "la" | undefined {
   if (document) {
     if (selectedLanguage) {
-      const languages: { [key: string]: "en" | "de" | "gd" } = {};
+      const languages: { [key: string]: "en" | "de" | "gd" | "la" } = {};
 
       // English
 
       languages["English"] = "en";
       languages["German"] = "de";
       languages["Gaelic"] = "gd";
+      languages["Latin"] = "la";
 
       // Translations
 
@@ -75,6 +76,7 @@ function checkLanguage(): "en" | "de" | "gd" | undefined {
         languages[translateText("english")!] = "en";
         languages[translateText("german")!] = "de";
         languages[translateText("gaelic")!] = "gd";
+        languages[translateText("latin")!] = "la";
       }
 
       return languages[selectedLanguage.innerHTML];
