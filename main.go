@@ -12,6 +12,7 @@ import (
 
 	api "github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
+	"github.com/seekr-osint/seekr/tray"
 
 	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
@@ -29,6 +30,7 @@ var dataBase = make(api.DataBase)
 var version string
 
 func main() {
+	tray.Start()
 	if version != "" {
 		fmt.Printf("Welcome to seekr v%s\n", version)
 	} else {
