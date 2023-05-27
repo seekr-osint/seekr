@@ -1,5 +1,15 @@
 const channel = new BroadcastChannel("seekr-channel");
 
+channel.addEventListener('message', (event) => {
+  if (event.data.type === "theme") {
+    const theme = event.data.theme;
+
+    document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
+  }
+});
+
 const themeCardContainer = document.querySelector(".theme-option") as HTMLDivElement;
 
 function changeTheme(theme: string): void {
