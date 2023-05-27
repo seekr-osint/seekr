@@ -10,9 +10,10 @@ import (
 	"runtime"
 	"strings"
 
-	api "github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/seekrd"
+	seekrdhandler "github.com/seekr-osint/seekr/api/seekrdHandler"
 
 	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
@@ -112,15 +113,19 @@ func main() {
 	}
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
 	seekrdInstance := seekrd.SeekrdInstance{
-		Interval: 1,
+		Interval:  1,
 		ApiConfig: seekrd.ApiConfig(&apiConfig),
 		Services: seekrd.SeekrdServices{
 			seekrd.SeekrdService{
 				Name: "test",
-				Func: seekrd.SeekrdFunc(func(apiConfig seekrd.ApiConfig) (seekrd.ApiConfig,error) { 
-					//fmt.Printf("hello") 
-					return apiConfig,nil
-				}),
+				Func: seekrd.SeekrdFunc(seekrdhandler.Handler(func(apiConfig *api.ApiConfig) error {
+					//apiConfig.DataBase["1"] = api.Person{
+					//ID:   "1",
+					//Name: "hacker supa hack hack hack",
+					//}
+					fmt.Printf("seekrd\n")
+					return nil
+				})),
 				Repeat: true,
 			},
 		},
