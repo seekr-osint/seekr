@@ -1,4 +1,4 @@
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
 
 const themeCardContainer = document.querySelector(".theme-option") as HTMLDivElement;
 
@@ -46,19 +46,56 @@ function createThemeCards(theme: string) {
   }
 }
 
+const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
+
 function checkLanguage(): "en" | "de" | undefined {
   if (document) {
-    const selectedLanguage = document.querySelector(".select-selected");
-
     if (selectedLanguage) {
       const languages: { [key: string]: "en" | "de" } = {};
+
+      // English
 
       languages["English"] = "en";
       languages["German"] = "de";
 
+      // Translations
+
+      if (languages[selectedLanguage.innerHTML] == undefined) {
+        languages[translateText("english")!] = "en";
+        languages[translateText("german")!] = "de";
+      }
+
       return languages[selectedLanguage.innerHTML];
     }
   }
+}
+
+function handleLanguageChange() {
+  const language = checkLanguage();
+
+  if (language) {
+    const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html", "./settings.html"];
+
+    setLanguage(language);
+
+    translate();
+
+    targetFilePaths.forEach(targetFilePath => {
+      channel.postMessage({ type: "language", targetFilePath, language });
+    });
+  }
+}
+
+function preLanguageChangeHandler () {
+  if (selectedLanguage && selectedLanguage.innerHTML != "") {
+    handleLanguageChange();
+  }
+}
+
+if (selectedLanguage) {
+  setTimeout(() => {
+    selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
+  }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
 }
 
 export { createThemeCards, changeTheme, checkLanguage };

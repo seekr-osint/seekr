@@ -17,10 +17,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/settings.css">
+    <link rel="stylesheet" href="./css/guide.css">
+    <script type="module" src="./dist/framework.js" defer></script>
 
     <script type="module" src="./dist/theme_loader.js"></script>
 
     <script type="module" src="./dist/settings.js" defer></script>
+
+    <script src="./dist/translate.js"></script>
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -31,12 +35,12 @@
     </script>
   </head>
 
-  <body>
+  <body onload="translate()">
     <div class="chip settings-table">
       <div class="settings-option themes">
         <!-- Theme selection -->
 
-        <p class="settings-name">Themes</p>
+        <p class="settings-name" lng-tag="themes">Themes</p>
 
         <div class="theme-option chip">
           <!-- Theme cards will be loaded into here -->
@@ -48,10 +52,11 @@
       <div class="settings-option">
         <!-- Change language -->
 
-        <p class="settings-name">Language</p>
+        <p class="settings-name" lng-tag="language">Language</p>
 
         <div class="language-select">
           <select>
+            <option value="0">Select language:</option>
             <option value="EN">English</option>
             <option value="DE">German</option>
           </select>

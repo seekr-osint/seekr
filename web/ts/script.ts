@@ -13,13 +13,15 @@ var apiUrl = "http://" + baseUrl;
 
 
 // Listen for messages on the broadcast channel
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
 
 channel.addEventListener("message", (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
     
     document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
   }
 });
 

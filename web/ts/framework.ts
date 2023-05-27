@@ -61,9 +61,11 @@ for (const [className, nodeList] of Object.entries(elements)) {
           for (let k = 0; k < y.length; k++) {
             //console.log(this.getAttribute("lng-tag").charAt(0).toUpperCase() + string.slice(1))
             // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
-            // value is basically .innerHTML translated to English
-            let value = this.getAttribute("lng-tag")!.charAt(0).toUpperCase() + this.getAttribute("lng-tag")!.slice(1)
-            if (y.options[k].innerHTML == value!) { //translateText(this.innerHTML)) {
+            
+            let value = this.getAttribute("lng-tag");
+            let value2 = y.options[k].innerHTML.toLowerCase().replace(/\s/g, "_"); // Value2 converts y.options[k].innerHTML into lng-tag syntax
+
+            if (value == value2!) { //translateText(this.innerHTML)) {
               y.selectedIndex = k;
               h.innerHTML = this.innerHTML;
               let yl = this.parentNode.querySelector(".same-as-selected") as HTMLSelectElement;

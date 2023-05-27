@@ -9,7 +9,6 @@
   "a_lightweight_version_of_seekr": "Eine vereinfachte Version von SEEKR",
   "barebones_database_view": "Grundlegende Datenbankansicht",
   "works_on_mobile_devices": "Funktioniert auf mobilen Geräten",
-
   "no_results_found": "Keine Ergebnisse gefunden...",
   "export": "Exportieren",
   "new": "Neu",
@@ -66,8 +65,20 @@
   "select_civil_status_colon": "Wähle einen Zivilstatus:",
   "select_religion_colon": "Wähle eine Religion:",
   "select_country_colon": "Wähle ein Land:",
+  "select_language_colon": "Wähle eine Sprache:",
   "worldwide": "WeltWeit",
   "united_kingdom": "Vereinigtes Königreich",
   "united_states": "Vereinigte Staaten",
-  "canada": "Kanada"
+  "canada": "Kanada",
+  "name": "Name",
+  "address": "Adresse",
+  "vin": "VIN",
+  "business": "Unternehmen",
+  "ip": "IP",
+  "username": "Nutzername",
+  "domain": "Domain",
+  "themes": "Farbschema",
+  "language": "Sprache",
+  "english": "Englisch",
+  "german": "Deutsch"
 }
