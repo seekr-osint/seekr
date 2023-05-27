@@ -2,6 +2,7 @@
 
 [general]
   browser = true
+  database = "./data"
   discord = true
   force_port = false
 

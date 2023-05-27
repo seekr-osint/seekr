@@ -109,7 +109,6 @@ func ServeApi(config ApiConfig) {
 }
 
 func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
-
 	if c.Param("username") != "" {
 		deep := github.DeepInvestigation{
 			Username:  c.Param("username"),
@@ -143,7 +142,7 @@ func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 			//c.IndentedJSON(http.StatusOK, map[string]interface{}{"rate_limit_rate": fmt.Sprintf("%d", rateLimitRate), "emails": emails})
 			c.IndentedJSON(http.StatusOK, apiEmails.Parse())
 		}
-	}
+	} // else error FIXME
 }
 
 func GetPersonByID(config ApiConfig, id string) (bool, Person) {
