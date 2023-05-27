@@ -1,4 +1,14 @@
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
+
+channel.addEventListener('message', (event) => {
+  if (event.data.type === "theme") {
+    const theme = event.data.theme;
+
+    document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
+  }
+});
 
 const themeCardContainer = document.querySelector(".theme-option") as HTMLDivElement;
 
@@ -46,4 +56,58 @@ function createThemeCards(theme: string) {
   }
 }
 
-export { createThemeCards, changeTheme };
+const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
+
+function checkLanguage(): "en" | "de" | "gd" | undefined {
+  if (document) {
+    if (selectedLanguage) {
+      const languages: { [key: string]: "en" | "de" | "gd" } = {};
+
+      // English
+
+      languages["English"] = "en";
+      languages["German"] = "de";
+      languages["Gaelic"] = "gd";
+
+      // Translations
+
+      if (languages[selectedLanguage.innerHTML] == undefined) {
+        languages[translateText("english")!] = "en";
+        languages[translateText("german")!] = "de";
+        languages[translateText("gaelic")!] = "gd";
+      }
+
+      return languages[selectedLanguage.innerHTML];
+    }
+  }
+}
+
+function handleLanguageChange() {
+  const language = checkLanguage();
+
+  if (language) {
+    const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html", "./settings.html"];
+
+    setLanguage(language);
+
+    translate();
+
+    targetFilePaths.forEach(targetFilePath => {
+      channel.postMessage({ type: "language", targetFilePath, language });
+    });
+  }
+}
+
+function preLanguageChangeHandler () {
+  if (selectedLanguage && selectedLanguage.innerHTML != "") {
+    handleLanguageChange();
+  }
+}
+
+if (selectedLanguage) {
+  setTimeout(() => {
+    selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
+  }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
+}
+
+export { createThemeCards, changeTheme, checkLanguage };
