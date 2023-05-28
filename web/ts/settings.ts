@@ -132,6 +132,10 @@ function apiCall(endpoint: string): string {
 
 }
 
+function sleep(delay: number) {
+    var start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+}
 
 // SEEKR config stuff
 
@@ -148,14 +152,7 @@ interface SeekrConfig {
 }
 
 async function restartSeekr(): Promise<void> {
-  const response = await fetch(apiCall('/restart')).then(response => {
-  if (response.ok) {
-    response.json().then(json => {
-      console.log(json);
-    });
-  }
-});
-;
+  await fetch(apiCall('/restart'));
   return;
 }
 
@@ -226,6 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const message = await postSeekrConfig(newConfig);
       console.log('Response:', message);
       restartSeekr();
+      sleep(1000);
+      parent.location.reload();
     });
   }
 });
