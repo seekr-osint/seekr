@@ -77,6 +77,24 @@ function translate(): void {
   translator.translateAllElements();
 }
 
+// This function will be called when the user clicks to change the language
+function onLoadTranslate(): void {
+  let lang = localStorage.getItem("language");
+
+  if (!lang) {
+    lang = "en";
+    
+    setLanguage(lang);
+  } else if (lang == "en") {
+    return;
+  }
+
+  console.log(lang);
+
+  const translator = new Translate("lng-tag", lang);
+  translator.translateAllElements();
+}
+
 // This function is used to refresh translation
 function refreshTranslation(): void {
   let lang = localStorage.getItem("language");
