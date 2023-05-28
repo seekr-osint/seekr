@@ -10,6 +10,7 @@ import (
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/github"
+	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
@@ -36,7 +37,7 @@ func TestApi(dataBase DataBase) {
 		LoadDBFunc:    DefaultLoadDB,
 		SaveDBFunc:    DefaultSaveDB,
 		Testing:       true,
-		Version: 			"0.0.1",
+		Version:       "0.0.1",
 	}.Parse()
 	if err != nil {
 		log.Fatalf("Error parsing test config: %s", err)
@@ -82,7 +83,8 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
 	config.GinRouter.POST("/config", Handler(PostConfig, config))                                // post config
 	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // get config
-	config.GinRouter.GET("/info", Handler(GetInfo, config))                                  		 // get info
+	config.GinRouter.GET("/info", Handler(GetInfo, config))                                      // get info
+	config.GinRouter.GET("/restart", Handler(RestartBin, config))                                // Restart seekr
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
 	if err != nil {
@@ -166,6 +168,17 @@ func GetInfo(apiConfig ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, map[string]interface{}{
 		"version": apiConfig.Version,
 	})
+}
+
+func RestartBin(apiConfig ApiConfig, c *gin.Context) {
+	err := restart.RestartBinary()
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, map[string]string{
+			"error": "faild to restart",
+		})
+		return
+	}
+	c.IndentedJSON(http.StatusOK, apiConfig.Config)
 }
 
 func GetConfig(apiConfig ApiConfig, c *gin.Context) {
