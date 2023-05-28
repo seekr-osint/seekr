@@ -128,7 +128,7 @@ func main() {
 	}
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
 	seekrdInstance := seekrd.SeekrdInstance{
-		Interval:  1,
+		Interval:  30,
 		ApiConfig: seekrd.ApiConfig(&apiConfig),
 		Services: seekrd.SeekrdServices{
 			seekrd.SeekrdService{
@@ -138,7 +138,6 @@ func main() {
 					//ID:   "1",
 					//Name: "hacker supa hack hack hack",
 					//}
-					fmt.Printf("seekrd\n")
 					return nil
 				})),
 				Repeat: true,
