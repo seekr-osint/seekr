@@ -147,16 +147,26 @@ interface SeekrConfig {
   };
 }
 
-// Function to get the current seekr config
+async function restartSeekr(): Promise<void> {
+  const response = await fetch(apiCall('/restart')).then(response => {
+  if (response.ok) {
+    response.json().then(json => {
+      console.log(json);
+    });
+  }
+});
+;
+  return;
+}
+
 async function getCurrentConfig(): Promise<SeekrConfig> {
   const response = await fetch(apiCall('/config'));
   const data = await response.json();
   return data as SeekrConfig;
 }
 
-// Function to post a seekr config
 async function postSeekrConfig(config: SeekrConfig): Promise<string> {
-  const response = await fetch(apiCall('config'), {
+  const response = await fetch(apiCall('/config'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -215,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const newConfig = await getUpdatedSeekrConfig();
       const message = await postSeekrConfig(newConfig);
       console.log('Response:', message);
+      restartSeekr();
     });
   }
 });
