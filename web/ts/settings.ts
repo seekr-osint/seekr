@@ -116,8 +116,108 @@ if (selectedLanguage) {
   }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
 }
 
-function changePort() {
-  
+
+
+
+
+function apiCall(endpoint: string): string {
+  var hostname = window.location.hostname;
+  var port = window.location.port;
+  var baseUrl = hostname + ":" + port;
+  var apiUrl = "http://" + baseUrl;
+  if (endpoint.charAt(0) === "/") {
+    endpoint = endpoint.substring(1);
+  } 
+  return apiUrl + '/' + endpoint
+
 }
+
+
+// SEEKR config stuff
+
+interface SeekrConfig {
+  general: {
+    browser: boolean;
+    discord: boolean;
+    force_port: boolean;
+  };
+  server: {
+    ip: string;
+    port: number;
+  };
+}
+
+// Function to get the current seekr config
+async function getCurrentConfig(): Promise<SeekrConfig> {
+  const response = await fetch(apiCall('/config'));
+  const data = await response.json();
+  return data as SeekrConfig;
+}
+
+// Function to post a seekr config
+async function postSeekrConfig(config: SeekrConfig): Promise<string> {
+  const response = await fetch(apiCall('config'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(config),
+  });
+  const data = await response.json();
+  return data.message;
+}
+
+function setValues(config: SeekrConfig): void {
+  // Port
+  const portInput = document.getElementById("port-tag") as HTMLInputElement;
+  if (portInput) {
+    portInput.value = config.server.port.toString();
+  }
+
+  // Port
+  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
+
+  if (ipInput) {
+    ipInput.value = config.server.ip.toString();
+  }
+}
+
+function getValues(): { port: number, ip: string } {
+  const portInput = document.getElementById("port-tag") as HTMLInputElement;
+  const port = parseInt(portInput.value, 10);
+
+  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
+  const ip = ipInput.value;
+
+  return { port, ip };
+}
+
+async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
+  let currentConfig = await getCurrentConfig();
+  const values = getValues();
+
+  currentConfig.server.ip = values.ip;
+  currentConfig.server.port = values.port;
+
+  return currentConfig;
+}
+
+(async () => {
+  const currentConfig = await getCurrentConfig();
+  console.log('Current Config:', currentConfig);
+  setValues(currentConfig);
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const saveBtn = document.getElementById('settings-savebtn-p');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', async () => {
+      const newConfig = await getUpdatedSeekrConfig();
+      const message = await postSeekrConfig(newConfig);
+      console.log('Response:', message);
+    });
+  }
+});
+
 
 export { createThemeCards, changeTheme, checkLanguage };

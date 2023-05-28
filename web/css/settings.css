@@ -39,7 +39,8 @@
 
 /* Port selection */
 
-.port-tag {
+.port-tag,
+.ip-tag {
     font-size: 1.4rem;
     color: var(--textColor-1);
     outline: none;
@@ -47,9 +48,21 @@
     margin-right: 1rem;
     background: transparent;
     border: none;
+    resize: none; /* Prevent manual resizing */
+    overflow: hidden; /* Hide extra text when the input is small */
 }
 
-.port-tag::placeholder {
+@media screen and (max-width: 480px) {
+  .ip-tag {
+    font-size: 1.2rem;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+
+.port-tag::placeholder,
+ip-tag::placeholder  {
     color: var(--textColor-1);
 }
 
@@ -57,6 +70,12 @@
     width: 9.5rem;
     height: 3rem;
 }
+
+.ip-chip{
+    width: 40rem!important;
+    height: 3rem;
+}
+
 
 /* Theme selection */
 
