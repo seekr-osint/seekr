@@ -677,7 +677,7 @@ curl -X GET http://localhost:8080/config
 **Status Code:** 200
 
 
-## Get the current seekr config
+## Post a seekr config
 
 
 **Curl Request:**
