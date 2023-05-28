@@ -18,20 +18,20 @@ import (
 )
 
 func (ver SchematicVersion) GetLatest() SchematicVersion {
-		latestVersion, err := GetLatestSeekrVersion()
-		if err != nil {
-			log.Printf("error getting latest seekr version: %s\n", ver)
-		}
-		return latestVersion
+	latestVersion, err := GetLatestSeekrVersion()
+	if err != nil {
+		log.Printf("error getting latest seekr version: %s\n", ver)
+	}
+	return latestVersion
 }
 
 func (ver SchematicVersion) IsLatest() bool { // false if error
-		latestVersion, err := GetLatestSeekrVersion()
-		if err != nil {
-			log.Printf("error getting latest seekr version: %s\n", ver)
-			return false
-		}
-		return ver.Latest(latestVersion)
+	latestVersion, err := GetLatestSeekrVersion()
+	if err != nil {
+		log.Printf("error getting latest seekr version: %s\n", ver)
+		return false
+	}
+	return ver.Latest(latestVersion)
 
 }
 func (ver SchematicVersion) DownloadURL() string {
@@ -146,7 +146,6 @@ const (
 	archAmd64   = "amd64"
 	archArm64   = "arm64"
 )
-
 
 func GetStats() (string, string) {
 	var platform, arch string

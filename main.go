@@ -10,8 +10,10 @@ import (
 	"runtime"
 	"strings"
 
-	api "github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
+	"github.com/seekr-osint/seekr/api/seekrd"
+	seekrdhandler "github.com/seekr-osint/seekr/api/seekrdHandler"
 	"github.com/seekr-osint/seekr/api/version"
 
 	"github.com/seekr-osint/seekr/api/discord"
@@ -125,7 +127,25 @@ func main() {
 		openbrowser(fmt.Sprintf("http://%s:%d/web/index.html", apiConfig.Server.Ip, apiConfig.Server.Port))
 	}
 	//fmt.Println("Welcome to seekr a powerful OSINT tool able to scan the web for " + strconv.Itoa(len(api.DefaultServices)) + "services")
-	go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
+	seekrdInstance := seekrd.SeekrdInstance{
+		Interval:  30,
+		ApiConfig: seekrd.ApiConfig(&apiConfig),
+		Services: seekrd.SeekrdServices{
+			seekrd.SeekrdService{
+				Name: "test",
+				Func: seekrd.SeekrdFunc(seekrdhandler.Handler(func(apiConfig *api.ApiConfig) error {
+					//apiConfig.DataBase["1"] = api.Person{
+					//ID:   "1",
+					//Name: "hacker supa hack hack hack",
+					//}
+					return nil
+				})),
+				Repeat: true,
+			},
+		},
+	}
+	go seekrdInstance.SeekrdTicker()
+	//go api.Seekrd(api.DefaultSeekrdServices, 30) // run every 30 minutes
 	api.ServeApi(apiConfig)
 }
 
