@@ -144,7 +144,7 @@ var requests = Requests{
 		RequestType:      "GET",
 		Name:             "Get info about seekr",
 		URL:              "http://localhost:8080/info",
-		ExpectedResponse: map[string]interface{}{"version": "0.0.1"},
+		ExpectedResponse: map[string]interface{}{"download_url": "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64", "is_latest": true, "latest": "0.0.1", "version": "0.0.1"},
 		StatusCode:       200,
 	},
 	"9a-postPerson": { // ID 15
