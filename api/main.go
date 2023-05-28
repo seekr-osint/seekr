@@ -189,6 +189,9 @@ func GetInfo(apiConfig ApiConfig, c *gin.Context) {
 }
 
 func RestartBin(apiConfig ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, map[string]string{
+		"status": "restarting",
+	})
 	err := restart.RestartBinary()
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, map[string]string{
@@ -196,7 +199,7 @@ func RestartBin(apiConfig ApiConfig, c *gin.Context) {
 		})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, apiConfig.Config)
+	//c.IndentedJSON(http.StatusOK, nil)
 }
 
 func GetConfig(apiConfig ApiConfig, c *gin.Context) {
