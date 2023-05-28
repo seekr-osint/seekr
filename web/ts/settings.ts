@@ -1,10 +1,16 @@
-const defaultWhiteTheme = document.getElementById("default-white-theme");
-const defaultDarkTheme = document.getElementById("default-dark-theme");
+const channel = new BroadcastChannel("seekr-channel");
 
-const nordDarkTheme = document.getElementById("nord-dark-theme");
+channel.addEventListener('message', (event) => {
+  if (event.data.type === "theme") {
+    const theme = event.data.theme;
 
-const channel = new BroadcastChannel("theme-channel");
+    document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
+  }
+});
 
+const themeCardContainer = document.querySelector(".theme-option") as HTMLDivElement;
 
 function changeTheme(theme: string): void {
   // Get the file path of the target iframe
@@ -18,23 +24,96 @@ function changeTheme(theme: string): void {
   document.documentElement.setAttribute("data-theme", theme);
 }
 
+function createThemeCards(theme: string) {
+  if (themeCardContainer ) {
+    const themeCardOuter = document.createElement("div") as HTMLDivElement;
+    themeCardOuter.id = `${theme}-theme`;
+    themeCardOuter.classList.add("theme-card", "big-card", "chip");
+    themeCardOuter.dataset.theme = theme;
 
-if (defaultWhiteTheme) {
-  defaultWhiteTheme.addEventListener("click", () => {
-    changeTheme("default-white");
-  });
+    const themeCardInner = document.createElement("div") as HTMLDivElement;
+    themeCardInner.classList.add("theme-card", "small-card", "chip");
+    themeCardInner.dataset.theme = theme;
+
+    const themeCardColors = document.createElement("div") as HTMLDivElement;
+    themeCardColors.classList.add("colors");
+
+    const themeCardText = document.createElement("p") as HTMLParagraphElement;
+
+    themeCardText.classList.add("theme-text");
+    themeCardText.dataset.theme = theme;
+    themeCardText.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+
+
+    themeCardContainer.appendChild(themeCardOuter);
+    themeCardOuter.appendChild(themeCardInner);
+    themeCardInner.appendChild(themeCardColors);
+    themeCardColors.appendChild(themeCardText);
+
+    themeCardOuter.addEventListener("click", () => {
+      changeTheme(theme);
+    });
+  }
 }
 
-if (defaultDarkTheme) {
-  defaultDarkTheme.addEventListener("click", () => {
-    changeTheme("default-dark");
-  });
+const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
+
+function checkLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" | undefined {
+  if (document) {
+    if (selectedLanguage) {
+      const languages: { [key: string]: "en" | "de" | "gd" | "la" | "es" | "it" } = {};
+
+      // English
+
+      languages["English"] = "en";
+      languages["Spanish"] = "es";
+      languages["German"] = "de";
+      languages["Italian"] = "it";
+      languages["Gaelic"] = "gd";
+      languages["Latin"] = "la";
+
+      // Translations
+
+      if (languages[selectedLanguage.innerHTML] == undefined) {
+        languages[translateText("english")!] = "en";
+        languages[translateText("spanish")!] = "es";
+        languages[translateText("german")!] = "de";
+        languages[translateText("italian")!] = "it";
+        languages[translateText("gaelic")!] = "gd";
+        languages[translateText("latin")!] = "la";
+      }
+
+      return languages[selectedLanguage.innerHTML];
+    }
+  }
 }
 
-if (nordDarkTheme) {
-  nordDarkTheme.addEventListener("click", () => {
-    changeTheme("nord-dark");
-  });
+function handleLanguageChange() {
+  const language = checkLanguage();
+
+  if (language) {
+    const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html", "./settings.html"];
+
+    setLanguage(language);
+
+    translate();
+
+    targetFilePaths.forEach(targetFilePath => {
+      channel.postMessage({ type: "language", targetFilePath, language });
+    });
+  }
 }
 
-export {};
+function preLanguageChangeHandler () {
+  if (selectedLanguage && selectedLanguage.innerHTML != "") {
+    handleLanguageChange();
+  }
+}
+
+if (selectedLanguage) {
+  setTimeout(() => {
+    selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
+  }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
+}
+
+export { createThemeCards, changeTheme, checkLanguage };

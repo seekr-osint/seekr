@@ -1,10 +1,9 @@
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
 
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
-    localStorage.setItem("theme", theme);
 
     document.documentElement.setAttribute("data-theme", theme);
   }

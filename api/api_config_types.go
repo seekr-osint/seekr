@@ -3,12 +3,15 @@ package api
 import (
 	"github.com/dgraph-io/badger/v4"
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/server"
 )
 
 type SaveDBFunc func(ApiConfig) error
 type LoadDBFunc func(ApiConfig) (ApiConfig, error)
 type ApiConfig struct {
+	Version        string        `json:"version"`
+	Config         config.Config `json:"config"`
 	Server         server.Server `json:"server"`
 	LogFile        string        `json:"log_file"`
 	DataBaseFile   string        `json:"data_base_file"`
@@ -21,6 +24,7 @@ type ApiConfig struct {
 	ApiKeysSimple  ApiKeysSimple `json:"api_keys"`
 	Testing        bool          `json:"testing"`
 	BadgerDBLogger badger.Logger `json:"badger_db_logger"`
+	Parsers        []func(ApiConfig) (ApiConfig, error)
 }
 type ApiKeysSimple map[string][]string // map["serviceName"]["key1","key2"]
 type ApiKeys struct {

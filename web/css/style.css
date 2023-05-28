@@ -22,6 +22,11 @@ html {
   }
 }
 
+.dont-show {
+  display: none !important;
+  height: 0 !important;
+}
+
 .phone-icon {
   height: unset !important;
 }
@@ -122,6 +127,7 @@ html {
   height: 4rem;
   filter: drop-shadow(0.3rem 0.3rem 0.2rem var(--shadow-1)) 
           drop-shadow(-0.2rem -0.2rem 0.5rem var(--shadow-2));
+  color: var(--iconColor-1);
 }
 
 .icon-space {
@@ -143,6 +149,8 @@ html {
 .c-hobby-subcontainer,
 .club-subcontainer,
 .c-club-subcontainer,
+.source-subcontainer,
+.c-source-subcontainer,
 .ip-subcontainer,
 .c-ip-subcontainer,
 .v-ip-subcontainer {
@@ -187,6 +195,8 @@ html {
 .e-hobby,
 .v-club,
 .e-club,
+.v-source,
+.e-source,
 .v-ip,
 .e-ip {
   width: 42rem !important;
@@ -208,6 +218,10 @@ html {
 .c-club-container,
 .v-club-container,
 .e-club-container,
+.source-container,
+.c-source-container,
+.v-source-container,
+.e-source-container,
 .ip-container,
 .c-ip-container,
 .v-ip-container,
@@ -279,10 +293,24 @@ html {
   color: black;
 }
 
+.source-link {
+  display: inline-block;
+  height: fit-content;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  padding: 0.5rem;
+  box-shadow: var(--shadowPreset-2);
+  background: none;
+  font-family: inherit;
+  color: var(--textColor-1);
+}
+
 #e-mail,
 #c-e-mail,
 #v-e-mail,
-#e-club {
+#e-club,
+#e-source {
   align-self: center;
   width: 42rem;
   height: 2.7rem;

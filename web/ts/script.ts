@@ -13,16 +13,21 @@ var apiUrl = "http://" + baseUrl;
 
 
 // Listen for messages on the broadcast channel
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
 
 channel.addEventListener("message", (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
-    localStorage.setItem("theme", theme);
-
+    
     document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
   }
 });
+
+if (!localStorage.getItem("language")) {
+  setLanguage("en"); // Default language
+}
 
 // Interface for IonIcons
 interface IonIconElement extends HTMLElement {
@@ -394,19 +399,19 @@ function createCards(obj: any) {
 
     viewNameTag.value = obj.name;
 
-    viewGender.innerHTML = "Gender: " + obj.gender;
-    viewAge.innerHTML = "Age: " + obj.age;
-    viewBday.innerHTML = "Birthdate: " + obj.bday;
-    viewAddress.innerHTML = "Address: " + obj.address;
-    viewCivilStatus.innerHTML = "Civil stand: " + obj.civilstatus;
-    viewKids.innerHTML = "Kids: " + obj.kids;
-    viewOccupation.innerHTML = "Occupation: " + obj.occupation;
-    viewPrevOccupation.innerHTML = "Previous Occupation: " + obj.prevoccupation;
-    viewEducation.innerHTML = "Education: " + obj.education;
-    viewReligion.innerHTML = "Religion: " + obj.religion;
-    viewPets.innerHTML = "Pets: " + obj.pets;
-    viewLegal.innerHTML = "Legal: " + obj.legal;
-    viewPolitical.innerHTML = "Political: " + obj.political;
+    viewGender.innerHTML = translateRawWord("Gender:")! + translateRawWord(obj.gender);
+    viewAge.innerHTML = translateRawWord("Age:")! + obj.age;
+    viewBday.innerHTML = translateRawWord("Birthdate:")! + obj.bday;
+    viewAddress.innerHTML = translateRawWord("Address:")! + obj.address;
+    viewCivilStatus.innerHTML = translateRawWord("Civil stand:")! + translateRawWord(obj.civilstatus);
+    viewKids.innerHTML = translateRawWord("Kids:")! + obj.kids;
+    viewOccupation.innerHTML = translateRawWord("Occupation:")! + obj.occupation;
+    viewPrevOccupation.innerHTML = translateRawWord("Previous Occupation:")! + obj.prevoccupation;
+    viewEducation.innerHTML = translateRawWord("Education:")! + obj.education;
+    viewReligion.innerHTML = translateRawWord("Religion:")! + translateRawWord(obj.religion);
+    viewPets.innerHTML = translateRawWord("Pets:")! + obj.pets;
+    viewLegal.innerHTML = translateRawWord("Legal:")! + obj.legal;
+    viewPolitical.innerHTML = translateRawWord("Political:")! + obj.political;
     viewNotes.innerHTML = obj.notes;
 
 
@@ -467,8 +472,6 @@ function createCards(obj: any) {
           hobby_input.className = "form-input v-hobby";
           hobby_input.id = "v-hobby";
           hobby_input.type = "hobby";
-          hobby_input.placeholder = "Enter hobby";
-          hobby_input.spellcheck = false;
           hobby_input.required = true;
           hobby_input.value = hobbyVar.hobby;
           hobby_input.disabled = true;
@@ -507,9 +510,7 @@ function createCards(obj: any) {
           ip_input.className = "form-input v-ip";
           ip_input.id = "v-ip";
           ip_input.type = "ip";
-          ip_input.placeholder = "Enter IP";
           ip_input.spellcheck = false;
-          ip_input.required = true;
           ip_input.value = ipVar.ip;
           ip_input.disabled = true;
 
@@ -547,9 +548,7 @@ function createCards(obj: any) {
           club_input.className = "form-input v-club";
           club_input.id = "v-club";
           club_input.type = "club";
-          club_input.placeholder = "Enter club";
           club_input.spellcheck = false;
-          club_input.required = true;
           club_input.value = clubVar.club;
           club_input.disabled = true;
 
@@ -560,6 +559,45 @@ function createCards(obj: any) {
       };
     } else {
       viewClubSpacemaker.style.display = "none";
+    }
+
+    // Sources
+
+    const viewSourceBase = document.querySelector(".v-source-base") as HTMLDivElement;
+    const viewSourceSpacemaker = document.querySelector(".v-source-space-maker") as HTMLDivElement;
+
+    viewSourceBase.style.display = "block";
+
+    if (Object.keys(obj.sources).length >= 1) {
+      const sourceContainer = document.querySelector(".v-source-base") as HTMLDivElement;
+
+      for (const [_, url] of Object.entries(obj.sources)) {
+        const sourceVar = (url as { url: string })
+
+        if (sourceVar.url != "" && sourceVar.url != null && sourceVar.url != undefined) {
+          viewSourceSpacemaker.style.display = "block";
+          const container = document.createElement("div");
+          container.className = "v-source-container";
+
+          const subContainer = document.createElement("div");
+          subContainer.className = "source-subcontainer";
+
+          const source_field = document.createElement("a");
+          source_field.className = "source-link v-source";
+          source_field.id = "v-source";
+          source_field.type = "source";
+          source_field.spellcheck = false;
+          source_field.innerHTML = sourceVar.url;
+          source_field.href = sourceVar.url;
+          source_field.target = "_blank";
+
+          sourceContainer.appendChild(container);
+          container.appendChild(subContainer);
+          subContainer.appendChild(source_field);
+        }
+      };
+    } else {
+      viewSourceSpacemaker.style.display = "none";
     }
 
     // Phone
@@ -587,7 +625,6 @@ function createCards(obj: any) {
           phone_input.className = "form-input v-phone";
           phone_input.id = "v-phone";
           phone_input.type = "phone";
-          phone_input.placeholder = "Enter phone number";
           phone_input.value = phoneVar.number;
           phone_input.disabled = true;
 
@@ -696,8 +733,6 @@ function createCards(obj: any) {
           email_input.className = "form-input v-mail";
           email_input.id = "v-e-mail";
           email_input.type = "email";
-          email_input.placeholder = "Enter email address";
-          email_input.spellcheck = false;
           email_input.required = true;
           email_input.value = emailVar.mail;
           email_input.disabled = true;
@@ -867,7 +902,7 @@ function createCards(obj: any) {
       if (genderIndex != undefined) {
         const genderElement = selectItems.children[parseInt(genderIndex)];
 
-        selectSelected.innerHTML = obj.gender;
+        selectSelected.innerHTML = translateRawWord(obj.gender)!;
         genderElement.className = "same-as-selected";
       }
     }
@@ -896,6 +931,7 @@ function createCards(obj: any) {
         phone_input.type = "tel";
         phone_input.placeholder = "Enter phone number";
         phone_input.spellcheck = false;
+        phone_input.setAttribute("lng-tag", "enter_phone_number")
         phone_input.required = true;
         phone_input.value = phoneVar.number;
 
@@ -915,6 +951,8 @@ function createCards(obj: any) {
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -931,6 +969,7 @@ function createCards(obj: any) {
       phone_input.type = "tel";
       phone_input.placeholder = "Enter phone number";
       phone_input.spellcheck = false;
+      phone_input.setAttribute("lng-tag", "enter_phone_number")
       //phone_input.maxLength = "15"; // FIXME some formattings can have more then 15 chars.
       phone_input.required = true;
 
@@ -949,6 +988,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         phone_container.remove();
       }
+
+      refreshTranslation();
     }
 
     if (obj.civilstatus != "") {
@@ -961,7 +1002,7 @@ function createCards(obj: any) {
       if (civilstatusIndex != undefined) {
         const civilstatusElement = selectItems!.children[parseInt(civilstatusIndex)];
 
-        selectSelected!.innerHTML = obj.civilstatus;
+        selectSelected!.innerHTML = translateRawWord(obj.civilstatus)!;
         civilstatusElement.className = "same-as-selected";
       }
     }
@@ -987,6 +1028,7 @@ function createCards(obj: any) {
         hobby_input.id = "e-hobby";
         hobby_input.placeholder = "Enter hobby";
         hobby_input.spellcheck = false;
+        hobby_input.setAttribute("lng-tag", "enter_hobby")
         hobby_input.value = hobbyVar.hobby;
 
         const del_btn_div = document.createElement("div");
@@ -1001,10 +1043,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1020,6 +1063,7 @@ function createCards(obj: any) {
       hobby_input.id = "hobby";
       hobby_input.type = "text";
       hobby_input.placeholder = "Enter hobby";
+      hobby_input.setAttribute("lng-tag", "enter_hobby")
       hobby_input.spellcheck = false;
       hobby_input.required = true;
 
@@ -1038,6 +1082,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         hobby_container.remove();
       }
+
+      refreshTranslation();
     }
     
     editOccupation.innerHTML = obj.occupation;
@@ -1054,7 +1100,7 @@ function createCards(obj: any) {
       if (religionIndex != undefined) {
         const religionElement = selectItems.children[parseInt(religionIndex)];
 
-        selectSelected.innerHTML = obj.religion;
+        selectSelected.innerHTML = translateRawWord(obj.religion)!;
         religionElement.className = "same-as-selected";
       }
     }
@@ -1081,6 +1127,7 @@ function createCards(obj: any) {
         club_input.type = "text";
         club_input.placeholder = "Enter club";
         club_input.spellcheck = false;
+        club_input.setAttribute("lng-tag", "enter_club")
         club_input.value = clubVar.club;
 
         const del_btn_div = document.createElement("div");
@@ -1095,10 +1142,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1115,6 +1163,7 @@ function createCards(obj: any) {
       club_input.type = "text";
       club_input.placeholder = "Enter club";
       club_input.spellcheck = false;
+      club_input.setAttribute("lng-tag", "enter_club")
       club_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1132,10 +1181,91 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         club_container.remove();
       }
+
+      refreshTranslation();
     }
 
     editLegal.innerHTML = obj.legal;
     editPolitical.innerHTML = obj.political;
+
+    // Sources
+
+    const sourceBase = document.querySelector(".e-source-base") as HTMLDivElement;
+
+    if (Object.keys(obj.sources).length >= 1) {
+      for (const [_, url] of Object.entries(obj.sources)) {
+        const sourceVar = (url as { url: string })
+
+        const container = document.createElement("div");
+        container.className = "source-container";
+
+        const subContainer = document.createElement("div");
+        subContainer.className = "source-subcontainer";
+
+        const source_input = document.createElement("input");
+        source_input.className = "form-input source";
+        source_input.id = "e-source";
+        source_input.type = "text";
+        source_input.placeholder = "Enter source";
+        source_input.spellcheck = false;
+        source_input.setAttribute("lng-tag", "enter_source")
+        source_input.value = sourceVar.url;
+
+        const del_btn_div = document.createElement("div");
+        del_btn_div.className = "del-btn";
+
+        const del_btn = document.createElement("ion-icon") as IonIconElement;
+        del_btn.name = "remove-outline";
+
+        container.appendChild(subContainer);
+        subContainer.appendChild(source_input);
+        sourceBase.appendChild(container);
+        subContainer.appendChild(del_btn_div);
+        del_btn_div.appendChild(del_btn);
+
+        del_btn.onclick = function () {
+          container.remove();
+        }
+
+        refreshTranslation();
+      };
+    }
+
+    document.getElementById("source-add-btn")!.onclick = function () {
+      const source_container = document.createElement("div");
+      source_container.className = "source-container";
+
+      const subContainer = document.createElement("div");
+      subContainer.className = "source-subcontainer";
+
+      const source_input = document.createElement("input");
+      source_input.className = "form-input e-source";
+      source_input.id = "source";
+      source_input.type = "text";
+      source_input.placeholder = "Enter source";
+      source_input.spellcheck = false;
+      source_input.setAttribute("lng-tag", "enter_source")
+      source_input.required = true;
+
+      const del_btn_div = document.createElement("div");
+      del_btn_div.className = "del-btn";
+
+      const del_btn = document.createElement("ion-icon") as IonIconElement;
+      del_btn.name = "remove-outline";
+
+      sourceBase.appendChild(source_container);
+      source_container.appendChild(subContainer);
+      subContainer.appendChild(source_input);
+      subContainer.appendChild(del_btn_div);
+      del_btn_div.appendChild(del_btn);
+
+      del_btn_div.onclick = function () {
+        source_container.remove();
+      }
+
+      refreshTranslation();
+    }
+
     editNotes.innerHTML = obj.notes;
 
     // IPs
@@ -1158,6 +1288,7 @@ function createCards(obj: any) {
         ip_input.type = "text";
         ip_input.placeholder = "Enter IP";
         ip_input.spellcheck = false;
+        ip_input.setAttribute("lng-tag", "enter_ip")
         ip_input.value = ipVar.ip;
 
         const del_btn_div = document.createElement("div");
@@ -1172,10 +1303,11 @@ function createCards(obj: any) {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1192,6 +1324,7 @@ function createCards(obj: any) {
       ip_input.type = "text";
       ip_input.placeholder = "Enter IP";
       ip_input.spellcheck = false;
+      ip_input.setAttribute("lng-tag", "enter_ip")
       ip_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1209,6 +1342,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         ip_container.remove();
       }
+
+      refreshTranslation();
     }
 
     // Email
@@ -1231,6 +1366,7 @@ function createCards(obj: any) {
         email_input.type = "email";
         email_input.placeholder = "Enter email address";
         email_input.spellcheck = false;
+        email_input.setAttribute("lng-tag", "enter_email_address")
         email_input.required = true;
         email_input.value = emailVar.mail;
 
@@ -1254,10 +1390,11 @@ function createCards(obj: any) {
           container.appendChild(hidden_email_save);
         }
 
-
         del_btn.onclick = function () {
           container.remove();
         }
+
+        refreshTranslation();
       };
     }
 
@@ -1278,6 +1415,7 @@ function createCards(obj: any) {
       email_input.type = "email";
       email_input.placeholder = "Enter email address";
       email_input.spellcheck = false;
+      email_input.setAttribute("lng-tag", "enter_email_address")
       email_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -1299,6 +1437,8 @@ function createCards(obj: any) {
       del_btn_div.onclick = function () {
         email_container.remove();
       }
+
+      refreshTranslation();
     }
 
     // Accounts
@@ -1407,7 +1547,7 @@ function createCards(obj: any) {
 
             loadingSpinner.remove();
 
-            const deepInvResIcon = document.createElement("img");
+            const deepInvResIcon = document.createElement("ion-icon") as IonIconElement;
             deepInvResIcon.className = "deepInvResIcon";
 
             icon_space.appendChild(deepInvResIcon);
@@ -1415,7 +1555,7 @@ function createCards(obj: any) {
             if (data != null && data != "{}" && res.status == 200) {
               deep_btn_txt.innerHTML = "Deep Investigation";
 
-              deepInvResIcon.src = "./images/checkmark.png";
+              deepInvResIcon.name = "checkmark-outline";
               deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
 
               for (const [i, _] of Object.entries(data)) {
@@ -1432,7 +1572,8 @@ function createCards(obj: any) {
                 email_input.id = "e-mail";
                 email_input.type = "email";
                 email_input.placeholder = "Enter email address";
-
+                email_input.spellcheck = false;
+                email_input.setAttribute("lng-tag", "enter_email_address")
                 email_input.value = obj.mail;
 
                 const del_btn_div = document.createElement("div");
@@ -1456,12 +1597,14 @@ function createCards(obj: any) {
                 del_btn_div.onclick = function () {
                   email_container.remove();
                 }
+
+                refreshTranslation();
               }
             } else if (res.status == 403 && data["fatal"] == "rate limited") {
-              deepInvResIcon.src = "./images/limited.png";
+              deepInvResIcon.name = "timer-outline";
               deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.15rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
             } else {
-              deepInvResIcon.src = "./images/cross.png";
+              deepInvResIcon.name = "close-outline";
               deepInvResIcon.style.filter = "drop-shadow(0.3rem 0.3rem 0.2rem var(--greyLight-2)) drop-shadow(-0.2rem -0.2rem 0.5rem var(--white));"
             }
           }
@@ -1508,144 +1651,155 @@ function createCards(obj: any) {
       }
     }
   }
+}
 
-  // CREATE
+// CREATE
 
-  const createSaveBtn = document.getElementById("c-savebtn") as HTMLDivElement;
+const createSaveBtn = document.getElementById("c-savebtn") as HTMLDivElement;
 
-  createSaveBtn.onclick = async function () { // new document save button
-    const data = await getData() as object[];
+createSaveBtn.onclick = async function () { // new document save button
+  const data = await getData() as object[];
 
-    let totalIds = Object.keys(data).length;
-    let preId = String(totalIds + 1);
+  let totalIds = Object.keys(data).length;
+  let preId = String(totalIds + 1);
 
-    //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
-    function checkId(preId: string): string {
-      let idExists = false;
+  //A function to check if the data list includes that id already, if it does, it should add one until it doesnt exist
+  function checkId(preId: string): string {
+    let idExists = false;
 
-      for (let i = 0; i < totalIds; i++) {
-        if (Object.keys(obj)[i] == preId) {
-          idExists = true;
-          break;
-        }
+    for (let i = 0; i < totalIds; i++) {
+      if (Object.keys(data)[i] == preId) {
+        idExists = true;
+        break;
       }
-
-      if (idExists) {
-        preId = String(parseInt(preId) + 1);
-        return checkId(preId);
-      }
-      return preId;
     }
 
-    let id = checkId(preId);
-
-    let name = createNameTag.value;
-
-    let gender = checkDropdownValue("create", "gender");
-
-    let age = parseInt(document.querySelector(".c-age")!.innerHTML);
-
-    if (age <= 0) {
-      age *= -1
+    if (idExists) {
+      preId = String(parseInt(preId) + 1);
+      return checkId(preId);
     }
-    if (age > 120) {
-      age = 120
-    }
-
-    let bday = document.querySelector(".c-bday")!.innerHTML;
-    let address = document.querySelector(".c-address")!.innerHTML;
-
-    let createPhoneContainers = document.querySelectorAll(".c-phone-container") as NodeListOf<HTMLDivElement>;
-    let phoneNumbers: {[key: string]: {number: string}} = {};
-
-    createPhoneContainers.forEach((container: HTMLDivElement) => {
-      const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
-
-      const phoneNumber: string = phoneInput.value.toString();
-
-      phoneNumbers[phoneNumber] = {
-        "number": phoneNumber
-      };
-    });
-
-    let civilstatus = checkDropdownValue("create", "civilstatus");
-
-    let kids = document.querySelector(".c-kids")!.innerHTML;
-
-    let createHobbyContainers = document.querySelectorAll(".c-hobby-container") as NodeListOf<HTMLDivElement>;
-    let hobbies: {[key: string]: {hobby: string}} = {};
-
-    createHobbyContainers.forEach(function (container) {
-      let hobbyInput = container.querySelector("input")!;
-      hobbies[hobbyInput.value] = {
-        "hobby": hobbyInput.value
-      };
-    });
-
-    let occupation = document.querySelector(".c-occupation")!.innerHTML;
-    let prevoccupation = document.querySelector(".c-prevoccupation")!.innerHTML;
-    let education = document.querySelector(".c-education")!.innerHTML;
-
-    let religion = checkDropdownValue("create", "religion");
-
-    let pets = document.querySelector(".c-pets")!.innerHTML;
-
-    let editClubContainers = document.querySelectorAll(".c-club-container") as NodeListOf<HTMLDivElement>;
-    let clubs: {[key: string]: {club: string}} = {};
-
-    editClubContainers.forEach(function (container) {
-      let clubInput = container.querySelector("input")!;
-      clubs[clubInput.value] = {
-        "club": clubInput.value
-      };
-    });
-
-    let legal = document.querySelector(".c-legal")!.innerHTML;
-    let political = document.querySelector(".c-political")!.innerHTML;
-    let notes = document.querySelector(".c-notes")!.innerHTML;
-
-    let createEmailContainers = document.querySelectorAll(".c-email-container") as NodeListOf<HTMLDivElement>;
-    let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
-
-    createEmailContainers.forEach(function (container) {
-      let hiddenElement = container.querySelector(".hidden-email-save")!;
-      
-      // FIXME this is beatiful
-      let hiddenElementVal = null;
-  
-      if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
-        hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
-      }
-  
-      let emailInput = container.querySelector("input")!;
-      emailAddresses[emailInput.value] = {
-        "mail": emailInput.value,
-        "src": "manual",
-        "services": hiddenElementVal
-      };
-    });
-
-    let createIPContainers = document.querySelectorAll(".c-ip-container");
-    let ips: {[key: string]: {ip: string}} = {};
-
-    createIPContainers.forEach(function (container) {
-      let ipInput = container.querySelector("input")!;
-      ips[ipInput.value] = {
-        "ip": ipInput.value
-      };
-    });
-
-    const loadingSpinner = document.querySelector("#c-loading-spinner") as HTMLDivElement;
-    loadingSpinner.style.display = "flex"
-
-    fetch(apiUrl + "/person", {
-      method: "POST",
-      body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes })
-    }).then(function () {
-      loadingSpinner.style.display = "none"
-      location.reload();
-    });
+    return preId;
   }
+
+  let id = checkId(preId);
+
+  let name = createNameTag.value;
+
+  let gender = checkDropdownValue("create", "gender");
+
+  let age = parseInt(document.querySelector(".c-age")!.innerHTML);
+
+  if (age <= 0) {
+    age *= -1
+  }
+  if (age > 120) {
+    age = 120
+  }
+
+  let bday = document.querySelector(".c-bday")!.innerHTML;
+  let address = document.querySelector(".c-address")!.innerHTML;
+
+  let createPhoneContainers = document.querySelectorAll(".c-phone-container") as NodeListOf<HTMLDivElement>;
+  let phoneNumbers: {[key: string]: {number: string}} = {};
+
+  createPhoneContainers.forEach((container: HTMLDivElement) => {
+    const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
+
+    const phoneNumber: string = phoneInput.value.toString();
+
+    phoneNumbers[phoneNumber] = {
+      "number": phoneNumber
+    };
+  });
+
+  let civilstatus = checkDropdownValue("create", "civilstatus");
+
+  let kids = document.querySelector(".c-kids")!.innerHTML;
+
+  let createHobbyContainers = document.querySelectorAll(".c-hobby-container") as NodeListOf<HTMLDivElement>;
+  let hobbies: {[key: string]: {hobby: string}} = {};
+
+  createHobbyContainers.forEach(function (container) {
+    let hobbyInput = container.querySelector("input")!;
+    hobbies[hobbyInput.value] = {
+      "hobby": hobbyInput.value
+    };
+  });
+
+  let occupation = document.querySelector(".c-occupation")!.innerHTML;
+  let prevoccupation = document.querySelector(".c-prevoccupation")!.innerHTML;
+  let education = document.querySelector(".c-education")!.innerHTML;
+
+  let religion = checkDropdownValue("create", "religion");
+
+  let pets = document.querySelector(".c-pets")!.innerHTML;
+
+  let editClubContainers = document.querySelectorAll(".c-club-container") as NodeListOf<HTMLDivElement>;
+  let clubs: {[key: string]: {club: string}} = {};
+
+  editClubContainers.forEach(function (container) {
+    let clubInput = container.querySelector("input")!;
+    clubs[clubInput.value] = {
+      "club": clubInput.value
+    };
+  });
+
+  let legal = document.querySelector(".c-legal")!.innerHTML;
+  let political = document.querySelector(".c-political")!.innerHTML;
+
+  let editSourceContainers = document.querySelectorAll(".c-source-container") as NodeListOf<HTMLDivElement>;
+  let sources: {[key: string]: {url: string}} = {};
+
+  editSourceContainers.forEach(function (container) {
+    let sourceInput = container.querySelector("input")!;
+    sources[sourceInput.value] = {
+      "url": sourceInput.value
+    };
+  });
+
+  let notes = document.querySelector(".c-notes")!.innerHTML;
+
+  let createEmailContainers = document.querySelectorAll(".c-email-container") as NodeListOf<HTMLDivElement>;
+  let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
+
+  createEmailContainers.forEach(function (container) {
+    let hiddenElement = container.querySelector(".hidden-email-save")!;
+    
+    // FIXME this is beatiful
+    let hiddenElementVal = null;
+
+    if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
+      hiddenElementVal = JSON.parse(hiddenElement.innerHTML);
+    }
+
+    let emailInput = container.querySelector("input")!;
+    emailAddresses[emailInput.value] = {
+      "mail": emailInput.value,
+      "src": "manual",
+      "services": hiddenElementVal
+    };
+  });
+
+  let createIPContainers = document.querySelectorAll(".c-ip-container");
+  let ips: {[key: string]: {ip: string}} = {};
+
+  createIPContainers.forEach(function (container) {
+    let ipInput = container.querySelector("input")!;
+    ips[ipInput.value] = {
+      "ip": ipInput.value
+    };
+  });
+
+  const loadingSpinner = document.querySelector("#c-loading-spinner") as HTMLDivElement;
+  loadingSpinner.style.display = "flex"
+
+  fetch(apiUrl + "/person", {
+    method: "POST",
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes })
+  }).then(function () {
+    loadingSpinner.style.display = "none"
+    location.reload();
+  });
 }
 
 const editSaveBtn = document.querySelector("#e-savebtn")! as HTMLDivElement;
@@ -1667,6 +1821,7 @@ editSaveBtn.onclick = async function () {
   const editClubContainers = document.querySelectorAll(".club-container") as NodeListOf<HTMLDivElement>;
   const editLegal = document.querySelector(".e-legal") as HTMLParagraphElement;
   const editPolitical = document.querySelector(".e-political") as HTMLParagraphElement;
+  const editSourceContainers = document.querySelectorAll(".source-container") as NodeListOf<HTMLDivElement>;
   const editNotes = document.querySelector(".e-notes") as HTMLDivElement;
   const editEmailContainers = document.querySelectorAll(".email-container") as NodeListOf<HTMLDivElement>;
   const editIPContainers = document.querySelectorAll(".ip-container") as NodeListOf<HTMLDivElement>;
@@ -1733,6 +1888,16 @@ editSaveBtn.onclick = async function () {
 
   let legal = editLegal.innerHTML;
   let political = editPolitical.innerHTML;
+
+  let sources: {[key: string]: {url: string}} = {};
+
+  editSourceContainers.forEach(function (container) {
+    let sourceInput = container.querySelector("input")!;
+    sources[sourceInput.value] = {
+      "url": sourceInput.value
+    };
+  });
+
   let notes = editNotes.innerHTML;
 
   let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
@@ -1773,7 +1938,7 @@ editSaveBtn.onclick = async function () {
 
   fetch(apiUrl + '/person', {
     method: 'POST',
-    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "notes": notes, "accounts": data.accounts })
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes, "accounts": data.accounts })
   }).then(function () {
     loadingSpinner.style.display = "none"
     location.reload();
@@ -1839,6 +2004,12 @@ document.getElementById("e-backbtn")!.onclick = function () {
     ipElements[0].parentNode!.removeChild(ipElements[0]);
   }
 
+  var sourceElements = document.getElementsByClassName("source-container");
+
+  while (sourceElements.length > 0) {
+    sourceElements[0].parentNode!.removeChild(sourceElements[0]);
+  }
+
   const parentElement = document.querySelector(".e-accounts") as HTMLDivElement;
   parentElement.innerHTML = "";
 }
@@ -1868,6 +2039,8 @@ document.getElementById("c-club-add-btn")!.onclick = function () {
   club_input.id = "club";
   club_input.type = "text";
   club_input.placeholder = "Enter club";
+  club_input.spellcheck = false;
+  club_input.setAttribute("lng-tag", "enter_club")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -1884,6 +2057,46 @@ document.getElementById("c-club-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     club_container.remove();
   }
+
+  refreshTranslation();
+}
+
+// Sources
+
+document.getElementById("c-source-add-btn")!.onclick = function () {
+  const source_base = document.querySelector(".c-source-base") as HTMLDivElement;
+
+  const source_container = document.createElement("div");
+  source_container.className = "c-source-container";
+
+  const subContainer = document.createElement("div");
+  subContainer.className = "source-subcontainer";
+
+  const source_input = document.createElement("input");
+  source_input.className = "form-input e-source";
+  source_input.id = "source";
+  source_input.type = "text";
+  source_input.placeholder = "Enter source";
+  source_input.spellcheck = false;
+  source_input.setAttribute("lng-tag", "enter_source")
+
+  const del_btn_div = document.createElement("div");
+  del_btn_div.className = "del-btn";
+
+  const del_btn = document.createElement("ion-icon") as IonIconElement;
+  del_btn.name = "remove-outline";
+
+  source_base.appendChild(source_container);
+  source_container.appendChild(subContainer);
+  subContainer.appendChild(source_input);
+  subContainer.appendChild(del_btn_div);
+  del_btn_div.appendChild(del_btn);
+
+  del_btn_div.onclick = function () {
+    source_container.remove();
+  }
+
+  refreshTranslation();
 }
 
 // IPs
@@ -1902,6 +2115,8 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   ip_input.id = "ip";
   ip_input.type = "text";
   ip_input.placeholder = "Enter IP";
+  ip_input.spellcheck = false;
+  ip_input.setAttribute("lng-tag", "enter_ip")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -1918,6 +2133,8 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     ip_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Phone
@@ -1937,6 +2154,7 @@ document.getElementById("c-phone-add-btn")!.onclick = function () {
   phone_input.type = "tel";
   phone_input.placeholder = "Enter phone number";
   phone_input.spellcheck = false;
+  phone_input.setAttribute("lng-tag", "enter_phone_number")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -1953,6 +2171,8 @@ document.getElementById("c-phone-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     phone_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Hobbies
@@ -1972,6 +2192,7 @@ document.getElementById("c-hobby-add-btn")!.onclick = function () {
   hobby_input.type = "tel";
   hobby_input.placeholder = "Enter hobby";
   hobby_input.spellcheck = false;
+  hobby_input.setAttribute("lng-tag", "enter_hobby")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -1988,6 +2209,8 @@ document.getElementById("c-hobby-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     hobby_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // IPs
@@ -2007,6 +2230,7 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   ip_input.type = "tel";
   ip_input.placeholder = "Enter IP";
   ip_input.spellcheck = false;
+  ip_input.setAttribute("lng-tag", "enter_ip")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2023,6 +2247,8 @@ document.getElementById("c-ip-add-btn")!.onclick = function () {
   del_btn_div.onclick = function () {
     ip_container.remove();
   }
+
+  refreshTranslation();
 }
 
 // Email
@@ -2042,10 +2268,7 @@ document.getElementById("c-add-btn")!.onclick = function () {
   email_input.type = "email";
   email_input.placeholder = "Enter email address";
   email_input.spellcheck = false;
-
-
-
-  email_input.autocomplete = "off";
+  email_input.setAttribute("lng-tag", "enter_email_address")
 
   const del_btn_div = document.createElement("div");
   del_btn_div.className = "del-btn";
@@ -2070,34 +2293,77 @@ document.getElementById("c-add-btn")!.onclick = function () {
   subContainer.appendChild(email_input);
   subContainer.appendChild(del_btn_div);
   del_btn_div.appendChild(del_btn);
+  
+  refreshTranslation();
 }
 
-searchEntries();
+
+runOnStart();
 
 
-async function searchEntries() {
-  const inputElement = document.getElementById("searchbar") as HTMLInputElement;
-  let input = inputElement.value.toLowerCase();
+async function runOnStart() {
   const noResults = document.getElementById("base-no-results") as HTMLDivElement;
-  let x = document.querySelector('#list-holder')!;
-  x.innerHTML = ""
+
+  const exportBtn = document.getElementById("exportbtn") as HTMLDivElement;
+
+  let x = document.querySelector("#list-holder") as HTMLDivElement;
 
   const data = await getData() as object[];
 
-  for (const [i, _] of Object.entries(data)) {
-    let obj = data[Number(i)] as any;
-
-    if (obj.name.toLowerCase().includes(input)) {
-      // Create Cards For Each Person
-
+  if (Object.entries(data).length == 0) {
+    exportBtn.style.display = "none";
+  } else {
+    for (const [i, _] of Object.entries(data)) {
+      let obj = data[Number(i)] as any;
+  
       createCards(obj);
     }
   }
 
   if (x.childElementCount <= 0) {
     noResults.style.display = "flex";
+
+    x.style.display = "none";
   } else {
     noResults.style.display = "none";
+
+    x.style.display = "block";
+  }
+}
+
+async function searchEntries() {
+  const inputElement = document.getElementById("searchbar") as HTMLInputElement;
+  let input = inputElement.value.toLowerCase();
+
+  const noResults = document.getElementById("base-no-results") as HTMLDivElement;
+  let x = document.querySelector('#list-holder') as HTMLDivElement;
+
+  let amountOfResults = x.childElementCount;
+
+  for (let i = 0; i < x.childElementCount; i++) {
+    let card = x.children[i];
+
+    let name = card.querySelector(".hitbox-abbr > .hitbox > div.text-container > p.card-text")!;
+
+    if (!name.innerHTML.toLowerCase().includes(input)) {
+      card.classList.add("dont-show");
+
+      amountOfResults--;
+    } else {
+      card.classList.remove("dont-show");
+
+      amountOfResults++;
+    }
+  }
+
+  if (amountOfResults <= 0) {
+    noResults.style.display = "flex";
+
+    x.style.display = "none";
+  } else {
+    noResults.style.display = "none";
+
+    x.style.display = "flex";
   }
 }
 

@@ -1,6 +1,6 @@
-#settings-table {
+.settings-table {
     display: block;
-    width: fit-content;
+    width: 54rem;
     height: auto;
     margin: 1rem;
 }

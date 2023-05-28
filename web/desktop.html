@@ -16,13 +16,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/themes.css">
 
     <link rel="stylesheet" href="./css/desktop.css">
 
-    <script src="./dist/desktop.js" defer></script>
-
-    <title>SEEKR</title>
+    <script type="module" src="./dist/theme_loader.js"></script>
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -31,6 +28,12 @@
         document.documentElement.setAttribute("data-theme", localStorage.getItem("theme"));
       }
     </script>
+
+    <script src="./dist/desktop.js" defer></script>
+
+    <script src="./dist/easteregg.js" defer></script>
+
+    <title>SEEKR</title>
 
     <!-- WinBox -->
     <link rel="stylesheet" href="./css/winbox.min.css">
@@ -44,7 +47,7 @@
     <div class="app-bar clicked">
       <!--<button onclick="createSeekrWindow()" class="app-shortcut"></button> -->
       <div class="app-shortcut" onclick="createSeekrWindow()">
-        <img src="./images/seekr-transparent-dark.png" alt="SEEKR" class="app-icon seekr-icon">
+        <img src="./images/seekr-icon.png" alt="SEEKR" class="app-icon seekr-icon">
       </div>
       <div class="app-shortcut guide-icon" onclick="createGuideWindow()">
         <img src="./images/guide.png" alt="Guide" class="app-icon">
@@ -62,7 +65,7 @@
         <img src="./images/crtsh.png" alt="Crtsh" class="app-icon">
       </div>
       <div class="app-shortcut settings-icon" onclick="createSeekrSettingsWindow()">
-        <img src="./images/settings.png" alt="Settings" class="app-icon">
+        <img id="settings-icon" src="./images/settings.png" alt="Settings" class="app-icon">
       </div>
     </div>
 

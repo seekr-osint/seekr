@@ -1,0 +1,39 @@
+[data-theme="arctic"] {
+  /* Background */
+
+  --bg: #E4EBF5;
+  --bg-bright: #e9edf1;
+
+  /* Text */
+  
+  --textColor-1: #9baacf;
+  --textColor-hover: #6d5dfc;
+
+  /* Icons */
+
+  --iconColor-1: #9CCF9B;
+  --iconColor-2: #E4EBF5;
+  --iconColor-3: #CF9B9B;
+
+  /* Loading spinner */
+
+  --loadingColor: #6d5dfc;
+  --loadingColor-dark: #5b0eeb;
+
+  /* No search results text */
+
+  --noResultsText: rgba(155, 170, 207, 0.5);
+
+  /* Shadows */
+
+  --shadow-1: #c8d0e7;
+  --shadow-2: #FFFFFF;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}

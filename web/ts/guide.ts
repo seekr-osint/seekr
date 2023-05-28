@@ -1,13 +1,13 @@
-const channel = new BroadcastChannel("theme-channel");
+const channel = new BroadcastChannel("seekr-channel");
 
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
 
-    localStorage.setItem("theme", theme);
-
     document.documentElement.setAttribute("data-theme", theme);
+  } else if (event.data.type === "language") {
+    translate()
   }
 });
 
@@ -65,11 +65,23 @@ function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | undefined {
     if (selectedCountry) {
       const countries: { [key: string]: "all" | "ww" | "us" | "ca" | "uk" } = {};
 
+      // English
+
       countries["Select country:"] = "all";
       countries["WorldWide"] = "ww";
-      countries["United States of America"] = "us";
+      countries["United States"] = "us";
       countries["Canada"] = "ca";
       countries["United Kingdom"] = "uk";
+
+      // Translations
+
+      if (countries[selectedCountry.innerHTML] == undefined) {
+        countries[translateText("select_country_colon")!] = "all";
+        countries[translateText("worldwide")!] = "ww";
+        countries[translateText("united_states")!] = "us";
+        countries[translateText("canada")!] = "ca";
+        countries[translateText("united_kingdom")!] = "uk";
+      }
 
       return countries[selectedCountry.innerHTML]; // Error here
     }

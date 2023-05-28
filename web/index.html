@@ -16,8 +16,13 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel="stylesheet" href="./css/hub.css">
-    <link rel="stylesheet" href="./css/themes.css">
     <link rel="stylesheet" href="./css/style.css">
+
+    <script type="module" src="./dist/theme_loader.js"></script>
+
+    <script src="./dist/easteregg.js" defer></script>
+
+    <script src="./dist/translate.js"></script>
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -28,36 +33,36 @@
     </script>
   </head>
 
-  <body>
+  <body onload="onLoadTranslate()">
     <div class="hub-menu-div">
-      <p class="hub-headline">Choose your optimal SEEKR experience</p>
+      <p class="hub-headline" lng-tag="choose_your_optimal_seekr_experience">Choose your optimal SEEKR experience</p>
 
       <div class="hub-choice">
         <div class="hub-desktop-div">
-          <p class="hub-desktop-title">SEEKR Desktop</p>
+          <p class="hub-desktop-title" lng-tag="seekr_desktop">SEEKR Desktop</p>
 
           <ul class="hub-desktop-ul">
-            <li>The full version of seekr</li>
-            <li>Includes many tools to help your OSINT investigation</li>
-            <li>Not intended for mobile devices</li>
+            <li lng-tag="the_full_version_of_seekr">The full version of SEEKR</li>
+            <li lng-tag="includes_many_tools_to_help_your_osint_investigation">Includes many tools to help your OSINT investigation</li>
+            <li lng-tag="not_intended_for_mobile_devices">Not intended for mobile devices</li>
           </ul>
 
           <div class="hub-desktop-btn" onclick="window.location.href='/web/desktop.html';">
-            <p>Use</p>
+            <p lng-tag="use">Use</p>
           </div>
         </div>
 
         <div class="hub-lite-div">
-          <p class="hub-lite-title">SEEKR Lite</p>
+          <p class="hub-lite-title" lng-tag="seekr_lite">SEEKR Lite</p>
 
           <ul class="hub-lite-ul">
-            <li>A lightweight version of seekr</li>
-            <li>Barebones database view</li>
-            <li>Works on mobile devices</li>
+            <li lng-tag="a_lightweight_version_of_seekr">A lightweight version of SEEKR</li>
+            <li lng-tag="barebones_database_view">Barebones database view</li>
+            <li lng-tag="works_on_mobile_devices">Works on mobile devices</li>
           </ul>
 
           <div class="hub-lite-btn" onclick="window.location.href='/web/lite.html';">
-            <p>Use</p>
+            <p lng-tag="use">Use</p>
           </div>
         </div>
       </div>

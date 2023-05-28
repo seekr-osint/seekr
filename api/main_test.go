@@ -12,6 +12,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/functions"
 )
 
@@ -22,14 +23,19 @@ func waitForFile() {
 
 var requests = Requests{
 	"1-postPerson": { // ID 2
-		RequestType:      "POST",
-		Name:             "Post Person",
-		URL:              "http://localhost:8080/person",
-		PostData:         map[string]interface{}{"id": "2"},
+		RequestType: "POST",
+		Name:        "Post Person",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID: "2",
+		}),
+		//ExpectedResponse: functions.ParsedConfigInterface(Person{
+		//	ID: "2",
+		//}),
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "custom": interface{}(nil), "gender": "", "address": "", "age": float64(0), "bday": "", "civilstatus": "", "clubs": map[string]interface{}{}, "education": "", "email": map[string]interface{}{}, "hobbies": map[string]interface{}{}, "id": "2", "kids": "", "ips": map[string]interface{}{}, "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"2-overwritePerson": {
+	"2-overwritePerson": { // Id 1
 		RequestType:      "POST",
 		Name:             "Overwrite Person",
 		URL:              "http://localhost:8080/person",
@@ -37,7 +43,7 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"message": "overwritten person"},
 		StatusCode:       202,
 	},
-	"3-getPerson": { // ID 1
+	"3-getPerson": { // ID 2
 		RequestType:      "GET",
 		Name:             "Get Person by ID",
 		URL:              "http://localhost:8080/people/2",
@@ -54,10 +60,20 @@ var requests = Requests{
 		StatusCode:       404,
 	},
 	"5-email": { // ID 10
-		RequestType:                "POST",
-		Name:                       "Post person with included email",
-		URL:                        "http://localhost:8080/person",
-		PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(10), "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com"}}, "id": "10", "name": "Email test"},
+		RequestType: "POST",
+		Name:        "Post person with included email",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			Name: "Email test",
+			ID:   "10",
+			Email: EmailsType{
+				"fsdfadsfasdfasdf@gmail.com": Email{
+					Mail: "fsdfadsfasdfasdf@gmail.com",
+				},
+			},
+			Age: 10,
+		}),
+		//PostData:                   map[string]interface{}{"accounts": interface{}(nil), "age": float64(10), "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com"}}, "id": "10", "name": "Email test"},
 		ExpectedResponse:           map[string]interface{}{"accounts": map[string]interface{}{}, "custom": interface{}(nil), "gender": "", "address": "", "age": float64(10), "bday": "", "civilstatus": "", "clubs": map[string]interface{}{}, "education": "", "email": map[string]interface{}{"fsdfadsfasdfasdf@gmail.com": map[string]interface{}{"mail": "fsdfadsfasdfasdf@gmail.com", "provider": "gmail", "services": map[string]interface{}{}, "src": "", "valid": true, "value": float64(0), "skipped_services": map[string]interface{}{}}}, "hobbies": map[string]interface{}{}, "id": "10", "kids": "", "ips": map[string]interface{}{}, "legal": "", "maidenname": "", "military": "", "name": "Email test", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "tags": []interface{}{}},
 		StatusCode:                 201,
 		RequiresInternetConnection: true,
@@ -106,6 +122,31 @@ var requests = Requests{
 		ExpectedResponse: map[string]interface{}{"Snapchat-snapchat-exsists": map[string]interface{}{"bio": interface{}(nil), "blog": "", "created": "", "firstname": "", "followers": float64(0), "following": float64(0), "id": "", "lastname": "", "location": "", "profilePicture": interface{}(nil), "service": "Snapchat", "updated": "", "url": "", "username": "snapchat-exsists"}},
 		StatusCode:       200,
 	},
+
+	"8b-config": { // No id
+		RequestType:      "GET",
+		Name:             "Get the current seekr config",
+		URL:              "http://localhost:8080/config",
+		PostData:         nil,
+		ExpectedResponse: functions.Interface(config.DefaultConfig()),
+		StatusCode:       200,
+	},
+	"8c-config": { // No id
+		RequestType:      "POST",
+		Name:             "Post a seekr config",
+		URL:              "http://localhost:8080/config",
+		PostData:         functions.Interface(config.DefaultConfig()),
+		ExpectedResponse: map[string]interface{}{"message": "updated config"},
+		StatusCode:       202,
+	},
+
+	"8d-info": { // No id
+		RequestType:      "GET",
+		Name:             "Get info about seekr",
+		URL:              "http://localhost:8080/info",
+		ExpectedResponse: map[string]interface{}{"version": "0.0.1"},
+		StatusCode:       200,
+	},
 	"9a-postPerson": { // ID 15
 		RequestType:      "POST",
 		Name:             "Post Person (civil status)",
@@ -116,11 +157,14 @@ var requests = Requests{
 		StatusCode:       201,
 	},
 	"9b-postPerson": { // ID 16
-		RequestType:      "POST",
-		Name:             "Post Person (invalid civil status)",
-		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
-		URL:              "http://localhost:8080/person",
-		PostData:         map[string]interface{}{"id": "16", "civilstatus": "Invalid"},
+		RequestType: "POST",
+		Name:        "Post Person (invalid civil status)",
+		Comment:     "Possible values are: Single,Married,Widowed,Divorced,Separated",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID:          "16",
+			Civilstatus: "Invalid",
+		}),
 		ExpectedResponse: map[string]interface{}{"message": "Invalid civil status"},
 		StatusCode:       400,
 	},
@@ -133,20 +177,26 @@ var requests = Requests{
 		StatusCode:       400,
 	},
 	"9d-postPerson": { // ID 17
-		RequestType:      "POST",
-		Name:             "Post Person (invalid religion)",
-		Comment:          "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
-		URL:              "http://localhost:8080/person",
-		PostData:         map[string]interface{}{"id": "17", "religion": "invalid"},
+		RequestType: "POST",
+		Name:        "Post Person (invalid religion)",
+		Comment:     "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID:       "17",
+			Religion: "Invalid",
+		}),
 		ExpectedResponse: map[string]interface{}{"message": "Invalid religion"},
 		StatusCode:       400,
 	},
-	"9f-postPerson": { // ID 19
-		RequestType:      "POST",
-		Name:             "Post Person (invalid Gender)",
-		Comment:          "Possible values are: Male,Female,Other",
-		URL:              "http://localhost:8080/person",
-		PostData:         map[string]interface{}{"id": "19", "gender": "Invalid"},
+	"9f-postPerson": { // ID 18
+		RequestType: "POST",
+		Name:        "Post Person (invalid Gender)",
+		Comment:     "Possible values are: Male,Female,Other",
+		URL:         "http://localhost:8080/person",
+		PostData: functions.Interface(Person{
+			ID:     "18",
+			Gender: "Invalid",
+		}),
 		ExpectedResponse: map[string]interface{}{"message": "Invalid gender"},
 		StatusCode:       400,
 	},
