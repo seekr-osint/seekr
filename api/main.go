@@ -12,6 +12,7 @@ import (
 	"github.com/seekr-osint/seekr/api/github"
 	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/version"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
 
@@ -37,7 +38,11 @@ func TestApi(dataBase DataBase) {
 		LoadDBFunc:    DefaultLoadDB,
 		SaveDBFunc:    DefaultSaveDB,
 		Testing:       true,
-		Version:       "0.0.1",
+		Version: version.SchematicVersion{
+			Major: 0,
+			Minor: 0,
+			Patch: 1,
+		},
 	}.Parse()
 	if err != nil {
 		log.Fatalf("Error parsing test config: %s", err)
@@ -165,8 +170,21 @@ func MarkdownPersonRequest(config ApiConfig, c *gin.Context) {
 }
 
 func GetInfo(apiConfig ApiConfig, c *gin.Context) {
+	if apiConfig.Testing {
+
+		c.IndentedJSON(http.StatusOK, map[string]interface{}{
+			"version":      apiConfig.Version.String(),
+			"is_latest":    true,
+			"latest":       apiConfig.Version.String(),
+			"download_url": "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64",
+		})
+		return
+	}
 	c.IndentedJSON(http.StatusOK, map[string]interface{}{
-		"version": apiConfig.Version,
+		"version":      apiConfig.Version.String(),
+		"is_latest":    apiConfig.Version.IsLatest(),
+		"latest":       apiConfig.Version.GetLatest(),
+		"download_url": apiConfig.Version.GetLatest().DownloadURL(),
 	})
 }
 
