@@ -552,6 +552,10 @@ a {
   overflow: hidden;
 }
 
+.invert {
+  box-shadow: var(--shadowPreset-2) !important;
+}
+
 .table {
   display: flex;
 }

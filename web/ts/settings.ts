@@ -116,4 +116,8 @@ if (selectedLanguage) {
   }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
 }
 
+function changePort() {
+  
+}
+
 export { createThemeCards, changeTheme, checkLanguage };

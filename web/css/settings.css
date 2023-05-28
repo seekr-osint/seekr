@@ -1,6 +1,6 @@
 .settings-table {
     display: block;
-    width: 54rem;
+    width: 57.5rem;
     height: auto;
     margin: 1rem;
 }
@@ -28,6 +28,35 @@
     color: var(--textColor-1);
 }
 
+#settings-savebtn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 4rem;
+    margin-bottom: 3rem;
+    width: 15rem;
+}
+
+/* Port selection */
+
+.port-tag {
+    font-size: 1.4rem;
+    color: var(--textColor-1);
+    outline: none;
+    width: 100%;
+    margin-right: 1rem;
+    background: transparent;
+    border: none;
+}
+
+.port-tag::placeholder {
+    color: var(--textColor-1);
+}
+
+.port-chip {
+    width: 9.5rem;
+    height: 3rem;
+}
 
 /* Theme selection */
 
