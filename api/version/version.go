@@ -1,10 +1,10 @@
-package main
+package version
 
 import (
 	"errors"
 	"fmt"
-	"github.com/manifoldco/promptui"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -13,8 +13,30 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/manifoldco/promptui"
 )
 
+func (ver SchematicVersion) GetLatest() SchematicVersion {
+		latestVersion, err := GetLatestSeekrVersion()
+		if err != nil {
+			log.Printf("error getting latest seekr version: %s\n", ver)
+		}
+		return latestVersion
+}
+
+func (ver SchematicVersion) IsLatest() bool { // false if error
+		latestVersion, err := GetLatestSeekrVersion()
+		if err != nil {
+			log.Printf("error getting latest seekr version: %s\n", ver)
+			return false
+		}
+		return ver.Latest(latestVersion)
+
+}
+func (ver SchematicVersion) DownloadURL() string {
+	return fmt.Sprintf("https://github.com/seekr-osint/seekr/releases/download/%s/%s", ver, GetBinaryName(ver))
+}
 func promptYesNo(question string) bool {
 	prompt := promptui.Select{
 		Label: question,
@@ -125,11 +147,6 @@ const (
 	archArm64   = "arm64"
 )
 
-type SchematicVersion struct {
-	Major int
-	Minor int
-	Patch int
-}
 
 func GetStats() (string, string) {
 	var platform, arch string
@@ -215,4 +232,30 @@ func ParseSchematicVersion(versionStr string) (SchematicVersion, error) {
 	version.Patch = patch
 
 	return version, nil
+}
+
+func checkVer() {
+	destPath := os.Getenv("_SEEKR_UPDATE_BINARY")
+	if destPath != "" {
+		exePath, err := os.Executable()
+		if err != nil {
+			panic(err)
+		}
+		exeFile, err := os.Open(exePath)
+		if err != nil {
+			panic(err)
+		}
+		defer exeFile.Close()
+
+		destFile, err := os.Create(filepath.Join(destPath, filepath.Base(exePath)))
+		if err != nil {
+			panic(err)
+		}
+		defer destFile.Close()
+
+		_, err = io.Copy(destFile, exeFile)
+		if err != nil {
+			panic(err)
+		}
+	}
 }

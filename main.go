@@ -4,16 +4,15 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"runtime"
 	"strings"
 
 	api "github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
+	"github.com/seekr-osint/seekr/api/version"
 
 	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
@@ -28,54 +27,23 @@ var content embed.FS
 
 var dataBase = make(api.DataBase)
 
-var version string
+var ver string
 
-func checkVer() {
-	destPath := os.Getenv("_SEEKR_UPDATE_BINARY")
-	if destPath != "" {
-		exePath, err := os.Executable()
-		if err != nil {
-			panic(err)
-		}
-		exeFile, err := os.Open(exePath)
-		if err != nil {
-			panic(err)
-		}
-		defer exeFile.Close()
+var schematicVersion version.SchematicVersion
 
-		destFile, err := os.Create(filepath.Join(destPath, filepath.Base(exePath)))
-		if err != nil {
-			panic(err)
-		}
-		defer destFile.Close()
-
-		_, err = io.Copy(destFile, exeFile)
-		if err != nil {
-			panic(err)
-		}
-	}
-}
 func main() {
-	if version != "" {
-		fmt.Printf("Welcome to seekr v%s\n", version)
-		schematicVersion, err := ParseSchematicVersion(version)
+	if ver != "" {
+		fmt.Printf("Welcome to seekr v%s\n", ver)
+		schematicVersion, err := version.ParseSchematicVersion(ver)
 		if err != nil {
-			log.Panicf("error checking version: %s\n", version)
+			log.Panicf("error checking version: %s\n", ver)
 		}
-		latestVersion, err := GetLatestSeekrVersion()
+		latestVersion, err := version.GetLatestSeekrVersion()
 		if err != nil {
-			log.Printf("error getting latest seekr version: %s\n", version)
+			log.Printf("error getting latest seekr version: %s\n", ver)
 		}
 		if !schematicVersion.Latest(latestVersion) {
-			downloadUrl := fmt.Sprintf("https://github.com/seekr-osint/seekr/releases/download/%s/%s", latestVersion, GetBinaryName(latestVersion))
-			fmt.Printf("You are running an old seekr version.\nDownload the latest seekr version at: %s\n", downloadUrl)
-			if promptYesNo("Update seekr") {
-				err := updateBinary(downloadUrl)
-				if err != nil {
-					log.Panicf("error downloading seekr update: %s\n", err)
-				}
-				os.Exit(0)
-			}
+			fmt.Printf("You are running an old seekr version.\nDownload the latest seekr version at: %s\n", schematicVersion.GetLatest().DownloadURL())
 		}
 
 	} else {
@@ -123,10 +91,9 @@ func main() {
 			fmt.Printf("Setting discord rich presence\n")
 		}
 	}
-
 	apiConfig, err := api.ApiConfig{
 		Config:  cfg,
-		Version: version,
+		Version: schematicVersion,
 		Server: server.Server{
 			Ip:        *ip,
 			Port:      uint16(*port),
