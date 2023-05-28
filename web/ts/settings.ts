@@ -58,23 +58,29 @@ function createThemeCards(theme: string) {
 
 const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
 
-function checkLanguage(): "en" | "de" | "gd" | undefined {
+function checkLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" | undefined {
   if (document) {
     if (selectedLanguage) {
-      const languages: { [key: string]: "en" | "de" | "gd" } = {};
+      const languages: { [key: string]: "en" | "de" | "gd" | "la" | "es" | "it" } = {};
 
       // English
 
       languages["English"] = "en";
+      languages["Spanish"] = "es";
       languages["German"] = "de";
+      languages["Italian"] = "it";
       languages["Gaelic"] = "gd";
+      languages["Latin"] = "la";
 
       // Translations
 
       if (languages[selectedLanguage.innerHTML] == undefined) {
         languages[translateText("english")!] = "en";
+        languages[translateText("spanish")!] = "es";
         languages[translateText("german")!] = "de";
+        languages[translateText("italian")!] = "it";
         languages[translateText("gaelic")!] = "gd";
+        languages[translateText("latin")!] = "la";
       }
 
       return languages[selectedLanguage.innerHTML];

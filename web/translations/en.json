@@ -81,5 +81,8 @@
   "language": "Language",
   "english": "English",
   "german": "German",
-  "gaelic": "Gaelic"
+  "gaelic": "Gaelic",
+  "latin": "Latin",
+  "spanish": "Spanish",
+  "italian": "Italian"
 }
