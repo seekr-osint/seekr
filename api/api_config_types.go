@@ -5,12 +5,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/version"
 )
 
 type SaveDBFunc func(ApiConfig) error
 type LoadDBFunc func(ApiConfig) (ApiConfig, error)
 type ApiConfig struct {
-	Version        string        `json:"version"`
+	Version        version.SchematicVersion `json:"version"`
 	Config         config.Config `json:"config"`
 	Server         server.Server `json:"server"`
 	LogFile        string        `json:"log_file"`
