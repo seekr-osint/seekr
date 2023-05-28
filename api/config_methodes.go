@@ -8,20 +8,19 @@ import (
 
 // Parsing
 
-
 func (config *ApiConfig) ParsePointer() error {
-   parsedConfig, err := config.ConfigParse()
-   if err != nil {
-     return err
-   }
-	 config = &parsedConfig
+	parsedConfig, err := config.ConfigParse()
+	if err != nil {
+		return err
+	}
+	config = &parsedConfig
 
-   config.DataBase, err = parsedConfig.DataBase.Parse(*config) // Parse the database
-   if err != nil {
-     return err
-   }
- 
-   return nil
+	config.DataBase, err = parsedConfig.DataBase.Parse(*config) // Parse the database
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (config ApiConfig) Parse() (ApiConfig, error) {
@@ -77,7 +76,7 @@ func (config ApiConfig) LoadDB() (ApiConfig, error) {
 	return config.LoadDBFunc(config)
 }
 
-func (config *ApiConfig) LoadDBPointer() (error) {
+func (config *ApiConfig) LoadDBPointer() error {
 	newConfig, err := config.LoadDBFunc(*config)
 	if err != nil {
 		return err

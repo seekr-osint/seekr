@@ -13,34 +13,34 @@ func (instance *SeekrdInstance) SeekrdTicker() {
 		log.Printf("Running Seekrd...\n")
 		err := instance.Run()
 		if err != nil {
-			fmt.Printf("error: %s\n",err)
+			fmt.Printf("error: %s\n", err)
 		}
 	}
 }
 
 func (instance *SeekrdInstance) Run() error {
-		var err error
-		for _, service := range instance.Services {
-			if service.Repeat || instance.initialRun { // run a service if it is a repeating service or run all if it is the initialRun
-				// Load the db
-				err = instance.ApiConfig.LoadDBPointer()
-				if err != nil {
-					return err
-				}
-				
-				// Modify the db
-				instance.ApiConfig, err = service.Func(instance.ApiConfig)	
-				if err != nil {
-					return err
-				}
+	var err error
+	for _, service := range instance.Services {
+		if service.Repeat || instance.initialRun { // run a service if it is a repeating service or run all if it is the initialRun
+			// Load the db
+			err = instance.ApiConfig.LoadDBPointer()
+			if err != nil {
+				return err
+			}
 
-				// Save the db
-				err = instance.ApiConfig.SaveDB()
-				if err != nil {
-					return err
-				}
+			// Modify the db
+			instance.ApiConfig, err = service.Func(instance.ApiConfig)
+			if err != nil {
+				return err
+			}
+
+			// Save the db
+			err = instance.ApiConfig.SaveDB()
+			if err != nil {
+				return err
 			}
 		}
-		instance.initialRun = false
-		return nil
+	}
+	instance.initialRun = false
+	return nil
 }
