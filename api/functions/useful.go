@@ -144,16 +144,16 @@ func MarkdownMap[T interface{ Markdown() (string, error) }](m map[string]T, head
 	}
 	return sb.String(), nil
 }
-func ParsedConfigInterface[T1 interface{},T2 interface{ Parse(T1) (T2, error) }](t T2,t1 T1) (interface{}) {
+func ParsedConfigInterface[T1 interface{}, T2 interface{ Parse(T1) (T2, error) }](t T2, t1 T1) interface{} {
 	t, _ = t.Parse(t1)
 	return Interface(t)
 }
 
-func ParsedInterface[T interface{ Parse() (T, error) }](t T) (interface{}) {
+func ParsedInterface[T interface{ Parse() (T, error) }](t T) interface{} {
 	t, _ = t.Parse()
 	return Interface(t)
 }
-func Interface[T interface{ }](t T) (interface{}) {
+func Interface[T interface{}](t T) interface{} {
 	var cfg interface{}
 	jsonBytes, _ := json.Marshal(t)
 	_ = json.Unmarshal(jsonBytes, &cfg)
