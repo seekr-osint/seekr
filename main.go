@@ -14,6 +14,7 @@ import (
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/seekrd"
 	seekrdhandler "github.com/seekr-osint/seekr/api/seekrdHandler"
+	"github.com/seekr-osint/seekr/api/version"
 
 	"github.com/seekr-osint/seekr/api/discord"
 	"github.com/seekr-osint/seekr/api/server"
@@ -28,14 +29,29 @@ var content embed.FS
 
 var dataBase = make(api.DataBase)
 
-var version string
+var ver string
+
+var schematicVersion version.SchematicVersion
 
 func main() {
-	if version != "" {
-		fmt.Printf("Welcome to seekr v%s\n", version)
+	if ver != "" {
+		fmt.Printf("Welcome to seekr v%s\n", ver)
+		schematicVersion, err := version.ParseSchematicVersion(ver)
+		if err != nil {
+			log.Panicf("error checking version: %s\n", ver)
+		}
+		latestVersion, err := version.GetLatestSeekrVersion()
+		if err != nil {
+			log.Printf("error getting latest seekr version: %s\n", ver)
+		}
+		if !schematicVersion.Latest(latestVersion) {
+			fmt.Printf("You are running an old seekr version.\nDownload the latest seekr version at: %s\n", schematicVersion.GetLatest().DownloadURL())
+		}
+
 	} else {
 		fmt.Printf("Welcome to seekr unstable\nplease note that this version of seekr is NOT officially supported\n")
 	}
+
 	cfg, err := config.LoadConfig()
 	if err != nil && err != config.ErrNoConfigFile {
 		fmt.Printf("Failed to load config: %s\n", err)
@@ -77,10 +93,9 @@ func main() {
 			fmt.Printf("Setting discord rich presence\n")
 		}
 	}
-
 	apiConfig, err := api.ApiConfig{
 		Config:  cfg,
-		Version: version,
+		Version: schematicVersion,
 		Server: server.Server{
 			Ip:        *ip,
 			Port:      uint16(*port),

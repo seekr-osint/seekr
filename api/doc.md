@@ -722,6 +722,9 @@ curl -X GET http://localhost:8080/info
 
 ```json
 {
+	"download_url": "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64",
+	"is_latest": true,
+	"latest": "0.0.1",
 	"version": "0.0.1"
 }
 ```
