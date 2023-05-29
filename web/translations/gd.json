@@ -15,7 +15,7 @@
   "phone": "Fòn",
   "hobbies": "Cluich",
   "e-mail": "Post-d",
-  "ips": "IP",
+  "ips": "IPs",
   "clubs": "Cumannan",
   "sources": "Foinnsean",
   "notes": "Notaidhean",
@@ -84,5 +84,7 @@
   "gaelic": "Gàidhlig",
   "latin": "Laidin",
   "spanish": "Spàinntis",
-  "italian": "Eadailtis"
+  "italian": "Eadailtis",
+  "port": "Port",
+  "save_&_restart": "Sàbhail agus ath-thòiseachadh"
 }
