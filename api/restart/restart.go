@@ -3,7 +3,7 @@ package restart
 import (
 	"errors"
 	"os"
-	"syscall"
+	"os/exec"
 )
 
 var (
@@ -18,9 +18,21 @@ func RestartBinary() error {
 		return ErrGetCurrentBinary
 	}
 
-	// Terminate the current process
-	if err := syscall.Exec(executable, os.Args, os.Environ()); err != nil {
+	// Start a new process with the current executable
+	cmd := exec.Command(executable, os.Args[1:]...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
+
+	err = cmd.Start()
+	if err != nil {
 		return ErrStartNewBin
+	}
+
+	// Wait for the new process to finish
+	err = cmd.Wait()
+	if err != nil {
+		return err
 	}
 
 	return nil
