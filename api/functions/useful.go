@@ -138,9 +138,9 @@ func MarkdownMap[T interface{ Markdown() (string, error) }](m map[string]T, head
 		sb.WriteString(fmt.Sprintf("### %s\n", key))
 		markdown, err := v.Markdown()
 		if err != nil {
+			sb.WriteString(markdown)
 			return sb.String(), err
 		}
-		sb.WriteString(markdown)
 	}
 	return sb.String(), nil
 }
