@@ -1,17 +1,8 @@
-package api
+package gender
 
 import (
 	"fmt"
 	"strings"
-)
-
-type Gender string
-
-const (
-	Male        Gender = "Male"
-	Female      Gender = "Female"
-	OtherGender        = "Other"
-	NoGender    Gender = ""
 )
 
 func (g Gender) Markdown() string {
