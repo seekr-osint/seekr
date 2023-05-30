@@ -40,11 +40,7 @@ func main() {
 		if err != nil {
 			log.Panicf("error checking version: %s\n", ver)
 		}
-		latestVersion, err := version.GetLatestSeekrVersion()
-		if err != nil {
-			log.Printf("error getting latest seekr version: %s\n", ver)
-		}
-		if !schematicVersion.Latest(latestVersion) {
+		if !schematicVersion.IsLatest() {
 			fmt.Printf("You are running an old seekr version.\nDownload the latest seekr version at: %s\n", schematicVersion.GetLatest().DownloadURL())
 		}
 

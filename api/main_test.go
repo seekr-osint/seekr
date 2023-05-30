@@ -3,17 +3,16 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"reflect"
 	"testing"
 
 	//"encoding/json"
-	"bytes"
 	"os"
 	"time"
 
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/functions"
+	"github.com/seekr-osint/seekr/api/tc"
 )
 
 func waitForFile() {
@@ -21,7 +20,7 @@ func waitForFile() {
 	time.Sleep(time.Second) // wait for one second before checking again
 }
 
-var requests = Requests{
+var requests = tc.Requests{
 	"1-postPerson": { // ID 2
 		RequestType: "POST",
 		Name:        "Post Person",
@@ -282,17 +281,6 @@ var requests = Requests{
 	//},
 }
 
-type Requests = map[string]struct {
-	RequestType                string
-	Name                       string
-	URL                        string
-	PostData                   interface{}
-	ExpectedResponse           interface{}
-	StatusCode                 int
-	RequiresInternetConnection bool
-	Comment                    string
-}
-
 func toJsonString(data interface{}) string {
 	jsonBytes, _ := json.MarshalIndent(data, "", "\t")
 	return string(jsonBytes)
@@ -341,50 +329,14 @@ func TestAPI(t *testing.T) {
 	TestApi(dbData)
 	waitForFile()
 
-	// WRITE DOCS
 	writeDocs()
-	// WRITE DOCS END
 
-	for _, name := range functions.SortMapKeys(requests) {
-		req := requests[name]
-		// Convert post data to JSON if necessary
-		postDataJson := []byte{}
-		if req.PostData != nil {
-			var err error
-			postDataJson, err = json.Marshal(req.PostData)
-			if err != nil {
-				t.Fatalf("[%s] %v", name, err)
-			}
-		}
-
-		// Send the HTTP request
-		httpReq, err := http.NewRequest(req.RequestType, req.URL, bytes.NewBuffer(postDataJson))
-		if err != nil {
-			t.Fatalf("[%s] %v", name, err)
-		}
-		httpReq.Header.Set("Content-Type", "application/json")
-		client := &http.Client{}
-		resp, err := client.Do(httpReq)
-		if err != nil {
-			t.Fatalf("[%s] %v", name, err)
-		}
-		defer resp.Body.Close()
-
-		// Decode the response body
-		var respBody interface{}
-		err = json.NewDecoder(resp.Body).Decode(&respBody)
-		if err != nil {
-			t.Fatalf("[%s] %v", name, err)
-		}
-
-		if resp.StatusCode != req.StatusCode {
-			t.Errorf("[%s] Unexpected Status Code: %d\nExpected %d", name, resp.StatusCode, req.StatusCode)
-		}
-		// Compare the response body to the expected value
-		if !reflect.DeepEqual(respBody, req.ExpectedResponse) {
-			t.Errorf("[%s] Unexpected response body: %#v\nExpected %#v", name, respBody, req.ExpectedResponse)
-		}
+	
+	// tc api tests
+	test := tc.ApiTest{
+		Requests: requests,
 	}
+	test.RunApiTests(t)
 }
 
 // debug function
