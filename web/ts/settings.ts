@@ -190,15 +190,15 @@ async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
   return currentConfig;
 }
 
-(async () => {
-  const currentConfig = await getCurrentConfig();
-  console.log('Current Config:', currentConfig);
-  setValues(currentConfig);
-})();
-
 document.addEventListener('DOMContentLoaded', () => {
   const saveBtn = document.getElementById('settings-savebtn-p');
   if (saveBtn) {
+    (async () => {
+      const currentConfig = await getCurrentConfig();
+      console.log('Current Config:', currentConfig);
+      setValues(currentConfig);
+    })();
+
     saveBtn.addEventListener('click', async () => {
       const newConfig = await getUpdatedSeekrConfig();
       const message = await postSeekrConfig(newConfig);
