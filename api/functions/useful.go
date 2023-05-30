@@ -159,3 +159,17 @@ func Interface[T interface{}](t T) interface{} {
 	_ = json.Unmarshal(jsonBytes, &cfg)
 	return cfg
 }
+
+
+func SliceToCommaSeparatedList[T comparable](slice []T) string {
+	var nonEmptyStrings []string
+
+	for _, val := range slice {
+		str	:= fmt.Sprintf("%v",val)
+		if str != "" {
+			nonEmptyStrings = append(nonEmptyStrings, str)
+		}
+	}
+
+	return strings.Join(nonEmptyStrings, ",")
+}

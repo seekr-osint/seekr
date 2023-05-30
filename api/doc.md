@@ -786,7 +786,7 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
-## Post Person (invalid civil status)
+## Post person (invalid CivilStatus)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 
 **Curl Request:**
@@ -795,36 +795,8 @@ Possible values are: Single,Married,Widowed,Divorced,Separated
 curl -X POST http://localhost:8080/person \
 -H 'Content-Type: application/json' \
 -d '{
-	"accounts": null,
-	"address": "",
-	"age": 0,
-	"bday": "",
-	"civilstatus": "Invalid",
-	"clubs": null,
-	"custom": null,
-	"education": "",
-	"email": null,
-	"gender": "",
-	"hobbies": null,
-	"id": "16",
-	"ips": null,
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": null,
-	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
-	"relations": null,
-	"religion": "",
-	"sources": null,
-	"tags": null
+	"civilstatus": "invalid",
+	"id": "1"
 }'
 ```
 
@@ -832,7 +804,57 @@ curl -X POST http://localhost:8080/person \
 
 ```json
 {
-	"message": "Invalid civil status"
+	"message": "Invalid CivilStatus"
+}
+```
+
+**Status Code:** 400
+
+
+## Post person (invalid Religion)
+Possible values are: Christianity,Islam,Hinduism,Buddhism,Sikhism,Judaism,Other,Atheism
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "1",
+	"religion": "invalid"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Invalid Religion"
+}
+```
+
+**Status Code:** 400
+
+
+## Post person (invalid Gender)
+Possible values are: Male,Female,Other
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"gender": "invalid",
+	"id": "1"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Invalid Gender"
 }
 ```
 
@@ -855,112 +877,6 @@ curl -X POST http://localhost:8080/person \
 ```json
 {
 	"message": "Missing ID"
-}
-```
-
-**Status Code:** 400
-
-
-## Post Person (invalid religion)
-Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions 
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"accounts": null,
-	"address": "",
-	"age": 0,
-	"bday": "",
-	"civilstatus": "",
-	"clubs": null,
-	"custom": null,
-	"education": "",
-	"email": null,
-	"gender": "",
-	"hobbies": null,
-	"id": "17",
-	"ips": null,
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": null,
-	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
-	"relations": null,
-	"religion": "Invalid",
-	"sources": null,
-	"tags": null
-}'
-```
-
-**Response:**
-
-```json
-{
-	"message": "Invalid religion"
-}
-```
-
-**Status Code:** 400
-
-
-## Post Person (invalid Gender)
-Possible values are: Male,Female,Other
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"accounts": null,
-	"address": "",
-	"age": 0,
-	"bday": "",
-	"civilstatus": "",
-	"clubs": null,
-	"custom": null,
-	"education": "",
-	"email": null,
-	"gender": "Invalid",
-	"hobbies": null,
-	"id": "18",
-	"ips": null,
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": null,
-	"pictures": null,
-	"political": "",
-	"prevoccupation": "",
-	"relations": null,
-	"religion": "",
-	"sources": null,
-	"tags": null
-}'
-```
-
-**Response:**
-
-```json
-{
-	"message": "Invalid gender"
 }
 ```
 

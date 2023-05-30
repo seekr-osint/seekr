@@ -25,3 +25,7 @@ func (r Religion) Markdown() string {
 func (r Religion) IsValid() bool {
 	return enum.IsValid(Enum, r)
 }
+
+func (r Religion) Validate() error {
+	return enum.IsValidApiError(Enum, r)
+}
