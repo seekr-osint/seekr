@@ -21,7 +21,7 @@ type Test[T1 comparable, T2 comparable] struct {
 }
 
 // api tests
-type Requests = map[string]struct {
+type Request struct {
 	RequestType                string
 	Name                       string
 	URL                        string
@@ -31,6 +31,7 @@ type Requests = map[string]struct {
 	RequiresInternetConnection bool
 	Comment                    string
 }
+type Requests = map[string]Request
 type ApiTest struct {
 	Requests Requests
 }

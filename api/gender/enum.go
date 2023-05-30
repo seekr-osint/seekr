@@ -20,3 +20,6 @@ func (g Gender) Markdown() string {
 func (g Gender) IsValid() bool {
 	return enum.IsValid(Enum, g)
 }
+func (g Gender) Validate() error {
+	return enum.IsValidApiError(Enum, g)
+}

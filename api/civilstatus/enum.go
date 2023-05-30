@@ -22,3 +22,7 @@ func (c CivilStatus) Markdown() string {
 func (c CivilStatus) IsValid() bool {
 	return enum.IsValid(Enum, c)
 }
+
+func (c CivilStatus) Validate() error {
+	return enum.IsValidApiError(Enum, c)
+}
