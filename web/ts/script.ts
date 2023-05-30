@@ -390,19 +390,19 @@ function createCards(obj: any) {
 
     viewNameTag.value = obj.name;
 
-    viewGender.innerHTML = translateRawWord("Gender:")! + translateRawWord(obj.gender);
-    viewAge.innerHTML = translateRawWord("Age:")! + obj.age;
-    viewBday.innerHTML = translateRawWord("Birthdate:")! + obj.bday;
-    viewAddress.innerHTML = translateRawWord("Address:")! + obj.address;
-    viewCivilStatus.innerHTML = translateRawWord("Civil stand:")! + translateRawWord(obj.civilstatus);
-    viewKids.innerHTML = translateRawWord("Kids:")! + obj.kids;
-    viewOccupation.innerHTML = translateRawWord("Occupation:")! + obj.occupation;
+    viewGender.innerHTML = translateRawWord("Gender:")! + " " + translateRawWord(obj.gender);
+    viewAge.innerHTML = translateRawWord("Age:")! + " " + obj.age;
+    viewBday.innerHTML = translateRawWord("Birthday:")! + " " + obj.bday;
+    viewAddress.innerHTML = translateRawWord("Address:")! + " " + obj.address;
+    viewCivilStatus.innerHTML = translateRawWord("Civil status:")! + " " + translateRawWord(obj.civilstatus);
+    viewKids.innerHTML = translateRawWord("Kids:") + " " + obj.kids;
+    viewOccupation.innerHTML = translateRawWord("Occupation:")! + " " + obj.occupation;
     viewPrevOccupation.innerHTML = translateRawWord("Previous Occupation:")! + obj.prevoccupation;
-    viewEducation.innerHTML = translateRawWord("Education:")! + obj.education;
-    viewReligion.innerHTML = translateRawWord("Religion:")! + translateRawWord(obj.religion);
-    viewPets.innerHTML = translateRawWord("Pets:")! + obj.pets;
-    viewLegal.innerHTML = translateRawWord("Legal:")! + obj.legal;
-    viewPolitical.innerHTML = translateRawWord("Political:")! + obj.political;
+    viewEducation.innerHTML = translateRawWord("Education:")! + " " + obj.education;
+    viewReligion.innerHTML = translateRawWord("Religion:")! + " " + translateRawWord(obj.religion);
+    viewPets.innerHTML = translateRawWord("Pets:")! + " " + obj.pets;
+    viewLegal.innerHTML = translateRawWord("Legal:")! + " " + obj.legal;
+    viewPolitical.innerHTML = translateRawWord("Political:")! + " " + obj.political;
     viewNotes.innerHTML = obj.notes;
 
 

@@ -89,8 +89,6 @@ function onLoadTranslate(): void {
     return;
   }
 
-  console.log(lang);
-
   const translator = new Translate("lng-tag", lang);
   translator.translateAllElements();
 }
@@ -124,8 +122,12 @@ function translateText(word: string): string | undefined {
 }
 
 function translateRawWord(word: string): string | undefined {
-  word = word.toLowerCase().replace(/ /g, "_").replace(/:/g, "colon");
+  word = word.toLowerCase().replace(/ /g, "_").replace(/:/g, "_colon");
+
+  console.log(word);
 
   const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
   return translator.translateText(word);
 }
+
+console.log(translateRawWord("Pets:"));
