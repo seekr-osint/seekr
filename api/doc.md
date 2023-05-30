@@ -871,6 +871,31 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 400
 
 
+## Post person (invalid Ethnicity)
+Possible values are: African,Asian,Caucasian/White,Hispanic/Latino,Indigenous/Native American,Multiracial/Mixed
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"ethnicity": "invalid",
+	"id": "1"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Invalid Ethnicity"
+}
+```
+
+**Status Code:** 400
+
+
 ## Post Person (missing id)
 
 

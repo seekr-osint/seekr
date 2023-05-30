@@ -99,6 +99,11 @@ func (person Person) Validate() error {
 		return err
 	}
 
+	err = person.Ethnicity.Validate()
+	if err != nil {
+		return err
+	}
+
 	err = person.Email.Validate()
 	if err != nil {
 		return err

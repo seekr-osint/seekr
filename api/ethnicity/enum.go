@@ -23,3 +23,7 @@ func (e Ethnicity) Markdown() string {
 func (e Ethnicity) IsValid() bool {
 	return enum.IsValid(Enum, e)
 }
+
+func (e Ethnicity) Validate() error {
+	return enum.IsValidApiError(Enum, e)
+}

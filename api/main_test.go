@@ -13,6 +13,7 @@ import (
 	"github.com/seekr-osint/seekr/api/civilstatus"
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/enum"
+	"github.com/seekr-osint/seekr/api/ethnicity"
 	"github.com/seekr-osint/seekr/api/functions"
 	"github.com/seekr-osint/seekr/api/gender"
 	"github.com/seekr-osint/seekr/api/religion"
@@ -163,6 +164,7 @@ var requests = tc.Requests{
 	"9b-postPerson": enum.TcRequestInvalidEnum(civilstatus.Enum, "http://localhost:8080/person"),
 	"9c-postPerson": enum.TcRequestInvalidEnum(religion.Enum, "http://localhost:8080/person"),
 	"9d-postPerson": enum.TcRequestInvalidEnum(gender.Enum, "http://localhost:8080/person"),
+	"9e-postPerson": enum.TcRequestInvalidEnum(ethnicity.Enum, "http://localhost:8080/person"),
 	"9f-postPerson": { // ID NONE (16)
 		RequestType:      "POST",
 		Name:             "Post Person (missing id)",
