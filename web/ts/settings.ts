@@ -1,3 +1,5 @@
+import { apiCall } from './framework.js';
+
 const channel = new BroadcastChannel("seekr-channel");
 
 channel.addEventListener('message', (event) => {
@@ -114,22 +116,6 @@ if (selectedLanguage) {
   setTimeout(() => {
     selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
   }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
-}
-
-
-
-
-
-function apiCall(endpoint: string): string {
-  var hostname = window.location.hostname;
-  var port = window.location.port;
-  var baseUrl = hostname + ":" + port;
-  var apiUrl = "http://" + baseUrl;
-  if (endpoint.charAt(0) === "/") {
-    endpoint = endpoint.substring(1);
-  } 
-  return apiUrl + '/' + endpoint
-
 }
 
 // SEEKR config stuff
