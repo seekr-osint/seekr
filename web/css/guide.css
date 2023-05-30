@@ -265,3 +265,7 @@ li {
 .same-as-selected {
   background-color: rgba(0, 0, 0, 0.06);
 }
+
+.material-icons {
+  opacity: 0;
+}

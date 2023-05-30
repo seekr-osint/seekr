@@ -18,13 +18,28 @@ const countryDropdown = document.getElementById("country-select");
 const selectedSelect = document.querySelector(".country-select select");
 
 const checkboxName = document.getElementById("checkbox_01") as HTMLInputElement;
+const checkboxNameIcon = document.getElementById("checkbox_01_icon") as HTMLElement;
+
 const checkboxAddress = document.getElementById("checkbox_02") as HTMLInputElement;
+const checkboxAddressIcon = document.getElementById("checkbox_02_icon") as HTMLElement;
+
 const checkboxPhone = document.getElementById("checkbox_03") as HTMLInputElement;
+const checkboxPhoneIcon = document.getElementById("checkbox_03_icon") as HTMLElement;
+
 const checkboxVIN = document.getElementById("checkbox_04") as HTMLInputElement;
+const checkboxVINIcon = document.getElementById("checkbox_04_icon") as HTMLElement;
+
 const checkboxBusiness = document.getElementById("checkbox_05") as HTMLInputElement;
+const checkboxBusinessIcon = document.getElementById("checkbox_05_icon") as HTMLElement;
+
 const checkboxIP = document.getElementById("checkbox_06") as HTMLInputElement;
+const checkboxIPIcon = document.getElementById("checkbox_06_icon") as HTMLElement;
+
 const checkboxUsername = document.getElementById("checkbox_07") as HTMLInputElement;
+const checkboxUsernameIcon = document.getElementById("checkbox_07_icon") as HTMLElement;
+
 const checkboxDomain = document.getElementById("checkbox_08") as HTMLInputElement;
+const checkboxDomainIcon = document.getElementById("checkbox_08_icon") as HTMLElement;
 
 const list_elements = document.querySelectorAll(".link-list-holder li");
 
@@ -104,27 +119,66 @@ function listHandler() {
 
   if (checkChecboxValue("name") == false) {
     listOfClasses[1] = false;
+
+    checkboxNameIcon.style.opacity = "0";
+  } else {
+    checkboxNameIcon.style.opacity = "1";
   }
+
   if (checkChecboxValue("address") == false) {
-    listOfClasses[2] = false;
+    listOfClasses[2] = false;    
+    
+    checkboxAddressIcon.style.opacity = "0";
+  } else {
+    checkboxAddressIcon.style.opacity = "1";
   }
+
   if (checkChecboxValue("phone") == false) {
     listOfClasses[3] = false;
+
+    checkboxPhoneIcon.style.opacity = "0";
+  } else {
+    checkboxPhoneIcon.style.opacity = "1";
   }
+  
   if (checkChecboxValue("vin") == false) {
     listOfClasses[4] = false;
+    
+    checkboxVINIcon.style.opacity = "0";
+  } else {
+    checkboxVINIcon.style.opacity = "1";
   }
+
   if (checkChecboxValue("business") == false) {
     listOfClasses[5] = false;
+
+    checkboxBusinessIcon.style.opacity = "0";
+  } else {
+    checkboxBusinessIcon.style.opacity = "1";
   }
+
   if (checkChecboxValue("ip") == false) {
     listOfClasses[6] = false;
+
+    checkboxIPIcon.style.opacity = "0";
+  } else {
+    checkboxIPIcon.style.opacity = "1";
   }
+
   if (checkChecboxValue("username") == false) {
     listOfClasses[7] = false;
+
+    checkboxUsernameIcon.style.opacity = "0";
+  } else {
+    checkboxUsernameIcon.style.opacity = "1";
   }
+
   if (checkChecboxValue("domain") == false) {
     listOfClasses[8] = false;
+    
+    checkboxDomainIcon.style.opacity = "0";
+  } else {
+    checkboxDomainIcon.style.opacity = "1";
   }
 
   if (listOfClasses[1] == false && listOfClasses[2] == false && listOfClasses[3] == false && listOfClasses[4] == false && listOfClasses[5] == false && listOfClasses[6] == false && listOfClasses[7] == false && listOfClasses[8] == false) {
