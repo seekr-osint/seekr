@@ -1,10 +1,12 @@
 package api
 
 import (
+	"github.com/seekr-osint/seekr/api/civilstatus"
 	"github.com/seekr-osint/seekr/api/club"
 	"github.com/seekr-osint/seekr/api/gender"
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/religion"
 	"github.com/seekr-osint/seekr/api/sources"
 )
 
@@ -12,36 +14,36 @@ import (
 
 // main data set
 type Person struct {
-	ID             string             `json:"id"`
-	Name           string             `json:"name"`
-	Gender         gender.Gender      `json:"gender"`
-	Pictures       Pictures           `json:"pictures"`
-	Maidenname     string             `json:"maidenname"`
-	Age            Age                `json:"age"` // has to be a float64 becuase of json Unmarshal
-	Birthday       string             `json:"bday"`
-	Address        string             `json:"address"`
-	Phone          PhoneNumbers       `json:"phone"`
-	Ips            ip.Ips             `json:"ips"`
-	Civilstatus    CivilStatus        `json:"civilstatus"`
-	Kids           string             `json:"kids"`
-	Hobbies        hobby.Hobbies      `json:"hobbies"`
-	Email          EmailsType         `json:"email"`
-	Occupation     string             `json:"occupation"`
-	Prevoccupation string             `json:"prevoccupation"`
-	Education      string             `json:"education"`
-	Military       string             `json:"military"`
-	Religion       Religion           `json:"religion"`
-	Pets           string             `json:"pets"`
-	Clubs          club.Clubs         `json:"clubs"`
-	Legal          string             `json:"legal"`
-	Political      string             `json:"political"`
-	Notes          string             `json:"notes"`
-	Relations      Relation           `json:"relations"` // FIXME
-	Sources        sources.Sources    `json:"sources"`
-	Accounts       Accounts           `json:"accounts"`
-	Tags           Tags               `json:"tags"`
-	NotAccounts    map[string]Account `json:"notaccounts"`
-	Custom         interface{}        `json:"custom"`
+	ID             string                  `json:"id"`
+	Name           string                  `json:"name"`
+	Gender         gender.Gender           `json:"gender"`
+	Pictures       Pictures                `json:"pictures"`
+	Maidenname     string                  `json:"maidenname"`
+	Age            Age                     `json:"age"` // has to be a float64 becuase of json Unmarshal
+	Birthday       string                  `json:"bday"`
+	Address        string                  `json:"address"`
+	Phone          PhoneNumbers            `json:"phone"`
+	Ips            ip.Ips                  `json:"ips"`
+	Civilstatus    civilstatus.CivilStatus `json:"civilstatus"`
+	Kids           string                  `json:"kids"`
+	Hobbies        hobby.Hobbies           `json:"hobbies"`
+	Email          EmailsType              `json:"email"`
+	Occupation     string                  `json:"occupation"`
+	Prevoccupation string                  `json:"prevoccupation"`
+	Education      string                  `json:"education"`
+	Military       string                  `json:"military"`
+	Religion       religion.Religion       `json:"religion"`
+	Pets           string                  `json:"pets"`
+	Clubs          club.Clubs              `json:"clubs"`
+	Legal          string                  `json:"legal"`
+	Political      string                  `json:"political"`
+	Notes          string                  `json:"notes"`
+	Relations      Relation                `json:"relations"` // FIXME
+	Sources        sources.Sources         `json:"sources"`
+	Accounts       Accounts                `json:"accounts"`
+	Tags           Tags                    `json:"tags"`
+	NotAccounts    map[string]Account      `json:"notaccounts"`
+	Custom         interface{}             `json:"custom"`
 }
 
 type Relation map[string][]string
