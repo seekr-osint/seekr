@@ -76,32 +76,30 @@ func (person Person) ReplaceNil() Person {
 }
 
 func (person Person) Validate() error {
-	if !person.Civilstatus.IsValid() {
-		return errortypes.APIError{
-			Message: "Invalid civil status",
-			Status:  http.StatusBadRequest,
-		}
-	}
-	if !person.Religion.IsValid() {
-		return errortypes.APIError{
-			Message: "Invalid religion",
-			Status:  http.StatusBadRequest,
-		}
-	}
-
 	if person.ID == "" {
 		return errortypes.APIError{
 			Message: "Missing ID",
 			Status:  http.StatusBadRequest,
 		}
 	}
-	if !person.Gender.IsValid() {
-		return errortypes.APIError{
-			Message: "Invalid gender",
-			Status:  http.StatusBadRequest,
-		}
+
+	// enums
+	err := person.Religion.Validate()
+	if err != nil {
+		return err
 	}
-	err := person.Email.Validate()
+
+	err = person.Civilstatus.Validate()
+	if err != nil {
+		return err
+	}
+
+	err = person.Gender.Validate()
+	if err != nil {
+		return err
+	}
+
+	err = person.Email.Validate()
 	if err != nil {
 		return err
 	}

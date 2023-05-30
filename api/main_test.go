@@ -10,8 +10,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/seekr-osint/seekr/api/civilstatus"
 	"github.com/seekr-osint/seekr/api/config"
+	"github.com/seekr-osint/seekr/api/enum"
 	"github.com/seekr-osint/seekr/api/functions"
+	"github.com/seekr-osint/seekr/api/gender"
+	"github.com/seekr-osint/seekr/api/religion"
 	"github.com/seekr-osint/seekr/api/tc"
 )
 
@@ -146,6 +150,7 @@ var requests = tc.Requests{
 		ExpectedResponse: map[string]interface{}{"download_url": "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64", "is_latest": true, "latest": "0.0.1", "version": "0.0.1"},
 		StatusCode:       200,
 	},
+	//"9a-postPerson": enum.TcRequestValidEnum(civilstatus.Enum, "21", "http://localhost:8080/person", functions.Interface(Person{})),
 	"9a-postPerson": { // ID 15
 		RequestType:      "POST",
 		Name:             "Post Person (civil status)",
@@ -155,48 +160,15 @@ var requests = tc.Requests{
 		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "custom": interface{}(nil), "gender": "", "address": "", "age": float64(0), "bday": "", "civilstatus": "Single", "clubs": map[string]interface{}{}, "education": "", "email": map[string]interface{}{}, "hobbies": map[string]interface{}{}, "id": "15", "kids": "", "ips": map[string]interface{}{}, "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "tags": []interface{}{}},
 		StatusCode:       201,
 	},
-	"9b-postPerson": { // ID 16
-		RequestType: "POST",
-		Name:        "Post Person (invalid civil status)",
-		Comment:     "Possible values are: Single,Married,Widowed,Divorced,Separated",
-		URL:         "http://localhost:8080/person",
-		PostData: functions.Interface(Person{
-			ID:          "16",
-			Civilstatus: "Invalid",
-		}),
-		ExpectedResponse: map[string]interface{}{"message": "Invalid civil status"},
-		StatusCode:       400,
-	},
-	"9c-postPerson": { // ID NONE (16)
+	"9b-postPerson": enum.TcRequestInvalidEnum(civilstatus.Enum, "http://localhost:8080/person"),
+	"9c-postPerson": enum.TcRequestInvalidEnum(religion.Enum, "http://localhost:8080/person"),
+	"9d-postPerson": enum.TcRequestInvalidEnum(gender.Enum, "http://localhost:8080/person"),
+	"9f-postPerson": { // ID NONE (16)
 		RequestType:      "POST",
 		Name:             "Post Person (missing id)",
 		URL:              "http://localhost:8080/person",
 		PostData:         map[string]interface{}{},
 		ExpectedResponse: map[string]interface{}{"message": "Missing ID"},
-		StatusCode:       400,
-	},
-	"9d-postPerson": { // ID 17
-		RequestType: "POST",
-		Name:        "Post Person (invalid religion)",
-		Comment:     "Check [surce code](https://github.com/seekr-osint/seekr/blob/main/api/religion_type.go) for valid religions ",
-		URL:         "http://localhost:8080/person",
-		PostData: functions.Interface(Person{
-			ID:       "17",
-			Religion: "Invalid",
-		}),
-		ExpectedResponse: map[string]interface{}{"message": "Invalid religion"},
-		StatusCode:       400,
-	},
-	"9f-postPerson": { // ID 18
-		RequestType: "POST",
-		Name:        "Post Person (invalid Gender)",
-		Comment:     "Possible values are: Male,Female,Other",
-		URL:         "http://localhost:8080/person",
-		PostData: functions.Interface(Person{
-			ID:     "18",
-			Gender: "Invalid",
-		}),
-		ExpectedResponse: map[string]interface{}{"message": "Invalid gender"},
 		StatusCode:       400,
 	},
 	"9g-postPerson": { // ID 19
@@ -223,6 +195,7 @@ var requests = tc.Requests{
 		ExpectedResponse: map[string]interface{}{"message": "Key missmatch: Phone[6502530000] = missmatched_value"},
 		StatusCode:       400,
 	},
+
 	"9j-postPerson": { // ID 21
 		RequestType:      "POST",
 		Name:             "Post Person (Phone number formatting)",
@@ -331,7 +304,6 @@ func TestAPI(t *testing.T) {
 
 	writeDocs()
 
-	
 	// tc api tests
 	test := tc.ApiTest{
 		Requests: requests,
