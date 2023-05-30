@@ -16,6 +16,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": null,
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": null,
 	"id": "2",
@@ -53,6 +54,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "2",
@@ -126,6 +128,7 @@ curl -X GET http://localhost:8080/people/2
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "2",
@@ -199,6 +202,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": null,
 	"id": "10",
@@ -246,6 +250,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "10",
@@ -324,6 +329,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "11",
@@ -426,6 +432,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "12",
@@ -516,6 +523,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "13",
@@ -587,6 +595,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "14",
@@ -759,6 +768,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "15",
@@ -1006,6 +1016,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "21",
@@ -1082,6 +1093,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "30",
@@ -1158,6 +1170,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "22",
@@ -1234,6 +1247,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "23",
@@ -1340,6 +1354,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "24",
