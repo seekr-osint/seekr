@@ -132,11 +132,6 @@ function apiCall(endpoint: string): string {
 
 }
 
-function sleep(delay: number) {
-    var start = new Date().getTime();
-    while (new Date().getTime() < start + delay);
-}
-
 // SEEKR config stuff
 
 interface SeekrConfig {
@@ -223,8 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const message = await postSeekrConfig(newConfig);
       console.log('Response:', message);
       restartSeekr();
-      sleep(1000);
-      parent.location.reload();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     });
   }
 });
