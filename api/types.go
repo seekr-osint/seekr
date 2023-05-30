@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/seekr-osint/seekr/api/civilstatus"
 	"github.com/seekr-osint/seekr/api/club"
+	"github.com/seekr-osint/seekr/api/ethnicity"
 	"github.com/seekr-osint/seekr/api/gender"
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
@@ -17,6 +18,7 @@ type Person struct {
 	ID             string                  `json:"id"`
 	Name           string                  `json:"name"`
 	Gender         gender.Gender           `json:"gender"`
+	Ethnicity      ethnicity.Ethnicity     `json:"ethnicity"`
 	Pictures       Pictures                `json:"pictures"`
 	Maidenname     string                  `json:"maidenname"`
 	Age            Age                     `json:"age"` // has to be a float64 becuase of json Unmarshal
