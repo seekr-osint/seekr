@@ -189,6 +189,7 @@ func GetInfo(apiConfig ApiConfig, c *gin.Context) {
 }
 
 func RestartBin(apiConfig ApiConfig, c *gin.Context) {
+	fmt.Printf("restarting...")
 	c.IndentedJSON(http.StatusOK, map[string]string{
 		"status": "restarting",
 	})
