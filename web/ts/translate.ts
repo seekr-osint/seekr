@@ -122,12 +122,17 @@ function translateText(word: string): string | undefined {
 }
 
 function translateRawWord(word: string): string | undefined {
-  word = word.toLowerCase().replace(/ /g, "_").replace(/:/g, "_colon");
+  if (word != "") {
+    word = word.toLowerCase().replace(/ /g, "_").replace(/:/g, "_colon");
 
-  console.log(word);
+    console.log(word);
 
-  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
-  return translator.translateText(word);
+    const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+
+    return translator.translateText(word);
+  } else {
+    return "";
+  }
 }
 
 console.log(translateRawWord("Pets:"));
