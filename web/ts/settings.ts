@@ -1,3 +1,5 @@
+import { apiCall } from './framework.js';
+
 const channel = new BroadcastChannel("seekr-channel");
 
 channel.addEventListener('message', (event) => {
@@ -115,5 +117,100 @@ if (selectedLanguage) {
     selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
   }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
 }
+
+// SEEKR config stuff
+
+interface SeekrConfig {
+  general: {
+    browser: boolean;
+    discord: boolean;
+    force_port: boolean;
+  };
+  server: {
+    ip: string;
+    port: number;
+  };
+}
+
+async function restartSeekr(): Promise<void> {
+  await fetch(apiCall('/restart'));
+  return;
+}
+
+async function getCurrentConfig(): Promise<SeekrConfig> {
+  const response = await fetch(apiCall('/config'));
+  const data = await response.json();
+  return data as SeekrConfig;
+}
+
+async function postSeekrConfig(config: SeekrConfig): Promise<string> {
+  const response = await fetch(apiCall('/config'), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(config),
+  });
+  const data = await response.json();
+  return data.message;
+}
+
+function setValues(config: SeekrConfig): void {
+  // Port
+  const portInput = document.getElementById("port-tag") as HTMLInputElement;
+  if (portInput) {
+    portInput.value = config.server.port.toString();
+  }
+
+  // Port
+  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
+
+  if (ipInput) {
+    ipInput.value = config.server.ip.toString();
+  }
+}
+
+function getValues(): { port: number, ip: string } {
+  const portInput = document.getElementById("port-tag") as HTMLInputElement;
+  const port = parseInt(portInput.value, 10);
+
+  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
+  const ip = ipInput.value;
+
+  return { port, ip };
+}
+
+async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
+  let currentConfig = await getCurrentConfig();
+  const values = getValues();
+
+  currentConfig.server.ip = values.ip;
+  currentConfig.server.port = values.port;
+
+  return currentConfig;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const saveBtn = document.getElementById('settings-savebtn-p');
+  if (saveBtn) {
+    (async () => {
+      const currentConfig = await getCurrentConfig();
+      console.log('Current Config:', currentConfig);
+      setValues(currentConfig);
+    })();
+
+    saveBtn.addEventListener('click', async () => {
+      const newConfig = await getUpdatedSeekrConfig();
+      const message = await postSeekrConfig(newConfig);
+      console.log('Response:', message);
+      restartSeekr();
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    });
+  }
+});
+
 
 export { createThemeCards, changeTheme, checkLanguage };

@@ -3,6 +3,7 @@ package restart
 import (
 	"errors"
 	"os"
+	"runtime"
 	"syscall"
 )
 
@@ -18,9 +19,10 @@ func RestartBinary() error {
 		return ErrGetCurrentBinary
 	}
 
-	// Terminate the current process
-	if err := syscall.Exec(executable, os.Args, os.Environ()); err != nil {
-		return ErrStartNewBin
+	if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
+		if err := syscall.Exec(executable, os.Args, os.Environ()); err != nil {
+			return ErrStartNewBin
+		}
 	}
 
 	return nil

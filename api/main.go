@@ -189,6 +189,10 @@ func GetInfo(apiConfig ApiConfig, c *gin.Context) {
 }
 
 func RestartBin(apiConfig ApiConfig, c *gin.Context) {
+	fmt.Printf("restarting...")
+	c.IndentedJSON(http.StatusOK, map[string]string{
+		"status": "restarting",
+	})
 	err := restart.RestartBinary()
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, map[string]string{
@@ -196,10 +200,11 @@ func RestartBin(apiConfig ApiConfig, c *gin.Context) {
 		})
 		return
 	}
-	c.IndentedJSON(http.StatusOK, apiConfig.Config)
+	//c.IndentedJSON(http.StatusOK, nil)
 }
 
 func GetConfig(apiConfig ApiConfig, c *gin.Context) {
+	log.Printf("/config api call")
 	c.IndentedJSON(http.StatusOK, apiConfig.Config)
 }
 
@@ -233,6 +238,22 @@ func DeleteAccount(config ApiConfig, c *gin.Context) {
 	}
 }
 
+func PointerHandler(function func(*ApiConfig, *gin.Context), apiConfig *ApiConfig) gin.HandlerFunc {
+	handlerFunc := func(c *gin.Context) {
+		if apiConfig.SetCORSHeader {
+			c.Header("Access-Control-Allow-Origin", "*")
+		}
+		newApiConfig, err := apiConfig.LoadDB()
+		if err != nil {
+			log.Fatalf("Error loading database: %s", err)
+		}
+		apiConfig = &newApiConfig
+
+		function(apiConfig, c)
+	}
+	return gin.HandlerFunc(handlerFunc)
+}
+
 func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.HandlerFunc {
 	handlerFunc := func(c *gin.Context) {
 		if config.SetCORSHeader {
@@ -240,7 +261,7 @@ func Handler(function func(ApiConfig, *gin.Context), config ApiConfig) gin.Handl
 		}
 		config, err := config.LoadDB()
 		if err != nil {
-			log.Fatalf("Error database: %s", err)
+			log.Fatalf("Error loading database: %s", err)
 		}
 
 		function(config, c)

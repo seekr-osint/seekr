@@ -84,5 +84,7 @@
   "gaelic": "Gaelic",
   "latin": "Latin",
   "spanish": "Spanish",
-  "italian": "Italian"
+  "italian": "Italian",
+  "port": "Port",
+  "save_&_restart": "Save & Restart"
 }

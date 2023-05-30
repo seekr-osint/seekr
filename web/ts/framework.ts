@@ -5,9 +5,9 @@ function saveAsFile(textContent: string, fileName: string) {
   const textEncoding: string = "text/plain;charset=utf-8";
 
   try {
-    var blob = new Blob([textContent], {type: textEncoding});
+    var blob = new Blob([textContent], { type: textEncoding });
     saveAs(blob, fileName);
-  } catch(exception) {
+  } catch (exception) {
     window.open("data:" + textEncoding + "," + encodeURIComponent(textContent), '_blank', '');
   }
 }
@@ -50,7 +50,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
       c.setAttribute("lng-tag", lngTagValue);
 
       c.innerHTML = optionValue;
-      
+
       translateElement(c);
 
       c.addEventListener("click", function (e) {
@@ -61,7 +61,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
           for (let k = 0; k < y.length; k++) {
             //console.log(this.getAttribute("lng-tag").charAt(0).toUpperCase() + string.slice(1))
             // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
-            
+
             let value = this.getAttribute("lng-tag");
             let value2 = y.options[k].innerHTML.toLowerCase().replace(/\s/g, "_"); // Value2 converts y.options[k].innerHTML into lng-tag syntax
 
@@ -114,7 +114,7 @@ function closeAllSelect(elmnt: HTMLElement) {
   }
 }
 
-document.addEventListener("click", function() {
+document.addEventListener("click", function () {
   closeAllSelect(this.activeElement as HTMLElement);
 });
 
@@ -122,7 +122,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
   if (dropdownType == "gender") {
     const selectedGender = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(1) > div > div.select-selected")?.innerHTML ?? "";
     const gender: { [key: string]: string } = {};
-  
+
     // English
 
     gender["Select gender:"] = "";
@@ -145,7 +145,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     const religion: { [key: string]: string } = {};
 
     // English
-  
+
     religion["Select religion:"] = "";
     religion["Christianity"] = "Christianity";
     religion["Atheism"] = "Atheism";
@@ -169,14 +169,14 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
       religion[translateText("judaism")!] = "Judaism";
       religion[translateText("other")!] = "Other";
     }
-  
+
     return religion[selectedReligion];
   } else if (dropdownType == "civilstatus") {
     const selectedCivilstatus = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(6) > div > div.select-selected")?.innerHTML ?? "";
     const civilstatus: { [key: string]: string } = {};
 
     // English
-  
+
     civilstatus["Select civil status:"] = "";
     civilstatus["Single"] = "Single";
     civilstatus["Married"] = "Married";
@@ -192,9 +192,9 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
       civilstatus[translateText("married")!] = "Married";
       civilstatus[translateText("widowed")!] = "Widowed";
       civilstatus[translateText("divorced")!] = "Divorced";
-      civilstatus[translateText("separated")!] = "Separated";  
+      civilstatus[translateText("separated")!] = "Separated";
     }
-  
+
     return civilstatus[selectedCivilstatus];
   }
 }
@@ -218,7 +218,7 @@ function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilsta
       genderIndex[translateText("female")!] = "1";
       genderIndex[translateText("other")!] = "2";
     }
-  
+
     return genderIndex[dropdownValue];
   } else if (dropdownType == "religion") {
     const religionIndex: { [key: string]: string } = {};
@@ -235,7 +235,7 @@ function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilsta
     religionIndex["Sikhism"] = "5";
     religionIndex["Judaism"] = "6";
     religionIndex["Other"] = "7";
-    
+
     // Translation
 
     if (religionIndex[dropdownValue] == undefined) {
@@ -272,10 +272,22 @@ function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilsta
       civilstatusIndex[translateText("divorced")!] = "3";
       civilstatusIndex[translateText("separated")!] = "4";
     }
-  
+
     return civilstatusIndex[dropdownValue];
   }
 }
 
+function apiCall(endpoint: string): string {
+  var hostname = window.location.hostname;
+  var port = window.location.port;
+  var baseUrl = hostname + ":" + port;
+  var apiUrl = "http://" + baseUrl;
 
-export {saveAsFile, getDropdownElementIndex, checkDropdownValue};
+  if (endpoint.charAt(0) === "/") {
+    endpoint = endpoint.substring(1);
+  }
+
+  return apiUrl + '/' + endpoint
+}
+
+export { saveAsFile, getDropdownElementIndex, checkDropdownValue, apiCall };

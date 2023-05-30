@@ -1,15 +1,6 @@
-import { saveAsFile, checkDropdownValue, getDropdownElementIndex } from "./framework.js";
+import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall } from "./framework.js";
 
 const searchBar = document.getElementById("searchbar");
-
-
-// Api url 
-var hostname = window.location.hostname;
-var port = window.location.port;
-
-var baseUrl = hostname + ":" + port;
-
-var apiUrl = "http://" + baseUrl;
 
 
 // Listen for messages on the broadcast channel
@@ -96,7 +87,7 @@ const accAccounts = document.getElementById("accounts") as HTMLDivElement;
 const accLoadingSpinner = document.getElementById("loading-spinner") as HTMLDivElement;
 
 async function getData(): Promise<object> {
-  const res = await fetch(apiUrl + "/")
+  const res = await fetch(apiCall("/"));
 
   let data = await res.json();
 
@@ -109,7 +100,7 @@ document.getElementById("savemdbtn")!.onclick = async function () {
   const getId = document.getElementById("v-showid") as HTMLParagraphElement;
   const getName = document.getElementById("name-tag") as HTMLInputElement;
 
-  const request = await fetch(apiUrl + "/people/" + getId!.innerHTML + "/markdown");
+  const request = await fetch(apiCall("/people/" + getId!.innerHTML + "/markdown"));
   const textToSave = await request.json();
 
 
@@ -190,7 +181,7 @@ function createCards(obj: any) {
   d_icon.setAttribute("name", "trash-outline");
 
   d_icon_div.onclick = function () {
-    fetch(apiUrl + "/people/" + obj.id + "/delete", {
+    fetch(apiCall("/people/" + obj.id + "/delete"), {
       method: "GET",
       mode: "no-cors"
     }).then(function () {
@@ -236,7 +227,7 @@ function createCards(obj: any) {
     accLoadingSpinner.style.display = "inline-block";
 
     // Set the flag to indicate that a request is in progress
-    const response = await fetch(apiUrl + '/getAccounts/' + accNameTag.value);
+    const response = await fetch(apiCall('/getAccounts/' + accNameTag.value));
     const data = await response.json();
 
     const term_container = document.createElement("div");
@@ -335,13 +326,13 @@ function createCards(obj: any) {
           // Check if accObj.service and accObj.username are also in accounts object at obj.accounts
           let getId = editShowID.innerHTML
 
-          const res = await fetch(apiUrl + "/people/" + getId)
+          const res = await fetch(apiCall("/people/" + getId))
 
           let data = await res.json();
 
           data.accounts[accObj.service + "-" + accObj.username] = accObj;
 
-          fetch(apiUrl + "/person", {
+          fetch(apiCall("/person"), {
             method: 'POST',
             body: JSON.stringify(data)
           });
@@ -1542,7 +1533,7 @@ function createCards(obj: any) {
             loadingSpinnerInner.appendChild(loadingSpinnerBall.cloneNode());
 
 
-            const res = await fetch(apiUrl + "/deep/github/" + accVar.username)
+            const res = await fetch(apiCall("/deep/github/" + accVar.username))
             let data = await res.json();
 
             loadingSpinner.remove();
@@ -1611,7 +1602,7 @@ function createCards(obj: any) {
 
 
           del_btn_div.onclick = function () {
-            fetch(apiUrl + "/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.service + "-" + accVar.username + "/delete", {
+            fetch(apiCall("/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.service + "-" + accVar.username + "/delete"), {
               method: "GET",
               mode: "no-cors"
             });
@@ -1630,7 +1621,7 @@ function createCards(obj: any) {
           del_btn_div.appendChild(del_btn);
 
           del_btn_div.onclick = function () {
-            fetch(apiUrl + "/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.service + "-" + accVar.username + "/delete", {
+            fetch(apiCall("/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.service + "-" + accVar.username + "/delete"), {
               method: "GET",
               mode: "no-cors"
             });
@@ -1793,7 +1784,7 @@ createSaveBtn.onclick = async function () { // new document save button
   const loadingSpinner = document.querySelector("#c-loading-spinner") as HTMLDivElement;
   loadingSpinner.style.display = "flex"
 
-  fetch(apiUrl + "/person", {
+  fetch(apiCall("/person"), {
     method: "POST",
     body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes })
   }).then(function () {
@@ -1932,12 +1923,12 @@ editSaveBtn.onclick = async function () {
   const loadingSpinner = document.querySelector("#e-loading-spinner")! as HTMLDivElement;
   loadingSpinner.style.display = "flex"
 
-  const res = await fetch(apiUrl + "/people/" + id)
+  const res = await fetch(apiCall("/people/" + id))
 
   let data = await res.json();
 
-  fetch(apiUrl + '/person', {
-    method: 'POST',
+  fetch(apiCall("/person"), {
+    method: "POST",
     body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes, "accounts": data.accounts })
   }).then(function () {
     loadingSpinner.style.display = "none"
