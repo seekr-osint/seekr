@@ -16,6 +16,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": null,
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": null,
 	"id": "2",
@@ -53,6 +54,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "2",
@@ -126,6 +128,7 @@ curl -X GET http://localhost:8080/people/2
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "2",
@@ -199,6 +202,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": null,
 	"id": "10",
@@ -246,6 +250,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "10",
@@ -324,6 +329,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "11",
@@ -426,6 +432,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "12",
@@ -516,6 +523,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "13",
@@ -587,6 +595,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "14",
@@ -732,60 +741,6 @@ curl -X GET http://localhost:8080/info
 **Status Code:** 200
 
 
-## Post Person (civil status)
-Possible values are: Single,Married,Widowed,Divorced,Separated
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"civilstatus": "Single",
-	"id": "15"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"accounts": {},
-	"address": "",
-	"age": 0,
-	"bday": "",
-	"civilstatus": "Single",
-	"clubs": {},
-	"custom": null,
-	"education": "",
-	"email": {},
-	"gender": "",
-	"hobbies": {},
-	"id": "15",
-	"ips": {},
-	"kids": "",
-	"legal": "",
-	"maidenname": "",
-	"military": "",
-	"name": "",
-	"notaccounts": null,
-	"notes": "",
-	"occupation": "",
-	"pets": "",
-	"phone": {},
-	"pictures": {},
-	"political": "",
-	"prevoccupation": "",
-	"relations": {},
-	"religion": "",
-	"sources": {},
-	"tags": []
-}
-```
-
-**Status Code:** 201
-
-
 ## Post person (invalid CivilStatus)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 
@@ -855,6 +810,31 @@ curl -X POST http://localhost:8080/person \
 ```json
 {
 	"message": "Invalid Gender"
+}
+```
+
+**Status Code:** 400
+
+
+## Post person (invalid Ethnicity)
+Possible values are: African,Asian,Caucasian/White,Hispanic/Latino,Indigenous/Native American,Multiracial/Mixed
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"ethnicity": "invalid",
+	"id": "1"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Invalid Ethnicity"
 }
 ```
 
@@ -1006,6 +986,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "21",
@@ -1082,6 +1063,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "30",
@@ -1158,6 +1140,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "22",
@@ -1234,6 +1217,7 @@ curl -X POST http://localhost:8080/person \
 	"custom": null,
 	"education": "",
 	"email": {},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "23",
@@ -1340,6 +1324,7 @@ curl -X POST http://localhost:8080/person \
 			"value": 0
 		}
 	},
+	"ethnicity": "",
 	"gender": "",
 	"hobbies": {},
 	"id": "24",

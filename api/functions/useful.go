@@ -153,19 +153,18 @@ func ParsedInterface[T interface{ Parse() (T, error) }](t T) interface{} {
 	t, _ = t.Parse()
 	return Interface(t)
 }
-func Interface[T interface{}](t T) interface{} {
-	var cfg interface{}
+func Interface[T interface{}](t T) map[string]interface{} {
+	var cfg map[string]interface{}
 	jsonBytes, _ := json.Marshal(t)
 	_ = json.Unmarshal(jsonBytes, &cfg)
 	return cfg
 }
 
-
 func SliceToCommaSeparatedList[T comparable](slice []T) string {
 	var nonEmptyStrings []string
 
 	for _, val := range slice {
-		str	:= fmt.Sprintf("%v",val)
+		str := fmt.Sprintf("%v", val)
 		if str != "" {
 			nonEmptyStrings = append(nonEmptyStrings, str)
 		}
