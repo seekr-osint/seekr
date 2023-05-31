@@ -13,11 +13,12 @@ builds:
     binary: seekr-cli
     goos:
       - linux
-      - darwin
-      - freebsd
+      - windows
+        #- darwin
+        #- freebsd
     goarch:
       - amd64
-      - arm64
+        #- arm64
     tags:
       - osusergo
       - netgo
@@ -35,11 +36,11 @@ builds:
     goos:
       - linux
       - windows
-      - darwin
-      - freebsd
+        #- darwin
+        #- freebsd
     goarch:
       - amd64
-      - arm64
+        #- arm64
     tags:
       - osusergo
       - netgo
