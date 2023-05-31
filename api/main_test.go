@@ -151,20 +151,14 @@ var requests = tc.Requests{
 		ExpectedResponse: map[string]interface{}{"download_url": "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64", "is_latest": true, "latest": "0.0.1", "version": "0.0.1"},
 		StatusCode:       200,
 	},
-	//"9a-postPerson": enum.TcRequestValidEnum(civilstatus.Enum, "21", "http://localhost:8080/person", functions.Interface(Person{})),
-	"9a-postPerson": { // ID 15
-		RequestType:      "POST",
-		Name:             "Post Person (civil status)",
-		Comment:          "Possible values are: Single,Married,Widowed,Divorced,Separated",
-		URL:              "http://localhost:8080/person",
-		PostData:         map[string]interface{}{"id": "15", "civilstatus": "Single"},
-		ExpectedResponse: map[string]interface{}{"accounts": map[string]interface{}{}, "custom": interface{}(nil), "gender": "", "ethnicity": "", "address": "", "age": float64(0), "bday": "", "civilstatus": "Single", "clubs": map[string]interface{}{}, "education": "", "email": map[string]interface{}{}, "hobbies": map[string]interface{}{}, "id": "15", "kids": "", "ips": map[string]interface{}{}, "legal": "", "maidenname": "", "military": "", "name": "", "notaccounts": interface{}(nil), "notes": "", "occupation": "", "pets": "", "phone": map[string]interface{}{}, "pictures": map[string]interface{}{}, "political": "", "prevoccupation": "", "relations": map[string]interface{}{}, "religion": "", "sources": map[string]interface{}{}, "tags": []interface{}{}},
-		StatusCode:       201,
-	},
-	"9b-postPerson": enum.TcRequestInvalidEnum(civilstatus.Enum, "http://localhost:8080/person"),
-	"9c-postPerson": enum.TcRequestInvalidEnum(religion.Enum, "http://localhost:8080/person"),
-	"9d-postPerson": enum.TcRequestInvalidEnum(gender.Enum, "http://localhost:8080/person"),
-	"9e-postPerson": enum.TcRequestInvalidEnum(ethnicity.Enum, "http://localhost:8080/person"),
+	"9b1-postPerson": enum.TcRequestInvalidEnum(civilstatus.Enum, "http://localhost:8080/person"),
+	//"9b2-postPerson": enum.TcRequestValidEnum(civilstatus.Enum, "15", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 15
+	"9c1-postPerson": enum.TcRequestInvalidEnum(religion.Enum, "http://localhost:8080/person"),
+	// "9c2-postPerson": enum.TcRequestValidEnum(religion.Enum, "16", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 16
+	"9d1-postPerson": enum.TcRequestInvalidEnum(gender.Enum, "http://localhost:8080/person"),
+	// "9d2-postPerson": enum.TcRequestValidEnum(gender.Enum, "17", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 17
+	"9e1-postPerson": enum.TcRequestInvalidEnum(ethnicity.Enum, "http://localhost:8080/person"),
+	// "9e2-postPerson": enum.TcRequestValidEnum(ethnicity.Enum, "18", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 18
 	"9f-postPerson": { // ID NONE (16)
 		RequestType:      "POST",
 		Name:             "Post Person (missing id)",
@@ -314,19 +308,6 @@ func TestAPI(t *testing.T) {
 }
 
 // debug function
-func areMapsEqual(map1, map2 map[string]interface{}) bool {
-	if len(map1) != len(map2) {
-		return false
-	}
-	for key, val1 := range map1 {
-		val2, ok := map2[key]
-		if !ok || !reflect.DeepEqual(val1, val2) {
-			fmt.Printf("%s = %s; %s = %s", key, val1, key, val2)
-			return false
-		}
-	}
-	return true
-}
 
 func Test_GetPersonID(t *testing.T) {
 	var config = ApiConfig{

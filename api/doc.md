@@ -741,7 +741,32 @@ curl -X GET http://localhost:8080/info
 **Status Code:** 200
 
 
-## Post Person (civil status)
+## Post person (invalid CivilStatus)
+Possible values are: Single,Married,Widowed,Divorced,Separated
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"civilstatus": "invalid",
+	"id": "1"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"message": "Invalid CivilStatus"
+}
+```
+
+**Status Code:** 400
+
+
+## Post person (valid CivilStatus)
 Possible values are: Single,Married,Widowed,Divorced,Separated
 
 **Curl Request:**
@@ -796,31 +821,6 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 201
 
 
-## Post person (invalid CivilStatus)
-Possible values are: Single,Married,Widowed,Divorced,Separated
-
-**Curl Request:**
-
-```sh
-curl -X POST http://localhost:8080/person \
--H 'Content-Type: application/json' \
--d '{
-	"civilstatus": "invalid",
-	"id": "1"
-}'
-```
-
-**Response:**
-
-```json
-{
-	"message": "Invalid CivilStatus"
-}
-```
-
-**Status Code:** 400
-
-
 ## Post person (invalid Religion)
 Possible values are: Christianity,Islam,Hinduism,Buddhism,Sikhism,Judaism,Other,Atheism
 
@@ -844,6 +844,61 @@ curl -X POST http://localhost:8080/person \
 ```
 
 **Status Code:** 400
+
+
+## Post person (valid Religion)
+Possible values are: Christianity,Islam,Hinduism,Buddhism,Sikhism,Judaism,Other,Atheism
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"id": "16",
+	"religion": "Christianity"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": {},
+	"custom": null,
+	"education": "",
+	"email": {},
+	"ethnicity": "",
+	"gender": "",
+	"hobbies": {},
+	"id": "16",
+	"ips": {},
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "Christianity",
+	"sources": {},
+	"tags": []
+}
+```
+
+**Status Code:** 201
 
 
 ## Post person (invalid Gender)
@@ -871,6 +926,61 @@ curl -X POST http://localhost:8080/person \
 **Status Code:** 400
 
 
+## Post person (valid Gender)
+Possible values are: Male,Female,Other
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"gender": "Male",
+	"id": "17"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": {},
+	"custom": null,
+	"education": "",
+	"email": {},
+	"ethnicity": "",
+	"gender": "Male",
+	"hobbies": {},
+	"id": "17",
+	"ips": {},
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"tags": []
+}
+```
+
+**Status Code:** 201
+
+
 ## Post person (invalid Ethnicity)
 Possible values are: African,Asian,Caucasian/White,Hispanic/Latino,Indigenous/Native American,Multiracial/Mixed
 
@@ -894,6 +1004,61 @@ curl -X POST http://localhost:8080/person \
 ```
 
 **Status Code:** 400
+
+
+## Post person (valid Ethnicity)
+Possible values are: African,Asian,Caucasian/White,Hispanic/Latino,Indigenous/Native American,Multiracial/Mixed
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/person \
+-H 'Content-Type: application/json' \
+-d '{
+	"ethnicity": "African",
+	"id": "18"
+}'
+```
+
+**Response:**
+
+```json
+{
+	"accounts": {},
+	"address": "",
+	"age": 0,
+	"bday": "",
+	"civilstatus": "",
+	"clubs": {},
+	"custom": null,
+	"education": "",
+	"email": {},
+	"ethnicity": "African",
+	"gender": "",
+	"hobbies": {},
+	"id": "18",
+	"ips": {},
+	"kids": "",
+	"legal": "",
+	"maidenname": "",
+	"military": "",
+	"name": "",
+	"notaccounts": null,
+	"notes": "",
+	"occupation": "",
+	"pets": "",
+	"phone": {},
+	"pictures": {},
+	"political": "",
+	"prevoccupation": "",
+	"relations": {},
+	"religion": "",
+	"sources": {},
+	"tags": []
+}
+```
+
+**Status Code:** 201
 
 
 ## Post Person (missing id)

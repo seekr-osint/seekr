@@ -57,7 +57,7 @@ func TcRequestValidEnum[T1 comparable](enum Enum[T1],id string,url string,respon
 		Comment: fmt.Sprintf("Possible values are: %s",functions.SliceToCommaSeparatedList(enum.Values)),
 		PostData: person,
 		ExpectedResponse: responsePerson,
-		StatusCode:  200,
+		StatusCode:  201,
 	}
 
 	return request

@@ -3,6 +3,7 @@ package tc
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"reflect"
 	"testing"
@@ -103,4 +104,19 @@ func NewEnumIsValidTest[T1 comparable, T2 comparable](function func(T1) T2, inva
 	testCases = append(testCases, testCase)
 
 	return Test[T1, T2]{Cases: testCases, Func: function}
+}
+
+
+func areMapsEqual(map1, map2 map[string]interface{}) bool {
+	if len(map1) != len(map2) {
+		return false
+	}
+	for key, val1 := range map1 {
+		val2, ok := map2[key]
+		if !ok || !reflect.DeepEqual(val1, val2) {
+			fmt.Printf("%s = %s; %s = %s", key, val1, key, val2)
+			return false
+		}
+	}
+	return true
 }
