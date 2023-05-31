@@ -124,7 +124,7 @@
             nixpkgsFor.${system}.goreleaser
 
             nixpkgsFor.${system}.gcc
-            self.packages.${system}.seekr
+            #self.packages.${system}.seekr
           ];
         };
       });
