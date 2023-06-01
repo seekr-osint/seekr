@@ -7,6 +7,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"sync"
 
 	"github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
@@ -14,13 +15,15 @@ import (
 )
 
 func main() {
-	GenType(api.Person{})
-	GenType(config.Config{})
+	wg := &sync.WaitGroup{}
+	GenType(api.Person{}, wg)
+	GenType(config.Config{}, wg)
+	wg.Wait()
 
 }
 
-func GenType(toConvert interface{}) error {
-
+func GenType(toConvert interface{}, wg *sync.WaitGroup) error {
+	wg.Add(1)
 	converter := typescriptify.New()
 	converter.CreateConstructor = true
 	converter.Indent = "    "
@@ -37,5 +40,6 @@ func GenType(toConvert interface{}) error {
 	if err != nil {
 		return err
 	}
+	wg.Done()
 	return nil
 }
