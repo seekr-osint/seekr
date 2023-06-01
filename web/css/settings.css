@@ -81,14 +81,14 @@ ip-tag::placeholder  {
 
 .theme-option {
     height: fit-content;
-    width: fit-content;
+    width: 54rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     margin-bottom: 0;
 }
 
 .theme-card {
-    width: 14vw;
+    width: 90%;
     height: 8vw;
     margin: 1rem;
     background-color: var(--bg);
