@@ -14,6 +14,7 @@ function saveAsFile(textContent: string, fileName: string) {
 
 const elements: { [key: string]: HTMLCollectionOf<Element> } = { // used to select a element in the dropdown
   "gender-select": document.getElementsByClassName("gender-select"),
+  "ethnicity-select": document.getElementsByClassName("ethnicity-select"),
   "religion-select": document.getElementsByClassName("religion-select"),
   "civilstatus-select": document.getElementsByClassName("civilstatus-select"),
   "country-select": document.getElementsByClassName("country-select"),
@@ -32,8 +33,9 @@ for (const [className, nodeList] of Object.entries(elements)) {
     const labelText = selElmnt.options[0].innerHTML;
     const lngTagValue = labelText
       .toLowerCase()
-      .replace(/\s/g, "_")
-      .replace(":", "_colon");
+      .replace(/\//g, "_slash_")
+      .replace(/ /g, "_")
+      .replace(/:/g, "_colon");
     selectSelectedDiv.setAttribute("lng-tag", lngTagValue);
 
     selectSelectedDiv.innerHTML = labelText;
@@ -46,7 +48,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
     for (let j = 1; j < selElmntLength; j++) {
       const c = document.createElement("DIV");
       const optionValue = selElmnt.options[j].innerHTML;
-      const lngTagValue = optionValue.toLowerCase().replace(/\s/g, "_");
+      const lngTagValue = optionValue.toLowerCase().replace(/\//g, "_slash_").replace(/ /g, "_");
       c.setAttribute("lng-tag", lngTagValue);
 
       c.innerHTML = optionValue;
@@ -63,7 +65,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
             // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
 
             let value = this.getAttribute("lng-tag");
-            let value2 = y.options[k].innerHTML.toLowerCase().replace(/\s/g, "_"); // Value2 converts y.options[k].innerHTML into lng-tag syntax
+            let value2 = y.options[k].innerHTML.toLowerCase().replace(/\//g, "_slash_").replace(/ /g, "_"); // Value2 converts y.options[k].innerHTML into lng-tag syntax
 
             if (value == value2!) { //translateText(this.innerHTML)) {
               y.selectedIndex = k;
@@ -118,7 +120,7 @@ document.addEventListener("click", function () {
   closeAllSelect(this.activeElement as HTMLElement);
 });
 
-function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender" | "religion" | "civilstatus") {
+function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus") {
   if (dropdownType == "gender") {
     const selectedGender = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(1) > div > div.select-selected")?.innerHTML ?? "";
     const gender: { [key: string]: string } = {};
@@ -140,6 +142,33 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     }
 
     return gender[selectedGender];
+  } else if (dropdownType == "ethnicity") {
+    const selectedEthnicity = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(2) > div > div.select-selected")?.innerHTML ?? "";
+    const ethnicity: { [key: string]: string } = {};
+
+    // English
+
+    ethnicity["Select ethnicity:"] = "";
+    ethnicity["African"] = "African";
+    ethnicity["Asian"] = "Asian";
+    ethnicity["Caucasian/White"] = "Caucasian/White";
+    ethnicity["Hispanic/Latino"] = "Hispanic/Latino";
+    ethnicity["Indigenous/Native American"] = "Indigenous/Native American";
+    ethnicity["Multiracial/Mixed"] = "Multiracial/Mixed";
+
+    // Translations
+
+    if (ethnicity[selectedEthnicity] == undefined) {
+      ethnicity[translateText("select_ethnicity_colon")!] = "";
+      ethnicity[translateText("african")!] = "African";
+      ethnicity[translateText("asian")!] = "Asian";
+      ethnicity[translateText("caucasian_slash_white")!] = "Caucasian/White";
+      ethnicity[translateText("hispanic_slash_latino")!] = "Hispanic/Latino";
+      ethnicity[translateText("indegenous_slash_native_american")!] = "Indigenous/Native American";
+      ethnicity[translateText("multiracial_slash_mixed")!] = "Multiracial/Mixed";
+    }
+
+    return ethnicity[selectedEthnicity];
   } else if (dropdownType == "religion") {
     const selectedReligion = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(14) > div > div.select-selected")?.innerHTML ?? "";
     const religion: { [key: string]: string } = {};
@@ -199,7 +228,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
   }
 }
 
-function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilstatus", dropdownValue: string): string | undefined {
+function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus", dropdownValue: string): string | undefined {
   if (dropdownType == "gender") {
     const genderIndex: { [key: string]: string } = {};
 
@@ -220,6 +249,32 @@ function getDropdownElementIndex(dropdownType: "gender" | "religion" | "civilsta
     }
 
     return genderIndex[dropdownValue];
+  } else if (dropdownType == "ethnicity") {
+    const ethnicityIndex: { [key: string]: string } = {};
+
+    ethnicityIndex[""] = "";
+
+    // English
+
+    ethnicityIndex["African"] = "0";
+    ethnicityIndex["Asian"] = "1";
+    ethnicityIndex["Caucasian/White"] = "2";
+    ethnicityIndex["Hispanic/Latino"] = "3";
+    ethnicityIndex["Indigenous/Native American"] = "4";
+    ethnicityIndex["Multiracial/Mixed"] = "5";
+
+    // Translation
+
+    if (ethnicityIndex[dropdownValue] == undefined) {
+      ethnicityIndex[translateText("african")!] = "0";
+      ethnicityIndex[translateText("asian")!] = "1";
+      ethnicityIndex[translateText("caucasian_slash_white")!] = "2";
+      ethnicityIndex[translateText("hispanic_slash_latino")!] = "3";
+      ethnicityIndex[translateText("indegenous_slash_native_american")!] = "4";
+      ethnicityIndex[translateText("multiracial_slash_mixed")!] = "5";
+    }
+
+    return ethnicityIndex[dropdownValue];
   } else if (dropdownType == "religion") {
     const religionIndex: { [key: string]: string } = {};
 
