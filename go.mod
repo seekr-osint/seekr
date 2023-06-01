@@ -18,6 +18,7 @@ require (
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
 	github.com/nyaruka/phonenumbers v1.1.7
 	github.com/pelletier/go-toml v1.9.5
+	github.com/pemistahl/lingua-go v1.3.3
 	github.com/projectdiscovery/subfinder/v2 v2.5.9
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
@@ -132,6 +133,7 @@ require (
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
+	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/skeema/knownhosts v1.1.1 // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/therootcompany/xz v1.0.1 // indirect
