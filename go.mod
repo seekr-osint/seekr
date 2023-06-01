@@ -21,6 +21,7 @@ require (
 	github.com/projectdiscovery/subfinder/v2 v2.5.9
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
+	github.com/tkrajina/typescriptify-golang-structs v0.1.10
 	golang.org/x/oauth2 v0.8.0
 )
 
@@ -134,6 +135,7 @@ require (
 	github.com/skeema/knownhosts v1.1.1 // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/therootcompany/xz v1.0.1 // indirect
+	github.com/tkrajina/go-reflector v0.5.5 // indirect
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect

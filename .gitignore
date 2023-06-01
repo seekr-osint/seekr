@@ -23,5 +23,10 @@ examples/plugins/**/plugin.so
 
 # Type scritp because java script sucks
 ./web/dist
+./web/ts-gen/*
 Seekr.AppDir
 
+
+cmd/sbuild/sbuild
+
+web/ts-gen
