@@ -12,6 +12,7 @@ api/test-data
 # Binaries
 seekr
 seekr.exe
+**/**.exe
 
 # Dev stuff
 .direnv
