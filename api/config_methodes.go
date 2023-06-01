@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/seekr-osint/seekr/api/info"
 	//"github.com/gin-contrib/static"
 	"net/http"
 )
@@ -83,4 +84,14 @@ func (config *ApiConfig) LoadDBPointer() error {
 	}
 	config = &newConfig
 	return nil
+}
+
+func (apiConfig ApiConfig) Info() info.Info {
+	return info.Info{
+		Version: apiConfig.Version.String(),
+		IsLatest:    apiConfig.Version.IsLatest(),
+		Latest: apiConfig.Version.GetLatest().String(),
+		DownloadUrl: apiConfig.Version.GetLatest().DownloadURL(),
+	}
+	
 }

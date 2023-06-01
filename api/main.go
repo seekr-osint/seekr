@@ -10,6 +10,7 @@ import (
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/github"
+	"github.com/seekr-osint/seekr/api/info"
 	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/version"
@@ -88,7 +89,7 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
 	config.GinRouter.POST("/config", Handler(PostConfig, config))                                // post config
 	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // get config
-	config.GinRouter.GET("/info", Handler(GetInfo, config))                                      // get info
+	config.GinRouter.GET("/info", Handler(GetInfoRequest, config))                               // get info
 	config.GinRouter.GET("/restart", Handler(RestartBin, config))                                // Restart seekr
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
@@ -169,23 +170,20 @@ func MarkdownPersonRequest(config ApiConfig, c *gin.Context) {
 	}
 }
 
-func GetInfo(apiConfig ApiConfig, c *gin.Context) {
+func GetInfoRequest(apiConfig ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, GetInfo(apiConfig))
+}
+func GetInfo(apiConfig ApiConfig) info.Info {
 	if apiConfig.Testing {
-
-		c.IndentedJSON(http.StatusOK, map[string]interface{}{
-			"version":      apiConfig.Version.String(),
-			"is_latest":    true,
-			"latest":       apiConfig.Version.String(),
-			"download_url": "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64",
-		})
-		return
+		currentInfo := info.Info{
+			Version:     apiConfig.Version.String(),
+			IsLatest:    true,
+			Latest:      apiConfig.Version.String(),
+			DownloadUrl: "https://github.com/seekr-osint/seekr/releases/download/0.0.1/seekr_0.0.1_linux_arm64",
+		}
+		return currentInfo
 	}
-	c.IndentedJSON(http.StatusOK, map[string]interface{}{
-		"version":      apiConfig.Version.String(),
-		"is_latest":    apiConfig.Version.IsLatest(),
-		"latest":       apiConfig.Version.GetLatest(),
-		"download_url": apiConfig.Version.GetLatest().DownloadURL(),
-	})
+	return apiConfig.Info()
 }
 
 func RestartBin(apiConfig ApiConfig, c *gin.Context) {
@@ -362,8 +360,8 @@ func PostPerson(config ApiConfig, c *gin.Context) { // c.BindJSON is a person no
 		}
 		c.IndentedJSON(http.StatusCreated, person)
 	} else {
-		log.Printf("overwritten person %s", person.ID)
 		if config.DataBase != nil {
+			log.Printf("overwritten person %s", person.ID)
 			config.DataBase[person.ID] = person
 		} else {
 			config.DataBase = DataBase{}
