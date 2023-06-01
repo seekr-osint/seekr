@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 	"reflect"
 	"strings"
 
@@ -30,7 +29,7 @@ func GenType(toConvert interface{}) error {
 	converter.Add(toConvert)
 
 	fileName := fmt.Sprintf("../web/ts-gen/%s.ts", strings.ToLower(reflect.TypeOf(toConvert).Name()))
-	err := os.MkdirAll(filepath.Dir(fileName), os.ModePerm)
+	err := os.MkdirAll("../web/ts-gen", os.ModePerm)
 	if err != nil {
 		return err
 	}
