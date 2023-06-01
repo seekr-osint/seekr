@@ -1,4 +1,5 @@
 import { apiCall } from './framework.js';
+import * as tsGenConfig from './../ts-gen/config.js'
 
 const channel = new BroadcastChannel("seekr-channel");
 
@@ -120,17 +121,18 @@ if (selectedLanguage) {
 
 // SEEKR config stuff
 
-interface SeekrConfig {
-  general: {
-    browser: boolean;
-    discord: boolean;
-    force_port: boolean;
-  };
-  server: {
-    ip: string;
-    port: number;
-  };
-}
+type SeekrConfig = tsGenConfig.Config
+//interface SeekrConfig {
+//  general: {
+//    browser: boolean;
+//    discord: boolean;
+//    force_port: boolean;
+//  };
+//  server: {
+//    ip: string;
+//    port: number;
+//  };
+//}
 
 async function restartSeekr(): Promise<void> {
   await fetch(apiCall('/restart'));

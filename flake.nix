@@ -80,8 +80,11 @@
               '';
 
             };
+
             seekr = pkgs.buildGoModule {
-              preBuild = ''
+              #${pkgs.git}/bin/git init -q
+              postConfigure = ''
+                ${pkgs.go}/bin/go generate ./...
                 ${pkgs.nodePackages_latest.typescript}/bin/tsc --project web --watch false
               '';
               pname = "seekr";
@@ -99,7 +102,7 @@
                 #"-X main.version=${version}"
               ];
 
-              vendorSha256 = "sha256-fRblExBX1GbHF6QYprqtk6O6E5GJjzNPIoYuhecs4iQ=";
+              vendorSha256 = "sha256-qEKuK+8zGJtX9V1JRg+zOG8iZQCMSMcMJiMKdu+jtCg=";
 
             };
           });
@@ -109,6 +112,7 @@
           type = "app";
           program = "${self.packages.${system}.seekr}/bin/seekr";
         };
+
       });
 
       formatter = forAllSystems (system: nixpkgsFor.${system}.nixpkgs-fmt);
@@ -125,8 +129,17 @@
 
             nixpkgsFor.${system}.gcc
             #self.packages.${system}.seekr
+            (nixpkgsFor.${system}.writeShellScriptBin "sbuild" ''
+              go run cmd/sbuild/main.go "$@"
+            '')
+
           ];
         };
+        shellHook = ''
+          sbuild() {
+            go run cmd/sbuild/main.go "$@"
+          }
+        '';
       });
 
 

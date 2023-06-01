@@ -2,6 +2,11 @@
   "compilerOptions": {
     "target": "ESNext",                                 
     "outDir": "./dist",
+    "rootDir": ".",
+    "rootDirs": [
+      "./ts",
+      "./ts-gen"
+    ],
     "watch": true,
     "lib": ["dom", "ESNext"],
     "esModuleInterop": true,
