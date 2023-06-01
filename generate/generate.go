@@ -6,29 +6,37 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"reflect"
+	"strings"
 
+	"github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/tkrajina/typescriptify-golang-structs/typescriptify"
 )
 
 func main() {
+	GenType(api.Person{})
+	GenType(config.Config{})
+
+}
+
+func GenType(toConvert interface{}) error {
+
 	converter := typescriptify.New()
-	//converter.CreateConstructor = true
+	converter.CreateConstructor = true
 	converter.Indent = "    "
 	converter.BackupDir = ""
 
-	converter.Add(config.Config{})
-	//converter.CreateInterface = true
+	converter.Add(toConvert)
 
-	fileName := "../web/ts-gen/config.ts"
+	fileName := fmt.Sprintf("../web/ts-gen/%s.ts", strings.ToLower(reflect.TypeOf(toConvert).Name()))
 	err := os.MkdirAll(filepath.Dir(fileName), os.ModePerm)
 	if err != nil {
-		fmt.Println("Error creating folder:", err)
-		return
+		return err
 	}
 	err = converter.ConvertToFile(fileName)
 	if err != nil {
-		panic(err.Error())
+		return err
 	}
-
+	return nil
 }

@@ -65,16 +65,41 @@ func (build Build) buildGo() error {
 	return nil
 }
 
+func deleteFilesInFolder(folderPath string) error {
+	err := filepath.Walk(folderPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if !info.IsDir() {
+			err := os.Remove(path)
+			if err != nil {
+				return err
+			}
+			fmt.Printf("Deleted file: %s\n", path)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("All files deleted successfully.")
+	return nil
+}
+
 func (build Build) compileTS() error {
+	err := deleteFilesInFolder(filepath.Join(build.TscProjectDir, "dist"))
+	if err != nil {
+		return err
+	}
 	tscCmd := exec.Command("tsc", "--project", build.TscProjectDir, "--watch", "false")
 	tscCmd.Stdout = os.Stdout
 	tscCmd.Stderr = os.Stderr
 
-	err := tscCmd.Run()
-	if err != nil {
-		return err
-	}
-	//moveFilesToParentDir(filepath.Join(build.TscProjectDir, "dist", "ts"))
+	err = tscCmd.Run()
 	if err != nil {
 		return err
 	}
@@ -83,11 +108,16 @@ func (build Build) compileTS() error {
 }
 
 func (build Build) generate() error {
+
+	err := deleteFilesInFolder(filepath.Join("web", "ts-gen"))
+	if err != nil {
+		return err
+	}
 	generateCmd := exec.Command("go", "generate", "./...")
 	generateCmd.Stdout = os.Stdout
 	generateCmd.Stderr = os.Stderr
 
-	err := generateCmd.Run()
+	err = generateCmd.Run()
 	if err != nil {
 		return err
 	}
