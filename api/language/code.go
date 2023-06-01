@@ -7,11 +7,11 @@ import (
 )
 
 type AnalyzedComment struct {
-	Text string
-	Lang map[string]float64
+	Text string             `json:"text"`
+	Lang map[string]float64 `json:"lang"`
 }
 type CommentType struct {
-	Regex   string
+	Regex   string `json:"regex"`
 	Replace []string
 }
 type Lang []CommentType

@@ -91,8 +91,10 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // get config
 	config.GinRouter.GET("/info", Handler(GetInfo, config))                                      // get info
 	config.GinRouter.POST("/detect/language", Handler(DetectLanguage, config))                   // detect language
-	config.GinRouter.GET("/restart", Handler(RestartBin, config))                                // Restart seekr
-	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
+	config.GinRouter.POST("/detect/language/code", Handler(DetectLanguageCode, config))          // detect language in code
+
+	config.GinRouter.GET("/restart", Handler(RestartBin, config))                       // Restart seekr
+	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config)) // get accounts
 	config, err = config.Parse()
 	if err != nil {
 		log.Println(err) // FIXME should panic?
@@ -155,6 +157,20 @@ func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 	}
 }
 
+func DetectLanguageCode(apiConfig ApiConfig, c *gin.Context) {
+	var text struct {
+		Code string `json:"code"`
+		Lang string `json:"lang"`
+	}
+
+	// exit if the json is invalid
+	if err := c.BindJSON(&text); err != nil {
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid text input"}) // FIXME add test
+		return
+	}
+	c.IndentedJSON(http.StatusOK, map[string]interface{}{"result": language.AnalyzeCode(text.Code, text.Lang)})
+}
+
 func DetectLanguage(apiConfig ApiConfig, c *gin.Context) {
 	var text struct {
 		Text string `json:"text"`
@@ -165,7 +181,6 @@ func DetectLanguage(apiConfig ApiConfig, c *gin.Context) {
 		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid text input"}) // FIXME add test
 		return
 	}
-	fmt.Printf("%s\n", text.Text)
 	c.IndentedJSON(http.StatusOK, language.DetectLanguage(text.Text))
 }
 
