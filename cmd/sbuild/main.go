@@ -14,6 +14,7 @@ type Build struct {
 	TscProjectDir string
 	Clean         bool
 	Tsc           bool
+	GoGenerate    bool
 }
 
 func (build Build) buildGo() error {
@@ -89,21 +90,23 @@ func (build Build) compileTS() error {
 
 func (build Build) generate() error {
 
-	if build.Clean {
-		err := deleteFilesInFolder(filepath.Join("web", "ts-gen"))
+	if build.GoGenerate {
+		if build.Clean {
+			err := deleteFilesInFolder(filepath.Join("web", "ts-gen"))
+			if err != nil {
+				return err
+			}
+		}
+		generateCmd := exec.Command("go", "generate", "./...")
+		generateCmd.Stdout = os.Stdout
+		generateCmd.Stderr = os.Stderr
+
+		err := generateCmd.Run()
 		if err != nil {
 			return err
 		}
-	}
-	generateCmd := exec.Command("go", "generate", "./...")
-	generateCmd.Stdout = os.Stdout
-	generateCmd.Stderr = os.Stderr
 
-	err := generateCmd.Run()
-	if err != nil {
-		return err
 	}
-
 	return nil
 }
 
@@ -118,6 +121,8 @@ func main() {
 	flag.BoolVar(&build.Clean, "clean", true, "delete the typescript files")
 
 	flag.BoolVar(&build.Tsc, "tsc", true, "delete the typescript files")
+
+	flag.BoolVar(&build.GoGenerate, "generate", true, "delete the typescript files")
 
 	flag.Parse()
 
