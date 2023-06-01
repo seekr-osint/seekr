@@ -202,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn.addEventListener('click', async () => {
       const newConfig = await getUpdatedSeekrConfig();
       const message = await postSeekrConfig(newConfig);
-      console.log('Response:', message);
       restartSeekr();
 
       setTimeout(() => {
