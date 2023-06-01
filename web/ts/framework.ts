@@ -164,10 +164,10 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
       ethnicity[translateText("asian")!] = "Asian";
       ethnicity[translateText("caucasian_slash_white")!] = "Caucasian/White";
       ethnicity[translateText("hispanic_slash_latino")!] = "Hispanic/Latino";
-      ethnicity[translateText("indegenous_slash_native_american")!] = "Indigenous/Native American";
+      ethnicity[translateText("indigenous_slash_native_american")!] = "Indigenous/Native American";
       ethnicity[translateText("multiracial_slash_mixed")!] = "Multiracial/Mixed";
     }
-
+    console.log(ethnicity[selectedEthnicity])
     return ethnicity[selectedEthnicity];
   } else if (dropdownType == "religion") {
     const selectedReligion = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(14) > div > div.select-selected")?.innerHTML ?? "";
@@ -270,7 +270,7 @@ function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religio
       ethnicityIndex[translateText("asian")!] = "1";
       ethnicityIndex[translateText("caucasian_slash_white")!] = "2";
       ethnicityIndex[translateText("hispanic_slash_latino")!] = "3";
-      ethnicityIndex[translateText("indegenous_slash_native_american")!] = "4";
+      ethnicityIndex[translateText("indigenous_slash_native_american")!] = "4";
       ethnicityIndex[translateText("multiracial_slash_mixed")!] = "5";
     }
 
