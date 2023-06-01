@@ -5,7 +5,6 @@ import (
 	"runtime"
 )
 
-
 const (
 	platformWin = "windows"
 	platformLin = "linux"
@@ -27,4 +26,3 @@ func GetOS() (string, string) {
 	}
 	return platform, arch
 }
-

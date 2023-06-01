@@ -1,11 +1,10 @@
 package version
 
 import (
-	"runtime"
 	"fmt"
 	"log"
+	"runtime"
 )
-
 
 func (ver SchematicVersion) GetLatest() SchematicVersion {
 	latestVersion, err := GetLatestSeekrVersion()
