@@ -239,6 +239,17 @@ var requests = tc.Requests{
 		ExpectedResponse: map[string]interface{}{"markdown": "# Many fields\n- Age: `23`\n- Phone: `+1 318-344-2908`\n## Email\n### all@gmail.com\n- Mail: `all@gmail.com`\n- Provider: `gmail`\n#### Services\n##### Discord\n- Name: `Discord`\n- Icon: `./images/mail/discord.png`\n##### Spotify\n- Name: `Spotify`\n- Icon: `./images/mail/spotify.png`\n##### Twitter\n- Name: `Twitter`\n- Icon: `./images/mail/twitter.png`\n##### Ubuntu GPG\n- Name: `Ubuntu GPG`\n- Link: `https://keyserver.ubuntu.com/pks/lookup?search=all@gmail.com&op=index`\n- Icon: `./images/mail/ubuntu.png`\n##### keys.gnupg.net\n- Name: `keys.gnupg.net`\n- Link: `https://keys.gnupg.net/pks/lookup?search=all@gmail.com&op=index`\n- Icon: `./images/mail/gnupg.ico`\n\n\n"},
 		StatusCode:       200,
 	},
+
+	"9p-detectLanguage": { // ID 24
+		RequestType: "POST",
+		Name:        "Detect language",
+		URL:         "http://localhost:8080/detect/language",
+		PostData: map[string]string{
+			"text": "это русский текст и, надеюсь, он будет обнаружен. Больше текста улучшит обнаружение, поэтому я должен сказать несколько случайных вещей, чтобы получить действительно хорошее обнаружение.", // Russian text
+		},
+		ExpectedResponse: map[string]interface{}{"Afrikaans": float64(0), "Albanian": float64(0), "Arabic": float64(0), "Armenian": float64(0), "Azerbaijani": float64(0), "Basque": float64(0), "Belarusian": float64(0), "Bengali": float64(0), "Bokmal": float64(0), "Bosnian": float64(0), "Bulgarian": float64(0), "Catalan": float64(0), "Chinese": float64(0), "Croatian": float64(0), "Czech": float64(0), "Danish": float64(0), "Dutch": float64(0), "English": float64(0), "Esperanto": float64(0), "Estonian": float64(0), "Finnish": float64(0), "French": float64(0), "Ganda": float64(0), "Georgian": float64(0), "German": float64(0), "Greek": float64(0), "Gujarati": float64(0), "Hebrew": float64(0), "Hindi": float64(0), "Hungarian": float64(0), "Icelandic": float64(0), "Indonesian": float64(0), "Irish": float64(0), "Italian": float64(0), "Japanese": float64(0), "Kazakh": float64(0), "Korean": float64(0), "Latin": float64(0), "Latvian": float64(0), "Lithuanian": float64(0), "Macedonian": float64(0), "Malay": float64(0), "Maori": float64(0), "Marathi": float64(0), "Mongolian": float64(0), "Nynorsk": float64(0), "Persian": float64(0), "Polish": float64(0), "Portuguese": float64(0), "Punjabi": float64(0), "Romanian": float64(0), "Russian": float64(1), "Serbian": float64(0), "Shona": float64(0), "Slovak": float64(0), "Slovene": float64(0), "Somali": float64(0), "Sotho": float64(0), "Spanish": float64(0), "Swahili": float64(0), "Swedish": float64(0), "Tagalog": float64(0), "Tamil": float64(0), "Telugu": float64(0), "Thai": float64(0), "Tsonga": float64(0), "Tswana": float64(0), "Turkish": float64(0), "Ukrainian": float64(0), "Urdu": float64(0), "Vietnamese": float64(0), "Welsh": float64(0), "Xhosa": float64(0), "Yoruba": float64(0), "Zulu": float64(0)},
+		StatusCode:       200,
+	},
 	//"9o-Deep": { // deep
 	//	RequestType:      "GET",
 	//	Name:             "deep investigation Rate Limitation Error (GitHub)",

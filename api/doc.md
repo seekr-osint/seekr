@@ -1609,3 +1609,101 @@ curl -X GET http://localhost:8080/people/24/markdown
 **Status Code:** 200
 
 
+## Detect language
+
+
+**Curl Request:**
+
+```sh
+curl -X POST http://localhost:8080/detect/language \
+-H 'Content-Type: application/json' \
+-d '{
+	"text": "это русский текст и, надеюсь, он будет обнаружен. Больше текста улучшит обнаружение, поэтому я должен сказать несколько случайных вещей, чтобы получить действительно хорошее обнаружение."
+}'
+```
+
+**Response:**
+
+```json
+{
+	"Afrikaans": 0,
+	"Albanian": 0,
+	"Arabic": 0,
+	"Armenian": 0,
+	"Azerbaijani": 0,
+	"Basque": 0,
+	"Belarusian": 0,
+	"Bengali": 0,
+	"Bokmal": 0,
+	"Bosnian": 0,
+	"Bulgarian": 0,
+	"Catalan": 0,
+	"Chinese": 0,
+	"Croatian": 0,
+	"Czech": 0,
+	"Danish": 0,
+	"Dutch": 0,
+	"English": 0,
+	"Esperanto": 0,
+	"Estonian": 0,
+	"Finnish": 0,
+	"French": 0,
+	"Ganda": 0,
+	"Georgian": 0,
+	"German": 0,
+	"Greek": 0,
+	"Gujarati": 0,
+	"Hebrew": 0,
+	"Hindi": 0,
+	"Hungarian": 0,
+	"Icelandic": 0,
+	"Indonesian": 0,
+	"Irish": 0,
+	"Italian": 0,
+	"Japanese": 0,
+	"Kazakh": 0,
+	"Korean": 0,
+	"Latin": 0,
+	"Latvian": 0,
+	"Lithuanian": 0,
+	"Macedonian": 0,
+	"Malay": 0,
+	"Maori": 0,
+	"Marathi": 0,
+	"Mongolian": 0,
+	"Nynorsk": 0,
+	"Persian": 0,
+	"Polish": 0,
+	"Portuguese": 0,
+	"Punjabi": 0,
+	"Romanian": 0,
+	"Russian": 1,
+	"Serbian": 0,
+	"Shona": 0,
+	"Slovak": 0,
+	"Slovene": 0,
+	"Somali": 0,
+	"Sotho": 0,
+	"Spanish": 0,
+	"Swahili": 0,
+	"Swedish": 0,
+	"Tagalog": 0,
+	"Tamil": 0,
+	"Telugu": 0,
+	"Thai": 0,
+	"Tsonga": 0,
+	"Tswana": 0,
+	"Turkish": 0,
+	"Ukrainian": 0,
+	"Urdu": 0,
+	"Vietnamese": 0,
+	"Welsh": 0,
+	"Xhosa": 0,
+	"Yoruba": 0,
+	"Zulu": 0
+}
+```
+
+**Status Code:** 200
+
+

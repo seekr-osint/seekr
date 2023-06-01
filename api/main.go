@@ -10,6 +10,7 @@ import (
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/github"
+	"github.com/seekr-osint/seekr/api/language"
 	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/server"
 	"github.com/seekr-osint/seekr/api/version"
@@ -89,6 +90,7 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.POST("/config", Handler(PostConfig, config))                                // post config
 	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // get config
 	config.GinRouter.GET("/info", Handler(GetInfo, config))                                      // get info
+	config.GinRouter.POST("/detect/language", Handler(DetectLanguage, config))                   // detect language
 	config.GinRouter.GET("/restart", Handler(RestartBin, config))                                // Restart seekr
 	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config))          // get accounts
 	config, err = config.Parse()
@@ -151,6 +153,20 @@ func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 			c.IndentedJSON(http.StatusOK, apiEmails.Parse())
 		}
 	}
+}
+
+func DetectLanguage(apiConfig ApiConfig, c *gin.Context) {
+	var text struct {
+		Text string `json:"text"`
+	}
+
+	// exit if the json is invalid
+	if err := c.BindJSON(&text); err != nil {
+		c.IndentedJSON(http.StatusAccepted, gin.H{"message": "invalid text input"}) // FIXME add test
+		return
+	}
+	fmt.Printf("%s\n", text.Text)
+	c.IndentedJSON(http.StatusOK, language.DetectLanguage(text.Text))
 }
 
 func GetPersonByID(config ApiConfig, id string) (bool, Person) {
