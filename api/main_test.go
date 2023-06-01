@@ -151,14 +151,14 @@ var requests = tc.Requests{
 		StatusCode:       200,
 	},
 	"9b1-postPerson": enum.TcRequestInvalidEnum(civilstatus.Enum, "http://localhost:8080/person"),
-	//"9b2-postPerson": enum.TcRequestValidEnum(civilstatus.Enum, "15", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 15
+	"9b2-postPerson": enum.TcRequestValidEnum(civilstatus.Enum, "15", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 15
 	"9c1-postPerson": enum.TcRequestInvalidEnum(religion.Enum, "http://localhost:8080/person"),
-	// "9c2-postPerson": enum.TcRequestValidEnum(religion.Enum, "16", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 16
+	"9c2-postPerson": enum.TcRequestValidEnum(religion.Enum, "16", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 16
 	"9d1-postPerson": enum.TcRequestInvalidEnum(gender.Enum, "http://localhost:8080/person"),
-	// "9d2-postPerson": enum.TcRequestValidEnum(gender.Enum, "17", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 17
+	"9d2-postPerson": enum.TcRequestValidEnum(gender.Enum, "17", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 17
 	"9e1-postPerson": enum.TcRequestInvalidEnum(ethnicity.Enum, "http://localhost:8080/person"),
-	// "9e2-postPerson": enum.TcRequestValidEnum(ethnicity.Enum, "18", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 18
-	"9f-postPerson": { // ID NONE (16)
+	"9e2-postPerson": enum.TcRequestValidEnum(ethnicity.Enum, "18", "http://localhost:8080/person", functions.Interface(Person{}.ReplaceNil())), // 18
+	"9f-postPerson": { // ID NONE
 		RequestType:      "POST",
 		Name:             "Post Person (missing id)",
 		URL:              "http://localhost:8080/person",
