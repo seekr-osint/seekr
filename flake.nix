@@ -82,7 +82,9 @@
             };
 
             seekr = pkgs.buildGoModule {
-              preBuild = ''
+              #${pkgs.git}/bin/git init -q
+              postConfigure = ''
+                ${pkgs.go}/bin/go generate ./...
                 ${pkgs.nodePackages_latest.typescript}/bin/tsc --project web --watch false
               '';
               pname = "seekr";
@@ -128,8 +130,8 @@
             nixpkgsFor.${system}.gcc
             #self.packages.${system}.seekr
             (nixpkgsFor.${system}.writeShellScriptBin "sbuild" ''
-            go run cmd/sbuild/main.go "$@"
-  '')
+              go run cmd/sbuild/main.go "$@"
+            '')
 
           ];
         };
@@ -137,7 +139,7 @@
           sbuild() {
             go run cmd/sbuild/main.go "$@"
           }
-          '';
+        '';
       });
 
 
