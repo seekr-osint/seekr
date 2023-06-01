@@ -392,7 +392,7 @@ function createCards(obj: any) {
     viewNameTag.value = obj.name;
 
     viewGender.innerHTML = translateRawWord("Gender:")! + " " + translateRawWord(obj.gender);
-    viewEthnicity.innerHTML = translateRawWord("Ethnicity:")! + " " + translateRawWord(obj.gender);
+    viewEthnicity.innerHTML = translateRawWord("Ethnicity:")! + " " + translateRawWord(obj.ethnicity);
     viewAge.innerHTML = translateRawWord("Age:")! + " " + obj.age;
     viewBday.innerHTML = translateRawWord("Birthday:")! + " " + obj.bday;
     viewAddress.innerHTML = translateRawWord("Address:")! + " " + obj.address;
