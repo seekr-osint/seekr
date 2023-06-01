@@ -1,4 +1,5 @@
 import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall } from "./framework.js";
+//import * as person from "../ts-gen/person.js";
 
 const searchBar = document.getElementById("searchbar");
 
@@ -40,6 +41,7 @@ const viewShowId = document.querySelector("#v-showid") as HTMLParagraphElement;
 const viewNameTag = document.querySelector(".name-tag") as HTMLInputElement;
 
 const viewGender = document.querySelector(".gender") as HTMLParagraphElement;
+const viewEthnicity = document.querySelector(".ethnicity") as HTMLParagraphElement;
 const viewAge = document.querySelector(".age") as HTMLParagraphElement;
 const viewBday = document.querySelector(".bday") as HTMLParagraphElement;
 const viewAddress = document.querySelector(".address") as HTMLParagraphElement;
@@ -391,6 +393,7 @@ function createCards(obj: any) {
     viewNameTag.value = obj.name;
 
     viewGender.innerHTML = translateRawWord("Gender:")! + " " + translateRawWord(obj.gender);
+    viewEthnicity.innerHTML = translateRawWord("Ethnicity:")! + " " + translateRawWord(obj.ethnicity);
     viewAge.innerHTML = translateRawWord("Age:")! + " " + obj.age;
     viewBday.innerHTML = translateRawWord("Birthday:")! + " " + obj.bday;
     viewAddress.innerHTML = translateRawWord("Address:")! + " " + obj.address;
@@ -898,6 +901,21 @@ function createCards(obj: any) {
       }
     }
 
+    if (obj.ethnicity != "") {
+      const ethnicitySelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(2) > .ethnicity-select") as HTMLElement;
+      const selectItems = ethnicitySelect.querySelector(".select-items") as HTMLElement;
+      const selectSelected = ethnicitySelect.querySelector(".select-selected") as HTMLElement;
+
+      const ethnicityIndex: string | undefined = getDropdownElementIndex("ethnicity", obj.ethnicity);
+
+      if (ethnicityIndex != undefined) {
+        const ethnicityElement = selectItems.children[parseInt(ethnicityIndex)];
+
+        selectSelected.innerHTML = translateRawWord(obj.ethnicity)!;
+        ethnicityElement.className = "same-as-selected";
+      }
+    }
+
     editAge.innerHTML = obj.age;
     editBday.innerHTML = obj.bday;
     editAddress.innerHTML = obj.address;
@@ -984,7 +1002,7 @@ function createCards(obj: any) {
     }
 
     if (obj.civilstatus != "") {
-      const civilstatusSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(6) > .civilstatus-select") as HTMLElement;
+      const civilstatusSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(7) > .civilstatus-select") as HTMLElement;
       const selectItems = civilstatusSelect.querySelector(".select-items");
       const selectSelected = civilstatusSelect.querySelector(".select-selected");
 
@@ -1082,7 +1100,7 @@ function createCards(obj: any) {
     editEducation.innerHTML = obj.education;
     
     if (obj.religion != "") {
-      const religionSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(14) > .religion-select") as HTMLElement;
+      const religionSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(15) > .religion-select") as HTMLElement;
       const selectItems = religionSelect.querySelector(".select-items") as HTMLElement;
       const selectSelected = religionSelect.querySelector(".select-selected") as HTMLElement;
 
@@ -1678,6 +1696,8 @@ createSaveBtn.onclick = async function () { // new document save button
 
   let gender = checkDropdownValue("create", "gender");
 
+  let ethnicity = checkDropdownValue("create", "ethnicity");
+
   let age = parseInt(document.querySelector(".c-age")!.innerHTML);
 
   if (age <= 0) {
@@ -1786,7 +1806,7 @@ createSaveBtn.onclick = async function () { // new document save button
 
   fetch(apiCall("/person"), {
     method: "POST",
-    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes })
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "ethnicity": ethnicity, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes })
   }).then(function () {
     loadingSpinner.style.display = "none"
     location.reload();
@@ -1822,6 +1842,8 @@ editSaveBtn.onclick = async function () {
   let name = editNameTag.value;
 
   let gender = checkDropdownValue("edit", "gender");
+
+  let ethnicity = checkDropdownValue("edit", "ethnicity");
   
   let age = parseInt(editAge.innerHTML);
 
@@ -1929,7 +1951,7 @@ editSaveBtn.onclick = async function () {
 
   fetch(apiCall("/person"), {
     method: "POST",
-    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes, "accounts": data.accounts })
+    body: JSON.stringify({ "id": id, "name": name, "gender": gender, "ethnicity": ethnicity, "age": age, "bday": bday, "address": address, "phone": phoneNumbers, "civilstatus": civilstatus, "kids": kids, "hobbies": hobbies, "email": emailAddresses, "ips": ips, "occupation": occupation, "prevoccupation": prevoccupation, "education": education, "religion": religion, "pets": pets, "clubs": clubs, "legal": legal, "political": political, "sources": sources, "notes": notes, "accounts": data.accounts })
   }).then(function () {
     loadingSpinner.style.display = "none"
     location.reload();
@@ -2306,6 +2328,7 @@ async function runOnStart() {
   } else {
     for (const [i, _] of Object.entries(data)) {
       let obj = data[Number(i)] as any;
+      //let obj = data[Number(i)] as person.Person;
   
       createCards(obj);
     }

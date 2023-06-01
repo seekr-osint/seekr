@@ -15,14 +15,14 @@
     <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <script type="module" src="./dist/theme_loader.js"></script>
+    <script type="module" src="./dist/ts/theme_loader.js"></script>
     <link rel="stylesheet" href="./css/style.css">
-    <script type="module" src="./dist/framework.js" defer></script>
-    <script type="module" src="./dist/script.js" defer></script>
+    <script type="module" src="./dist/ts/framework.js" defer></script>
+    <script type="module" src="./dist/ts/script.js" defer></script>
 
-    <script src="./dist/easteregg.js" defer></script>
+    <script src="./dist/ts/easteregg.js" defer></script>
 
-    <script src="./dist/translate.js"></script>
+    <script src="./dist/ts/translate.js"></script>
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -68,6 +68,7 @@
         
         <div class="scroll-box" id="view-box">
           <p class="viewtag tag gender">Gender: x</p>
+          <p class="viewtag tag ethnicity">Ethnicity: x</p>
           <p class="viewtag tag age">Age: x</p>
           <p class="viewtag tag bday">Birthday: x</p>
           <p class="viewtag tag address">Address: x</p>
@@ -201,6 +202,21 @@
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table">
+            <p class="tag" lng-tag="ethnicity_colon">Ethnicity: </p>
+            <div class="ethnicity-select">
+              <select>
+                <option value="None">Select ethnicity:</option>
+                <option value="African">African</option>
+                <option value="Asian">Asian</option>
+                <option value="Caucasian/White">Caucasian/White</option>
+                <option value="Hispanic/Latino">Hispanic/Latino</option>
+                <option value="Indigenous/Native American">Indigenous/Native American</option>
+                <option value="Multiracial/Mixed">Multiracial/Mixed</option>
               </select>
             </div>
           </div>
@@ -404,6 +420,21 @@
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table">
+            <p class="tag" lng-tag="ethnicity_colon">Ethnicity: </p>
+            <div class="ethnicity-select">
+              <select>
+                <option value="0">Select ethnicity:</option>
+                <option value="African">African</option>
+                <option value="Asian">Asian</option>
+                <option value="Caucasian/White">Caucasian/White</option>
+                <option value="Hispanic/Latino">Hispanic/Latino</option>
+                <option value="Indigenous/Native American">Indigenous/Native American</option>
+                <option value="Multiracial/Mixed">Multiracial/Mixed</option>
               </select>
             </div>
           </div>

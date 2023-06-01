@@ -85,5 +85,13 @@
   "spanish": "Español",
   "italian": "Italiano",
   "port": "Puerto",
-  "save_&_restart": "Guardar y reiniciar"
+  "save_&_restart": "Guardar y reiniciar",
+  "select_ethnicity_colon": "Selecciona una etnia:",
+  "ethnicity_colon": "Etnia:",
+  "african": "Africano",
+  "asian": "Asiático",
+  "caucasian_slash_white": "Caucásico/Blanco",
+  "hispanic_slash_latino": "Hispano/Latino",
+  "indigenous_slash_native_american": "Indígena/Nativo Americano",
+  "multiracial_slash_mixed": "Multirracial/Mestizo"
 }

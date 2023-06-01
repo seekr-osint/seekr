@@ -106,7 +106,6 @@ func NewEnumIsValidTest[T1 comparable, T2 comparable](function func(T1) T2, inva
 	return Test[T1, T2]{Cases: testCases, Func: function}
 }
 
-
 func areMapsEqual(map1, map2 map[string]interface{}) bool {
 	if len(map1) != len(map2) {
 		return false

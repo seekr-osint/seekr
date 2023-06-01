@@ -86,5 +86,13 @@
   "spanish": "Hispanice",
   "italian": "Italice",
   "port": "Port",
-  "save_&_restart": "Nisi et sileo"
+  "save_&_restart": "Nisi et sileo",
+  "select_ethnicity_colon": "Elige una etnia:",
+  "ethnicity_colon": "Etnia:",
+  "african": "Africano/a",
+  "asian": "Asiático/a",
+  "caucasian_slash_white": "Caucásico/a/Blanco/a",
+  "hispanic_slash_latino": "Hispano/a/Latino/a",
+  "indigenous_slash_native_american": "Indígena/Nativo/a Americano/a",
+  "multiracial_slash_mixed": "Multirracial/Mestizo/a"
 }
