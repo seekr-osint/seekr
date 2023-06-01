@@ -1,4 +1,5 @@
 import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall } from "./framework.js";
+//import * as person from "../ts-gen/person.js";
 
 const searchBar = document.getElementById("searchbar");
 
@@ -2327,6 +2328,7 @@ async function runOnStart() {
   } else {
     for (const [i, _] of Object.entries(data)) {
       let obj = data[Number(i)] as any;
+      //let obj = data[Number(i)] as person.Person;
   
       createCards(obj);
     }
