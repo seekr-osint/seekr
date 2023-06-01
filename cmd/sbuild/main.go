@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"syscall"
 	"time"
-	//"syscall"
 )
 
 type Build struct {
@@ -45,10 +44,13 @@ func (build Build) buildGo() error {
 				fmt.Printf("Failed to start command: %v\n", err)
 				return err
 			}
+
 			signalChannel := make(chan os.Signal, 1)
+
 			signal.Notify(signalChannel, syscall.SIGINT)
 
 			go func(cmd *exec.Cmd) {
+
 				sig := <-signalChannel
 				fmt.Printf("Received signal: %v\n", sig)
 
@@ -58,10 +60,16 @@ func (build Build) buildGo() error {
 			err = goCmd.Wait()
 			if err != nil {
 				fmt.Printf("Command failed: %v\n", err)
-				//return err
+
 			}
 
 			fmt.Println("Program finished successfully")
+
+			if key := checkKeyPress(); key == "q" {
+				fmt.Println("Exiting...")
+				os.Exit(0)
+			}
+
 		}
 		goCmd := exec.Command("go", "run", "main.go")
 		goCmd.Stdout = os.Stdout
@@ -74,6 +82,15 @@ func (build Build) buildGo() error {
 	}
 
 	return nil
+}
+
+func checkKeyPress() string {
+	var key string
+	_, err := fmt.Scan(&key)
+	if err != nil {
+		fmt.Printf("Failed to read key: %v\n", err)
+	}
+	return key
 }
 
 func deleteFilesInFolder(folderPath string) error {
