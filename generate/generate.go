@@ -11,13 +11,14 @@ import (
 
 	//"github.com/seekr-osint/seekr/api"
 	"github.com/seekr-osint/seekr/api/config"
+	"github.com/seekr-osint/seekr/api/info"
 	"github.com/tkrajina/typescriptify-golang-structs/typescriptify"
 )
 
 func main() {
 	wg := &sync.WaitGroup{}
-	//GenType(api.Person{}, wg)
 	GenType(config.Config{}, wg)
+	GenType(info.Info{}, wg)
 	wg.Wait()
 
 }

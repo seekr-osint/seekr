@@ -1,16 +1,10 @@
 import { apiCall } from './framework.js';
+import { Info } from '../ts-gen/info.js'
 
-interface SeekrInfo {
-    download_url: string;
-    is_latest:    boolean;
-    latest:       string;
-    version:      string;
-}
-
-async function getSeekrInfo(): Promise<SeekrInfo> {
+async function getSeekrInfo(): Promise<Info> {
   const response = await fetch(apiCall('/info'));
   const data = await response.json();
-  return data as SeekrInfo;
+  return data as Info;
 }
 
-export { SeekrInfo, getSeekrInfo };
+export { getSeekrInfo };
