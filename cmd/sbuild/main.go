@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -13,31 +12,8 @@ type Build struct {
 	GoRun         bool
 	Watch         bool
 	TscProjectDir string
-}
-
-func moveFilesToParentDir(dirPath string) error {
-	files, err := ioutil.ReadDir(dirPath)
-	if err != nil {
-		return err
-	}
-
-	for _, file := range files {
-		if file.IsDir() {
-			continue // Skip directories
-		}
-
-		src := filepath.Join(dirPath, file.Name())
-		dst := filepath.Join(filepath.Dir(dirPath), file.Name())
-
-		err = os.Rename(src, dst)
-		if err != nil {
-			return err
-		}
-
-		fmt.Printf("Moved file: %s\n", file.Name())
-	}
-
-	return nil
+	Clean         bool
+	Tsc           bool
 }
 
 func (build Build) buildGo() error {
@@ -91,17 +67,21 @@ func deleteFilesInFolder(folderPath string) error {
 }
 
 func (build Build) compileTS() error {
-	err := deleteFilesInFolder(filepath.Join(build.TscProjectDir, "dist"))
-	if err != nil {
-		return err
-	}
-	tscCmd := exec.Command("tsc", "--project", build.TscProjectDir, "--watch", "false")
-	tscCmd.Stdout = os.Stdout
-	tscCmd.Stderr = os.Stderr
+	if build.Tsc {
+		if build.Clean {
+			err := deleteFilesInFolder(filepath.Join(build.TscProjectDir, "dist"))
+			if err != nil {
+				return err
+			}
+		}
+		tscCmd := exec.Command("tsc", "--project", build.TscProjectDir, "--watch", "false")
+		tscCmd.Stdout = os.Stdout
+		tscCmd.Stderr = os.Stderr
 
-	err = tscCmd.Run()
-	if err != nil {
-		return err
+		err := tscCmd.Run()
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -109,15 +89,17 @@ func (build Build) compileTS() error {
 
 func (build Build) generate() error {
 
-	err := deleteFilesInFolder(filepath.Join("web", "ts-gen"))
-	if err != nil {
-		return err
+	if build.Clean {
+		err := deleteFilesInFolder(filepath.Join("web", "ts-gen"))
+		if err != nil {
+			return err
+		}
 	}
 	generateCmd := exec.Command("go", "generate", "./...")
 	generateCmd.Stdout = os.Stdout
 	generateCmd.Stderr = os.Stderr
 
-	err = generateCmd.Run()
+	err := generateCmd.Run()
 	if err != nil {
 		return err
 	}
@@ -132,6 +114,10 @@ func main() {
 		Watch:         false,
 	}
 	flag.BoolVar(&build.GoRun, "run", false, "`go run` instead of `go build`")
+
+	flag.BoolVar(&build.Clean, "clean", true, "delete the typescript files")
+
+	flag.BoolVar(&build.Tsc, "tsc", true, "delete the typescript files")
 
 	flag.Parse()
 
