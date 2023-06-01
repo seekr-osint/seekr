@@ -47,8 +47,8 @@ func TcRequestValidEnum[T1 comparable](enum Enum[T1],id string,url string,respon
 	person := map[string]interface{}{
 		"id": id,
 	}
-	person[strings.ToLower(reflect.TypeOf(enum.Invalid).Name())] = enum.Values[0]
-	responsePerson[strings.ToLower(reflect.TypeOf(enum.Invalid).Name())] = enum.Values[0]
+	person[strings.ToLower(reflect.TypeOf(enum.Invalid).Name())] = reflect.ValueOf(enum.Values[0]).String()
+	responsePerson[strings.ToLower(reflect.TypeOf(enum.Invalid).Name())] = reflect.ValueOf(enum.Values[0]).String()
 	responsePerson["id"] = id
 	request := tc.Request{
 		RequestType: "POST",

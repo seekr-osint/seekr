@@ -27,7 +27,7 @@ type Request struct {
 	Name                       string
 	URL                        string
 	PostData                   interface{}
-	ExpectedResponse           interface{}
+	ExpectedResponse           map[string]interface{}
 	StatusCode                 int
 	RequiresInternetConnection bool
 	Comment                    string
@@ -65,7 +65,7 @@ func (apiTest ApiTest) RunApiTests(t *testing.T) {
 		defer resp.Body.Close()
 
 		// Decode the response body
-		var respBody interface{}
+		var respBody map[string]interface{}
 		err = json.NewDecoder(resp.Body).Decode(&respBody)
 		if err != nil {
 			t.Fatalf("[%s] %v", name, err)
