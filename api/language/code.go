@@ -2,6 +2,7 @@ package language
 
 import (
 	"fmt"
+	"github.com/src-d/enry/v2"
 	"regexp"
 	"strings"
 )
@@ -68,24 +69,25 @@ func AnalyzeCode(code string, lang string) []AnalyzedComment {
 	return analyzedComments
 }
 
-func DetectProgrammingLanguage(code string) string {
-	code = strings.TrimSpace(code)
+func DetectProgrammingLanguage(code, filename string) string {
+	lang := enry.GetLanguage(filename, []byte(code))
+	return lang
 
-	goPattern := `^package\s+[\w\d_]+\s+`
-	pythonPattern := `(^|\n)import\s+[\w\d_]+\s+|(^|\n)from\s+[\w\d_]+\s+import\s+`
-	javascriptPattern := `(require\(|(^|\n)import\s+)|(function\s+[\w\d_]+\s*\()`
-
-	if matched, _ := regexp.MatchString(goPattern, code); matched {
-		return "Go"
-	}
-
-	if matched, _ := regexp.MatchString(pythonPattern, code); matched {
-		return "Python"
-	}
-
-	if matched, _ := regexp.MatchString(javascriptPattern, code); matched {
-		return "JavaScript"
-	}
-
-	return "Unknown"
+	// goPattern := `^package\s+[\w\d_]+\s+`
+	// pythonPattern := `(^|\n)import\s+[\w\d_]+\s+|(^|\n)from\s+[\w\d_]+\s+import\s+`
+	// javascriptPattern := `(require\(|(^|\n)import\s+)|(function\s+[\w\d_]+\s*\()`
+	//
+	//	if matched, _ := regexp.MatchString(goPattern, code); matched {
+	//		return "Go"
+	//	}
+	//
+	//	if matched, _ := regexp.MatchString(pythonPattern, code); matched {
+	//		return "Python"
+	//	}
+	//
+	//	if matched, _ := regexp.MatchString(javascriptPattern, code); matched {
+	//		return "JavaScript"
+	//	}
+	//
+	// return "Unknown"
 }
