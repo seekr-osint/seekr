@@ -128,16 +128,13 @@
             nixpkgsFor.${system}.goreleaser
 
             nixpkgsFor.${system}.gcc
-            #self.packages.${system}.seekr
-            (nixpkgsFor.${system}.writeShellScriptBin "sbuild" ''
-              go run cmd/sbuild/main.go "$@"
-            '')
-
           ];
         };
         shellHook = ''
           sbuild() {
-            go run cmd/sbuild/main.go "$@"
+            go generate ./...
+            tsc --project web
+            go run main.go
           }
         '';
       });
