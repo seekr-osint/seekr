@@ -21,8 +21,11 @@ go test ./...
 ```
 
 ## tsc watch mode
+Go generate only has to be executed once after each source code change in the api.
 ```sh
 go generate ./...
+```
+```sh
 tsc --project web --watch true
 go run main.go
 ```
