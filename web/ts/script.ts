@@ -914,11 +914,18 @@ document.getElementById("savemdbtn")!.onclick = async function () {
 
   saveAsFile(textToSave.markdown, getName!.value.toLowerCase().replace(/ /g, "") + ".md");
 }
-  function checkId(): string {
-    let idExists = false;
+
+// NEW BUTTON
+document.getElementById("newbtn")!.onclick = async function () {
+
   const data = await getData() as object[];
+
   let totalIds = Object.keys(data).length;
   let preId = String(totalIds + 1);
+
+
+  function checkId(preId: string): string {
+    let idExists = false;
 
     for (let i = 0; i < totalIds; i++) {
       if (Object.keys(data)[i] == preId) {
@@ -933,10 +940,8 @@ document.getElementById("savemdbtn")!.onclick = async function () {
     }
     return preId;
   }
-// NEW BUTTON
-document.getElementById("newbtn")!.onclick = async function () {
   let obj = new Person();
-  obj.id = checkId();
+  obj.id = checkId(preId);
   obj.name = "";
   obj.Edit();
   // mainContainer.style.display = "none";
