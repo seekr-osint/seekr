@@ -19,7 +19,7 @@ require (
 	github.com/nyaruka/phonenumbers v1.1.7
 	github.com/pelletier/go-toml v1.9.5
 	github.com/pemistahl/lingua-go v1.3.3
-	github.com/projectdiscovery/subfinder/v2 v2.5.9
+	github.com/projectdiscovery/subfinder/v2 v2.6.0
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
@@ -129,7 +129,7 @@ require (
 	github.com/projectdiscovery/ratelimit v0.0.8 // indirect
 	github.com/projectdiscovery/retryabledns v1.0.23 // indirect
 	github.com/projectdiscovery/retryablehttp-go v1.0.15 // indirect
-	github.com/projectdiscovery/utils v0.0.34 // indirect
+	github.com/projectdiscovery/utils v0.0.37 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
