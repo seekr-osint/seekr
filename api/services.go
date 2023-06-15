@@ -222,7 +222,7 @@ var DefaultServices = Services{
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://www.virustotal.com/ui/users/{username}/trusted_users",
 	},
-	Service{
+	{
 		Name:           "Tellonym.me",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,

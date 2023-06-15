@@ -12,8 +12,10 @@ import (
 )
 
 type TestCase[T1 comparable, T2 comparable] struct {
-	Input  T1
-	Expect T2
+	Input       T1
+	Expect      T2
+	Title       string
+	Description string
 }
 type TestCases[T1 comparable, T2 comparable] []TestCase[T1, T2]
 type Test[T1 comparable, T2 comparable] struct {
