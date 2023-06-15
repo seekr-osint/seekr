@@ -10,7 +10,6 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-git/go-git/v5 v5.7.0
 	github.com/gocolly/colly v1.2.0
-	github.com/google/go-github/v50 v50.2.0
 	github.com/hugolgst/rich-go v0.0.0-20210925091458-d59fb695d9c0
 	github.com/likexian/whois v1.15.0
 	github.com/manifoldco/promptui v0.9.0
@@ -24,7 +23,6 @@ require (
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
 	github.com/tkrajina/typescriptify-golang-structs v0.1.10
-	golang.org/x/oauth2 v0.8.0
 )
 
 require (
@@ -159,6 +157,7 @@ require (
 	golang.org/x/exp v0.0.0-20230420155640-133eef4313cb // indirect
 	golang.org/x/mod v0.10.0 // indirect
 	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/oauth2 v0.8.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.3.0 // indirect

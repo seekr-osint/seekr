@@ -1,5 +1,4 @@
 //go:build networking
-// +build networking
 
 package api
 
