@@ -11,5 +11,5 @@ type Server struct {
 	Port      uint16              `json:"port"`
 	WebServer webserver.Webserver `json:"webserver"`
 	ApiServer ApiServer           `json:"api_server"`
-	ForcePort bool                `json:"strict_port"` // not changing to the next unused port if port is in use
+	ForcePort bool                `json:"strict_port"`
 }

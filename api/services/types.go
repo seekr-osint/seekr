@@ -2,12 +2,22 @@ package services
 
 type Services []Service
 type Service struct {
-	Name                string         // example: "GitHub"
-	UserExistsFunc      UserExistsFunc // example: SimpleUserExistsCheck()
-	UserHtmlUrlTemplate string         // example: "https://github.com"
+	Name                string
+	UserExistsFunc      UserExistsFunc
+	UserHtmlUrlTemplate string
+	Domain              string
+	Protocol            string
+	TestData TestData
+}
+type TestData struct {
+	ExsistingUser string
 }
 type User struct {
 	Username string
+}
+type Template struct {
+	User
+	Service
 }
 type UserServiceDataToCheck struct {
 	User    User

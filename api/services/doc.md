@@ -4,9 +4,9 @@
 
 ### Input
 
-`github.com/{{.Username}}`
+`{{.Domain}}/{{.Username}}`
 
 ### Output
 
-`github.com/greg`
+`https://mockurl.com/greg`
 
