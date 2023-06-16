@@ -2,7 +2,7 @@ import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall } from
 import * as person from "../ts-gen/person.js";
  
 class Person extends person.Person {
-    Post(loadingSpinner?: HTMLDivElement): void {
+  Post(loadingSpinner?: HTMLDivElement): void {
     const requestOptions = {
       method: "POST",
       body: JSON.stringify(this),
@@ -19,7 +19,7 @@ class Person extends person.Person {
         console.error("Error:", error);
       });
   }
-
+  
   Edit(): void {
     let obj = this;
     mainContainer.style.display = "none";
@@ -55,6 +55,8 @@ class Person extends person.Person {
         const ethnicityElement = selectItems.children[parseInt(ethnicityIndex)];
 
         selectSelected.innerHTML = translateRawWord(obj.ethnicity)!;
+
+        console.log(selectSelected.innerHTML);
         ethnicityElement.className = "same-as-selected";
       }
     }
@@ -1828,7 +1830,7 @@ editSaveBtn.onclick = async function () {
   editEmailContainers.forEach(function (container) {
     let hiddenElement = container.querySelector(".hidden-email-save")!;
     
-    // FIXME this is beatiful
+    // FIXME this is beautiful
     let hiddenElementVal = null;
 
     if (hiddenElement.innerHTML != "" && hiddenElement.innerHTML != null && hiddenElement.innerHTML != undefined) {
@@ -1859,11 +1861,13 @@ editSaveBtn.onclick = async function () {
 
   let data = await res.json() as Person;
   let obj = new Person();
+
   if (data == null) {
     obj.accounts = {};
   } else {
     obj.accounts = data.accounts;
   }
+
   obj.id = id;
   obj.name = name;
   obj.gender = gender || '';
@@ -2034,6 +2038,5 @@ async function searchEntries() {
     x.style.display = "flex";
   }
 }
-
 
 export { };
