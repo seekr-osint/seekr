@@ -24,3 +24,7 @@ var DefaultServices = Services{
 		},
 	},
 }
+
+func CheckUser(user User) {
+
+}

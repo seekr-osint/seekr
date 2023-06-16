@@ -40,9 +40,9 @@ func (mock *MockServer) CreateMockServer() error {
 		}
 
 		path := parsedURL.Path
-
-		fmt.Printf("adding url %s: %s", endpoint.URL, path)
-		handler.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		url := fmt.Sprintf("/%s%s", parsedURL.Hostname(), path)
+		log.Printf("adding url %s: %s\n", endpoint.URL, url)
+		handler.HandleFunc(url, func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(endpoint.StatusCode)
 			fmt.Fprint(w, endpoint.ResponseBody)
 		})
@@ -167,7 +167,7 @@ func TestServicesMock(t *testing.T) {
 func ReplaceDomains(services Services, mockDomain string) Services {
 	newServices := []Service{}
 	for _, service := range services {
-		service.Domain = mockDomain
+		service.Domain = fmt.Sprintf("%s/%s", mockDomain, service.Domain)
 		newServices = append(newServices, service)
 	}
 	return newServices
