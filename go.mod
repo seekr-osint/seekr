@@ -22,7 +22,7 @@ require (
 	github.com/projectdiscovery/subfinder/v2 v2.5.9
 	github.com/rocketlaunchr/google-search v1.1.5
 	github.com/src-d/enry/v2 v2.1.0
-	github.com/sundowndev/phoneinfoga/v2 v2.10.5
+	github.com/sundowndev/phoneinfoga/v2 v2.10.7
 	github.com/tkrajina/typescriptify-golang-structs v0.1.10
 	golang.org/x/oauth2 v0.10.0
 )
