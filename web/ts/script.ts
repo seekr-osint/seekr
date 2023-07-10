@@ -900,7 +900,7 @@ async function getData(): Promise<object> {
 
   let data = await res.json();
 
-  return data;
+  return data; 
 }
 
 searchBar!.addEventListener("keyup", searchEntries);
@@ -957,8 +957,10 @@ document.getElementById("newbtn")!.onclick = async function () {
   // createContainer.style.display = "flex";
 }
 
-document.getElementById("exportbtn")!.onclick = function () {
-  saveAsFile(JSON.stringify(getData()), "data.json");
+document.getElementById("exportbtn")!.onclick = async function () {
+  const data = await getData() as object[];
+
+  saveAsFile(JSON.stringify(data), "data.json");
 }
 
 function createCards(obj: Person) {
