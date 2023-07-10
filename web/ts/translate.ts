@@ -1,3 +1,5 @@
+let languageData: { [key: string]: { [key: string]: string } } | undefined = undefined;
+
 class Translate {
   attribute: string;
   lng: string;
@@ -7,50 +9,45 @@ class Translate {
     this.lng = language;
   }
 
-  translateElement(element: HTMLElement): void {
-    const xhrFile = new XMLHttpRequest();
+  private loadLanguageData(): void {
+    if (languageData && languageData[this.lng]) {
+      return; // Language data is already loaded
+    }
 
+    const xhrFile = new XMLHttpRequest();
     xhrFile.open("GET", `translations/${this.lng}.json`, false);
     xhrFile.onreadystatechange = () => {
-      if (xhrFile.readyState === 4) {
-        if (xhrFile.status === 200 || xhrFile.status === 0) {
-          const LngObject = JSON.parse(xhrFile.responseText);
-          const key = element.getAttribute(this.attribute);
-          if (key !== null) {
-            if (element.hasAttribute("placeholder")) {
-              element.setAttribute("placeholder", LngObject[key]);
-            } else if (element instanceof HTMLInputElement) {
-              element.value = LngObject[key];
-            } else if (element instanceof HTMLTextAreaElement) {
-              element.value = LngObject[key];
-            } else if (element instanceof HTMLSelectElement) {
-              element.value = LngObject[key];
-            } else {
-              element.innerHTML = LngObject[key];
-            }
-          }
-        }
+      if (xhrFile.readyState === 4 && (xhrFile.status === 200 || xhrFile.status === 0)) {
+        languageData = languageData || {};
+        languageData[this.lng] = JSON.parse(xhrFile.responseText);
       }
     };
     xhrFile.send();
   }
 
-  translateText(word: string): string | undefined {
-    const xhrFile = new XMLHttpRequest();
-    let translatedWord: string | undefined;
-  
-    xhrFile.open("GET", `translations/${this.lng}.json`, false);
-    xhrFile.onreadystatechange = () => {
-      if (xhrFile.readyState === 4) {
-        if (xhrFile.status === 200 || xhrFile.status === 0) {
-          const LngObject = JSON.parse(xhrFile.responseText);
-          translatedWord = LngObject[word];
+  private getTranslation(key: string): string | undefined {
+    this.loadLanguageData();
+    return languageData && languageData[this.lng] ? languageData[this.lng][key] : undefined;
+  }
+
+  translateElement(element: HTMLElement): void {
+    const key = element.getAttribute(this.attribute);
+    if (key !== null) {
+      const translation = this.getTranslation(key);
+      if (translation !== undefined) {
+        if (element.hasAttribute("placeholder")) {
+          element.setAttribute("placeholder", translation);
+        } else if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
+          element.value = translation;
+        } else {
+          element.innerHTML = translation;
         }
       }
-    };
-    xhrFile.send();
-  
-    return translatedWord;
+    }
+  }
+
+  translateText(word: string): string | undefined {
+    return this.getTranslation(word);
   }
 
   translateAllElements(): void {
