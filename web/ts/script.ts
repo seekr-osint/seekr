@@ -1,6 +1,6 @@
 import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall } from "./framework.js";
 import * as person from "../ts-gen/person.js";
- 
+
 class Person extends person.Person {
   Post(loadingSpinner?: HTMLDivElement): void {
     const requestOptions = {
@@ -19,7 +19,7 @@ class Person extends person.Person {
         console.error("Error:", error);
       });
   }
-  
+
   Edit(): void {
     let obj = this;
     mainContainer.style.display = "none";
@@ -238,11 +238,11 @@ class Person extends person.Person {
 
       refreshTranslation();
     }
-    
+
     editOccupation.innerHTML = obj.occupation;
     editPrevOccupation.innerHTML = obj.prevoccupation;
     editEducation.innerHTML = obj.education;
-    
+
     if (obj.religion != "") {
       const religionSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(15) > .religion-select") as HTMLElement;
       const selectItems = religionSelect.querySelector(".select-items") as HTMLElement;
@@ -596,7 +596,7 @@ class Person extends person.Person {
 
     // Accounts
 
-    if (Object.keys(obj.accounts).length != 0  && obj.accounts != null) {
+    if (Object.keys(obj.accounts).length != 0 && obj.accounts != null) {
       for (const [_, accObj] of Object.entries(obj.accounts)) {
         const accVar = (accObj as { service: string, id: string, username: string, url: string, profilePicture: { [key: number]: { img: string, img_hash: number } }, bio: { [key: number]: { bio: string } } });
 
@@ -817,7 +817,7 @@ const channel = new BroadcastChannel("seekr-channel");
 channel.addEventListener("message", (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;
-    
+
     document.documentElement.setAttribute("data-theme", theme);
   } else if (event.data.type === "language") {
     translate()
@@ -835,7 +835,7 @@ interface IonIconElement extends HTMLElement {
 
 // Variables for HTML elements
 
-  // General
+// General
 
 const mainContainer = document.querySelector(".main") as HTMLDivElement;
 const container = document.querySelector(".container") as HTMLDivElement;
@@ -961,7 +961,7 @@ document.getElementById("exportbtn")!.onclick = function () {
   saveAsFile(JSON.stringify(getData()), "data.json");
 }
 
-function createCards(obj: Person){
+function createCards(obj: Person) {
   let x = document.querySelector('#list-holder')!;
 
   // Basic
@@ -1025,14 +1025,14 @@ function createCards(obj: Person){
   d_icon.className = "icon"
   d_icon.setAttribute("name", "trash-outline");
 
-  d_icon_div.onclick = function () {                                                      
-  fetch(apiCall("/people/" + obj.id + "/delete"), {                                     
-    method: "GET",                                                                      
-    mode: "no-cors"                                                                     
-  }).then(function () {                                                                 
-    location.reload();                                                                  
-  });                                                                                   
-}
+  d_icon_div.onclick = function () {
+    fetch(apiCall("/people/" + obj.id + "/delete"), {
+      method: "GET",
+      mode: "no-cors"
+    }).then(function () {
+      location.reload();
+    });
+  }
 
   acc_icon_div.onclick = function () {
     editShowID.innerHTML = obj.id;
@@ -1080,7 +1080,7 @@ function createCards(obj: Person){
 
     const term_header = document.createElement("p");
     term_header.className = "term-header";
-    term_header.textContent  = accNameTag.value;
+    term_header.textContent = accNameTag.value;
 
     term_container.appendChild(term_header);
 
@@ -1267,7 +1267,7 @@ function createCards(obj: Person){
       let tempText = item.innerHTML.substring(item.innerHTML.indexOf(':') + 1).trim();
 
       // Check if the text is empty, null, or undefined
-      if (tempText.length <= 0 || tempText.replace(" ","") == "" || tempText == null || tempText == undefined || tempText == "0") {
+      if (tempText.length <= 0 || tempText.replace(" ", "") == "" || tempText == null || tempText == undefined || tempText == "0") {
         // Remove the object from the page
         // allObjects[i].remove();
 
@@ -1755,7 +1755,7 @@ editSaveBtn.onclick = async function () {
   let gender = checkDropdownValue("edit", "gender");
 
   let ethnicity = checkDropdownValue("edit", "ethnicity");
-  
+
   let age = parseInt(editAge.innerHTML);
 
   if (age < 0) {
@@ -1768,7 +1768,7 @@ editSaveBtn.onclick = async function () {
   let bday = editBday.innerHTML;
   let address = editAddress.innerHTML;
 
-  let phoneNumbers: {[key: string]: {number: string}} = {};
+  let phoneNumbers: { [key: string]: { number: string } } = {};
 
   editPhoneContainers.forEach((container: HTMLDivElement) => {
     const phoneInput: HTMLInputElement | null = container.querySelector('input[type="tel"]')!;
@@ -1784,7 +1784,7 @@ editSaveBtn.onclick = async function () {
 
   let kids = editKids.innerHTML;
 
-  let hobbies: {[key: string]: {hobby: string}} = {};
+  let hobbies: { [key: string]: { hobby: string } } = {};
 
   editHobbyContainers.forEach(function (container) {
     let hobbyInput = container.querySelector("input")!;
@@ -1801,7 +1801,7 @@ editSaveBtn.onclick = async function () {
 
   let pets = editPets.innerHTML;
 
-  let clubs: {[key: string]: {club: string}} = {};
+  let clubs: { [key: string]: { club: string } } = {};
 
   editClubContainers.forEach(function (container) {
     let clubInput = container.querySelector("input")!;
@@ -1813,7 +1813,7 @@ editSaveBtn.onclick = async function () {
   let legal = editLegal.innerHTML;
   let political = editPolitical.innerHTML;
 
-  let sources: {[key: string]: {url: string}} = {};
+  let sources: { [key: string]: { url: string } } = {};
 
   editSourceContainers.forEach(function (container) {
     let sourceInput = container.querySelector("input")!;
@@ -1824,11 +1824,11 @@ editSaveBtn.onclick = async function () {
 
   let notes = editNotes.innerHTML;
 
-  let emailAddresses: {[key: string]: {mail: string, src: string, services: string}} = {};
+  let emailAddresses: { [key: string]: { mail: string, src: string, services: string } } = {};
 
   editEmailContainers.forEach(function (container) {
     let hiddenElement = container.querySelector(".hidden-email-save")!;
-    
+
     // FIXME this is beautiful
     let hiddenElementVal = null;
 
@@ -1843,8 +1843,8 @@ editSaveBtn.onclick = async function () {
       "services": hiddenElementVal
     };
   });
-  
-  let ips: {[key: string]: {ip: string}} = {};
+
+  let ips: { [key: string]: { ip: string } } = {};
 
   editIPContainers.forEach(function (container) {
     let ipInput = container.querySelector("input")!;
@@ -1852,7 +1852,7 @@ editSaveBtn.onclick = async function () {
       "ip": ipInput.value
     };
   });
-  
+
   const loadingSpinner = document.querySelector("#e-loading-spinner")! as HTMLDivElement;
   loadingSpinner.style.display = "flex"
 
@@ -1874,11 +1874,11 @@ editSaveBtn.onclick = async function () {
   obj.age = age;
   obj.bday = bday;
   obj.address = address;
-  obj.phone = phoneNumbers as { [key: string]: person.PhoneNumber }; 
-  obj.civilstatus = civilstatus || ''; 
+  obj.phone = phoneNumbers as { [key: string]: person.PhoneNumber };
+  obj.civilstatus = civilstatus || '';
   obj.kids = kids;
   obj.hobbies = hobbies;
-  obj.email = emailAddresses as unknown as { [key: string]: person.Email }; 
+  obj.email = emailAddresses as unknown as { [key: string]: person.Email };
   obj.ips = ips;
   obj.occupation = occupation;
   obj.prevoccupation = prevoccupation;
@@ -1986,7 +1986,7 @@ async function runOnStart() {
     for (const [i, _] of Object.entries(data)) {
       //let obj = data[Number(i)] as any;
       let obj = data[Number(i)] as Person;
-  
+
       createCards(obj);
     }
   }
