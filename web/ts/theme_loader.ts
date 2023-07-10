@@ -12,8 +12,6 @@ function setDefaultIfNotStored(): void {
     localStorage.setItem("theme", defaultTheme);
 
     changeTheme(defaultTheme);
-
-    console.log(localStorage.getItem("theme"));
   }
 }
 

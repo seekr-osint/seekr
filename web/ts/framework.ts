@@ -167,10 +167,10 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
       ethnicity[translateText("indigenous_slash_native_american")!] = "Indigenous/Native American";
       ethnicity[translateText("multiracial_slash_mixed")!] = "Multiracial/Mixed";
     }
-    console.log(ethnicity[selectedEthnicity])
+
     return ethnicity[selectedEthnicity];
   } else if (dropdownType == "religion") {
-    const selectedReligion = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(14) > div > div.select-selected")?.innerHTML ?? "";
+    const selectedReligion = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(15) > div > div.select-selected")!.innerHTML ?? "";
     const religion: { [key: string]: string } = {};
 
     // English
@@ -201,7 +201,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
 
     return religion[selectedReligion];
   } else if (dropdownType == "civilstatus") {
-    const selectedCivilstatus = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(6) > div > div.select-selected")?.innerHTML ?? "";
+    const selectedCivilstatus = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(7) > div > div.select-selected")?.innerHTML ?? "";
     const civilstatus: { [key: string]: string } = {};
 
     // English
