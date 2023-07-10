@@ -20,7 +20,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5
 	github.com/pemistahl/lingua-go v1.3.3
 	github.com/projectdiscovery/subfinder/v2 v2.5.9
-	github.com/rocketlaunchr/google-search v1.1.5
+	github.com/rocketlaunchr/google-search v1.1.6
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/sundowndev/phoneinfoga/v2 v2.10.5
 	github.com/tkrajina/typescriptify-golang-structs v0.1.10
