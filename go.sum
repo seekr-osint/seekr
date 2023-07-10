@@ -431,8 +431,8 @@ github.com/stretchr/testify v1.8.1/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/stretchr/testify v1.8.3/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
-github.com/sundowndev/phoneinfoga/v2 v2.10.5 h1:+SRR7IfV19O+ctnFtShA+1ffwyMrhNxCfOK2fv38+2Y=
-github.com/sundowndev/phoneinfoga/v2 v2.10.5/go.mod h1:iJy1IgGZfZErQ4JgRqh6cwJ4Ds1vqikc/Ez9LtlA+9U=
+github.com/sundowndev/phoneinfoga/v2 v2.10.7 h1:RMYC4GRRVV0I7dnLln+UZ85MAdKwqpri0wqyM5FkRgQ=
+github.com/sundowndev/phoneinfoga/v2 v2.10.7/go.mod h1:iJy1IgGZfZErQ4JgRqh6cwJ4Ds1vqikc/Ez9LtlA+9U=
 github.com/temoto/robotstxt v1.1.1/go.mod h1:+1AmkuG3IYkh1kv0d2qEB9Le88ehNO0zwOr3ujewlOo=
 github.com/temoto/robotstxt v1.1.2 h1:W2pOjSJ6SWvldyEuiFXNxz3xZ8aiWX5LbfDiOFd7Fxg=
 github.com/temoto/robotstxt v1.1.2/go.mod h1:+1AmkuG3IYkh1kv0d2qEB9Le88ehNO0zwOr3ujewlOo=
