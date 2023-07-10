@@ -1178,7 +1178,10 @@ function createCards(obj: Person) {
           let data = await res.json() as Person;
 
           data.accounts[accObj.service + "-" + accObj.username] = accObj;
-          data.Post()
+          fetch(apiCall("/person"), {
+            method: 'POST',
+            body: JSON.stringify(data)
+          });
 
           accept_p.innerHTML = "Accepted!";
         }
