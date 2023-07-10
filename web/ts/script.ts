@@ -56,7 +56,6 @@ class Person extends person.Person {
 
         selectSelected.innerHTML = translateRawWord(obj.ethnicity)!;
 
-        console.log(selectSelected.innerHTML);
         ethnicityElement.className = "same-as-selected";
       }
     }
