@@ -18,11 +18,13 @@ require (
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
 	github.com/nyaruka/phonenumbers v1.1.7
 	github.com/pelletier/go-toml v1.9.5
-	github.com/projectdiscovery/subfinder/v2 v2.5.9
-	github.com/rocketlaunchr/google-search v1.1.5
-	github.com/sundowndev/phoneinfoga/v2 v2.10.5
+	github.com/pemistahl/lingua-go v1.3.4
+	github.com/projectdiscovery/subfinder/v2 v2.6.0
+	github.com/rocketlaunchr/google-search v1.1.6
+	github.com/src-d/enry/v2 v2.1.0
+	github.com/sundowndev/phoneinfoga/v2 v2.10.7
 	github.com/tkrajina/typescriptify-golang-structs v0.1.10
-	golang.org/x/oauth2 v0.8.0
+	golang.org/x/oauth2 v0.10.0
 )
 
 require (
@@ -127,16 +129,19 @@ require (
 	github.com/projectdiscovery/ratelimit v0.0.8 // indirect
 	github.com/projectdiscovery/retryabledns v1.0.23 // indirect
 	github.com/projectdiscovery/retryablehttp-go v1.0.15 // indirect
-	github.com/projectdiscovery/utils v0.0.34 // indirect
+	github.com/projectdiscovery/utils v0.0.37 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
+	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/skeema/knownhosts v1.1.1 // indirect
+	github.com/src-d/go-oniguruma v1.1.0 // indirect
 	github.com/temoto/robotstxt v1.1.2 // indirect
 	github.com/therootcompany/xz v1.0.1 // indirect
 	github.com/tkrajina/go-reflector v0.5.5 // indirect
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80 // indirect
+	github.com/toqueteos/trie v1.0.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	github.com/ulikunitz/xz v0.5.11 // indirect
@@ -150,18 +155,19 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go4.org v0.0.0-20200411211856-f5505b9728dd // indirect
 	golang.org/x/arch v0.3.0 // indirect
-	golang.org/x/crypto v0.9.0 // indirect
+	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230420155640-133eef4313cb // indirect
 	golang.org/x/mod v0.10.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.8.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
+	golang.org/x/net v0.12.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.8.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/djherbis/times.v1 v1.3.0 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
+	gopkg.in/toqueteos/substring.v1 v1.0.2 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

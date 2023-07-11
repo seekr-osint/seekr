@@ -102,7 +102,7 @@
                 #"-X main.version=${version}"
               ];
 
-              vendorSha256 = "sha256-qEKuK+8zGJtX9V1JRg+zOG8iZQCMSMcMJiMKdu+jtCg=";
+              vendorSha256 = "sha256-YaznW++YuLaB4EPHB+al7CdAgm0Wzbp7/sqrsJHFrPo=";
 
             };
           });
@@ -128,16 +128,13 @@
             nixpkgsFor.${system}.goreleaser
 
             nixpkgsFor.${system}.gcc
-            #self.packages.${system}.seekr
-            (nixpkgsFor.${system}.writeShellScriptBin "sbuild" ''
-              go run cmd/sbuild/main.go "$@"
-            '')
-
           ];
         };
         shellHook = ''
           sbuild() {
-            go run cmd/sbuild/main.go "$@"
+            go generate ./...
+            tsc --project web
+            go run main.go
           }
         '';
       });

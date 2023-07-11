@@ -13,7 +13,9 @@ RUN apk add --no-cache nodejs npm
 # Install TypeScript
 RUN npm install -g typescript
 
-RUN tsc --project web --watch false
+RUN go generate ./...
+
+RUN tsc --project web
 
 # Build the Go binary
 RUN go build -o seekr main.go
