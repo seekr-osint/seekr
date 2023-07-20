@@ -37,6 +37,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Pre defined commonly used fields in the database
 - Themes & Plugins
 ## Getting Started - Installation
+Just a quick warning, unstable builds may contain bugs and are not recommended for production use.
 ### Windows
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
 
