@@ -37,10 +37,21 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Pre defined commonly used fields in the database
 - Themes & Plugins
 ## Getting Started - Installation
+Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.
 ### Windows
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
 
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
+### Windows (unstable)
+Make sure to install TypeScript and Go.
+To install seekr on windows simply run:
+```sh
+git clone https://github.com/seekr-osint/seekr
+cd seekr
+go generate ./...
+tsc --project web
+go run main.go
+```
 ### Docker
 ```sh
 docker pull ghcr.io/seekr-osint/seekr:latest
@@ -49,10 +60,13 @@ docker run -p 8569:8569 ghcr.io/seekr-osint/seekr:latest
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
+Make sure to install TypeScript and Go.
 To install seekr on linux simply run:
 ```sh
 git clone https://github.com/seekr-osint/seekr
 cd seekr
+go generate ./...
+tsc --project web
 go run main.go
 ```
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
