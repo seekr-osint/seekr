@@ -1,0 +1,39 @@
+[data-theme="fish"] {
+  /* Background */
+
+  --bg: #5a747f;
+  --bg-bright: #647e89;
+
+  /* Text */
+
+  --textColor-1: #a2e5ff;
+  --textColor-hover: #2ba3f3;
+
+  /* Icons */
+
+  --iconColor-1: #9CCF9B;
+  --iconColor-2: #8c94A4;
+  --iconColor-3: #CF9B9B;
+
+  /* Loading spinner */
+
+  --loadingColor: #D8DEE9;
+  --loadingColor-dark: #cacaca;
+
+  /* No search results text */
+
+  --noResultsText: #68686875;
+
+  /* Shadow */
+
+  --shadow-1: #39545e;
+  --shadow-2: #455e68;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}
