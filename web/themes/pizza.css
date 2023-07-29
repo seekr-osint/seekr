@@ -1,0 +1,41 @@
+/* This is beautiful */
+
+[data-theme="pizza"] {
+  /* Background */
+
+  --bg: #e12301;
+  --bg-bright: #e83d1f;
+
+  /* Text */
+
+  --textColor-1: #c5bf11;
+  --textColor-hover: #fffbb8;
+
+  /* Icons */
+
+  --iconColor-1: #9CCF9B;
+  --iconColor-2: #c5bf11;
+  --iconColor-3: #CF9B9B;
+
+  /* Loading spinner */
+
+  --loadingColor: #FFFFFF;
+  --loadingColor-dark: #cacaca;
+
+  /* No search results text */
+
+  --noResultsText: #68686875;
+
+  /* Shadow */
+
+  --shadow-1: #b51818;
+  --shadow-2: #af1b01;
+
+  --shadowPreset-1: 0.8rem 0.8rem 1.4rem var(--shadow-1), -0.2rem -0.2rem 1.8rem var(--shadow-2);
+  --shadowPreset-2: inset 0.2rem 0.2rem 0.5rem var(--shadow-1), inset -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-3: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-4: 8px 8px 16px var(--shadow-1), -8px -8px 16px var(--shadow-2);
+  --shadowPreset-5: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+  --shadowPreset-6: inset 6.91px 6.91px 15px var(--shadow-1), inset -6.91px -6.91px 15px var(--shadow-2);
+  --shadowPreset-7: 0 0 15px var(--loadingColor);
+}
