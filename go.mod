@@ -22,7 +22,7 @@ require (
 	github.com/rocketlaunchr/google-search v1.1.6
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/sundowndev/phoneinfoga/v2 v2.10.7
-	golang.org/x/oauth2 v0.10.0
+	github.com/tkrajina/typescriptify-golang-structs v0.1.10
 )
 
 require (
@@ -157,6 +157,7 @@ require (
 	golang.org/x/exp v0.0.0-20230420155640-133eef4313cb // indirect
 	golang.org/x/mod v0.10.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
+	golang.org/x/oauth2 v0.10.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
