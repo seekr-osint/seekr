@@ -76,7 +76,7 @@ var DefaultServices = Services{
 		Name:           "Instagram",
 		Check:          "",
 		Pattern:        "Nothing found!",
-		UserExistsFunc: SimpleUserExistsCheck,
+		UserExistsFunc: instagramUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://instagram.com/{username}",
 	},
@@ -488,7 +488,7 @@ func UrlTemplate(url string, username string) string {
 	return strings.ReplaceAll(url, "{username}", username)
 }
 
-func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // tyoe UserExistsFunc
+func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
 	log.Printf("checking: %s %s", service.Name, username)
 	if config.Testing {
 		if username == strings.ToLower(fmt.Sprintf("%s-exsists", service.Name)) {
@@ -523,6 +523,38 @@ func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (
 				return nil, true
 			}
 		}
+	}
+
+	return nil, false
+}
+
+func instagramUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	// This is a workaround. I dont like this, but it works and is sort of reliable for now.
+	// Instagram only displays the username once somewhere in the HTML if it doesnt exist. If it exists it displays it more.
+
+	count := strings.Count(site, username)
+
+	if count > 1 {
+		return nil, true
 	}
 
 	return nil, false
