@@ -76,25 +76,25 @@ func ServeApi(config ApiConfig) {
 		config.SetupWebServer()
 	}
 	config.ServeTempMail()
-	config.GinRouter.GET("/", Handler(GetDataBase, config))                                      // return entire database
-	config.GinRouter.GET("/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account // FIXME
-	config.GinRouter.GET("/search/google/:query", Handler(GoogleRequest, config))                // get results from google
-	config.GinRouter.GET("/search/whois/:query", Handler(WhoisRequest, config))                  // get whois of domain
-	config.GinRouter.GET("/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
-	config.GinRouter.GET("/people/:id/markdown", Handler(MarkdownPersonRequest, config))         // return person obj
-	config.GinRouter.DELETE("/people/:id", Handler(DeletePerson, config))                        // delete person
-	config.GinRouter.GET("/people/:id/delete", Handler(DeletePerson, config))                    // delete person
-	config.GinRouter.DELETE("/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
-	config.GinRouter.GET("/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
-	config.GinRouter.POST("/person", Handler(PostPerson, config))                                // post person
-	config.GinRouter.POST("/config", Handler(PostConfig, config))                                // post config
-	config.GinRouter.GET("/config", Handler(GetConfig, config))                                  // get config
-	config.GinRouter.GET("/info", Handler(GetInfo, config))                                      // get info
-	config.GinRouter.POST("/detect/language", Handler(DetectLanguage, config))                   // detect language
-	config.GinRouter.POST("/detect/language/code", Handler(DetectLanguageCode, config))          // detect language in code
+	config.GinRouter.GET("/api/", Handler(GetDataBase, config))                                      // return entire database
+	config.GinRouter.GET("/api/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account // FIXME
+	config.GinRouter.GET("/api/search/google/:query", Handler(GoogleRequest, config))                // get results from google
+	config.GinRouter.GET("/api/search/whois/:query", Handler(WhoisRequest, config))                  // get whois of domain
+	config.GinRouter.GET("/api/people/:id", Handler(GetPersonByIDRequest, config))                   // return person obj
+	config.GinRouter.GET("/api/people/:id/markdown", Handler(MarkdownPersonRequest, config))         // return person obj
+	config.GinRouter.DELETE("/api/people/:id", Handler(DeletePerson, config))                        // delete person
+	config.GinRouter.GET("/api/people/:id/delete", Handler(DeletePerson, config))                    // delete person
+	config.GinRouter.DELETE("/api/people/:id/accounts/:account", Handler(DeleteAccount, config))     // delete account
+	config.GinRouter.GET("/api/people/:id/accounts/:account/delete", Handler(DeleteAccount, config)) // delete account
+	config.GinRouter.POST("/api/person", Handler(PostPerson, config))                                // post person
+	config.GinRouter.POST("/api/config", Handler(PostConfig, config))                                // post config
+	config.GinRouter.GET("/api/config", Handler(GetConfig, config))                                  // get config
+	config.GinRouter.GET("/api/info", Handler(GetInfo, config))                                      // get info
+	config.GinRouter.POST("/api/detect/language", Handler(DetectLanguage, config))                   // detect language
+	config.GinRouter.POST("/api/detect/language/code", Handler(DetectLanguageCode, config))          // detect language in code
 
-	config.GinRouter.GET("/restart", Handler(RestartBin, config))                       // Restart seekr
-	config.GinRouter.GET("/getAccounts/:username", Handler(GetAccountsRequest, config)) // get accounts
+	config.GinRouter.GET("/api/restart", Handler(RestartBin, config))                       // Restart seekr
+	config.GinRouter.GET("/api/getAccounts/:username", Handler(GetAccountsRequest, config)) // get accounts
 	config, err = config.Parse()
 	if err != nil {
 		log.Println(err) // FIXME should panic?

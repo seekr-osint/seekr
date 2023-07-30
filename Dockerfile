@@ -15,7 +15,7 @@ RUN npm install -g typescript
 
 RUN go generate ./...
 
-RUN tsc --project web
+RUN tsc --project web --watch false
 
 # Build the Go binary
 RUN go build -o seekr main.go
