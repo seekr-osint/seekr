@@ -528,7 +528,7 @@ func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (
 	return nil, false
 }
 
-func instagramUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+func InstagramUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
 
 	// FIXME this is a workaround
 	// This will never truly work
@@ -577,7 +577,7 @@ func instagramUserExistsCheck(service Service, username string, config ApiConfig
 	return nil, false
 }
 
-func atUsernameUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+func AtUsernameUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
 	log.Printf("checking: %s %s", service.Name, username)
 	if config.Testing {
 		if username == strings.ToLower(fmt.Sprintf("@%s-exists", service.Name)) {
