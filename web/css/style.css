@@ -22,6 +22,10 @@ html {
   }
 }
 
+.not-selectable {
+  user-select: none;
+}
+
 .dont-show {
   display: none !important;
   height: 0 !important;
