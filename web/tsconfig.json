@@ -7,7 +7,6 @@
       "./ts",
       "./ts-gen"
     ],
-    "watch": false,
     "lib": ["dom", "ESNext"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
