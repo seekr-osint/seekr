@@ -120,9 +120,9 @@ var requests = tc.Requests{
 	"8a-accounts": { // ID 15
 		RequestType:      "GET",
 		Name:             "Post Person (civil status)",
-		URL:              "http://localhost:8080/api/getAccounts/snapchat-exsists",
+		URL:              "http://localhost:8080/api/getAccounts/snapchat-exists",
 		PostData:         nil,
-		ExpectedResponse: map[string]interface{}{"Snapchat-snapchat-exsists": map[string]interface{}{"bio": interface{}(nil), "blog": "", "created": "", "firstname": "", "followers": float64(0), "following": float64(0), "id": "", "lastname": "", "location": "", "profilePicture": interface{}(nil), "service": "Snapchat", "updated": "", "url": "", "username": "snapchat-exsists"}},
+		ExpectedResponse: map[string]interface{}{"Snapchat-snapchat-exists": map[string]interface{}{"bio": interface{}(nil), "blog": "", "created": "", "firstname": "", "followers": float64(0), "following": float64(0), "id": "", "lastname": "", "location": "", "profilePicture": interface{}(nil), "service": "Snapchat", "updated": "", "url": "", "username": "snapchat-exists"}},
 		StatusCode:       200,
 	},
 
