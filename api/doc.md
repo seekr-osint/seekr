@@ -629,14 +629,14 @@ curl -X POST http://localhost:8080/api/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/api/getAccounts/snapchat-exsists
+curl -X GET http://localhost:8080/api/getAccounts/snapchat-exists
 ```
 
 **Response:**
 
 ```json
 {
-	"Snapchat-snapchat-exsists": {
+	"Snapchat-snapchat-exists": {
 		"bio": null,
 		"blog": "",
 		"created": "",
@@ -650,7 +650,7 @@ curl -X GET http://localhost:8080/api/getAccounts/snapchat-exsists
 		"service": "Snapchat",
 		"updated": "",
 		"url": "",
-		"username": "snapchat-exsists"
+		"username": "snapchat-exists"
 	}
 }
 ```
