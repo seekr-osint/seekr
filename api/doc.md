@@ -4,7 +4,7 @@
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -88,7 +88,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "1"
@@ -112,7 +112,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/people/2
+curl -X GET http://localhost:8080/api/people/2
 ```
 
 **Response:**
@@ -162,7 +162,7 @@ curl -X GET http://localhost:8080/people/2
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/people/100
+curl -X GET http://localhost:8080/api/people/100
 ```
 
 **Response:**
@@ -180,7 +180,7 @@ null
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -284,7 +284,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -363,7 +363,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -466,7 +466,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -557,7 +557,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"accounts": null,
@@ -629,7 +629,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/getAccounts/snapchat-exsists
+curl -X GET http://localhost:8080/api/getAccounts/snapchat-exsists
 ```
 
 **Response:**
@@ -664,7 +664,7 @@ curl -X GET http://localhost:8080/getAccounts/snapchat-exsists
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/config
+curl -X GET http://localhost:8080/api/config
 ```
 
 **Response:**
@@ -692,7 +692,7 @@ curl -X GET http://localhost:8080/config
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/config \
+curl -X POST http://localhost:8080/api/config \
 -H 'Content-Type: application/json' \
 -d '{
 	"general": {
@@ -724,7 +724,7 @@ curl -X POST http://localhost:8080/config \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/info
+curl -X GET http://localhost:8080/api/info
 ```
 
 **Response:**
@@ -747,7 +747,7 @@ Possible values are: Single,Married,Widowed,Divorced,Separated
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"civilstatus": "invalid",
@@ -772,7 +772,7 @@ Possible values are: Single,Married,Widowed,Divorced,Separated
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"civilstatus": "Single",
@@ -827,7 +827,7 @@ Possible values are: Christianity,Islam,Hinduism,Buddhism,Sikhism,Judaism,Other,
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "1",
@@ -852,7 +852,7 @@ Possible values are: Christianity,Islam,Hinduism,Buddhism,Sikhism,Judaism,Other,
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "16",
@@ -907,7 +907,7 @@ Possible values are: Male,Female,Other
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"gender": "invalid",
@@ -932,7 +932,7 @@ Possible values are: Male,Female,Other
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"gender": "Male",
@@ -987,7 +987,7 @@ Possible values are: African,Asian,Caucasian/White,Hispanic/Latino,Indigenous/Na
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"ethnicity": "invalid",
@@ -1012,7 +1012,7 @@ Possible values are: African,Asian,Caucasian/White,Hispanic/Latino,Indigenous/Na
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"ethnicity": "African",
@@ -1067,7 +1067,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{}'
 ```
@@ -1089,7 +1089,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"age": 10,
@@ -1120,7 +1120,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "20",
@@ -1150,7 +1150,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "20",
@@ -1180,7 +1180,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "21",
@@ -1257,7 +1257,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "30",
@@ -1334,7 +1334,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "22",
@@ -1411,7 +1411,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"id": "23",
@@ -1471,7 +1471,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/person \
+curl -X POST http://localhost:8080/api/person \
 -H 'Content-Type: application/json' \
 -d '{
 	"age": 23,
@@ -1595,7 +1595,7 @@ curl -X POST http://localhost:8080/person \
 **Curl Request:**
 
 ```sh
-curl -X GET http://localhost:8080/people/24/markdown
+curl -X GET http://localhost:8080/api/people/24/markdown
 ```
 
 **Response:**
@@ -1615,7 +1615,7 @@ curl -X GET http://localhost:8080/people/24/markdown
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/detect/language \
+curl -X POST http://localhost:8080/api/detect/language \
 -H 'Content-Type: application/json' \
 -d '{
 	"text": "это русский текст и, надеюсь, он будет обнаружен. Больше текста улучшит обнаружение, поэтому я должен сказать несколько случайных вещей, чтобы получить действительно хорошее обнаружение."
@@ -1713,7 +1713,7 @@ curl -X POST http://localhost:8080/detect/language \
 **Curl Request:**
 
 ```sh
-curl -X POST http://localhost:8080/detect/language/code \
+curl -X POST http://localhost:8080/api/detect/language/code \
 -H 'Content-Type: application/json' \
 -d '{
 	"code": "\npackage main\n\nfunc main() {\n  // это русский текст и, надеюсь, он будет обнаружен. Больше текста улучшит обнаружение, поэтому я должен сказать несколько случайных вещей, чтобы получить действительно хорошее обнаружение.\n\t// Ky është një tekst rus dhe shpresoj se do të zbulohet. Më shumë tekst do të përmirësojë zbulimin, kështu që më duhet të them disa gjëra të rastësishme për të marrë një zbulim vërtet të mirë.\n\tfmt.Printf(\"hello world\")\n}\n\t\t\t",

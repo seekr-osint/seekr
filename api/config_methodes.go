@@ -64,6 +64,9 @@ func (config ApiConfig) SetupWebServer() {
 	config.GinRouter.GET("/web/*filepath", func(c *gin.Context) {
 		http.FileServer(http.FS(config.Server.WebServer.FileSystem)).ServeHTTP(c.Writer, c.Request)
 	})
+	config.GinRouter.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "/web")
+	})
 }
 
 // DB methodes
