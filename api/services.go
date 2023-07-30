@@ -306,13 +306,6 @@ var DefaultServices = Services{
 		BaseUrl: "http://en.gravatar.com/{username}",
 	},
 	Service{
-		Name:           "HackTheBox",
-		Check:          "", // FIXME site down kinda
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
-		BaseUrl:        "https://forum.hackthebox.eu/profile/{username}",
-	},
-	Service{
 		Name:              "LeetCode",
 		Check:             "status_code",
 		UserExistsFunc:    SimpleUserExistsCheck,
