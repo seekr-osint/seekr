@@ -67,6 +67,10 @@ func (config ApiConfig) SetupWebServer() {
 	config.GinRouter.GET("/", func(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/web")
 	})
+
+	config.GinRouter.GET("/index.html", func(c *gin.Context) {
+		c.Redirect(http.StatusMovedPermanently, "/web/index.html")
+	})
 }
 
 // DB methodes
