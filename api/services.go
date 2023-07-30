@@ -76,7 +76,7 @@ var DefaultServices = Services{
 		Name:           "Instagram",
 		Check:          "",
 		Pattern:        "Nothing found!",
-		UserExistsFunc: instagramUserExistsCheck,
+		UserExistsFunc: usernameMoreThanOnceUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://instagram.com/{username}",
 	},
@@ -528,7 +528,7 @@ func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (
 	return nil, false
 }
 
-func instagramUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+func usernameMoreThanOnceUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
 	log.Printf("checking: %s %s", service.Name, username)
 	if config.Testing {
 		if username == strings.ToLower(fmt.Sprintf("%s-exists", service.Name)) {
