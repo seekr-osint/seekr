@@ -336,7 +336,7 @@ function apiCall(endpoint: string): string {
   var hostname = window.location.hostname;
   var port = window.location.port;
   var baseUrl = hostname + ":" + port;
-  var apiUrl = "http://" + baseUrl;
+  var apiUrl = "http://" + baseUrl + "/api";
 
   if (endpoint.charAt(0) === "/") {
     endpoint = endpoint.substring(1);
