@@ -147,7 +147,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "TryHackMe",
 		Check:          "status_code",
-		UserExistsFunc: SimpleUserExistsCheck,
+		UserExistsFunc: TryHackMeUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://tryhackme.com/p/{username}",
 	},
@@ -599,6 +599,40 @@ func AtUsernameUserExistsCheck(service Service, username string, config ApiConfi
 
 	if strings.Contains(strings.ToLower(site), "@"+username) {
 		return nil, true
+	}
+
+	return nil, false
+}
+
+func TryHackMeUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("@%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("@%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(site))
+	if err != nil {
+		return err, false
+	}
+
+	if usernameSpan := doc.Find("body > div.container.profile-body > div.p-3 > h2 > span"); usernameSpan.Length() > 0 {
+		if usernameSpan.Text() == username {
+			return nil, true
+		}
 	}
 
 	return nil, false
