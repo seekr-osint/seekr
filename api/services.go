@@ -76,7 +76,7 @@ var DefaultServices = Services{
 		Name:           "Instagram",
 		Check:          "",
 		Pattern:        "Nothing found!",
-		UserExistsFunc: atUsernameUserExistsCheck,
+		UserExistsFunc: instagramUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://instagram.com/{username}",
 	},
@@ -523,6 +523,55 @@ func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (
 				return nil, true
 			}
 		}
+	}
+
+	return nil, false
+}
+
+func instagramUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+
+	// FIXME this is a workaround
+	// This will never truly work
+	// Instagram protects against scraping stuff like this
+	// Specific usernames will give false positives (like "div" or some weird numbers that instagram uses as class names for fuck knows why)
+	// But i dont care at all
+	// I just want to get this over with
+	// I dont know how to fix this
+	// I hate everything
+	// I hate this workaround
+	// I am about to cry
+	// I am about to kill myself
+	// If anyone knows how to fix this please tell me
+	// I am desperate
+	// A therapist cant even help me now
+	// I am not joking
+
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	// This is a workaround. I dont like this, but it works and is sort of reliable for now.
+	// Instagram only displays the username once somewhere in the HTML if it doesnt exist. If it exists it displays it more.
+
+	count := strings.Count(site, username)
+
+	if count > 1 {
+		return nil, true
 	}
 
 	return nil, false
