@@ -77,7 +77,7 @@ var DefaultServices = Services{
 		Check:          "",
 		Pattern:        "Nothing found!",
 		UserExistsFunc: InstagramUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
+		GetInfoFunc:    InstagramInfo,
 		BaseUrl:        "https://instagram.com/{username}",
 	},
 	Service{
@@ -807,6 +807,40 @@ func GithubInfo(username string, service Service, config ApiConfig) (error, Acco
 		}
 	}
 	return nil, account
+}
+
+// TODO Finish this
+
+func InstagramInfo(username string, service Service, config ApiConfig) (error, Account) {
+	log.Println("instagram")
+	var data struct {
+		Name string `json:"name"`
+		Url  string `json:"url"`
+		// Profile struct {
+		// 	Bio       string `json:"bio"`
+		// 	Posts     string `json:"posts"`
+		// 	Followers string `json:"followers"`
+		// 	Following string `json:"following"`
+		// } `json:"profile"`
+	}
+	jsonData, err := HttpRequest("https://www.instagram.com/" + username + "/?__a=1&__d=1/")
+	if err != nil {
+		return err, EmptyAccountInfo(username, service)
+	}
+	err = json.Unmarshal([]byte(jsonData), &data)
+	if err != nil {
+		log.Println(err)
+		return err, EmptyAccountInfo(username, service)
+	}
+	return nil, Account{
+		Service:  service.Name,
+		Username: username,
+		Name:     Name,
+		Url:      "https://www.instagram.com/" + username,
+		// Bio: Bios{"1": Bio{Bio: data.Profile.Bio}},
+		// Firstname: data.Profile.Firstname,
+		// Lastname:  data.Profile.Lastname,
+	}
 }
 
 func LichessInfo(username string, service Service, config ApiConfig) (error, Account) {
