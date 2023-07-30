@@ -67,7 +67,7 @@ var DefaultServices = Services{
 		Name:           "Twitter",
 		Check:          "pattern",
 		Pattern:        "<div class=\"error-panel\"><span>User ",
-		UserExistsFunc: SimpleUserExistsCheck,
+		UserExistsFunc: atUsernameUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://nitter.net/{username}",
 		HtmlUrl:        "https://twitter.com/{username}",
@@ -554,6 +554,33 @@ func usernameMoreThanOnceUserExistsCheck(service Service, username string, confi
 	count := strings.Count(site, username)
 
 	if count > 1 {
+		return nil, true
+	}
+
+	return nil, false
+}
+
+func atUsernameUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("@%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("@%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, strings.ToLower(username))
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	if strings.Contains(site, "@"+strings.ToLower(username)) {
 		return nil, true
 	}
 
