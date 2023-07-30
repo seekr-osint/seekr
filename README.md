@@ -16,7 +16,7 @@
 ## Introduction
 Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. Our desktop view enables you to have all of your favourite OSINT tools integrated in one. The backend is written in Go with BadgerDB as database and it offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, seekr makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
 
-Check the wiki for setup guide, etc.
+Check the wiki for setup guide, API-docs, etc.
 
 
 <img width="800" src="https://user-images.githubusercontent.com/67828948/216688806-6cfd4344-e1b6-4a69-870c-ec8d2763c5b7.png">
@@ -37,10 +37,21 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Pre defined commonly used fields in the database
 - Themes & Plugins
 ## Getting Started - Installation
+Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.
 ### Windows
 Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
 
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
+### Windows (unstable)
+Make sure to install TypeScript and Go.
+To install seekr on windows simply run:
+```sh
+git clone https://github.com/seekr-osint/seekr
+cd seekr
+go generate ./...
+tsc --project web
+go run main.go
+```
 ### Docker
 ```sh
 docker pull ghcr.io/seekr-osint/seekr:latest
@@ -49,10 +60,13 @@ docker run -p 8569:8569 ghcr.io/seekr-osint/seekr:latest
 ### Linux (stable)
 Download the latest stable binary [here](https://github.com/seekr-osint/seekr/releases/latest)
 ### Linux (unstable)
+Make sure to install TypeScript and Go.
 To install seekr on linux simply run:
 ```sh
 git clone https://github.com/seekr-osint/seekr
 cd seekr
+go generate ./...
+tsc --project web
 go run main.go
 ```
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
