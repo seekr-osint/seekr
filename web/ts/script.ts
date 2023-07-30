@@ -1152,6 +1152,7 @@ function createCards(obj: Person) {
 
         const reject_p = document.createElement("p");
         reject_p.innerHTML = "Reject";
+        reject_p.className = "not-selectable";
 
         const accept_btn = document.createElement("div");
         accept_btn.id = "acc-acceptbtn";
@@ -1159,6 +1160,7 @@ function createCards(obj: Person) {
 
         const accept_p = document.createElement("p");
         accept_p.innerHTML = "Accept";
+        accept_p.className = "not-selectable";
 
         manage_acc_chip.appendChild(btn_container);
         btn_container.appendChild(reject_btn);
