@@ -2,7 +2,7 @@
 name: docs
 about: Issue regarding docs
 title: "[DOCS] "
-labels: docs
+labels: docsumentation
 assignees: 9glenda, Niteltsplay
 ---
 
