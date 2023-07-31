@@ -7,10 +7,11 @@ type Service struct {
 	UserHtmlUrlTemplate string
 	Domain              string
 	Protocol            string
-	TestData TestData
+	TestData            TestData
 }
 type TestData struct {
-	ExsistingUser string
+	ExsistingUser    string
+	NotExsistingUser string
 }
 type User struct {
 	Username string

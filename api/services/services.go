@@ -1,6 +1,12 @@
 package services
 
+import (
+	"log"
+)
+
 func StatusCodeUserExistsFunc(data UserServiceDataToCheck) (bool, error) {
+	url, _ := data.GetUserHtmlUrl()
+	log.Printf("status code check:%s\n", url)
 	return data.StatusCodeUserExistsFunc()
 }
 
@@ -11,7 +17,8 @@ var DefaultServices = Services{
 		Domain:              "github.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/{{.Username}}",
 		TestData: TestData{
-			ExsistingUser: "greg",
+			ExsistingUser:    "greg",
+			NotExsistingUser: "greg2q1412fdwkdfns",
 		},
 	},
 	{
@@ -20,7 +27,8 @@ var DefaultServices = Services{
 		Domain:              "tiktok.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/@{{.Username}}",
 		TestData: TestData{
-			ExsistingUser: "greg",
+			ExsistingUser:    "greg",
+			NotExsistingUser: "gregdoesnotexsist",
 		},
 	},
 }

@@ -1,8 +1,12 @@
 package services
 
 import (
+	"encoding/base64"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -30,10 +34,15 @@ type MockServer struct {
 	Server    *httptest.Server
 }
 
+func (mock *MockServer) IsServerRunning() bool {
+	return mock.Server != nil
+}
+
 func (mock *MockServer) CreateMockServer() error {
 	handler := http.NewServeMux()
 
 	for _, endpoint := range mock.Endpoints {
+		log.Printf("creating endpoint: %s - %d\n", endpoint.URL, endpoint.StatusCode)
 		parsedURL, err := url.Parse(endpoint.URL)
 		if err != nil {
 			return err
@@ -41,10 +50,15 @@ func (mock *MockServer) CreateMockServer() error {
 
 		path := parsedURL.Path
 		url := fmt.Sprintf("/%s%s", parsedURL.Hostname(), path)
-		log.Printf("adding url %s: %s\n", endpoint.URL, url)
+		//fmt.Printf("adding url %s: %s\n", endpoint.URL, url)
+
+		// Create a new variable to capture the current endpoint value.
+		currentEndpoint := endpoint
+
 		handler.HandleFunc(url, func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(endpoint.StatusCode)
-			fmt.Fprint(w, endpoint.ResponseBody)
+			// fmt.Printf("got request on %s with status code %d \n", currentEndpoint.URL, currentEndpoint.StatusCode)
+			w.WriteHeader(currentEndpoint.StatusCode)
+			fmt.Fprint(w, currentEndpoint.ResponseBody)
 		})
 	}
 
@@ -93,6 +107,8 @@ func TestGetUserHtmUrl(t *testing.T) {
 func (services Services) GetMockResp() ([]*MockServerEndpoint, error) {
 	endpoints := []*MockServerEndpoint{}
 	for _, service := range services {
+
+		// exsisting user
 		url, err := service.TestUserServiceData().GetUserHtmlUrl()
 		if err != nil {
 			return nil, err
@@ -103,6 +119,17 @@ func (services Services) GetMockResp() ([]*MockServerEndpoint, error) {
 		}
 		endpoints = append(endpoints, endpoint)
 
+		// non exsisting userr
+		url2, err := service.TestUserServiceData2().GetUserHtmlUrl()
+		if err != nil {
+			return nil, err
+		}
+		endpoint2, err := mockHTTPServer(url2)
+		if err != nil {
+			return nil, err
+		}
+		endpoints = append(endpoints, endpoint2)
+
 	}
 	return endpoints, nil
 }
@@ -112,11 +139,24 @@ func ServicesMockWorker(s <-chan Service, res chan<- bool, wg *sync.WaitGroup, t
 	for service := range s {
 		t.Run(service.Name, func(t *testing.T) {
 		})
-		data := service.TestUserServiceData()
-		t.Logf("Checking service %s: %s\n", data.Service.Name, data.Service.Domain)
-		status, err := data.StatusCodeUserExistsFunc()
+
+		dataE := service.TestUserServiceData() // user exists
+
+		dataNE := service.TestUserServiceData2() // ueser Not Exists
+
+		statusE, err := dataE.Service.UserExistsFunc(dataE)
 		if err != nil {
 			t.Errorf("%v", err)
+		}
+
+		statusNE, err := dataNE.Service.UserExistsFunc(dataNE)
+		if err != nil {
+			t.Errorf("%v", err)
+		}
+		status := false
+		if !statusNE && statusE {
+			status = true
+			//fmt.Printf("working\n")
 		}
 		t.Logf("Status: %v\n", status)
 		res <- status
@@ -137,6 +177,11 @@ func TestServicesMock(t *testing.T) {
 	err = mockServer.CreateMockServer()
 	if err != nil {
 		t.Errorf("%v", err)
+	}
+	if mockServer.IsServerRunning() {
+		log.Printf("mock running\n")
+	} else {
+		log.Printf("mock not running\n")
 	}
 	replacedSrevices := ReplaceDomains(DefaultServices, mockServer.Server.URL)
 	workers := 2
@@ -173,7 +218,35 @@ func ReplaceDomains(services Services, mockDomain string) Services {
 	return newServices
 }
 
-func mockHTTPServer(url string) (*MockServerEndpoint, error) {
+func ReadMockHttp(url string) (*MockServerEndpoint, error) {
+
+	data, err := ioutil.ReadFile(GetFilePath(url))
+	if err != nil {
+		return nil, ErrReadFile
+	}
+
+	var mockData MockServerEndpoint
+	err = json.Unmarshal(data, &mockData)
+	if err != nil {
+		return nil, err
+	}
+
+	return &mockData, err
+}
+
+func GetFilePath(url string) string {
+	encodedURL := base64.URLEncoding.EncodeToString([]byte(url))
+	filePath := fmt.Sprintf("mock/%s.json", encodedURL)
+	return filePath
+}
+
+var (
+	ErrReadFile = errors.New("failed to read file")
+)
+
+func GetBody(url string) (*MockServerEndpoint, error) {
+	fmt.Printf("request: %s\n", url)
+
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -185,11 +258,58 @@ func mockHTTPServer(url string) (*MockServerEndpoint, error) {
 		return nil, err
 	}
 
-	mockServer := &MockServerEndpoint{
+	return &MockServerEndpoint{
 		URL:          url,
 		StatusCode:   resp.StatusCode,
 		ResponseBody: string(body),
+	}, nil
+
+}
+
+func mockHTTPServer(url string) (*MockServerEndpoint, error) {
+	mockServer, err := ReadMockHttp(url)
+	if err == ErrReadFile {
+		mockServer, err := GetBody(url)
+		if err != nil {
+			return nil, err
+		}
+
+		err = WriteMock(*mockServer)
+		if err != nil {
+			return mockServer, err
+		}
+
+		return mockServer, nil
 	}
 
 	return mockServer, nil
+}
+
+func WriteMock(mockServer MockServerEndpoint) error {
+	url := mockServer.URL
+	jsonData, err := json.MarshalIndent(mockServer, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshaling data to JSON:", err)
+
+		return err
+	}
+
+	// create mock dir
+	err = os.MkdirAll("mock", 0755)
+	if err != nil {
+		fmt.Println("Error creating the 'mock' directory:", err)
+
+		return err
+	}
+
+	err = ioutil.WriteFile(GetFilePath(url), jsonData, 0644)
+	if err != nil {
+		fmt.Println("Error writing JSON data to file:", err)
+
+		return err
+	}
+
+	fmt.Println("Data successfully written to", GetFilePath(url))
+	return nil
+
 }

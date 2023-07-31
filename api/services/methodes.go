@@ -25,14 +25,12 @@ func (data UserServiceDataToCheck) GetUserHtmlUrl() (string, error) {
 		return "", fmt.Errorf("failed to execute URL template: %w", err)
 	}
 
-	
-
-	url, err := SetProtocolURL(result.String(),data.Service.Protocol)
+	url, err := SetProtocolURL(result.String(), data.Service.Protocol)
 	if err != nil {
-		return "", fmt.Errorf("failed to set the protocol from url: %w",err)
+		return "", fmt.Errorf("failed to set the protocol from url: %w", err)
 	}
-	log.Printf("url: %s\n",url)
-	return url,nil
+	log.Printf("url: %s\n", url)
+	return url, nil
 }
 func SetProtocolURL(rawURL, protocol string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
@@ -42,7 +40,7 @@ func SetProtocolURL(rawURL, protocol string) (string, error) {
 	if protocol != "" {
 		parsedURL.Scheme = protocol
 	} else if parsedURL.Scheme == "" {
-		parsedURL.Scheme = "https"		
+		parsedURL.Scheme = "https"
 	} // else don't change the protocol
 
 	return parsedURL.String(), nil
@@ -53,12 +51,14 @@ func (data UserServiceDataToCheck) StatusCodeUserExistsFunc() (bool, error) {
 	if err != nil {
 		return false, fmt.Errorf("failed to get user HTML URL: %w", err)
 	}
-	log.Printf("checking service %s: %s\n",data.Service.Name, url)
+	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
 
 	resp, err := http.Get(url)
 	if err != nil {
+		log.Printf("error status code check: %s", err)
 		return false, fmt.Errorf("failed to send GET request: %w", err)
 	}
+	log.Printf("status code for %s (%s): %d \n", data.Service.Name, url, resp.StatusCode)
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusOK {
@@ -73,6 +73,14 @@ func (service Service) TestUserServiceData() UserServiceDataToCheck {
 		Service: service,
 		User: User{
 			Username: service.TestData.ExsistingUser,
+		},
+	}
+}
+func (service Service) TestUserServiceData2() UserServiceDataToCheck {
+	return UserServiceDataToCheck{
+		Service: service,
+		User: User{
+			Username: service.TestData.NotExsistingUser,
 		},
 	}
 }
