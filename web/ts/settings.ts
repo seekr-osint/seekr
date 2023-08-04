@@ -92,7 +92,6 @@ function displaySavedLanguage() {
     }
   }
 }
-
 displaySavedLanguage();
 
 const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
