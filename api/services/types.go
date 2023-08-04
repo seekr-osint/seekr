@@ -41,8 +41,12 @@ type Image struct {
 	Img image.Image
 }
 type AccountInfo struct {
-	ProfilePicture Image  `json:"profile_picture"`
-	Bio            string `json:"bio"`
+	ProfilePicture Image `json:"profile_picture"`
+	Bio            Bio   `json:"bio"`
+}
+type Bio struct {
+	Bio      string             `json:"bio"`
+	Language map[string]float64 `json:"language"`
 }
 
 type DataToCheck []UserServiceDataToCheck

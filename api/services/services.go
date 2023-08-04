@@ -3,10 +3,12 @@ package services
 import (
 	"log"
 	"net/http"
+
 	//"strings"
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/seekr-osint/seekr/api/language"
 )
 
 func StatusCodeUserExistsFunc(data UserServiceDataToCheck) (bool, error) {
@@ -155,6 +157,18 @@ func TikTokInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 		userBioText = ""
 	}
 	return AccountInfo{
-		Bio: userBioText,
+		Bio: NewBio(userBioText),
 	}, nil
+}
+func NewBio(bio string) Bio { // TODO discord tag regex/username regex (https://www.tiktok.com/@japan)
+	if bio != "" {
+		return Bio{
+			Language: language.DetectLanguage(bio),
+			Bio:      bio,
+		}
+	}
+	return Bio{
+		Bio: bio,
+	}
+
 }
