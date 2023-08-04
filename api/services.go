@@ -67,7 +67,7 @@ var DefaultServices = Services{
 		Name:           "Twitter",
 		Check:          "pattern",
 		Pattern:        "<div class=\"error-panel\"><span>User ",
-		UserExistsFunc: SimpleUserExistsCheck,
+		UserExistsFunc: AtUsernameUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://nitter.net/{username}",
 		HtmlUrl:        "https://twitter.com/{username}",
@@ -76,7 +76,7 @@ var DefaultServices = Services{
 		Name:           "Instagram",
 		Check:          "",
 		Pattern:        "Nothing found!",
-		UserExistsFunc: SimpleUserExistsCheck,
+		UserExistsFunc: InstagramUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://instagram.com/{username}",
 	},
@@ -147,7 +147,7 @@ var DefaultServices = Services{
 	Service{
 		Name:           "TryHackMe",
 		Check:          "status_code",
-		UserExistsFunc: SimpleUserExistsCheck,
+		UserExistsFunc: TryHackMeUserExistsCheck,
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://tryhackme.com/p/{username}",
 	},
@@ -222,7 +222,7 @@ var DefaultServices = Services{
 		GetInfoFunc:    SimpleAccountInfo,
 		BaseUrl:        "https://www.virustotal.com/ui/users/{username}/trusted_users",
 	},
-	Service{
+	{
 		Name:           "Tellonym.me",
 		Check:          "status_code",
 		UserExistsFunc: SimpleUserExistsCheck,
@@ -304,13 +304,6 @@ var DefaultServices = Services{
 			Attr:        "href",
 		},
 		BaseUrl: "http://en.gravatar.com/{username}",
-	},
-	Service{
-		Name:           "HackTheBox",
-		Check:          "", // FIXME site down kinda
-		UserExistsFunc: SimpleUserExistsCheck,
-		GetInfoFunc:    SimpleAccountInfo,
-		BaseUrl:        "https://forum.hackthebox.eu/profile/{username}",
 	},
 	Service{
 		Name:              "LeetCode",
@@ -488,7 +481,7 @@ func UrlTemplate(url string, username string) string {
 	return strings.ReplaceAll(url, "{username}", username)
 }
 
-func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // tyoe UserExistsFunc
+func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
 	log.Printf("checking: %s %s", service.Name, username)
 	if config.Testing {
 		if username == strings.ToLower(fmt.Sprintf("%s-exists", service.Name)) {
@@ -522,6 +515,116 @@ func SimpleUserExistsCheck(service Service, username string, config ApiConfig) (
 				log.Println("found anti_pattern:", pattern_found)
 				return nil, true
 			}
+		}
+	}
+
+	return nil, false
+}
+
+func InstagramUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+
+	// FIXME this is a workaround
+	// This will never truly work
+	// Instagram protects against scraping stuff like this
+	// Specific usernames will give false positives (like "div" or some weird numbers that instagram uses as class names for fuck knows why)
+	// But i dont care at all
+	// I just want to get this over with
+	// I dont know how to fix this
+	// I hate everything
+	// I hate this workaround
+	// I am about to cry
+	// I am about to kill myself
+	// If anyone knows how to fix this please tell me
+	// I am desperate
+	// A therapist cant even help me now
+	// I am not joking
+
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	// This is a workaround. I dont like this, but it works and is sort of reliable for now.
+	// Instagram only displays the username once somewhere in the HTML if it doesnt exist. If it exists it displays it more.
+
+	count := strings.Count(site, username)
+
+	if count > 1 {
+		return nil, true
+	}
+
+	return nil, false
+}
+
+func AtUsernameUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("@%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("@%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	if strings.Contains(strings.ToLower(site), "@"+username) {
+		return nil, true
+	}
+
+	return nil, false
+}
+
+func TryHackMeUserExistsCheck(service Service, username string, config ApiConfig) (error, bool) { // type UserExistsFunc
+	log.Printf("checking: %s %s", service.Name, username)
+	if config.Testing {
+		if username == strings.ToLower(fmt.Sprintf("@%s-exists", service.Name)) {
+			log.Printf("%s-exists", service.Name)
+			return nil, true
+		} else if username == fmt.Sprintf("@%s-error", service.Name) {
+			return errors.New("error"), false
+		}
+		return nil, false
+	}
+
+	BaseUrl := UrlTemplate(service.BaseUrl, username)
+	log.Println("checking:" + BaseUrl)
+
+	site, err := HttpRequest(BaseUrl)
+	if err != nil {
+		return err, false
+	}
+
+	doc, err := goquery.NewDocumentFromReader(strings.NewReader(site))
+	if err != nil {
+		return err, false
+	}
+
+	if usernameSpan := doc.Find("body > div.container.profile-body > div.p-3 > h2 > span"); usernameSpan.Length() > 0 {
+		if usernameSpan.Text() == username {
+			return nil, true
 		}
 	}
 

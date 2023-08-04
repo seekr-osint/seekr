@@ -3,6 +3,8 @@ import { createThemeCards, changeTheme } from "./settings.js";
 const head = document.getElementsByTagName("head")[0];
 const cssFolder = "./themes/";
 
+const localStorageTheme = localStorage.getItem("theme");
+
 const defaultTheme = "arctic";
 
 // This loads all css files in the themes directory
@@ -24,6 +26,8 @@ fetch(cssFolder)
     const doc = parser.parseFromString(html, "text/html");
     const links = doc.querySelectorAll('a[href$=".css"]');
 
+    let hasThemeBeenApplied = false;
+
     links.forEach((link) => {
       const href = cssFolder + link.getAttribute("href");
       const cssLink = document.createElement("link");
@@ -34,9 +38,17 @@ fetch(cssFolder)
 
       head.appendChild(cssLink);
 
+      if (localStorageTheme == link.getAttribute("href")?.replace(".css", "")) {
+        hasThemeBeenApplied = true;
+      }
+
       const theme = href.trim().replace(/^\.\/themes\/|\.css$/g, '');
 
       createThemeCards(theme);
     });
+
+    if (!hasThemeBeenApplied) {
+      changeTheme(defaultTheme);
+    }
   }
 );

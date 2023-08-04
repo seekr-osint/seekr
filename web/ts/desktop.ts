@@ -43,7 +43,7 @@ function createGuideWindow() {
 
 function createCrtshWindow() {
   new WinBox("CRTSH", {
-    id: "seekr-window",
+    id: "seekr-window-crtsh",
     html: '<iframe class="frame" src="https://crt.sh"></iframe>',
     background: bg_var,
     header: 45,
