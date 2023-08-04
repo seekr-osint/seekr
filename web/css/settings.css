@@ -5,6 +5,17 @@
     margin: 1rem;
 }
 
+.scroll-body {
+    overflow-y: scroll;
+    height: 63rem;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.scroll-body::-webkit-scrollbar {
+    display: none;
+  }
+
 .settings-option {
     display: block;
     padding: 1rem;
