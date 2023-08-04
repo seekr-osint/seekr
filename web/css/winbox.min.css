@@ -8,6 +8,10 @@
   }
 }
 
+#seekr-window-crtsh > .wb-body {
+  background-color: #ffffff;
+}
+
 .winbox {
   position: fixed;
   left: 0;
