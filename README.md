@@ -39,7 +39,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 ## Getting Started - Installation
 Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.
 ### Windows
-Download and run the latest exe [here](https://github.com/seekr-osint/seekr/releases/latest)
+Download and run the latest exe [here]([https://github.com/seekr-osint/seekr/releases/latest](https://github.com/seekr-osint/seekr/releases/latest/download/seekr-cli_0.3.8_windows_amd64.exe))
 
 Now open [the web interface](http://localhost:8569/web/) in your browser of choice.
 ### Windows (unstable)
