@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (saveBtn) {
     (async () => {
       const currentConfig = await getCurrentConfig();
-      console.log('Current Config:', currentConfig);
+      // console.log('Current Config:', currentConfig);
       setValues(currentConfig);
     })();
 
