@@ -59,41 +59,6 @@ function createThemeCards(theme: string) {
   }
 }
 
-function getSavedLanguage(): string | null {
-  return localStorage.getItem("language");
-}
-
-function displaySavedLanguage() {
-  const language = getSavedLanguage();
-
-  if (language) {
-    const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
-
-    if (selectedLanguage) {
-      const languageString: { [key: string]: string } = {};
-
-      if (getSavedLanguage() == "en") {
-        languageString["en"] = "English";
-        languageString["es"] = "Spanish";
-        languageString["de"] = "German";
-        languageString["it"] = "Italian";
-        languageString["gd"] = "Gaelic";
-        languageString["la"] = "Latin";
-      } else {
-        languageString["en"] = translateText("english")!;
-        languageString["es"] = translateText("spanish")!;
-        languageString["de"] = translateText("german")!;
-        languageString["it"] = translateText("italian")!;
-        languageString["gd"] = translateText("gaelic")!;
-        languageString["la"] = translateText("latin")!;
-      }
-
-      selectedLanguage.innerHTML = languageString[language];
-    }
-  }
-}
-displaySavedLanguage();
-
 const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
 
 function checkLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" | undefined {
@@ -139,8 +104,6 @@ function handleLanguageChange() {
     targetFilePaths.forEach(targetFilePath => {
       channel.postMessage({ type: "language", targetFilePath, language });
     });
-
-    displaySavedLanguage();
   }
 }
 
@@ -234,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (saveBtn) {
     (async () => {
       const currentConfig = await getCurrentConfig();
-      console.log('Current Config:', currentConfig);
+      // console.log('Current Config:', currentConfig);
       setValues(currentConfig);
     })();
 
