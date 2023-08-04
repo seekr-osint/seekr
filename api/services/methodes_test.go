@@ -287,19 +287,19 @@ func mockHTTPServer(url string) (*MockServerEndpoint, error) {
 	return mockServer, nil
 }
 
-//func TestScan(t *testing.T) {
-//	user := User{
-//		Username: "9glenda",
+//	func TestScan(t *testing.T) {
+//		user := User{
+//			Username: "9glenda",
+//		}
+//		result := user.Scan()
+//		fmt.Println(result)
+//		//for _, i := range result {
+//		//	//fmt.Printf("User: %s\nResult %t\n\n", i.User.Username, i.Result)
+//		//	fmt.Println(i)
+//		//}
+//		fmt.Println(result.GetExisting())
+//		fmt.Println(result.GetFailed())
 //	}
-//	result := user.Scan()
-//	fmt.Println(result)
-//	//for _, i := range result {
-//	//	//fmt.Printf("User: %s\nResult %t\n\n", i.User.Username, i.Result)
-//	//	fmt.Println(i)
-//	//}
-//	fmt.Println(result.GetExisting())
-//	fmt.Println(result.GetFailed())
-//}
 func WriteMock(mockServer MockServerEndpoint) error {
 	url := mockServer.URL
 	jsonData, err := json.MarshalIndent(mockServer, "", "  ")

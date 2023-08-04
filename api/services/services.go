@@ -2,7 +2,11 @@ package services
 
 import (
 	"log"
+	"net/http"
+	//"strings"
 	"sync"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 func StatusCodeUserExistsFunc(data UserServiceDataToCheck) (bool, error) {
@@ -11,10 +15,15 @@ func StatusCodeUserExistsFunc(data UserServiceDataToCheck) (bool, error) {
 	return data.StatusCodeUserExistsFunc()
 }
 
+func EmptyInfo(data UserServiceDataToCheck) (AccountInfo, error) {
+	return AccountInfo{}, nil
+}
+
 var DefaultServices = Services{
 	{
 		Name:                "GitHub",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
+		InfoFunc:            EmptyInfo,
 		Domain:              "github.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/{{.Username}}",
 		TestData: TestData{
@@ -25,6 +34,7 @@ var DefaultServices = Services{
 	{
 		Name:                "TikTok",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
+		InfoFunc:            TikTokInfo,
 		Domain:              "tiktok.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/@{{.Username}}",
 		TestData: TestData{
@@ -44,9 +54,10 @@ var DefaultServices = Services{
 	//	},
 	//},
 	{
-		Name:           "Npm",
-		UserExistsFunc: StatusCodeUserExistsFunc,
-		Domain: "npmjs.com",
+		Name:                "Npm",
+		UserExistsFunc:      StatusCodeUserExistsFunc,
+		InfoFunc:            EmptyInfo,
+		Domain:              "npmjs.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/~{{.Username}}",
 		TestData: TestData{
 			ExistingUser:    "greg",
@@ -65,9 +76,10 @@ var DefaultServices = Services{
 	//	},
 	//},
 	{
-		Name:           "Asciinema",
-		UserExistsFunc: StatusCodeUserExistsFunc,
-		Domain: "asciinema.org",
+		Name:                "Asciinema",
+		UserExistsFunc:      StatusCodeUserExistsFunc,
+		InfoFunc:            EmptyInfo,
+		Domain:              "asciinema.org",
 		UserHtmlUrlTemplate: "{{.Domain}}/~{{.Username}}",
 		TestData: TestData{
 			ExistingUser:    "greg",
@@ -85,7 +97,6 @@ var DefaultServices = Services{
 	//		NotExistingUser: "gregdoesnotexsistsfdssfda",
 	//	},
 	//},
-
 
 	//{
 	//	Name:           "Lichess",
@@ -115,6 +126,35 @@ func ServicesCheckWorker(s <-chan UserServiceDataToCheck, res chan<- ServiceChec
 	defer wg.Done()
 	for service := range s {
 		status := service.UserExistsFunction()
+		status.GetInfo(service)
 		res <- status
 	}
+}
+
+func TikTokInfo(data UserServiceDataToCheck) (AccountInfo, error) {
+	url, err := data.GetUserHtmlUrl()
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	response, err := http.Get(url)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	defer response.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(response.Body)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+
+	selector := "h2[data-e2e='user-bio']"
+	userBioElement := doc.Find(selector)
+
+	userBioText := userBioElement.Text()
+	if userBioText == "No bio yet." {
+		userBioText = ""
+	}
+	return AccountInfo{
+		Bio: userBioText,
+	}, nil
 }

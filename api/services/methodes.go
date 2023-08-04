@@ -1,14 +1,45 @@
 package services
 
 import (
+	"bytes"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"image"
+	"image/png"
+
+	_ "image/jpeg"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 )
+
+func (data UserServiceDataToCheck) GetImagelUrl() (string, error) {
+	tmpl, err := template.New("url").Parse(data.Service.UrlTemplates["image"]) // FIXME
+	if err != nil {
+		return "", fmt.Errorf("failed to parse URL template: %w", err)
+	}
+
+	user := Template{
+		data.User,
+		data.Service,
+	}
+	var result strings.Builder
+	err = tmpl.Execute(&result, user)
+	if err != nil {
+		return "", fmt.Errorf("failed to execute URL template: %w", err)
+	}
+
+	url, err := SetProtocolURL(result.String(), data.Service.Protocol)
+	if err != nil {
+		return "", fmt.Errorf("failed to set the protocol from url: %w", err)
+	}
+	log.Printf("url: %s\n", url)
+	return url, nil
+}
 
 func (data UserServiceDataToCheck) GetUserHtmlUrl() (string, error) {
 	tmpl, err := template.New("url").Parse(data.Service.UserHtmlUrlTemplate)
@@ -140,6 +171,12 @@ func (services Services) List() []string {
 func (user User) String() string {
 	return user.Username
 }
+
+func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) {
+	info, err := data.Service.InfoFunc(data)
+	result.Info = info
+	result.InfoErr = err
+}
 func (result ServiceCheckResult) String() string {
 	return fmt.Sprintf("User: %s\nExists: %t\n", result.User.Username, result.Result)
 }
@@ -177,4 +214,53 @@ func (services DataToCheck) Scan() ServiceCheckResults {
 		results = append(results, result)
 	}
 	return results
+}
+func (img *Image) MarshalJSON() ([]byte, error) {
+	if img.Img == nil {
+		return json.Marshal(nil)
+	}
+	var buffer bytes.Buffer
+
+	err := png.Encode(&buffer, img.Img)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	// Encode the buffer as base64 and return the resulting string.
+
+	return json.Marshal(base64.StdEncoding.EncodeToString(buffer.Bytes()))
+}
+
+func DecodeImage(imgstr string) (Image, error) {
+	reader := strings.NewReader(imgstr)
+	decodedImg, imgType, err := image.Decode(reader)
+	log.Printf("image type:%s", imgType)
+	if err != nil {
+		return Image{}, err
+	}
+	return Image{
+		Img: decodedImg,
+	}, nil
+}
+
+func (data UserServiceDataToCheck) GetImage() (Image, error) {
+	url, err := data.GetImagelUrl()
+	if err != nil {
+		return Image{}, fmt.Errorf("failed to get user HTML URL: %w", err)
+	}
+	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Printf("error status code check: %s", err)
+		return Image{}, fmt.Errorf("failed to send GET request: %w", err)
+	}
+	log.Printf("status code for %s (%s): %d \n", data.Service.Name, url, resp.StatusCode)
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return Image{}, nil // FIXME error handeling
+	}
+
+	return Image{}, nil
 }
