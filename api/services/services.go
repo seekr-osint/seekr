@@ -33,6 +33,21 @@ var DefaultServices = Services{
 			NotExistingUser: "greg2q1412fdwkdfns",
 		},
 	},
+
+	{
+		Name:                "YouTube",
+		UserExistsFunc:      StatusCodeUserExistsFunc,
+		InfoFunc:            YouTubeInfo,
+		Domain:              "youtube.com",
+		UserHtmlUrlTemplate: "{{.Domain}}/@{{.Username}}",
+		UrlTemplates: map[string]string{
+			"bio": "{{.Domain}}/@{{.Username}}/about",
+		},
+		TestData: TestData{
+			ExistingUser:    "mrbeast",
+			NotExistingUser: "gregdoesnotexsist",
+		},
+	},
 	{
 		Name:                "TikTok",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
@@ -131,6 +146,35 @@ func ServicesCheckWorker(s <-chan UserServiceDataToCheck, res chan<- ServiceChec
 		status.GetInfo(service)
 		res <- status
 	}
+}
+func ScrapeBioTwitterTag(response http.Response) (string, error) {
+	doc, err := goquery.NewDocumentFromReader(response.Body)
+	if err != nil {
+		return "", err
+	}
+
+	bio := doc.Find(`meta[name="twitter:description"]`).AttrOr("content", "")
+	return bio, nil
+}
+
+func YouTubeInfo(data UserServiceDataToCheck) (AccountInfo, error) { // FIXME broken
+	url, err := data.GetUserHtmlUrl()
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	response, err := http.Get(url + "/about")
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	defer response.Body.Close()
+
+	bio, err := ScrapeBioTwitterTag(*response)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	return AccountInfo{
+		Bio: NewBio(bio),
+	}, nil
 }
 
 func TikTokInfo(data UserServiceDataToCheck) (AccountInfo, error) {
