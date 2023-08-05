@@ -13,6 +13,7 @@ import (
 	"github.com/seekr-osint/seekr/api/language"
 	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/server"
+	"github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/version"
 	"github.com/seekr-osint/seekr/api/webserver"
 )
@@ -95,6 +96,8 @@ func ServeApi(config ApiConfig) {
 
 	config.GinRouter.GET("/api/restart", Handler(RestartBin, config))                       // Restart seekr
 	config.GinRouter.GET("/api/getAccounts/:username", Handler(GetAccountsRequest, config)) // get accounts
+
+	config.GinRouter.GET("/api/scanAccounts/:username", Handler(ScanAccountsRequest, config)) // get accounts
 	config, err = config.Parse()
 	if err != nil {
 		log.Println(err) // FIXME should panic?
@@ -316,12 +319,23 @@ func WhoisRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, Whois(c.Param("query"), config))
 }
 
+
+func ScanAccounts(config ApiConfig, username string) services.ServiceCheckResults {
+	user := services.User{
+		Username: username,
+	}
+	return user.Scan()
+}
 func GetAccounts(config ApiConfig, username string) Accounts {
 	return ServicesHandler(DefaultServices, username, config)
 }
 
 func GetAccountsRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, GetAccounts(config, strings.ToLower(c.Param("username"))))
+}
+
+func ScanAccountsRequest(config ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, ScanAccounts(config, strings.ToLower(c.Param("username"))))
 }
 
 func PostConfig(apiConfig ApiConfig, c *gin.Context) { // c.BindJSON is a person not people (POST "localhost:8080/person")

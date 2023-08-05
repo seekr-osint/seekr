@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -108,7 +107,7 @@ func (services Services) GetMockResp() ([]*MockServerEndpoint, error) {
 	endpoints := []*MockServerEndpoint{}
 	for _, service := range services {
 
-		// exsisting user
+		// existing user
 		url, err := service.TestUserServiceData().GetUserHtmlUrl()
 		if err != nil {
 			return nil, err
@@ -119,7 +118,7 @@ func (services Services) GetMockResp() ([]*MockServerEndpoint, error) {
 		}
 		endpoints = append(endpoints, endpoint)
 
-		// non exsisting userr
+		// non existing userr
 		url2, err := service.TestUserServiceData2().GetUserHtmlUrl()
 		if err != nil {
 			return nil, err
@@ -167,7 +166,10 @@ func TestServicesMock(t *testing.T) {
 	log.SetOutput(io.Discard)
 	endpoints, err := DefaultServices.GetMockResp()
 	if err != nil {
-		t.Skipf("error making http request: %v", err)
+		fmt.Print("skipping service")
+		//t.Skipf("error making http request: %v", err)
+
+		t.Errorf("error making http request: %v", err)
 	}
 
 	mockServer := &MockServer{
@@ -186,8 +188,8 @@ func TestServicesMock(t *testing.T) {
 	replacedSrevices := ReplaceDomains(DefaultServices, mockServer.Server.URL)
 	workers := 2
 	wg := sync.WaitGroup{}
-	s := make(chan Service, workers)
-	res := make(chan bool, workers)
+	s := make(chan Service, len(replacedSrevices))
+	res := make(chan bool, len(replacedSrevices))
 
 	for i := 1; i <= workers; i++ {
 		wg.Add(1)
@@ -220,7 +222,7 @@ func ReplaceDomains(services Services, mockDomain string) Services {
 
 func ReadMockHttp(url string) (*MockServerEndpoint, error) {
 
-	data, err := ioutil.ReadFile(GetFilePath(url))
+	data, err := os.ReadFile(GetFilePath(url))
 	if err != nil {
 		return nil, ErrReadFile
 	}
@@ -285,6 +287,19 @@ func mockHTTPServer(url string) (*MockServerEndpoint, error) {
 	return mockServer, nil
 }
 
+//	func TestScan(t *testing.T) {
+//		user := User{
+//			Username: "9glenda",
+//		}
+//		result := user.Scan()
+//		fmt.Println(result)
+//		//for _, i := range result {
+//		//	//fmt.Printf("User: %s\nResult %t\n\n", i.User.Username, i.Result)
+//		//	fmt.Println(i)
+//		//}
+//		fmt.Println(result.GetExisting())
+//		fmt.Println(result.GetFailed())
+//	}
 func WriteMock(mockServer MockServerEndpoint) error {
 	url := mockServer.URL
 	jsonData, err := json.MarshalIndent(mockServer, "", "  ")
@@ -302,7 +317,7 @@ func WriteMock(mockServer MockServerEndpoint) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(GetFilePath(url), jsonData, 0644)
+	err = os.WriteFile(GetFilePath(url), jsonData, 0644)
 	if err != nil {
 		fmt.Println("Error writing JSON data to file:", err)
 
