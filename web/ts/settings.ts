@@ -114,22 +114,14 @@ function changeSelectedLanguage(language: "en" | "de" | "gd" | "la" | "es" | "it
   selectedLanguage.innerHTML = languages[language];
 
   if (prevLanguage != "") {
-    console.log(prevLanguage);
-
-    console.log(languages[prevLanguage])
-
     // Previously selected language
-    const oldDropdownElementIndex: string = getDropdownElementIndex("language", languages[prevLanguage]);
+    const oldDropdownElementIndex: string = getDropdownElementIndex("language", languages[prevLanguage], prevLanguage);
     
     selectedLanguage.parentElement?.querySelector(".select-items")!.children[parseInt(oldDropdownElementIndex)]!.classList.remove("same-as-selected");
-
-    console.log("Old Index: " + oldDropdownElementIndex);
   }
 
   // Newly selected language
   const newDropdownElementIndex = parseInt(getDropdownElementIndex("language", languages[language]));
-
-  console.log("New Index: " + newDropdownElementIndex);
 
   selectedLanguage.parentElement?.querySelector(".select-items")?.children[newDropdownElementIndex]?.classList.add("same-as-selected");
 

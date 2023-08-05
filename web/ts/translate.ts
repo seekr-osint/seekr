@@ -113,13 +113,16 @@ function translateElement(element: HTMLElement): void {
   translator.translateElement(element);
 }
 
-function translateText(word: string): string | undefined {
-  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+function translateText(word: string, customLang?: string): string | undefined {
+  if (customLang) {
+    const translator = new Translate("lng-tag", customLang);
 
-  console.log("Word (inside translateText): " + word);
-  console.log("Translated Word (inside translateText): " + translator.translateText(word));
+    return translator.translateText(word);
+  } else {
+    const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
 
-  return translator.translateText(word);
+    return translator.translateText(word);
+  }
 }
 
 function translateRawWord(word: string): string | undefined {

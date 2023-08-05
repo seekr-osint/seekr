@@ -228,7 +228,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
   }
 }
 
-function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus" | "language", dropdownValue: string): string {
+function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus" | "language", dropdownValue: string, customLangParameter?: string): string {
   if (dropdownType == "gender") {
     const genderIndex: { [key: string]: string } = {};
 
@@ -345,18 +345,13 @@ function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religio
 
     // Translation
 
-    console.log("Unsorted Word: " + dropdownValue);
-    console.log("English: " + languageIndex[dropdownValue]);
-
     if (languageIndex[dropdownValue] == undefined) {
-      languageIndex[translateText("english")!] = "0";
-      languageIndex[translateText("spanish")!] = "1";
-      languageIndex[translateText("german")!] = "2";
-      languageIndex[translateText("italian")!] = "3";
-      languageIndex[translateText("gaelic")!] = "4";
-      languageIndex[translateText("latin")!] = "5";
-
-      console.log("Its undefined -> Translations: " + languageIndex[dropdownValue]);
+      languageIndex[translateText("english", customLangParameter)!] = "0";
+      languageIndex[translateText("spanish", customLangParameter)!] = "1";
+      languageIndex[translateText("german", customLangParameter)!] = "2";
+      languageIndex[translateText("italian", customLangParameter)!] = "3";
+      languageIndex[translateText("gaelic", customLangParameter)!] = "4";
+      languageIndex[translateText("latin", customLangParameter)!] = "5";
     }
 
     return languageIndex[dropdownValue];
