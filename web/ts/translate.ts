@@ -113,9 +113,16 @@ function translateElement(element: HTMLElement): void {
   translator.translateElement(element);
 }
 
-function translateText(word: string): string | undefined {
-  const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
-  return translator.translateText(word);
+function translateText(word: string, customLang?: string): string | undefined {
+  if (customLang) {
+    const translator = new Translate("lng-tag", customLang);
+
+    return translator.translateText(word);
+  } else {
+    const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+
+    return translator.translateText(word);
+  }
 }
 
 function translateRawWord(word: string): string | undefined {

@@ -228,7 +228,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
   }
 }
 
-function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus", dropdownValue: string): string | undefined {
+function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus" | "language", dropdownValue: string, customLangParameter?: string): string {
   if (dropdownType == "gender") {
     const genderIndex: { [key: string]: string } = {};
 
@@ -329,7 +329,35 @@ function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religio
     }
 
     return civilstatusIndex[dropdownValue];
+  } else if (dropdownType == "language") {
+    const languageIndex: { [key: string]: string } = {};
+
+    languageIndex[""] = "";
+
+    // English
+
+    languageIndex["English"] = "0";
+    languageIndex["Spanish"] = "1";
+    languageIndex["German"] = "2";
+    languageIndex["Italian"] = "3";
+    languageIndex["Gaelic"] = "4";
+    languageIndex["Latin"] = "5";
+
+    // Translation
+
+    if (languageIndex[dropdownValue] == undefined) {
+      languageIndex[translateText("english", customLangParameter)!] = "0";
+      languageIndex[translateText("spanish", customLangParameter)!] = "1";
+      languageIndex[translateText("german", customLangParameter)!] = "2";
+      languageIndex[translateText("italian", customLangParameter)!] = "3";
+      languageIndex[translateText("gaelic", customLangParameter)!] = "4";
+      languageIndex[translateText("latin", customLangParameter)!] = "5";
+    }
+
+    return languageIndex[dropdownValue];
   }
+
+  return "";
 }
 
 function apiCall(endpoint: string): string {
