@@ -115,6 +115,10 @@ function translateElement(element: HTMLElement): void {
 
 function translateText(word: string): string | undefined {
   const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");
+
+  console.log("Word (inside translateText): " + word);
+  console.log("Translated Word (inside translateText): " + translator.translateText(word));
+
   return translator.translateText(word);
 }
 

@@ -1,4 +1,4 @@
-import { apiCall } from './framework.js';
+import { apiCall, getDropdownElementIndex } from './framework.js';
 import * as tsGenConfig from './../ts-gen/config.js'
 
 const channel = new BroadcastChannel("seekr-channel");
@@ -12,6 +12,8 @@ channel.addEventListener('message', (event) => {
     translate()
   }
 });
+
+// Theme stuff
 
 const themeCardContainer = document.querySelector(".theme-option") as HTMLDivElement;
 
@@ -59,6 +61,10 @@ function createThemeCards(theme: string) {
   }
 }
 
+// Language stuff
+
+let isLanguageBeeingChanged = false;
+
 const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
 
 function checkLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" | undefined {
@@ -91,6 +97,57 @@ function checkLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" | undefined {
   }
 }
 
+let prevLanguage: string = "";
+
+function changeSelectedLanguage(language: "en" | "de" | "gd" | "la" | "es" | "it"): void {
+  const languages: { [key: string]: "English" | "Deutsch" | "Gàidhlig" | "Latina" | "Español" | "Italiano" } = {};
+
+  isLanguageBeeingChanged = true;
+
+  languages["en"] = "English";
+  languages["de"] = "Deutsch";
+  languages["gd"] = "Gàidhlig";
+  languages["la"] = "Latina";
+  languages["es"] = "Español";
+  languages["it"] = "Italiano";
+
+  selectedLanguage.innerHTML = languages[language];
+
+  if (prevLanguage != "") {
+    console.log(prevLanguage);
+
+    console.log(languages[prevLanguage])
+
+    // Previously selected language
+    const oldDropdownElementIndex: string = getDropdownElementIndex("language", languages[prevLanguage]);
+    
+    selectedLanguage.parentElement?.querySelector(".select-items")!.children[parseInt(oldDropdownElementIndex)]!.classList.remove("same-as-selected");
+
+    console.log("Old Index: " + oldDropdownElementIndex);
+  }
+
+  // Newly selected language
+  const newDropdownElementIndex = parseInt(getDropdownElementIndex("language", languages[language]));
+
+  console.log("New Index: " + newDropdownElementIndex);
+
+  selectedLanguage.parentElement?.querySelector(".select-items")?.children[newDropdownElementIndex]?.classList.add("same-as-selected");
+
+  prevLanguage = language;
+
+  isLanguageBeeingChanged = false;
+}
+
+function getSavedLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" {
+  if (localStorage.getItem("language")) {
+    return localStorage.getItem("language") as "en" | "de" | "gd" | "la" | "es" | "it";
+  } else {
+    localStorage.setItem("language", "en");
+
+    return "en";
+  }
+}
+
 function handleLanguageChange() {
   const language = checkLanguage();
 
@@ -101,6 +158,8 @@ function handleLanguageChange() {
 
     translate();
 
+    changeSelectedLanguage(language); // Change the selected language in the dropdown
+
     targetFilePaths.forEach(targetFilePath => {
       channel.postMessage({ type: "language", targetFilePath, language });
     });
@@ -108,7 +167,7 @@ function handleLanguageChange() {
 }
 
 function preLanguageChangeHandler () {
-  if (selectedLanguage && selectedLanguage.innerHTML != "") {
+  if (selectedLanguage && selectedLanguage.innerHTML != "" && !isLanguageBeeingChanged) {
     handleLanguageChange();
   }
 }
@@ -116,8 +175,13 @@ function preLanguageChangeHandler () {
 if (selectedLanguage) {
   setTimeout(() => {
     selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
+
+    // On load
+    changeSelectedLanguage(getSavedLanguage()!);
   }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
 }
+
+
 
 // SEEKR config stuff
 

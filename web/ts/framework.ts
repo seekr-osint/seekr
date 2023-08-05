@@ -228,7 +228,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
   }
 }
 
-function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus", dropdownValue: string): string | undefined {
+function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus" | "language", dropdownValue: string): string {
   if (dropdownType == "gender") {
     const genderIndex: { [key: string]: string } = {};
 
@@ -329,7 +329,40 @@ function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religio
     }
 
     return civilstatusIndex[dropdownValue];
+  } else if (dropdownType == "language") {
+    const languageIndex: { [key: string]: string } = {};
+
+    languageIndex[""] = "";
+
+    // English
+
+    languageIndex["English"] = "0";
+    languageIndex["Spanish"] = "1";
+    languageIndex["German"] = "2";
+    languageIndex["Italian"] = "3";
+    languageIndex["Gaelic"] = "4";
+    languageIndex["Latin"] = "5";
+
+    // Translation
+
+    console.log("Unsorted Word: " + dropdownValue);
+    console.log("English: " + languageIndex[dropdownValue]);
+
+    if (languageIndex[dropdownValue] == undefined) {
+      languageIndex[translateText("english")!] = "0";
+      languageIndex[translateText("spanish")!] = "1";
+      languageIndex[translateText("german")!] = "2";
+      languageIndex[translateText("italian")!] = "3";
+      languageIndex[translateText("gaelic")!] = "4";
+      languageIndex[translateText("latin")!] = "5";
+
+      console.log("Its undefined -> Translations: " + languageIndex[dropdownValue]);
+    }
+
+    return languageIndex[dropdownValue];
   }
+
+  return "";
 }
 
 function apiCall(endpoint: string): string {

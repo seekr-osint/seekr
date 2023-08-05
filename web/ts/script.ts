@@ -34,9 +34,9 @@ class Person extends person.Person {
       const selectItems = genderSelect.querySelector(".select-items") as HTMLElement;
       const selectSelected = genderSelect.querySelector(".select-selected") as HTMLElement;
 
-      const genderIndex: string | undefined = getDropdownElementIndex("gender", obj.gender);
+      const genderIndex: string = getDropdownElementIndex("gender", obj.gender);
 
-      if (genderIndex != undefined) {
+      if (genderIndex != "") {
         const genderElement = selectItems.children[parseInt(genderIndex)];
 
         selectSelected.innerHTML = translateRawWord(obj.gender)!;
@@ -49,9 +49,9 @@ class Person extends person.Person {
       const selectItems = ethnicitySelect.querySelector(".select-items") as HTMLElement;
       const selectSelected = ethnicitySelect.querySelector(".select-selected") as HTMLElement;
 
-      const ethnicityIndex: string | undefined = getDropdownElementIndex("ethnicity", obj.ethnicity);
+      const ethnicityIndex: string = getDropdownElementIndex("ethnicity", obj.ethnicity);
 
-      if (ethnicityIndex != undefined) {
+      if (ethnicityIndex != "") {
         const ethnicityElement = selectItems.children[parseInt(ethnicityIndex)];
 
         selectSelected.innerHTML = translateRawWord(obj.ethnicity)!;
@@ -150,9 +150,9 @@ class Person extends person.Person {
       const selectItems = civilstatusSelect.querySelector(".select-items");
       const selectSelected = civilstatusSelect.querySelector(".select-selected");
 
-      const civilstatusIndex = getDropdownElementIndex("civilstatus", obj.civilstatus);
+      const civilstatusIndex: string = getDropdownElementIndex("civilstatus", obj.civilstatus);
 
-      if (civilstatusIndex != undefined) {
+      if (civilstatusIndex != "") {
         const civilstatusElement = selectItems!.children[parseInt(civilstatusIndex)];
 
         selectSelected!.innerHTML = translateRawWord(obj.civilstatus)!;
@@ -248,9 +248,9 @@ class Person extends person.Person {
       const selectItems = religionSelect.querySelector(".select-items") as HTMLElement;
       const selectSelected = religionSelect.querySelector(".select-selected") as HTMLElement;
 
-      const religionIndex = getDropdownElementIndex("religion", obj.religion);
+      const religionIndex: string = getDropdownElementIndex("religion", obj.religion);
 
-      if (religionIndex != undefined) {
+      if (religionIndex != "") {
         const religionElement = selectItems.children[parseInt(religionIndex)];
 
         selectSelected.innerHTML = translateRawWord(obj.religion)!;
