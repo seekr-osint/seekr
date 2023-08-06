@@ -1,4 +1,5 @@
 let languageData: { [key: string]: { [key: string]: string } } | undefined = undefined;
+const disabled = true;
 
 class Translate {
   attribute: string;
@@ -31,6 +32,7 @@ class Translate {
   }
 
   translateElement(element: HTMLElement): void {
+    if (!disabled) {
     const key = element.getAttribute(this.attribute);
     if (key !== null) {
       const translation = this.getTranslation(key);
@@ -43,6 +45,7 @@ class Translate {
           element.innerHTML = translation;
         }
       }
+    }
     }
   }
 
@@ -92,6 +95,8 @@ function onLoadTranslate(): void {
 
 // This function is used to refresh translation
 function refreshTranslation(): void {
+  console.log("translation impl suck. Disabled until fixed")
+  if (!disabled) {
   let lang = localStorage.getItem("language");
 
   if (!lang) {
@@ -102,6 +107,7 @@ function refreshTranslation(): void {
 
   const translator = new Translate("lng-tag", lang);
   translator.translateAllElements();
+  }
 }
 
 function setLanguage(language: string) {
@@ -114,6 +120,8 @@ function translateElement(element: HTMLElement): void {
 }
 
 function translateText(word: string, customLang?: string): string | undefined {
+
+  if (!disabled) {
   if (customLang) {
     const translator = new Translate("lng-tag", customLang);
 
@@ -123,9 +131,12 @@ function translateText(word: string, customLang?: string): string | undefined {
 
     return translator.translateText(word);
   }
+  }
 }
 
 function translateRawWord(word: string): string | undefined {
+
+  if (!disabled) {
   if (word != "") {
     word = word.toLowerCase().replace(/\//g, "_slash_").replace(/:/g, "_colon").replace(/ /g, "_");
 
@@ -134,5 +145,6 @@ function translateRawWord(word: string): string | undefined {
     return translator.translateText(word);
   } else {
     return "";
+  }
   }
 }
