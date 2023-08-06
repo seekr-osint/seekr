@@ -1,30 +1,22 @@
 import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall, DropdownType } from "./framework.js";
 import * as person from "../ts-gen/person.js";
 
+function mkDropdown(name: DropdownType, value: string, child: string) { // NAME AND CHILD NOT USER CONTROLLED and therefore not introducing xss!!!!!! 
+  if (value != "" && value != undefined) {
+    const valueSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(" + child + ") > ." + name + "-select") as HTMLElement; // not unsave because name and child are not user controlled
+    const selectItems = valueSelect.querySelector(".select-items") as HTMLElement;
+    const selectSelected = valueSelect.querySelector(".select-selected") as HTMLElement;
 
+    const dropdownValueIndex: string = getDropdownElementIndex(name, value);
 
+    if (dropdownValueIndex != "" && dropdownValueIndex != undefined) {
+      const dropdownElement = selectItems.children[parseInt(dropdownValueIndex)];
 
-function mkDropdown(name: DropdownType, value: string, child: string) { // NAME AND CHILD NOT USER CONTROLLED!!!!!! 
-
-    if (value != "" && value != undefined) {
-      const valueSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(" + child + ") > ." + name + "-select") as HTMLElement; // not unsave because name and child are not user controlled
-      const selectItems = valueSelect.querySelector(".select-items") as HTMLElement;
-      const selectSelected = valueSelect.querySelector(".select-selected") as HTMLElement;
-
-      const dropdownValueIndex: string = getDropdownElementIndex(name, value);
-
-      if (dropdownValueIndex != "" && dropdownValueIndex != undefined) {
-        const dropdownElement = selectItems.children[parseInt(dropdownValueIndex)];
-
-        selectSelected.innerHTML = translateRawWord(value)!;
-        //dropdownElement.className = "same-as-selected";
-      }
-    } 
-   // else {
-   //   console.log("value-" + name + ": " + value)
-   // }
-
+      selectSelected.innerHTML = translateRawWord(value)!;
+    }
+  } 
 }
+
 function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
   if (value === undefined) {
     value = {} as { [key: string]: T };
@@ -138,21 +130,8 @@ class Person extends person.Person {
 
     editNameTag.value = obj.name;
 
+
     mkDropdown("gender",obj.gender, "1");
-    //if (obj.gender != "") {
-    //  const genderSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(1) > .gender-select") as HTMLElement;
-    //  const selectItems = genderSelect.querySelector(".select-items") as HTMLElement;
-    //  const selectSelected = genderSelect.querySelector(".select-selected") as HTMLElement;
-
-    //  const genderIndex: string = getDropdownElementIndex("gender", obj.gender);
-
-    //  if (genderIndex != "" && genderIndex != undefined) {
-    //    const genderElement = selectItems.children[parseInt(genderIndex)];
-
-    //    selectSelected.innerHTML = translateRawWord(obj.gender)!;
-    //    genderElement.className = "same-as-selected";
-    //  }
-    //}
 
     mkDropdown("ethnicity",obj.ethnicity, "2")
 
@@ -246,6 +225,7 @@ class Person extends person.Person {
 
     mkDropdown("civilstatus",obj.civilstatus, "7");
 
+
     editKids.innerHTML = obj.kids;
 
     mkList<typeof obj.hobbies[string]>("hobby", obj.hobbies, "hobby");
@@ -329,7 +309,9 @@ class Person extends person.Person {
     editPrevOccupation.innerHTML = obj.prevoccupation;
     editEducation.innerHTML = obj.education;
 
+    // religion dropdown
     mkDropdown("religion",obj.religion, "15");
+
     editPets.innerHTML = obj.pets;
 
 
