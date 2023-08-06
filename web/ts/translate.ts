@@ -1,8 +1,7 @@
 let languageData: { [key: string]: { [key: string]: string } } | undefined = undefined;
 
 class Translate {
-  attribute: string;
-  lng: string;
+  attribute: string; lng: string;
 
   constructor(attr: string, language: string) {
     this.attribute = attr;
@@ -126,7 +125,7 @@ function translateText(word: string, customLang?: string): string | undefined {
 }
 
 function translateRawWord(word: string): string | undefined {
-  if (word != "") {
+  if (word != "" && word != undefined) {
     word = word.toLowerCase().replace(/\//g, "_slash_").replace(/:/g, "_colon").replace(/ /g, "_");
 
     const translator = new Translate("lng-tag", localStorage.getItem("language") || "en");

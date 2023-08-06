@@ -1,5 +1,114 @@
-import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall } from "./framework.js";
+import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall, DropdownType } from "./framework.js";
 import * as person from "../ts-gen/person.js";
+
+
+
+
+function mkDropdown(name: DropdownType, value: string, child: string) { // NAME AND CHILD NOT USER CONTROLLED!!!!!! 
+
+    if (value != "" && value != undefined) {
+      const valueSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(" + child + ") > ." + name + "-select") as HTMLElement; // not unsave because name and child are not user controlled
+      const selectItems = valueSelect.querySelector(".select-items") as HTMLElement;
+      const selectSelected = valueSelect.querySelector(".select-selected") as HTMLElement;
+
+      const dropdownValueIndex: string = getDropdownElementIndex(name, value);
+
+      if (dropdownValueIndex != "" && dropdownValueIndex != undefined) {
+        const dropdownElement = selectItems.children[parseInt(dropdownValueIndex)];
+
+        selectSelected.innerHTML = translateRawWord(value)!;
+        //dropdownElement.className = "same-as-selected";
+      }
+    } 
+   // else {
+   //   console.log("value-" + name + ": " + value)
+   // }
+
+}
+function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
+  if (value === undefined) {
+    value = {} as { [key: string]: T };
+  }
+  return value;
+}
+function mkList<T>(name: string, value: { [key: string]: T }, fieldname: keyof T) {
+  value = init<T>(value);
+
+    const listBase = document.querySelector(".e-"+ name + "-base") as HTMLDivElement;
+
+    if (Object.keys(value).length >= 1) {
+      for (const [_, item] of Object.entries(value)) {
+        const itemVar = (item as T)
+
+        const container = document.createElement("div");
+        container.className = name + "-container";
+
+        const subContainer = document.createElement("div");
+        subContainer.className = ""+ name + "-subcontainer";
+
+        const value_input = document.createElement("input") as HTMLInputElement;
+        value_input.className = "form-input " + name;
+        value_input.id = "e-" + name;
+        value_input.placeholder = "Enter " + name;
+        value_input.spellcheck = false;
+        value_input.setAttribute("lng-tag", "enter_" + name)
+        value_input.value = String(itemVar[fieldname]);
+
+        const del_btn_div = document.createElement("div");
+        del_btn_div.className = "del-btn";
+
+        const del_btn = document.createElement("ion-icon") as IonIconElement;
+        del_btn.name = "remove-outline";
+
+        container.appendChild(subContainer);
+        subContainer.appendChild(value_input);
+        listBase.appendChild(container);
+        subContainer.appendChild(del_btn_div);
+        del_btn_div.appendChild(del_btn);
+
+        del_btn.onclick = function () {
+          container.remove();
+        }
+
+        // refreshTranslation();
+      };
+    }
+
+    document.getElementById(name + "-add-btn")!.onclick = function () {
+      const list_container = document.createElement("div");
+      list_container.className = ""+ name + "-container";
+
+      const subContainer = document.createElement("div");
+      subContainer.className = ""+ name + "-subcontainer";
+
+      const value_input = document.createElement("input");
+      value_input.className = "form-input e-" + name;
+      value_input.id = name;
+      value_input.type = "text";
+      value_input.placeholder = "Enter "+ name;
+      value_input.setAttribute("lng-tag", "enter_" + name)
+      value_input.spellcheck = false;
+      value_input.required = true;
+
+      const del_btn_div = document.createElement("div");
+      del_btn_div.className = "del-btn";
+
+      const del_btn = document.createElement("ion-icon") as IonIconElement;
+      del_btn.name = "remove-outline";
+
+      listBase.appendChild(list_container);
+      list_container.appendChild(subContainer);
+      subContainer.appendChild(value_input);
+      subContainer.appendChild(del_btn_div);
+      del_btn_div.appendChild(del_btn);
+
+      del_btn_div.onclick = function () {
+        list_container.remove();
+      }
+
+      // refreshTranslation();
+    }
+}
 
 class Person extends person.Person {
   Post(loadingSpinner?: HTMLDivElement): void {
@@ -29,36 +138,23 @@ class Person extends person.Person {
 
     editNameTag.value = obj.name;
 
-    if (obj.gender != "") {
-      const genderSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(1) > .gender-select") as HTMLElement;
-      const selectItems = genderSelect.querySelector(".select-items") as HTMLElement;
-      const selectSelected = genderSelect.querySelector(".select-selected") as HTMLElement;
+    mkDropdown("gender",obj.gender, "1");
+    //if (obj.gender != "") {
+    //  const genderSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(1) > .gender-select") as HTMLElement;
+    //  const selectItems = genderSelect.querySelector(".select-items") as HTMLElement;
+    //  const selectSelected = genderSelect.querySelector(".select-selected") as HTMLElement;
 
-      const genderIndex: string = getDropdownElementIndex("gender", obj.gender);
+    //  const genderIndex: string = getDropdownElementIndex("gender", obj.gender);
 
-      if (genderIndex != "") {
-        const genderElement = selectItems.children[parseInt(genderIndex)];
+    //  if (genderIndex != "" && genderIndex != undefined) {
+    //    const genderElement = selectItems.children[parseInt(genderIndex)];
 
-        selectSelected.innerHTML = translateRawWord(obj.gender)!;
-        genderElement.className = "same-as-selected";
-      }
-    }
+    //    selectSelected.innerHTML = translateRawWord(obj.gender)!;
+    //    genderElement.className = "same-as-selected";
+    //  }
+    //}
 
-    if (obj.ethnicity != "") {
-      const ethnicitySelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(2) > .ethnicity-select") as HTMLElement;
-      const selectItems = ethnicitySelect.querySelector(".select-items") as HTMLElement;
-      const selectSelected = ethnicitySelect.querySelector(".select-selected") as HTMLElement;
-
-      const ethnicityIndex: string = getDropdownElementIndex("ethnicity", obj.ethnicity);
-
-      if (ethnicityIndex != "") {
-        const ethnicityElement = selectItems.children[parseInt(ethnicityIndex)];
-
-        selectSelected.innerHTML = translateRawWord(obj.ethnicity)!;
-
-        ethnicityElement.className = "same-as-selected";
-      }
-    }
+    mkDropdown("ethnicity",obj.ethnicity, "2")
 
     editAge.innerHTML = obj.age.toString() || "";
     editBday.innerHTML = obj.bday;
@@ -66,6 +162,8 @@ class Person extends person.Person {
 
     // Phone
 
+
+    obj.phone = init<typeof obj.phone[string]>(obj.phone);
     const phoneBase = document.querySelector(".phone-base") as HTMLDivElement;
 
     if (Object.keys(obj.phone).length >= 1) {
@@ -108,7 +206,6 @@ class Person extends person.Person {
         refreshTranslation();
       };
     }
-
     document.getElementById("phone-add-btn")!.onclick = function () {
       const phone_container = document.createElement("div");
       phone_container.className = "phone-container";
@@ -145,284 +242,267 @@ class Person extends person.Person {
       refreshTranslation();
     }
 
-    if (obj.civilstatus != "") {
-      const civilstatusSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(7) > .civilstatus-select") as HTMLElement;
-      const selectItems = civilstatusSelect.querySelector(".select-items");
-      const selectSelected = civilstatusSelect.querySelector(".select-selected");
 
-      const civilstatusIndex: string = getDropdownElementIndex("civilstatus", obj.civilstatus);
 
-      if (civilstatusIndex != "") {
-        const civilstatusElement = selectItems!.children[parseInt(civilstatusIndex)];
-
-        selectSelected!.innerHTML = translateRawWord(obj.civilstatus)!;
-        civilstatusElement.className = "same-as-selected";
-      }
-    }
+    mkDropdown("civilstatus",obj.civilstatus, "7");
 
     editKids.innerHTML = obj.kids;
 
-    // Hobbies
+    mkList<typeof obj.hobbies[string]>("hobby", obj.hobbies, "hobby");
 
-    const hobbyBase = document.querySelector(".e-hobby-base") as HTMLDivElement;
+    // const hobbyBase = document.querySelector(".e-hobby-base") as HTMLDivElement;
 
-    if (Object.keys(obj.hobbies).length >= 1) {
-      for (const [_, hobby] of Object.entries(obj.hobbies)) {
-        const hobbyVar = (hobby as { hobby: string })
+    // if (Object.keys(obj.hobbies).length >= 1) {
+    //   for (const [_, hobby] of Object.entries(obj.hobbies)) {
+    //     const hobbyVar = (hobby as { hobby: string })
 
-        const container = document.createElement("div");
-        container.className = "hobby-container";
+    //     const container = document.createElement("div");
+    //     container.className = "hobby-container";
 
-        const subContainer = document.createElement("div");
-        subContainer.className = "hobby-subcontainer";
+    //     const subContainer = document.createElement("div");
+    //     subContainer.className = "hobby-subcontainer";
 
-        const hobby_input = document.createElement("input") as HTMLInputElement;
-        hobby_input.className = "form-input hobby";
-        hobby_input.id = "e-hobby";
-        hobby_input.placeholder = "Enter hobby";
-        hobby_input.spellcheck = false;
-        hobby_input.setAttribute("lng-tag", "enter_hobby")
-        hobby_input.value = hobbyVar.hobby;
+    //     const hobby_input = document.createElement("input") as HTMLInputElement;
+    //     hobby_input.className = "form-input hobby";
+    //     hobby_input.id = "e-hobby";
+    //     hobby_input.placeholder = "Enter hobby";
+    //     hobby_input.spellcheck = false;
+    //     hobby_input.setAttribute("lng-tag", "enter_hobby")
+    //     hobby_input.value = hobbyVar.hobby;
 
-        const del_btn_div = document.createElement("div");
-        del_btn_div.className = "del-btn";
+    //     const del_btn_div = document.createElement("div");
+    //     del_btn_div.className = "del-btn";
 
-        const del_btn = document.createElement("ion-icon") as IonIconElement;
-        del_btn.name = "remove-outline";
+    //     const del_btn = document.createElement("ion-icon") as IonIconElement;
+    //     del_btn.name = "remove-outline";
 
-        container.appendChild(subContainer);
-        subContainer.appendChild(hobby_input);
-        hobbyBase.appendChild(container);
-        subContainer.appendChild(del_btn_div);
-        del_btn_div.appendChild(del_btn);
+    //     container.appendChild(subContainer);
+    //     subContainer.appendChild(hobby_input);
+    //     hobbyBase.appendChild(container);
+    //     subContainer.appendChild(del_btn_div);
+    //     del_btn_div.appendChild(del_btn);
 
-        del_btn.onclick = function () {
-          container.remove();
-        }
+    //     del_btn.onclick = function () {
+    //       container.remove();
+    //     }
 
-        refreshTranslation();
-      };
-    }
+    //     refreshTranslation();
+    //   };
+    // }
 
-    document.getElementById("hobby-add-btn")!.onclick = function () {
-      const hobby_container = document.createElement("div");
-      hobby_container.className = "hobby-container";
+    // document.getElementById("hobby-add-btn")!.onclick = function () {
+    //   const hobby_container = document.createElement("div");
+    //   hobby_container.className = "hobby-container";
 
-      const subContainer = document.createElement("div");
-      subContainer.className = "hobby-subcontainer";
+    //   const subContainer = document.createElement("div");
+    //   subContainer.className = "hobby-subcontainer";
 
-      const hobby_input = document.createElement("input");
-      hobby_input.className = "form-input e-hobby";
-      hobby_input.id = "hobby";
-      hobby_input.type = "text";
-      hobby_input.placeholder = "Enter hobby";
-      hobby_input.setAttribute("lng-tag", "enter_hobby")
-      hobby_input.spellcheck = false;
-      hobby_input.required = true;
+    //   const hobby_input = document.createElement("input");
+    //   hobby_input.className = "form-input e-hobby";
+    //   hobby_input.id = "hobby";
+    //   hobby_input.type = "text";
+    //   hobby_input.placeholder = "Enter hobby";
+    //   hobby_input.setAttribute("lng-tag", "enter_hobby")
+    //   hobby_input.spellcheck = false;
+    //   hobby_input.required = true;
 
-      const del_btn_div = document.createElement("div");
-      del_btn_div.className = "del-btn";
+    //   const del_btn_div = document.createElement("div");
+    //   del_btn_div.className = "del-btn";
 
-      const del_btn = document.createElement("ion-icon") as IonIconElement;
-      del_btn.name = "remove-outline";
+    //   const del_btn = document.createElement("ion-icon") as IonIconElement;
+    //   del_btn.name = "remove-outline";
 
-      hobbyBase.appendChild(hobby_container);
-      hobby_container.appendChild(subContainer);
-      subContainer.appendChild(hobby_input);
-      subContainer.appendChild(del_btn_div);
-      del_btn_div.appendChild(del_btn);
+    //   hobbyBase.appendChild(hobby_container);
+    //   hobby_container.appendChild(subContainer);
+    //   subContainer.appendChild(hobby_input);
+    //   subContainer.appendChild(del_btn_div);
+    //   del_btn_div.appendChild(del_btn);
 
-      del_btn_div.onclick = function () {
-        hobby_container.remove();
-      }
+    //   del_btn_div.onclick = function () {
+    //     hobby_container.remove();
+    //   }
 
-      refreshTranslation();
-    }
+    //   refreshTranslation();
+    // }
 
     editOccupation.innerHTML = obj.occupation;
     editPrevOccupation.innerHTML = obj.prevoccupation;
     editEducation.innerHTML = obj.education;
 
-    if (obj.religion != "") {
-      const religionSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(15) > .religion-select") as HTMLElement;
-      const selectItems = religionSelect.querySelector(".select-items") as HTMLElement;
-      const selectSelected = religionSelect.querySelector(".select-selected") as HTMLElement;
-
-      const religionIndex: string = getDropdownElementIndex("religion", obj.religion);
-
-      if (religionIndex != "") {
-        const religionElement = selectItems.children[parseInt(religionIndex)];
-
-        selectSelected.innerHTML = translateRawWord(obj.religion)!;
-        religionElement.className = "same-as-selected";
-      }
-    }
-
+    mkDropdown("religion",obj.religion, "15");
     editPets.innerHTML = obj.pets;
 
-    // Clubs
 
-    const clubBase = document.querySelector(".e-club-base") as HTMLDivElement;
+    mkList<typeof obj.clubs[string]>("club", obj.clubs, "club");
 
-    if (Object.keys(obj.clubs).length >= 1) {
-      for (const [_, club] of Object.entries(obj.clubs)) {
-        const clubVar = (club as { club: string })
+    // const clubBase = document.querySelector(".e-club-base") as HTMLDivElement;
 
-        const container = document.createElement("div");
-        container.className = "club-container";
+    // if (Object.keys(obj.clubs).length >= 1) {
+    //   for (const [_, club] of Object.entries(obj.clubs)) {
+    //     const clubVar = (club as { club: string })
 
-        const subContainer = document.createElement("div");
-        subContainer.className = "club-subcontainer";
+    //     const container = document.createElement("div");
+    //     container.className = "club-container";
 
-        const club_input = document.createElement("input");
-        club_input.className = "form-input club";
-        club_input.id = "e-club";
-        club_input.type = "text";
-        club_input.placeholder = "Enter club";
-        club_input.spellcheck = false;
-        club_input.setAttribute("lng-tag", "enter_club")
-        club_input.value = clubVar.club;
+    //     const subContainer = document.createElement("div");
+    //     subContainer.className = "club-subcontainer";
 
-        const del_btn_div = document.createElement("div");
-        del_btn_div.className = "del-btn";
+    //     const club_input = document.createElement("input");
+    //     club_input.className = "form-input club";
+    //     club_input.id = "e-club";
+    //     club_input.type = "text";
+    //     club_input.placeholder = "Enter club";
+    //     club_input.spellcheck = false;
+    //     club_input.setAttribute("lng-tag", "enter_club")
+    //     club_input.value = clubVar.club;
 
-        const del_btn = document.createElement("ion-icon") as IonIconElement;
-        del_btn.name = "remove-outline";
+    //     const del_btn_div = document.createElement("div");
+    //     del_btn_div.className = "del-btn";
 
-        container.appendChild(subContainer);
-        subContainer.appendChild(club_input);
-        clubBase.appendChild(container);
-        subContainer.appendChild(del_btn_div);
-        del_btn_div.appendChild(del_btn);
+    //     const del_btn = document.createElement("ion-icon") as IonIconElement;
+    //     del_btn.name = "remove-outline";
 
-        del_btn.onclick = function () {
-          container.remove();
-        }
+    //     container.appendChild(subContainer);
+    //     subContainer.appendChild(club_input);
+    //     clubBase.appendChild(container);
+    //     subContainer.appendChild(del_btn_div);
+    //     del_btn_div.appendChild(del_btn);
 
-        refreshTranslation();
-      };
-    }
+    //     del_btn.onclick = function () {
+    //       container.remove();
+    //     }
 
-    document.getElementById("club-add-btn")!.onclick = function () {
-      const club_container = document.createElement("div");
-      club_container.className = "club-container";
+    //     refreshTranslation();
+    //   };
+    // }
 
-      const subContainer = document.createElement("div");
-      subContainer.className = "club-subcontainer";
+    // document.getElementById("club-add-btn")!.onclick = function () {
+    //   const club_container = document.createElement("div");
+    //   club_container.className = "club-container";
 
-      const club_input = document.createElement("input");
-      club_input.className = "form-input e-club";
-      club_input.id = "club";
-      club_input.type = "text";
-      club_input.placeholder = "Enter club";
-      club_input.spellcheck = false;
-      club_input.setAttribute("lng-tag", "enter_club")
-      club_input.required = true;
+    //   const subContainer = document.createElement("div");
+    //   subContainer.className = "club-subcontainer";
 
-      const del_btn_div = document.createElement("div");
-      del_btn_div.className = "del-btn";
+    //   const club_input = document.createElement("input");
+    //   club_input.className = "form-input e-club";
+    //   club_input.id = "club";
+    //   club_input.type = "text";
+    //   club_input.placeholder = "Enter club";
+    //   club_input.spellcheck = false;
+    //   club_input.setAttribute("lng-tag", "enter_club")
+    //   club_input.required = true;
 
-      const del_btn = document.createElement("ion-icon") as IonIconElement;
-      del_btn.name = "remove-outline";
+    //   const del_btn_div = document.createElement("div");
+    //   del_btn_div.className = "del-btn";
 
-      clubBase.appendChild(club_container);
-      club_container.appendChild(subContainer);
-      subContainer.appendChild(club_input);
-      subContainer.appendChild(del_btn_div);
-      del_btn_div.appendChild(del_btn);
+    //   const del_btn = document.createElement("ion-icon") as IonIconElement;
+    //   del_btn.name = "remove-outline";
 
-      del_btn_div.onclick = function () {
-        club_container.remove();
-      }
+    //   clubBase.appendChild(club_container);
+    //   club_container.appendChild(subContainer);
+    //   subContainer.appendChild(club_input);
+    //   subContainer.appendChild(del_btn_div);
+    //   del_btn_div.appendChild(del_btn);
 
-      refreshTranslation();
-    }
+    //   del_btn_div.onclick = function () {
+    //     club_container.remove();
+    //   }
+
+    //   refreshTranslation();
+    // }
 
     editLegal.innerHTML = obj.legal;
     editPolitical.innerHTML = obj.political;
 
     // Sources
 
-    const sourceBase = document.querySelector(".e-source-base") as HTMLDivElement;
 
-    if (Object.keys(obj.sources).length >= 1) {
-      for (const [_, url] of Object.entries(obj.sources)) {
-        const sourceVar = (url as { url: string })
+    mkList<typeof obj.sources[string]>("source", obj.sources, "url");
 
-        const container = document.createElement("div");
-        container.className = "source-container";
+    // const sourceBase = document.querySelector(".e-source-base") as HTMLDivElement;
 
-        const subContainer = document.createElement("div");
-        subContainer.className = "source-subcontainer";
+    // if (Object.keys(obj.sources).length >= 1) {
+    //   for (const [_, url] of Object.entries(obj.sources)) {
+    //     const sourceVar = (url as { url: string })
 
-        const source_input = document.createElement("input");
-        source_input.className = "form-input source";
-        source_input.id = "e-source";
-        source_input.type = "text";
-        source_input.placeholder = "Enter source";
-        source_input.spellcheck = false;
-        source_input.setAttribute("lng-tag", "enter_source")
-        source_input.value = sourceVar.url;
+    //     const container = document.createElement("div");
+    //     container.className = "source-container";
 
-        const del_btn_div = document.createElement("div");
-        del_btn_div.className = "del-btn";
+    //     const subContainer = document.createElement("div");
+    //     subContainer.className = "source-subcontainer";
 
-        const del_btn = document.createElement("ion-icon") as IonIconElement;
-        del_btn.name = "remove-outline";
+    //     const source_input = document.createElement("input");
+    //     source_input.className = "form-input source";
+    //     source_input.id = "e-source";
+    //     source_input.type = "text";
+    //     source_input.placeholder = "Enter source";
+    //     source_input.spellcheck = false;
+    //     source_input.setAttribute("lng-tag", "enter_source")
+    //     source_input.value = sourceVar.url;
 
-        container.appendChild(subContainer);
-        subContainer.appendChild(source_input);
-        sourceBase.appendChild(container);
-        subContainer.appendChild(del_btn_div);
-        del_btn_div.appendChild(del_btn);
+    //     const del_btn_div = document.createElement("div");
+    //     del_btn_div.className = "del-btn";
 
-        del_btn.onclick = function () {
-          container.remove();
-        }
+    //     const del_btn = document.createElement("ion-icon") as IonIconElement;
+    //     del_btn.name = "remove-outline";
 
-        refreshTranslation();
-      };
-    }
+    //     container.appendChild(subContainer);
+    //     subContainer.appendChild(source_input);
+    //     sourceBase.appendChild(container);
+    //     subContainer.appendChild(del_btn_div);
+    //     del_btn_div.appendChild(del_btn);
 
-    document.getElementById("source-add-btn")!.onclick = function () {
-      const source_container = document.createElement("div");
-      source_container.className = "source-container";
+    //     del_btn.onclick = function () {
+    //       container.remove();
+    //     }
 
-      const subContainer = document.createElement("div");
-      subContainer.className = "source-subcontainer";
+    //     refreshTranslation();
+    //   };
+    // }
 
-      const source_input = document.createElement("input");
-      source_input.className = "form-input e-source";
-      source_input.id = "source";
-      source_input.type = "text";
-      source_input.placeholder = "Enter source";
-      source_input.spellcheck = false;
-      source_input.setAttribute("lng-tag", "enter_source")
-      source_input.required = true;
+    // document.getElementById("source-add-btn")!.onclick = function () {
+    //   const source_container = document.createElement("div");
+    //   source_container.className = "source-container";
 
-      const del_btn_div = document.createElement("div");
-      del_btn_div.className = "del-btn";
+    //   const subContainer = document.createElement("div");
+    //   subContainer.className = "source-subcontainer";
 
-      const del_btn = document.createElement("ion-icon") as IonIconElement;
-      del_btn.name = "remove-outline";
+    //   const source_input = document.createElement("input");
+    //   source_input.className = "form-input e-source";
+    //   source_input.id = "source";
+    //   source_input.type = "text";
+    //   source_input.placeholder = "Enter source";
+    //   source_input.spellcheck = false;
+    //   source_input.setAttribute("lng-tag", "enter_source")
+    //   source_input.required = true;
 
-      sourceBase.appendChild(source_container);
-      source_container.appendChild(subContainer);
-      subContainer.appendChild(source_input);
-      subContainer.appendChild(del_btn_div);
-      del_btn_div.appendChild(del_btn);
+    //   const del_btn_div = document.createElement("div");
+    //   del_btn_div.className = "del-btn";
 
-      del_btn_div.onclick = function () {
-        source_container.remove();
-      }
+    //   const del_btn = document.createElement("ion-icon") as IonIconElement;
+    //   del_btn.name = "remove-outline";
 
-      refreshTranslation();
-    }
+    //   sourceBase.appendChild(source_container);
+    //   source_container.appendChild(subContainer);
+    //   subContainer.appendChild(source_input);
+    //   subContainer.appendChild(del_btn_div);
+    //   del_btn_div.appendChild(del_btn);
+
+    //   del_btn_div.onclick = function () {
+    //     source_container.remove();
+    //   }
+
+    //   refreshTranslation();
+    // }
 
     editNotes.innerHTML = obj.notes;
 
     // IPs
 
+
+    //mkList<typeof obj.ips[string]>("ip", obj.ips, "ip");
+    
+    obj.ips = init<typeof obj.ips[string]>(obj.ips);
     const ipBase = document.querySelector(".e-ip-base") as HTMLDivElement;
 
     if (Object.keys(obj.ips).length >= 1) {
@@ -501,6 +581,8 @@ class Person extends person.Person {
 
     // Email
 
+
+    obj.email = init<typeof obj.email[string]>(obj.email);
     const emailBase = document.querySelector(".email-base") as HTMLDivElement;
 
     if (Object.keys(obj.email).length >= 1) {
@@ -596,6 +678,8 @@ class Person extends person.Person {
 
     // Accounts
 
+
+    obj.accounts= init<typeof obj.accounts[string]>(obj.accounts);
     if (Object.keys(obj.accounts).length != 0 && obj.accounts != null) {
       for (const [_, accObj] of Object.entries(obj.accounts)) {
         const accVar = (accObj as { service: string, id: string, username: string, url: string, profilePicture: { [key: number]: { img: string, img_hash: number } }, bio: { [key: number]: { bio: string } } });
@@ -808,6 +892,10 @@ class Person extends person.Person {
 }
 
 
+
+
+
+
 const searchBar = document.getElementById("searchbar");
 
 
@@ -945,17 +1033,13 @@ document.getElementById("newbtn")!.onclick = async function () {
   let obj = new Person();
   obj.id = checkId(preId);
   obj.name = "";
-  obj.accounts = {};
-  obj.phone = {};
-  obj.email = {};
-  obj.age = 0;
-  obj.address = "";
-  obj.bday = "";
-  obj.kids = "";
+  // obj = replaceUndefinedWithEmpty<typeof obj>(obj);
   obj.Edit();
   // mainContainer.style.display = "none";
   // createContainer.style.display = "flex";
 }
+
+
 
 document.getElementById("exportbtn")!.onclick = async function () {
   const data = await getData() as object[];
@@ -1442,6 +1526,7 @@ function createCards(obj: Person) {
 
     // Phone
 
+
     const viewPhoneBase = document.querySelector(".v-phone-base") as HTMLDivElement;
     const viewPhoneSpacemaker = document.querySelector(".v-phone-space-maker") as HTMLDivElement;
 
@@ -1926,6 +2011,8 @@ document.getElementById("backbtn")!.onclick = function () {
     elements[0].parentNode!.removeChild(elements[0]);
   }
 }
+
+// Back Button
 
 document.getElementById("e-backbtn")!.onclick = function () {
   mainContainer.style.display = "flex";

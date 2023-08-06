@@ -227,8 +227,9 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     return civilstatus[selectedCivilstatus];
   }
 }
+type DropdownType = "gender" | "ethnicity" | "religion" | "civilstatus" | "language";
 
-function getDropdownElementIndex(dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus" | "language", dropdownValue: string, customLangParameter?: string): string {
+function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: string, customLangParameter?: string): string {
   if (dropdownType == "gender") {
     const genderIndex: { [key: string]: string } = {};
 
@@ -373,4 +374,4 @@ function apiCall(endpoint: string): string {
   return apiUrl + '/' + endpoint
 }
 
-export { saveAsFile, getDropdownElementIndex, checkDropdownValue, apiCall };
+export { saveAsFile, getDropdownElementIndex, checkDropdownValue, apiCall, DropdownType };
