@@ -11,6 +11,8 @@
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/seekr-osint/seekr">
 <img alt="GitHub issues" src="https://img.shields.io/github/issues/seekr-osint/seekr">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
+  <br>
+  <img alt="Discird Server" src="https://dcbadge.vercel.app/api/server/hNCq2CKN5G" href="https://discord.gg/hNCq2CKN5G">
 </p>
 
 ## Introduction
