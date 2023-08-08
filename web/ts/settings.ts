@@ -1,4 +1,4 @@
-import { apiCall, getDropdownElementIndex } from './framework.js';
+import { apiCall } from './framework.js';
 import * as tsGenConfig from './../ts-gen/config.js'
 
 const channel = new BroadcastChannel("seekr-channel");
@@ -8,8 +8,6 @@ channel.addEventListener('message', (event) => {
     const theme = event.data.theme;
 
     document.documentElement.setAttribute("data-theme", theme);
-  } else if (event.data.type === "language") {
-    translate()
   }
 });
 
@@ -60,120 +58,6 @@ function createThemeCards(theme: string) {
     });
   }
 }
-
-// Language stuff
-
-let isLanguageBeeingChanged = false;
-
-const selectedLanguage = document.querySelector(".language-select > .select-selected") as HTMLDivElement;
-
-function checkLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" | undefined {
-  if (document) {
-    if (selectedLanguage) {
-      const languages: { [key: string]: "en" | "de" | "gd" | "la" | "es" | "it" } = {};
-
-      // English
-
-      languages["English"] = "en";
-      languages["Spanish"] = "es";
-      languages["German"] = "de";
-      languages["Italian"] = "it";
-      languages["Gaelic"] = "gd";
-      languages["Latin"] = "la";
-
-      // Translations
-
-      if (languages[selectedLanguage.innerHTML] == undefined) {
-        languages[translateText("english")!] = "en";
-        languages[translateText("spanish")!] = "es";
-        languages[translateText("german")!] = "de";
-        languages[translateText("italian")!] = "it";
-        languages[translateText("gaelic")!] = "gd";
-        languages[translateText("latin")!] = "la";
-      }
-
-      return languages[selectedLanguage.innerHTML];
-    }
-  }
-}
-
-let prevLanguage: string = "";
-
-function changeSelectedLanguage(language: "en" | "de" | "gd" | "la" | "es" | "it"): void {
-  const languages: { [key: string]: "English" | "Deutsch" | "Gàidhlig" | "Latina" | "Español" | "Italiano" } = {};
-
-  isLanguageBeeingChanged = true;
-
-  languages["en"] = "English";
-  languages["de"] = "Deutsch";
-  languages["gd"] = "Gàidhlig";
-  languages["la"] = "Latina";
-  languages["es"] = "Español";
-  languages["it"] = "Italiano";
-
-  selectedLanguage.innerHTML = languages[language];
-
-  if (prevLanguage != "") {
-    // Previously selected language
-    const oldDropdownElementIndex: string = getDropdownElementIndex("language", languages[prevLanguage], prevLanguage);
-    
-    selectedLanguage.parentElement?.querySelector(".select-items")!.children[parseInt(oldDropdownElementIndex)]!.classList.remove("same-as-selected");
-  }
-
-  // Newly selected language
-  const newDropdownElementIndex = parseInt(getDropdownElementIndex("language", languages[language]));
-
-  selectedLanguage.parentElement?.querySelector(".select-items")?.children[newDropdownElementIndex]?.classList.add("same-as-selected");
-
-  prevLanguage = language;
-
-  isLanguageBeeingChanged = false;
-}
-
-function getSavedLanguage(): "en" | "de" | "gd" | "la" | "es" | "it" {
-  if (localStorage.getItem("language")) {
-    return localStorage.getItem("language") as "en" | "de" | "gd" | "la" | "es" | "it";
-  } else {
-    localStorage.setItem("language", "en");
-
-    return "en";
-  }
-}
-
-function handleLanguageChange() {
-  const language = checkLanguage();
-
-  if (language) {
-    const targetFilePaths = ["./lite.html", "./guide.html", "./desktop.html", "./index.html", "./settings.html"];
-
-    setLanguage(language);
-
-    translate();
-
-    changeSelectedLanguage(language); // Change the selected language in the dropdown
-
-    targetFilePaths.forEach(targetFilePath => {
-      channel.postMessage({ type: "language", targetFilePath, language });
-    });
-  }
-}
-
-function preLanguageChangeHandler () {
-  if (selectedLanguage && selectedLanguage.innerHTML != "" && !isLanguageBeeingChanged) {
-    handleLanguageChange();
-  }
-}
-
-if (selectedLanguage) {
-  setTimeout(() => {
-    selectedLanguage.addEventListener("DOMSubtreeModified", preLanguageChangeHandler);
-
-    // On load
-    changeSelectedLanguage(getSavedLanguage()!);
-  }, 100); // Triggered when loaded, this is a workaround (might cause problems on slow devices)
-}
-
-
 
 // SEEKR config stuff
 
@@ -270,4 +154,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-export { createThemeCards, changeTheme, checkLanguage };
+export { createThemeCards, changeTheme };

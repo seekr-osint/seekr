@@ -29,18 +29,9 @@ for (const [className, nodeList] of Object.entries(elements)) {
     let selectSelectedDiv = document.createElement("DIV");
     selectSelectedDiv.setAttribute("class", "select-selected");
 
-    // Modify the label text and lng-tag attribute
     const labelText = selElmnt.options[0].innerHTML;
-    const lngTagValue = labelText
-      .toLowerCase()
-      .replace(/\//g, "_slash_")
-      .replace(/ /g, "_")
-      .replace(/:/g, "_colon");
-    selectSelectedDiv.setAttribute("lng-tag", lngTagValue);
 
     selectSelectedDiv.innerHTML = labelText;
-
-    translateElement(selectSelectedDiv);
 
     node.appendChild(selectSelectedDiv);
     let b = document.createElement("DIV");
@@ -48,12 +39,8 @@ for (const [className, nodeList] of Object.entries(elements)) {
     for (let j = 1; j < selElmntLength; j++) {
       const c = document.createElement("DIV");
       const optionValue = selElmnt.options[j].innerHTML;
-      const lngTagValue = optionValue.toLowerCase().replace(/\//g, "_slash_").replace(/ /g, "_");
-      c.setAttribute("lng-tag", lngTagValue);
 
       c.innerHTML = optionValue;
-
-      translateElement(c);
 
       c.addEventListener("click", function (e) {
         if (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.querySelectorAll("select")[0]) {
@@ -61,23 +48,17 @@ for (const [className, nodeList] of Object.entries(elements)) {
           const h = this.parentNode.previousSibling as HTMLElement;
 
           for (let k = 0; k < y.length; k++) {
-            //console.log(this.getAttribute("lng-tag").charAt(0).toUpperCase() + string.slice(1))
             // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
 
-            let value = this.getAttribute("lng-tag");
-            let value2 = y.options[k].innerHTML.toLowerCase().replace(/\//g, "_slash_").replace(/ /g, "_"); // Value2 converts y.options[k].innerHTML into lng-tag syntax
-
-            if (value == value2!) { //translateText(this.innerHTML)) {
-              y.selectedIndex = k;
-              h.innerHTML = this.innerHTML;
-              let yl = this.parentNode.querySelector(".same-as-selected") as HTMLSelectElement;
-              if (yl) {
-                for (let l = 0; l < yl.length; l++) {
-                  yl[l].removeAttribute("class");
-                }
-                this.setAttribute("class", "same-as-selected");
-                break;
+            y.selectedIndex = k;
+            h.innerHTML = this.innerHTML;
+            let yl = this.parentNode.querySelector(".same-as-selected") as HTMLSelectElement;
+            if (yl) {
+              for (let l = 0; l < yl.length; l++) {
+                yl[l].removeAttribute("class");
               }
+              this.setAttribute("class", "same-as-selected");
+              break;
             }
           }
           h.click();
@@ -132,15 +113,6 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     gender["Female"] = "Female";
     gender["Other"] = "Other";
 
-    // Translations
-
-    if (gender[selectedGender] == undefined) {
-      gender[translateText("select_gender_colon")!] = "";
-      gender[translateText("male")!] = "Male";
-      gender[translateText("female")!] = "Female";
-      gender[translateText("other")!] = "Other";
-    }
-
     return gender[selectedGender];
   } else if (dropdownType == "ethnicity") {
     const selectedEthnicity = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(2) > div > div.select-selected")?.innerHTML ?? "";
@@ -155,18 +127,6 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     ethnicity["Hispanic/Latino"] = "Hispanic/Latino";
     ethnicity["Indigenous/Native American"] = "Indigenous/Native American";
     ethnicity["Multiracial/Mixed"] = "Multiracial/Mixed";
-
-    // Translations
-
-    if (ethnicity[selectedEthnicity] == undefined) {
-      ethnicity[translateText("select_ethnicity_colon")!] = "";
-      ethnicity[translateText("african")!] = "African";
-      ethnicity[translateText("asian")!] = "Asian";
-      ethnicity[translateText("caucasian_slash_white")!] = "Caucasian/White";
-      ethnicity[translateText("hispanic_slash_latino")!] = "Hispanic/Latino";
-      ethnicity[translateText("indigenous_slash_native_american")!] = "Indigenous/Native American";
-      ethnicity[translateText("multiracial_slash_mixed")!] = "Multiracial/Mixed";
-    }
 
     return ethnicity[selectedEthnicity];
   } else if (dropdownType == "religion") {
@@ -185,20 +145,6 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     religion["Judaism"] = "Judaism";
     religion["Other"] = "Other";
 
-    // Translations
-
-    if (religion[selectedReligion] == undefined) {
-      religion[translateText("select_religion_colon")!] = "";
-      religion[translateText("christianity")!] = "Christianity";
-      religion[translateText("atheism")!] = "Atheism";
-      religion[translateText("islam")!] = "Islam";
-      religion[translateText("hinduism")!] = "Hinduism";
-      religion[translateText("buddhism")!] = "Buddhism";
-      religion[translateText("sikhism")!] = "Sikhism";
-      religion[translateText("judaism")!] = "Judaism";
-      religion[translateText("other")!] = "Other";
-    }
-
     return religion[selectedReligion];
   } else if (dropdownType == "civilstatus") {
     const selectedCivilstatus = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(7) > div > div.select-selected")?.innerHTML ?? "";
@@ -212,17 +158,6 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     civilstatus["Widowed"] = "Widowed";
     civilstatus["Divorced"] = "Divorced";
     civilstatus["Separated"] = "Separated";
-
-    // Translations
-
-    if (civilstatus[selectedCivilstatus] == undefined) {
-      civilstatus[translateText("select_civil_status_colon")!] = "";
-      civilstatus[translateText("single")!] = "Single";
-      civilstatus[translateText("married")!] = "Married";
-      civilstatus[translateText("widowed")!] = "Widowed";
-      civilstatus[translateText("divorced")!] = "Divorced";
-      civilstatus[translateText("separated")!] = "Separated";
-    }
 
     return civilstatus[selectedCivilstatus];
   }
@@ -241,14 +176,6 @@ function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: stri
     genderIndex["Female"] = "1";
     genderIndex["Other"] = "2";
 
-    // Translation
-
-    if (genderIndex[dropdownValue] == undefined) {
-      genderIndex[translateText("male")!] = "0";
-      genderIndex[translateText("female")!] = "1";
-      genderIndex[translateText("other")!] = "2";
-    }
-
     return genderIndex[dropdownValue];
   } else if (dropdownType == "ethnicity") {
     const ethnicityIndex: { [key: string]: string } = {};
@@ -263,17 +190,6 @@ function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: stri
     ethnicityIndex["Hispanic/Latino"] = "3";
     ethnicityIndex["Indigenous/Native American"] = "4";
     ethnicityIndex["Multiracial/Mixed"] = "5";
-
-    // Translation
-
-    if (ethnicityIndex[dropdownValue] == undefined) {
-      ethnicityIndex[translateText("african")!] = "0";
-      ethnicityIndex[translateText("asian")!] = "1";
-      ethnicityIndex[translateText("caucasian_slash_white")!] = "2";
-      ethnicityIndex[translateText("hispanic_slash_latino")!] = "3";
-      ethnicityIndex[translateText("indigenous_slash_native_american")!] = "4";
-      ethnicityIndex[translateText("multiracial_slash_mixed")!] = "5";
-    }
 
     return ethnicityIndex[dropdownValue];
   } else if (dropdownType == "religion") {
@@ -292,19 +208,6 @@ function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: stri
     religionIndex["Judaism"] = "6";
     religionIndex["Other"] = "7";
 
-    // Translation
-
-    if (religionIndex[dropdownValue] == undefined) {
-      religionIndex[translateText("christianity")!] = "0";
-      religionIndex[translateText("atheism")!] = "1";
-      religionIndex[translateText("islam")!] = "2";
-      religionIndex[translateText("hinduism")!] = "3";
-      religionIndex[translateText("buddhism")!] = "4";
-      religionIndex[translateText("sikhism")!] = "5";
-      religionIndex[translateText("judaism")!] = "6";
-      religionIndex[translateText("other")!] = "7";
-    }
-
     return religionIndex[dropdownValue];
   } else if (dropdownType == "civilstatus") {
     const civilstatusIndex: { [key: string]: string } = {};
@@ -318,16 +221,6 @@ function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: stri
     civilstatusIndex["Widowed"] = "2";
     civilstatusIndex["Divorced"] = "3";
     civilstatusIndex["Separated"] = "4";
-
-    // Translation
-
-    if (civilstatusIndex[dropdownValue] == undefined) {
-      civilstatusIndex[translateText("single")!] = "0";
-      civilstatusIndex[translateText("married")!] = "1";
-      civilstatusIndex[translateText("widowed")!] = "2";
-      civilstatusIndex[translateText("divorced")!] = "3";
-      civilstatusIndex[translateText("separated")!] = "4";
-    }
 
     return civilstatusIndex[dropdownValue];
   } else if (dropdownType == "language") {
@@ -343,17 +236,6 @@ function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: stri
     languageIndex["Italian"] = "3";
     languageIndex["Gaelic"] = "4";
     languageIndex["Latin"] = "5";
-
-    // Translation
-
-    if (languageIndex[dropdownValue] == undefined) {
-      languageIndex[translateText("english", customLangParameter)!] = "0";
-      languageIndex[translateText("spanish", customLangParameter)!] = "1";
-      languageIndex[translateText("german", customLangParameter)!] = "2";
-      languageIndex[translateText("italian", customLangParameter)!] = "3";
-      languageIndex[translateText("gaelic", customLangParameter)!] = "4";
-      languageIndex[translateText("latin", customLangParameter)!] = "5";
-    }
 
     return languageIndex[dropdownValue];
   }

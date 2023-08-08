@@ -6,8 +6,6 @@ channel.addEventListener('message', (event) => {
     const theme = event.data.theme;
 
     document.documentElement.setAttribute("data-theme", theme);
-  } else if (event.data.type === "language") {
-    translate()
   }
 });
 
@@ -87,16 +85,6 @@ function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | undefined {
       countries["United States"] = "us";
       countries["Canada"] = "ca";
       countries["United Kingdom"] = "uk";
-
-      // Translations
-
-      if (countries[selectedCountry.innerHTML] == undefined) {
-        countries[translateText("select_country_colon")!] = "all";
-        countries[translateText("worldwide")!] = "ww";
-        countries[translateText("united_states")!] = "us";
-        countries[translateText("canada")!] = "ca";
-        countries[translateText("united_kingdom")!] = "uk";
-      }
 
       return countries[selectedCountry.innerHTML]; // Error here
     }

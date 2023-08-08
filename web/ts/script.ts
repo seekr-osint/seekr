@@ -9,11 +9,9 @@ function mkDropdown(name: DropdownType, value: string, child: string) { // NAME 
 
     const dropdownValueIndex: string = getDropdownElementIndex(name, value);
 
-    if (dropdownValueIndex != "" && dropdownValueIndex != undefined) {
-      const dropdownElement = selectItems.children[parseInt(dropdownValueIndex)];
-
-      selectSelected.innerHTML = translateRawWord(value)!;
-    }
+    // if (dropdownValueIndex != "" && dropdownValueIndex != undefined) {
+    //   const dropdownElement = selectItems.children[parseInt(dropdownValueIndex)];
+    // }
   } 
 }
 
@@ -43,7 +41,6 @@ function mkList<T>(name: string, value: { [key: string]: T }, fieldname: keyof T
         value_input.id = "e-" + name;
         value_input.placeholder = "Enter " + name;
         value_input.spellcheck = false;
-        value_input.setAttribute("lng-tag", "enter_" + name)
         value_input.value = String(itemVar[fieldname]);
 
         const del_btn_div = document.createElement("div");
@@ -61,8 +58,6 @@ function mkList<T>(name: string, value: { [key: string]: T }, fieldname: keyof T
         del_btn.onclick = function () {
           container.remove();
         }
-
-        // refreshTranslation();
       };
     }
 
@@ -78,7 +73,6 @@ function mkList<T>(name: string, value: { [key: string]: T }, fieldname: keyof T
       value_input.id = name;
       value_input.type = "text";
       value_input.placeholder = "Enter "+ name;
-      value_input.setAttribute("lng-tag", "enter_" + name)
       value_input.spellcheck = false;
       value_input.required = true;
 
@@ -97,8 +91,6 @@ function mkList<T>(name: string, value: { [key: string]: T }, fieldname: keyof T
       del_btn_div.onclick = function () {
         list_container.remove();
       }
-
-      // refreshTranslation();
     }
 }
 
@@ -161,7 +153,6 @@ class Person extends person.Person {
         phone_input.type = "tel";
         phone_input.placeholder = "Enter phone number";
         phone_input.spellcheck = false;
-        phone_input.setAttribute("lng-tag", "enter_phone_number")
         phone_input.required = true;
         phone_input.value = phoneVar.number;
 
@@ -181,8 +172,6 @@ class Person extends person.Person {
         del_btn.onclick = function () {
           container.remove();
         }
-
-        refreshTranslation();
       };
     }
     document.getElementById("phone-add-btn")!.onclick = function () {
@@ -198,7 +187,6 @@ class Person extends person.Person {
       phone_input.type = "tel";
       phone_input.placeholder = "Enter phone number";
       phone_input.spellcheck = false;
-      phone_input.setAttribute("lng-tag", "enter_phone_number")
       //phone_input.maxLength = "15"; // FIXME some formattings can have more then 15 chars.
       phone_input.required = true;
 
@@ -217,10 +205,7 @@ class Person extends person.Person {
       del_btn_div.onclick = function () {
         phone_container.remove();
       }
-
-      refreshTranslation();
     }
-
 
 
     mkDropdown("civilstatus",obj.civilstatus, "7");
@@ -247,7 +232,6 @@ class Person extends person.Person {
     //     hobby_input.id = "e-hobby";
     //     hobby_input.placeholder = "Enter hobby";
     //     hobby_input.spellcheck = false;
-    //     hobby_input.setAttribute("lng-tag", "enter_hobby")
     //     hobby_input.value = hobbyVar.hobby;
 
     //     const del_btn_div = document.createElement("div");
@@ -265,8 +249,6 @@ class Person extends person.Person {
     //     del_btn.onclick = function () {
     //       container.remove();
     //     }
-
-    //     refreshTranslation();
     //   };
     // }
 
@@ -282,7 +264,6 @@ class Person extends person.Person {
     //   hobby_input.id = "hobby";
     //   hobby_input.type = "text";
     //   hobby_input.placeholder = "Enter hobby";
-    //   hobby_input.setAttribute("lng-tag", "enter_hobby")
     //   hobby_input.spellcheck = false;
     //   hobby_input.required = true;
 
@@ -301,8 +282,6 @@ class Person extends person.Person {
     //   del_btn_div.onclick = function () {
     //     hobby_container.remove();
     //   }
-
-    //   refreshTranslation();
     // }
 
     editOccupation.innerHTML = obj.occupation;
@@ -335,7 +314,6 @@ class Person extends person.Person {
     //     club_input.type = "text";
     //     club_input.placeholder = "Enter club";
     //     club_input.spellcheck = false;
-    //     club_input.setAttribute("lng-tag", "enter_club")
     //     club_input.value = clubVar.club;
 
     //     const del_btn_div = document.createElement("div");
@@ -353,8 +331,6 @@ class Person extends person.Person {
     //     del_btn.onclick = function () {
     //       container.remove();
     //     }
-
-    //     refreshTranslation();
     //   };
     // }
 
@@ -371,7 +347,6 @@ class Person extends person.Person {
     //   club_input.type = "text";
     //   club_input.placeholder = "Enter club";
     //   club_input.spellcheck = false;
-    //   club_input.setAttribute("lng-tag", "enter_club")
     //   club_input.required = true;
 
     //   const del_btn_div = document.createElement("div");
@@ -389,8 +364,6 @@ class Person extends person.Person {
     //   del_btn_div.onclick = function () {
     //     club_container.remove();
     //   }
-
-    //   refreshTranslation();
     // }
 
     editLegal.innerHTML = obj.legal;
@@ -419,7 +392,6 @@ class Person extends person.Person {
     //     source_input.type = "text";
     //     source_input.placeholder = "Enter source";
     //     source_input.spellcheck = false;
-    //     source_input.setAttribute("lng-tag", "enter_source")
     //     source_input.value = sourceVar.url;
 
     //     const del_btn_div = document.createElement("div");
@@ -437,8 +409,6 @@ class Person extends person.Person {
     //     del_btn.onclick = function () {
     //       container.remove();
     //     }
-
-    //     refreshTranslation();
     //   };
     // }
 
@@ -455,7 +425,6 @@ class Person extends person.Person {
     //   source_input.type = "text";
     //   source_input.placeholder = "Enter source";
     //   source_input.spellcheck = false;
-    //   source_input.setAttribute("lng-tag", "enter_source")
     //   source_input.required = true;
 
     //   const del_btn_div = document.createElement("div");
@@ -473,8 +442,6 @@ class Person extends person.Person {
     //   del_btn_div.onclick = function () {
     //     source_container.remove();
     //   }
-
-    //   refreshTranslation();
     // }
 
     editNotes.innerHTML = obj.notes;
@@ -503,7 +470,6 @@ class Person extends person.Person {
         ip_input.type = "text";
         ip_input.placeholder = "Enter IP";
         ip_input.spellcheck = false;
-        ip_input.setAttribute("lng-tag", "enter_ip")
         ip_input.value = ipVar.ip;
 
         const del_btn_div = document.createElement("div");
@@ -521,8 +487,6 @@ class Person extends person.Person {
         del_btn.onclick = function () {
           container.remove();
         }
-
-        refreshTranslation();
       };
     }
 
@@ -539,7 +503,6 @@ class Person extends person.Person {
       ip_input.type = "text";
       ip_input.placeholder = "Enter IP";
       ip_input.spellcheck = false;
-      ip_input.setAttribute("lng-tag", "enter_ip")
       ip_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -557,8 +520,6 @@ class Person extends person.Person {
       del_btn_div.onclick = function () {
         ip_container.remove();
       }
-
-      refreshTranslation();
     }
 
     // Email
@@ -583,7 +544,6 @@ class Person extends person.Person {
         email_input.type = "email";
         email_input.placeholder = "Enter email address";
         email_input.spellcheck = false;
-        email_input.setAttribute("lng-tag", "enter_email_address")
         email_input.required = true;
         email_input.value = emailVar.mail;
 
@@ -610,8 +570,6 @@ class Person extends person.Person {
         del_btn.onclick = function () {
           container.remove();
         }
-
-        refreshTranslation();
       };
     }
 
@@ -632,7 +590,6 @@ class Person extends person.Person {
       email_input.type = "email";
       email_input.placeholder = "Enter email address";
       email_input.spellcheck = false;
-      email_input.setAttribute("lng-tag", "enter_email_address")
       email_input.required = true;
 
       const del_btn_div = document.createElement("div");
@@ -654,8 +611,6 @@ class Person extends person.Person {
       del_btn_div.onclick = function () {
         email_container.remove();
       }
-
-      refreshTranslation();
     }
 
     // Accounts
@@ -792,7 +747,6 @@ class Person extends person.Person {
                 email_input.type = "email";
                 email_input.placeholder = "Enter email address";
                 email_input.spellcheck = false;
-                email_input.setAttribute("lng-tag", "enter_email_address")
                 email_input.value = obj.mail;
 
                 const del_btn_div = document.createElement("div");
@@ -816,8 +770,6 @@ class Person extends person.Person {
                 del_btn_div.onclick = function () {
                   email_container.remove();
                 }
-
-                refreshTranslation();
               }
             } else if (res.status == 403 && data["fatal"] == "rate limited") {
               deepInvResIcon.name = "timer-outline";
@@ -874,10 +826,6 @@ class Person extends person.Person {
 }
 
 
-
-
-
-
 const searchBar = document.getElementById("searchbar");
 
 
@@ -889,14 +837,8 @@ channel.addEventListener("message", (event) => {
     const theme = event.data.theme;
 
     document.documentElement.setAttribute("data-theme", theme);
-  } else if (event.data.type === "language") {
-    translate()
   }
 });
-
-if (!localStorage.getItem("language")) {
-  setLanguage("en"); // Default language
-}
 
 // Interface for IonIcons
 interface IonIconElement extends HTMLElement {
@@ -1305,20 +1247,20 @@ function createCards(obj: Person) {
 
     viewNameTag.value = obj.name;
 
-    viewGender.innerHTML = translateRawWord("Gender:")! + " " + translateRawWord(obj.gender);
-    viewEthnicity.innerHTML = translateRawWord("Ethnicity:")! + " " + translateRawWord(obj.ethnicity);
-    viewAge.innerHTML = translateRawWord("Age:")! + " " + obj.age;
-    viewBday.innerHTML = translateRawWord("Birthday:")! + " " + obj.bday;
-    viewAddress.innerHTML = translateRawWord("Address:")! + " " + obj.address;
-    viewCivilStatus.innerHTML = translateRawWord("Civil status:")! + " " + translateRawWord(obj.civilstatus);
-    viewKids.innerHTML = translateRawWord("Kids:") + " " + (obj.kids || "");
-    viewOccupation.innerHTML = translateRawWord("Occupation:")! + " " + obj.occupation;
-    viewPrevOccupation.innerHTML = translateRawWord("Previous Occupation:")! + obj.prevoccupation;
-    viewEducation.innerHTML = translateRawWord("Education:")! + " " + obj.education;
-    viewReligion.innerHTML = translateRawWord("Religion:")! + " " + translateRawWord(obj.religion);
-    viewPets.innerHTML = translateRawWord("Pets:")! + " " + obj.pets;
-    viewLegal.innerHTML = translateRawWord("Legal:")! + " " + obj.legal;
-    viewPolitical.innerHTML = translateRawWord("Political:")! + " " + obj.political;
+    viewGender.innerHTML = "Gender: " + obj.gender;
+    viewEthnicity.innerHTML = "Ethnicity: " + obj.ethnicity;
+    viewAge.innerHTML = "Age: " + obj.age;
+    viewBday.innerHTML = "Birthday: " + obj.bday;
+    viewAddress.innerHTML = "Address: " + obj.address;
+    viewCivilStatus.innerHTML = "Civil status: " + obj.civilstatus;
+    viewKids.innerHTML = "Kids: " + (obj.kids || "");
+    viewOccupation.innerHTML = "Occupation: " + obj.occupation;
+    viewPrevOccupation.innerHTML = "Previous Occupation: " + obj.prevoccupation;
+    viewEducation.innerHTML = "Education: " + obj.education;
+    viewReligion.innerHTML = "Religion: " + obj.religion;
+    viewPets.innerHTML = "Pets: " + obj.pets;
+    viewLegal.innerHTML = "Legal: " + obj.legal;
+    viewPolitical.innerHTML = "Political: " + obj.political;
     viewNotes.innerHTML = (obj.notes || "");
 
 
