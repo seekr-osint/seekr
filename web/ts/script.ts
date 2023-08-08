@@ -1015,6 +1015,7 @@ document.getElementById("newbtn")!.onclick = async function () {
   let obj = new Person();
   obj.id = checkId(preId);
   obj.name = "";
+  obj.age = 0;
   // obj = replaceUndefinedWithEmpty<typeof obj>(obj);
   obj.Edit();
   // mainContainer.style.display = "none";
