@@ -77,7 +77,8 @@ func ServeApi(config ApiConfig) {
 		config.SetupWebServer()
 	}
 	config.ServeTempMail()
-	config.GinRouter.GET("/api/", Handler(GetDataBase, config))                                      // return entire database
+	config.GinRouter.GET("/api/", Handler(GetDataBase, config))
+	config.GinRouter.GET("/api/db", Handler(GetDataBase, config))                                    // return entire database
 	config.GinRouter.GET("/api/deep/github/:username", Handler(GithubInfoDeepRequest, config))       // deep investigation of github account // FIXME
 	config.GinRouter.GET("/api/search/google/:query", Handler(GoogleRequest, config))                // get results from google
 	config.GinRouter.GET("/api/search/whois/:query", Handler(WhoisRequest, config))                  // get whois of domain
@@ -318,7 +319,6 @@ func GoogleRequest(config ApiConfig, c *gin.Context) {
 func WhoisRequest(config ApiConfig, c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, Whois(c.Param("query"), config))
 }
-
 
 func ScanAccounts(config ApiConfig, username string) services.ServiceCheckResults {
 	user := services.User{

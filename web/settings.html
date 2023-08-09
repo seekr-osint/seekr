@@ -24,8 +24,6 @@
 
     <script type="module" src="./dist/ts/settings.js" defer></script>
 
-    <script src="./dist/ts/translate.js"></script>
-
     <script type="text/javascript" defer>
       // Check local storage for theme setting
 
@@ -35,13 +33,13 @@
     </script>
   </head>
 
-  <body onload="onLoadTranslate()">
+  <body>
     <div class="scroll-body">
       <div class="chip settings-table">
         <div class="settings-option themes">
           <!-- Theme selection -->
   
-          <p class="settings-name" lng-tag="themes">Themes</p>
+          <p class="settings-name">Themes</p>
   
           <div class="theme-option chip">
             <!-- Theme cards will be loaded into here -->
@@ -53,7 +51,7 @@
         <div class="settings-option">
           <!-- Change language -->
   
-          <p class="settings-name" lng-tag="language">Language</p>
+          <p class="settings-name">Language</p>
   
           <div class="language-select">
             <select>
@@ -75,7 +73,7 @@
   
           <!-- REMEMBER: CHANGE LANGUAGE TAGS -->
   
-          <p class="settings-name" lng-tag="port">Port</p>
+          <p class="settings-name">Port</p>
   
           <div class="invert chip port-chip">
             <div class="text-container">
@@ -91,7 +89,7 @@
   
           <!-- REMEMBER: CHANGE LANGUAGE TAGS -->
   
-          <p class="settings-name" lng-tag="ip">IP</p>
+          <p class="settings-name">IP</p>
   
           <div class="invert chip ip-chip">
             <div class="text-container">
@@ -102,6 +100,6 @@
       </div>
     </div>
 
-    <div class="btn btn-secondary" id="settings-savebtn"><p class="not-selectable" id="settings-savebtn-p" lng-tag="save_&_restart">Save & Restart</p></div>
+    <div class="btn btn-secondary" id="settings-savebtn"><p class="not-selectable" id="settings-savebtn-p">Save & Restart</p></div>
   </body>
 </html>

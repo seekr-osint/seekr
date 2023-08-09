@@ -38,7 +38,8 @@ html {
 .gender-select,
 .ethnicity-select,
 .religion-select,
-.civilstatus-select {
+.civilstatus-select,
+.dropdown-select {
   position: relative;
   font-family: Arial;
   margin-top: 0.5rem;
@@ -48,7 +49,8 @@ html {
 .gender-select select,
 .ethnicity-select select,
 .religion-select select,
-.civilstatus-select select {
+.civilstatus-select select,
+.dropdown-select select {
   display: none;
   /*hide original SELECT element:*/
 }
