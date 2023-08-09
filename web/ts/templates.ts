@@ -21,12 +21,12 @@ class CustomDropdown extends HTMLElement {
     // Get dropdown title attribute and set initial values
     const dropdownTitleAttr = this.getAttribute("title")!;
     const dropdownTitle = dropdownTitleAttr.charAt(0).toUpperCase() + dropdownTitleAttr.slice(1) + ":";
-    dropdownTitleElement.innerHTML = dropdownTitle;
+    dropdownTitleElement.textContent = dropdownTitle;
 
     // Set initial option for select element
     const selElmntTag = selElmnt.children[0] as HTMLOptionElement;
     const selElmntTagText = "Select " + dropdownTitleAttr + ":";
-    selElmntTag.innerHTML = selElmntTagText;
+    selElmntTag.textContent = selElmntTagText;
 
     // Create and append option elements to select element
     const options = Array.from(this.querySelectorAll("custom-option"));
