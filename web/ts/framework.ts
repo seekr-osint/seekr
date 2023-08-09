@@ -12,98 +12,20 @@ function saveAsFile(textContent: string, fileName: string) {
   }
 }
 
-const elements: { [key: string]: HTMLCollectionOf<Element> } = { // used to select a element in the dropdown
-  "gender-select": document.getElementsByClassName("gender-select"),
-  "ethnicity-select": document.getElementsByClassName("ethnicity-select"),
-  "religion-select": document.getElementsByClassName("religion-select"),
-  "civilstatus-select": document.getElementsByClassName("civilstatus-select"),
-  "country-select": document.getElementsByClassName("country-select"),
-  "language-select": document.getElementsByClassName("language-select")
-};
+function loadDropdown(dropdownType: "gender" | "ethnicity" | "religion" | "civil status", data: string) {
+  const scrollbox = document.querySelector<HTMLDivElement>("body > .edit-container > div > div.scroll-box")!;
+  const dropdownElement = scrollbox.querySelector("custom-dropdown[title='" + dropdownType + "']")!.shadowRoot!.querySelector("div > .table > .dropdown-select > .select-selected") as HTMLElement;
 
-for (const [className, nodeList] of Object.entries(elements)) {
-  for (let i = 0; i < nodeList.length; i++) {
-    const node = nodeList[i] as HTMLElement;
-    const selElmnt = node.getElementsByTagName("select")[0] as HTMLSelectElement;
-    const selElmntLength = selElmnt.length;
-    let selectSelectedDiv = document.createElement("DIV");
-    selectSelectedDiv.setAttribute("class", "select-selected");
-
-    const labelText = selElmnt.options[0].innerHTML;
-
-    selectSelectedDiv.innerHTML = labelText;
-
-    node.appendChild(selectSelectedDiv);
-    let b = document.createElement("DIV");
-    b.setAttribute("class", "select-items select-hide");
-    for (let j = 1; j < selElmntLength; j++) {
-      const c = document.createElement("DIV");
-      const optionValue = selElmnt.options[j].innerHTML;
-
-      c.innerHTML = optionValue;
-
-      c.addEventListener("click", function (e) {
-        if (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.querySelectorAll("select")[0]) {
-          const y = this.parentNode.parentNode.querySelectorAll("select")[0] as HTMLSelectElement;
-          const h = this.parentNode.previousSibling as HTMLElement;
-
-          for (let k = 0; k < y.length; k++) {
-            // FIXME **** (bad swear word) this **** (bad swear word) this should not be used never do anything like this its totally bad and buggy.
-
-            y.selectedIndex = k;
-            h.innerHTML = this.innerHTML;
-            let yl = this.parentNode.querySelector(".same-as-selected") as HTMLSelectElement;
-            if (yl) {
-              for (let l = 0; l < yl.length; l++) {
-                yl[l].removeAttribute("class");
-              }
-              this.setAttribute("class", "same-as-selected");
-              break;
-            }
-          }
-          h.click();
-        }
-      });
-      b.appendChild(c);
-    }
-    node.appendChild(b);
-    selectSelectedDiv.addEventListener("click", function (e) {
-      e.stopPropagation();
-      closeAllSelect(this);
-      if (this.nextSibling) {
-        const s = this.nextSibling as HTMLElement;
-        s.classList.toggle("select-hide");
-        this.classList.toggle("select-arrow-active");
-      }
-    });
+  if (data != "") {
+    dropdownElement.innerHTML = data;
   }
 }
 
-function closeAllSelect(elmnt: HTMLElement) {
-  const arrNo = [];
-  const selectItemsElements = document.getElementsByClassName("select-items") as HTMLCollectionOf<HTMLElement>;
-  const selectSelectedElements = document.getElementsByClassName("select-selected") as HTMLCollectionOf<HTMLElement>;
-  for (let selectSelectedElementsIndex = 0; selectSelectedElementsIndex < selectSelectedElements.length; selectSelectedElementsIndex++) {
-    if (elmnt == selectSelectedElements[selectSelectedElementsIndex]) {
-      arrNo.push(selectSelectedElementsIndex);
-    } else {
-      selectSelectedElements[selectSelectedElementsIndex].classList.remove("select-arrow-active");
-    }
-  }
-  for (let selectItemsElementsIndex = 0; selectItemsElementsIndex < selectItemsElements.length; selectItemsElementsIndex++) {
-    if (arrNo.indexOf(selectItemsElementsIndex)) {
-      selectItemsElements[selectItemsElementsIndex].classList.add("select-hide");
-    }
-  }
-}
+function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender" | "ethnicity" | "religion" | "civil status") {
+  const scrollbox = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box")!;
 
-document.addEventListener("click", function () {
-  closeAllSelect(this.activeElement as HTMLElement);
-});
-
-function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender" | "ethnicity" | "religion" | "civilstatus") {
   if (dropdownType == "gender") {
-    const selectedGender = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(1) > div > div.select-selected")?.innerHTML ?? "";
+    const selectedGender = scrollbox.querySelector("custom-dropdown[title='gender']")!.shadowRoot!.querySelector("div > .table > .dropdown-select > .select-selected")!.innerHTML ?? "";
     const gender: { [key: string]: string } = {};
 
     // English
@@ -115,7 +37,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
 
     return gender[selectedGender];
   } else if (dropdownType == "ethnicity") {
-    const selectedEthnicity = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(2) > div > div.select-selected")?.innerHTML ?? "";
+    const selectedEthnicity = scrollbox.querySelector("custom-dropdown[title='ethnicity']")!.shadowRoot!.querySelector("div > .table > .dropdown-select > .select-selected")!.innerHTML ?? "";
     const ethnicity: { [key: string]: string } = {};
 
     // English
@@ -130,7 +52,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
 
     return ethnicity[selectedEthnicity];
   } else if (dropdownType == "religion") {
-    const selectedReligion = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(15) > div > div.select-selected")!.innerHTML ?? "";
+    const selectedReligion = scrollbox.querySelector("custom-dropdown[title='religion']")!.shadowRoot!.querySelector("div > .table > .dropdown-select > .select-selected")!.innerHTML ?? "";
     const religion: { [key: string]: string } = {};
 
     // English
@@ -146,8 +68,8 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     religion["Other"] = "Other";
 
     return religion[selectedReligion];
-  } else if (dropdownType == "civilstatus") {
-    const selectedCivilstatus = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box > div:nth-child(7) > div > div.select-selected")?.innerHTML ?? "";
+  } else if (dropdownType == "civil status") {
+    const selectedCivilstatus = scrollbox.querySelector("custom-dropdown[title='civil status']")!.shadowRoot!.querySelector("div > .table > .dropdown-select > .select-selected")!.innerHTML ?? "";
     const civilstatus: { [key: string]: string } = {};
 
     // English
@@ -162,7 +84,7 @@ function checkDropdownValue(windowType: "edit" | "create", dropdownType: "gender
     return civilstatus[selectedCivilstatus];
   }
 }
-type DropdownType = "gender" | "ethnicity" | "religion" | "civilstatus" | "language";
+type DropdownType = "gender" | "ethnicity" | "religion" | "civil status" | "language";
 
 function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: string, customLangParameter?: string): string {
   if (dropdownType == "gender") {
@@ -209,7 +131,7 @@ function getDropdownElementIndex(dropdownType: DropdownType, dropdownValue: stri
     religionIndex["Other"] = "7";
 
     return religionIndex[dropdownValue];
-  } else if (dropdownType == "civilstatus") {
+  } else if (dropdownType == "civil status") {
     const civilstatusIndex: { [key: string]: string } = {};
 
     civilstatusIndex[""] = "";
@@ -256,4 +178,4 @@ function apiCall(endpoint: string): string {
   return apiUrl + '/' + endpoint
 }
 
-export { saveAsFile, getDropdownElementIndex, checkDropdownValue, apiCall, DropdownType };
+export { saveAsFile, loadDropdown, getDropdownElementIndex, checkDropdownValue, apiCall, DropdownType };

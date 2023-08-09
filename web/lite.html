@@ -22,6 +22,8 @@
 
     <script src="./dist/ts/easteregg.js" defer></script>
 
+    <script src="./dist/ts/templates.js" defer></script>
+
     <script type="text/javascript" defer>
       // Check local storage for theme setting
 
@@ -32,6 +34,20 @@
   </head>
 
   <body>
+    <!-- Templates -->
+    <template id="dropdown-template">
+      <div class="dropdown">
+        <div class="table">
+          <p class="tag"></p> <!-- Gender -->
+          <div class="dropdown-select">
+            <select>
+              <option></option> <!-- Select gender: -->
+            </select>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <!-- partial:index.partial.html -->
 
     <div class="main">
@@ -192,32 +208,20 @@
         </div>
         
         <div class="scroll-box">
-          <div class="table">
-            <p class="tag">Gender: </p>
-            <div class="gender-select">
-              <select>
-                <option value="None">Select gender:</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
+          <custom-dropdown title="gender">
+            <custom-option>Male</custom-option>
+            <custom-option>Female</custom-option>
+            <custom-option>Other</custom-option>
+          </custom-dropdown>
 
-          <div class="table">
-            <p class="tag">Ethnicity: </p>
-            <div class="ethnicity-select">
-              <select>
-                <option value="None">Select ethnicity:</option>
-                <option value="African">African</option>
-                <option value="Asian">Asian</option>
-                <option value="Caucasian/White">Caucasian/White</option>
-                <option value="Hispanic/Latino">Hispanic/Latino</option>
-                <option value="Indigenous/Native American">Indigenous/Native American</option>
-                <option value="Multiracial/Mixed">Multiracial/Mixed</option>
-              </select>
-            </div>
-          </div>
+          <custom-dropdown title="ethnicity">
+            <custom-option>African</custom-option>
+            <custom-option>Asian</custom-option>
+            <custom-option>Caucasian/White</custom-option>
+            <custom-option>Hispanic/Latino</custom-option>
+            <custom-option>Indigenous/Native American</custom-option>
+            <custom-option>Multiracial/Mixed</custom-option>
+          </custom-dropdown>
 
           <div class="table">
             <p class="tag">Age:</p>
@@ -247,19 +251,13 @@
             </div>
           </div>
 
-          <div class="table">
-            <p class="tag">Civil status: </p>
-            <div class="civilstatus-select">
-              <select>
-                <option value="0">Select civil status:</option>
-                <option value="Si">Single</option>
-                <option value="M">Married</option>
-                <option value="W">Widowed</option>
-                <option value="D">Divorced</option>
-                <option value="Se">Separated</option>
-              </select>
-            </div>
-          </div>
+          <custom-dropdown title="civil status">
+            <custom-option>Single</custom-option>
+            <custom-option>Married</custom-option>
+            <custom-option>Widowed</custom-option>
+            <custom-option>Divorced</custom-option>
+            <custom-option>Separated</custom-option>
+          </custom-dropdown>
 
           <div class="table">
             <p class="tag">Kids: </p>
@@ -317,22 +315,16 @@
             <div class="form"><span type="text" class="form-input e-education" role="textbox" spellcheck="false" contenteditable></span></div>
           </div>
 
-          <div class="table">
-            <p class="tag">Religion:</p>
-            <div class="religion-select">
-              <select>
-                <option value="0">Select religion:</option>
-                <option value="C">Christianity</option>
-                <option value="A">Atheism</option>
-                <option value="I">Islam</option>
-                <option value="H">Hinduism</option>
-                <option value="B">Buddhism</option>
-                <option value="S">Sikhism</option>
-                <option value="J">Judaism</option>
-                <option value="O">Other</option>
-              </select>
-            </div>
-          </div>
+          <custom-dropdown title="religion">
+            <custom-option>Christianity</custom-option>
+            <custom-option>Atheism</custom-option>
+            <custom-option>Islam</custom-option>
+            <custom-option>Hinduism</custom-option>
+            <custom-option>Buddhism</custom-option>
+            <custom-option>Sikhism</custom-option>
+            <custom-option>Judaism</custom-option>
+            <custom-option>Other</custom-option>
+          </custom-dropdown>
 
           <div class="table">
             <p class="tag">Pets:</p>
@@ -388,219 +380,6 @@
         <div class="btn btn-secondary" id="e-savebtn"><p class="not-selectable" id="e-savebtn-p">Save</p></div>
 
         <div class="neu" id="e-loading-spinner">
-          <div class="neu_shape">
-            <div class="neu_inner">
-              <div class="neu_ball"></div>
-              <div class="neu_ball"></div>
-              <div class="neu_ball"></div>
-              <div class="neu_ball"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="create-container">
-      <div class="components">
-        <div class="chip">
-          <div class="text-container">
-            <input id="c-name-tag" class="c-name-tag" spellcheck="false" placeholder="Enter Name...">
-          </div>
-        </div>
-        
-        <div class="scroll-box">
-          <div class="table">
-            <p class="tag">Gender:</p>
-            <div class="gender-select">
-              <select>
-                <option value="0">Select gender:</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Ethnicity: </p>
-            <div class="ethnicity-select">
-              <select>
-                <option value="0">Select ethnicity:</option>
-                <option value="African">African</option>
-                <option value="Asian">Asian</option>
-                <option value="Caucasian/White">Caucasian/White</option>
-                <option value="Hispanic/Latino">Hispanic/Latino</option>
-                <option value="Indigenous/Native American">Indigenous/Native American</option>
-                <option value="Multiracial/Mixed">Multiracial/Mixed</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Age:</p>
-            <div class="form"><span type="text" class="form-input c-age" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-          
-          <div class="table">
-            <p class="tag">Birthday: </p>
-            <div class="form"><span type="text" class="form-input c-bday" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Address: </p>
-            <div class="form"><span type="text" class="form-input c-address" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">Phone</p>
-
-            <div class="table">
-              <div class="form">
-                <div class="c-phone-base"></div>
-
-                <div id="c-phone-add-btn" class="add-btn"><ion-icon name="add-outline"></ion-icon></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Civil status: </p>
-            <div class="civilstatus-select">
-              <select>
-                <option value="0">Select civil status:</option>
-                <option value="Si">Single</option>
-                <option value="M">Married</option>
-                <option value="W">Widowed</option>
-                <option value="D">Divorced</option>
-                <option value="Se">Separated</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Kids: </p>
-            <div class="form"><span type="text" class="form-input c-kids" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-          
-         <!-- list managed by mkList --> 
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">Hobbies</p>
-            <div class="table">
-              <div class="form">
-                <div class="c-hobby-base"></div>
-                <div id="c-hobby-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">E-Mail</p>
-            <div class="table">
-              <div class="form">
-                <div class="c-email-base"></div>
-                <div id="c-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">IPs</p>
-
-            <div class="table">
-              <div class="form">
-                <div class="c-ip-base"></div>
-
-                <div id="c-ip-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Occupation: </p>
-            <div class="form"><span type="text" class="form-input c-occupation" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Previous occupation: </p>
-            <div class="form"><span type="text" class="form-input c-prevoccupation" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Education: </p>
-            <div class="form"><span type="text" class="form-input c-education" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Religion: </p>
-            <div class="religion-select">
-              <select>
-                <option value="0">Select religion:</option>
-                <option value="C">Christianity</option>
-                <option value="A">Atheism</option>
-                <option value="I">Islam</option>
-                <option value="H">Hinduism</option>
-                <option value="B">Buddhism</option>
-                <option value="S">Sikhism</option>
-                <option value="J">Judaism</option>
-                <option value="O">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Pets: </p>
-            <div class="form"><span type="text" class="form-input c-pets" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-
-         <!-- list managed by mkList --> 
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">Clubs</p>
-            <div class="table">
-              <div class="form">
-                <div class="c-club-base"></div>
-                <div id="c-club-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Legal: </p>
-            <div class="form"><span type="text" class="form-input c-legal" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="table">
-            <p class="tag">Political: </p>
-            <div class="form"><span type="text" class="form-input c-political" role="textbox" spellcheck="false" contenteditable></span></div>
-          </div>
-
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">Sources</p>
-
-            <div class="table">
-              <div class="form">
-                <div class="c-source-base"></div>
-
-                <div id="c-source-add-btn" class="c-add-btn"><ion-icon name="add-outline"></ion-icon></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="chip" id="c-space-maker">
-            <p id="c-notes-header">Notes</p>
-
-            <div class="table">
-              <div class="form"><span type="text" id="c-notes" class="form-input c-notes" role="textbox" spellcheck="false" contenteditable></span></div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="btn btn-secondary" id="c-backbtn"><p>Back</p></div>
-        <div class="btn btn-secondary" id="c-savebtn"><p id="c-savebtn-p">Save</p></div>
-
-        <div class="neu" id="c-loading-spinner">
           <div class="neu_shape">
             <div class="neu_inner">
               <div class="neu_ball"></div>

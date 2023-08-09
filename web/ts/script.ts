@@ -1,19 +1,5 @@
-import { saveAsFile, checkDropdownValue, getDropdownElementIndex, apiCall, DropdownType } from "./framework.js";
+import { saveAsFile, checkDropdownValue, loadDropdown, getDropdownElementIndex, apiCall, DropdownType } from "./framework.js";
 import * as person from "../ts-gen/person.js";
-
-function mkDropdown(name: DropdownType, value: string, child: string) { // NAME AND CHILD NOT USER CONTROLLED and therefore not introducing xss!!!!!! 
-  if (value != "" && value != undefined) {
-    const valueSelect = document.querySelector(".edit-container > .components > .scroll-box > div:nth-child(" + child + ") > ." + name + "-select") as HTMLElement; // not unsave because name and child are not user controlled
-    const selectItems = valueSelect.querySelector(".select-items") as HTMLElement;
-    const selectSelected = valueSelect.querySelector(".select-selected") as HTMLElement;
-
-    const dropdownValueIndex: string = getDropdownElementIndex(name, value);
-
-    // if (dropdownValueIndex != "" && dropdownValueIndex != undefined) {
-    //   const dropdownElement = selectItems.children[parseInt(dropdownValueIndex)];
-    // }
-  } 
-}
 
 function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
   if (value === undefined) {
@@ -123,9 +109,9 @@ class Person extends person.Person {
     editNameTag.value = obj.name;
 
 
-    mkDropdown("gender",obj.gender, "1");
+    loadDropdown("gender", obj.gender);
 
-    mkDropdown("ethnicity",obj.ethnicity, "2")
+    loadDropdown("ethnicity", obj.ethnicity);
 
     editAge.innerHTML = obj.age.toString() || "";
     editBday.innerHTML = obj.bday;
@@ -207,9 +193,7 @@ class Person extends person.Person {
       }
     }
 
-
-    mkDropdown("civilstatus",obj.civilstatus, "7");
-
+    loadDropdown("civil status", obj.civilstatus);
 
     editKids.innerHTML = obj.kids;
 
@@ -289,7 +273,7 @@ class Person extends person.Person {
     editEducation.innerHTML = obj.education;
 
     // religion dropdown
-    mkDropdown("religion",obj.religion, "15");
+    loadDropdown("religion", obj.religion);
 
     editPets.innerHTML = obj.pets;
 
@@ -1797,7 +1781,7 @@ editSaveBtn.onclick = async function () {
     };
   });
 
-  let civilstatus = checkDropdownValue("edit", "civilstatus");
+  let civilstatus = checkDropdownValue("edit", "civil status");
 
   let kids = editKids.innerHTML;
 
