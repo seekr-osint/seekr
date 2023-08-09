@@ -1,4 +1,4 @@
-import { saveAsFile, checkDropdownValue, loadDropdown, getDropdownElementIndex, apiCall, DropdownType } from "./framework.js";
+import { saveAsFile, checkDropdownValue, loadDropdown, apiCall } from "./framework.js";
 import * as person from "../ts-gen/person.js";
 
 function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
