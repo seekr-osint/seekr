@@ -183,16 +183,14 @@ li {
 
 
 
-.country-select,
-.language-select {
+.country-select {
   position: relative;
   font-family: Arial;
   margin: 2rem;
   width: 17rem;
 }
 
-.country-select select,
-.language-select select {
+.country-select select {
   display: none;
   /*hide original SELECT element:*/
 }
