@@ -123,6 +123,7 @@
             nixpkgsFor.${system}.gcc
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
+            nixpkgsFor.${system}.gh
             nixpkgsFor.${system}.goreleaser
 
             nixpkgsFor.${system}.gcc
