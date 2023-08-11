@@ -108,7 +108,6 @@ class Person extends person.Person {
 
     editNameTag.value = obj.name;
 
-
     loadDropdown("gender", obj.gender);
 
     loadDropdown("ethnicity", obj.ethnicity);
@@ -1862,7 +1861,7 @@ editSaveBtn.onclick = async function () {
   let data = await res.json() as Person;
   let obj = new Person();
 
-  if (data == null) {
+  if (data == null || res.status == 404) {
     obj.accounts = {};
   } else {
     obj.accounts = data.accounts;
@@ -1893,7 +1892,6 @@ editSaveBtn.onclick = async function () {
   obj.notes = notes;
 
   obj.Post(loadingSpinner);
-
 }
 
 document.getElementById("backbtn")!.onclick = function () {
