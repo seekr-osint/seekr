@@ -108,7 +108,6 @@ class Person extends person.Person {
 
     editNameTag.value = obj.name;
 
-
     loadDropdown("gender", obj.gender);
 
     loadDropdown("ethnicity", obj.ethnicity);
@@ -1755,6 +1754,8 @@ editSaveBtn.onclick = async function () {
 
   let gender = checkDropdownValue("edit", "gender");
 
+  console.log(gender);
+
   let ethnicity = checkDropdownValue("edit", "ethnicity");
 
   let age = parseInt(editAge.innerHTML);
@@ -1893,7 +1894,6 @@ editSaveBtn.onclick = async function () {
   obj.notes = notes;
 
   obj.Post(loadingSpinner);
-
 }
 
 document.getElementById("backbtn")!.onclick = function () {
