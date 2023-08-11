@@ -18,6 +18,8 @@ function loadDropdown(dropdownType: string, data: string) {
 
   if (data != "") {
     dropdownElement.innerHTML = data;
+  } else {
+    dropdownElement.innerHTML = "Select " + dropdownType + ":";
   }
 }
 
