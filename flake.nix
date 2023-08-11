@@ -101,7 +101,7 @@
                 "-extldflags=-static"
                 #"-X main.version=${version}"
               ];
-              vendorSha256 = "sha256-H7mw+9QSmdu26mZ0teEcp6dcRwJN6rOT+67CtaxC0Cg=";
+              vendorSha256 = "sha256-ZXCZ4k4mZ5XGdAdZ+oea5kjBMOlyxD1O3B+7W6wc7Jg=";
             };
           });
 
@@ -123,6 +123,7 @@
             nixpkgsFor.${system}.gcc
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
+            nixpkgsFor.${system}.gh
             nixpkgsFor.${system}.goreleaser
 
             nixpkgsFor.${system}.gcc
