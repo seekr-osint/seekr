@@ -92,6 +92,7 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.POST("/api/config", Handler(PostConfig, config))                                // post config
 	config.GinRouter.GET("/api/config", Handler(GetConfig, config))                                  // get config
 	config.GinRouter.GET("/api/info", Handler(GetInfo, config))                                      // get info
+	config.GinRouter.GET("/api/ping", Handler(Ping, config))                                         // get info
 	config.GinRouter.POST("/api/detect/language", Handler(DetectLanguage, config))                   // detect language
 	config.GinRouter.POST("/api/detect/language/code", Handler(DetectLanguageCode, config))          // detect language in code
 
@@ -202,6 +203,11 @@ func MarkdownPersonRequest(config ApiConfig, c *gin.Context) {
 	} else {
 		c.IndentedJSON(http.StatusOK, gin.H{"markdown": person.Markdown()})
 	}
+}
+
+func Ping(apiConfig ApiConfig, c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, map[string]string{"ping": "pong"})
+	return
 }
 
 func GetInfo(apiConfig ApiConfig, c *gin.Context) {

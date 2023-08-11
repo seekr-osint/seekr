@@ -1893,3 +1893,23 @@ curl -X POST http://localhost:8080/api/detect/language/code \
 **Status Code:** 200
 
 
+## Ping the api
+
+
+**Curl Request:**
+
+```sh
+curl -X GET http://localhost:8080/api/ping
+```
+
+**Response:**
+
+```json
+{
+	"ping": "pong"
+}
+```
+
+**Status Code:** 200
+
+
