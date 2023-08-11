@@ -12,8 +12,14 @@
 <img alt="GitHub issues" src="https://img.shields.io/github/issues/seekr-osint/seekr">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
   <br>
-  <img alt="Discird Server" src="https://dcbadge.vercel.app/api/server/hNCq2CKN5G" href="https://discord.gg/hNCq2CKN5G">
+  <img id="discord-banner" alt="Discord Server" src="https://dcbadge.vercel.app/api/server/hNCq2CKN5G">
 </p>
+
+<script>
+  document.querySelector("#discord-banner").addEventListener("click", () => {
+    window.open("https://discord.gg/hNCq2CKN5G", "_blank");
+  });
+</script>
 
 ## Introduction
 Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. Our desktop view enables you to have all of your favourite OSINT tools integrated in one. The backend is written in Go with BadgerDB as database and it offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, seekr makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
