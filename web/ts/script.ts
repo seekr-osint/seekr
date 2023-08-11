@@ -1754,8 +1754,6 @@ editSaveBtn.onclick = async function () {
 
   let gender = checkDropdownValue("edit", "gender");
 
-  console.log(gender);
-
   let ethnicity = checkDropdownValue("edit", "ethnicity");
 
   let age = parseInt(editAge.innerHTML);
@@ -1863,7 +1861,7 @@ editSaveBtn.onclick = async function () {
   let data = await res.json() as Person;
   let obj = new Person();
 
-  if (data == null) {
+  if (data == null || res.status == 404) {
     obj.accounts = {};
   } else {
     obj.accounts = data.accounts;

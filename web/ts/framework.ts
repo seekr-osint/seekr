@@ -25,10 +25,9 @@ function loadDropdown(dropdownType: string, data: string) {
 
 function checkDropdownValue(windowType: "edit", dropdownType: string) {
   const scrollbox = document.querySelector<HTMLDivElement>("body > div." + windowType + "-container > div > div.scroll-box")!;
-
   const selectedType = scrollbox.querySelector("custom-dropdown[title='" + dropdownType + "']")!.shadowRoot!.querySelector("div > .table > .dropdown-select > .select-selected")!.innerHTML ?? "";
-
-  if (selectedType != "Select " + dropdownType + ":") {
+  
+  if (selectedType == "Select " + dropdownType + ":") {
     return "";
   } else {
     return selectedType;
