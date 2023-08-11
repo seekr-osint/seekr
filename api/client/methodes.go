@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/seekr-osint/seekr/api"
+	"github.com/seekr-osint/seekr/api/functions"
 )
 
 var (
@@ -26,6 +27,22 @@ func (c *Client) ApiCall(endpoint string) string {
 	return u.String()
 }
 
+
+func (c *Client) DeletePerson(id string) (error) {
+	client := c.HTTPClient
+	resp, err := client.Get(c.ApiCall("people/" + id + "/delete"))
+	if err != nil {
+		return  err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return  ErrNon200StatusCode
+	}
+
+
+	return nil
+}
 func (c *Client) GetPerson(id string) (api.Person, error) {
 	client := c.HTTPClient
 	resp, err := client.Get(c.ApiCall("people/" + id))
@@ -53,6 +70,37 @@ func (c *Client) GetPerson(id string) (api.Person, error) {
 
 	return person, nil
 }
+func (c *Client) GetPeople() (map[string]string, error) {
+	client := c.HTTPClient
+	resp, err := client.Get(c.ApiCall("db"))
+	if err != nil {
+		return map[string]string{}, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return map[string]string{}, ErrNon200StatusCode
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return map[string]string{}, err
+	}
+
+	var db api.DataBase
+	err = json.Unmarshal(body, &db)
+	if err != nil {
+		return map[string]string{}, err
+	}
+	people := map[string]string{}	
+	for _, id := range functions.SortMapKeys(db) {
+		people[id] = db[id].Name
+	}
+
+	return people, nil
+}
+
+
 func (c *Client) GetDB() (api.DataBase, error) {
 	client := c.HTTPClient
 	resp, err := client.Get(c.ApiCall("db"))
