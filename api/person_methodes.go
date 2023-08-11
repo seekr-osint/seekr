@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 )
 
@@ -15,11 +16,31 @@ func (person Person) Markdown() string {
 		sb.WriteString(fmt.Sprintf("# ID:%s\n", person.ID))
 	}
 
-	sb.WriteString(person.Gender.Markdown())
-	sb.WriteString(person.Age.Markdown())
-	sb.WriteString(person.Civilstatus.Markdown())
-	sb.WriteString(person.Religion.Markdown())
-	sb.WriteString(person.Phone.Markdown())
+	  personValue := reflect.ValueOf(person)
+
+    for i := 0; i < personValue.NumField(); i++ {
+        field := personValue.Field(i)
+
+        if markdownMethod := field.MethodByName("Markdown"); markdownMethod.IsValid() {
+            result := markdownMethod.Call(nil)
+            if len(result) > 0 {
+                markdownString, ok := result[0].Interface().(string)
+                if ok {
+                    sb.WriteString(markdownString)
+                    //sb.WriteString("\n")
+                }
+            }
+        } else {
+            //sb.WriteString(field.Interface())
+					
+        }
+    }
+	//sb.WriteString(person.Age.Markdown())
+	//sb.WriteString(person.Gender.Markdown())
+	//sb.WriteString(person.Ethnicity.Markdown())
+	//sb.WriteString(person.Civilstatus.Markdown())
+	//sb.WriteString(person.Religion.Markdown())
+	//sb.WriteString(person.Phone.Markdown())
 	markdown, err := person.Ips.Markdown()
 	if err != nil {
 		return sb.String()
