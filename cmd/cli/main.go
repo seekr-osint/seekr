@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strings"
@@ -12,6 +13,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/cristalhq/acmd"
 )
 
 // globals
@@ -39,22 +41,67 @@ func ShowPerson(c *client.Client, id string) {
 	}
 }
 
-func main() {
-	c := client.NewClient("localhost", 8569)
+func search(c *client.Client, ctx context.Context, args []string) error {
+	SelectPersonView(c)
+	return nil
+}
+
+func person(c *client.Client, ctx context.Context, args []string) error {
+	if args[0] != "" {
+		ShowPerson(c, args[0])
+	} else {
+		SelectPersonView(c)
+		//fmt.Println("error arguments")
+	}
+
+	return nil
+}
+
+func ping(c *client.Client, ctx context.Context, args []string) error {
 	ping, err := c.Ping()
 	if err != nil {
-		panic(err)
+		return err
 	}
 	fmt.Printf("ping: %s\n", ping)
+	return nil
+}
+func main() {
+	c := client.NewClient("localhost", 8569)
+	cmds := []acmd.Command{
+		{
+			Name:        "person",
+			Description: "show person",
+			ExecFunc: func(ctx context.Context, args []string) error {
+				return person(c, ctx, args)
+			},
+		},
+		{
+			Name:        "ping",
+			Description: "ping api",
+			ExecFunc: func(ctx context.Context, args []string) error {
+				return person(c, ctx, args)
+			},
+		},
+		{
+			Name:        "search",
+			Description: "search person",
+			ExecFunc: func(ctx context.Context, args []string) error {
+				return person(c, ctx, args)
+			},
+		},
+	}
 
-	// db, err := c.GetDB()
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// fmt.Printf("db: %s\n", db)
-	SelectPersonView(c)
-	SelectPersonDelete(c)
+	r := acmd.RunnerOf(cmds, acmd.Config{
+		AppName:        "cli",
+		AppDescription: "seekr cli",
+		Version:        "0.4.0",
+		// Context - if nil `signal.Notify` will be used
+		// Args - if nil `os.Args[1:]` will be used
+		// Usage - if nil default print will be used
+	})
+	if err := r.Run(); err != nil {
+		r.Exit(err)
+	}
 }
 
 func SelectPersonDelete(c *client.Client) {
