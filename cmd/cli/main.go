@@ -142,7 +142,7 @@ func extractID(input string) (string, error) {
 	return id, nil
 }
 
-// ui
+// UI
 
 const listHeight = 14
 
