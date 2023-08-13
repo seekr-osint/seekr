@@ -51,7 +51,7 @@ func person(c *client.Client, ctx context.Context, args []string) error {
 		ShowPerson(c, args[0])
 	} else {
 		SelectPersonView(c)
-		//fmt.Println("error arguments")
+		// fmt.Println("error arguments")
 	}
 
 	return nil
