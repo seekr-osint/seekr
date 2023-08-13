@@ -16,7 +16,7 @@ import (
 	"github.com/cristalhq/acmd"
 )
 
-// globals
+// Globals
 var (
 	ID string
 )
