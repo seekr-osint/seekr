@@ -23,6 +23,19 @@ func EmptyInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 
 var DefaultServices = Services{
 	{
+		Name: "Instagram",
+		UserExistsFunc: func(data UserServiceDataToCheck) (bool, error) {
+			return data.PatternUrlMatchUserExists("user?username={{.Username}}")
+		},
+		InfoFunc:            EmptyInfo,
+		Domain:              "www.instagram.com",
+		UserHtmlUrlTemplate: "{{.Domain}}/{{.Username}}/",
+		TestData: TestData{
+			ExistingUser:    "greg",
+			NotExistingUser: "greg2q1412fdwkdfns",
+		},
+	},
+	{
 		Name:                "GitHub",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
 		InfoFunc:            EmptyInfo,
@@ -81,17 +94,17 @@ var DefaultServices = Services{
 			NotExistingUser: "gregdoesnotexsist",
 		},
 	},
-	//{
-	//	Name:           "chess.com",
-	//	UserExistsFunc: StatusCodeUserExistsFunc,
-	//	Domain: "api.chess.com",
-	//	UserHtmlUrlTemplate: "{{.Domain}}/pub/player/{{.Username}}",
-	//  BlocksTor: true,
-	//	TestData: TestData{
-	//		ExistingUser:    "danielnaroditsky",
-	//		NotExistingUser: "gregdoesnotexsist",
-	//	},
-	//},
+	{
+		Name:                "chess.com",
+		UserExistsFunc:      StatusCodeUserExistsFunc,
+		Domain:              "api.chess.com",
+		UserHtmlUrlTemplate: "{{.Domain}}/pub/player/{{.Username}}",
+		BlocksTor:           true,
+		TestData: TestData{
+			ExistingUser:    "danielnaroditsky",
+			NotExistingUser: "gregdoesnotexsist",
+		},
+	},
 	{
 		Name:                "Asciinema",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
@@ -115,28 +128,29 @@ var DefaultServices = Services{
 	//	},
 	//},
 
-	//{
-	//	Name:           "Lichess",
-	//	UserExistsFunc: StatusCodeUserExistsFunc,
-	//	Domain: "lichess.org",
-	//	UserHtmlUrlTemplate: "{{.Domain}}/api/user/{{.Username}}",
-	//	BlocksTor: true, // ???
-	//	TestData: TestData{
-	//		ExistingUser:    "starwars",
-	//		NotExistingUser: "gregdoesnotexsist",
-	//	},
-	//},
+	{
+		Name:                "Lichess",
+		UserExistsFunc:      StatusCodeUserExistsFunc,
+		Domain:              "lichess.org",
+		UserHtmlUrlTemplate: "{{.Domain}}/api/user/{{.Username}}",
+		BlocksTor:           true, // ???
+		TestData: TestData{
+			ExistingUser:    "starwars",
+			NotExistingUser: "gregdoesnotexsist",
+		},
+	},
 
-	//{
-	//	Name:           "Snapchat",
-	//	UserExistsFunc: StatusCodeUserExistsFunc,
-	//	Domain:        "snapchat.com",
-	//	UserHtmlUrlTemplate: "{{.Domain}}/add/{{.Username}}",
-	//	TestData: TestData{
-	//		ExistingUser:    "greg",
-	//		NotExistingUser: "gregdoesnotexsistdsada",
-	//	},
-	//},
+	{
+		Name:                "Snapchat",
+		UserExistsFunc:      StatusCodeUserExistsFunc,
+		Domain:              "snapchat.com",
+		UserHtmlUrlTemplate: "{{.Domain}}/add/{{.Username}}",
+		BlocksTor:           true,
+		TestData: TestData{
+			ExistingUser:    "greg",
+			NotExistingUser: "gregdoesnotexsistdsada",
+		},
+	},
 }
 
 func ServicesCheckWorker(s <-chan UserServiceDataToCheck, res chan<- ServiceCheckResult, wg *sync.WaitGroup) {

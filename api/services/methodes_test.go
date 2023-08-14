@@ -157,7 +157,7 @@ func ServicesMockWorker(s <-chan Service, res chan<- bool, wg *sync.WaitGroup, t
 			status = true
 			//fmt.Printf("working\n")
 		}
-		t.Logf("Status: %v\n", status)
+		t.Logf("Status (%s): %v\n", service.Name, status)
 		res <- status
 	}
 }

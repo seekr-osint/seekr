@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"image"
 	"image/png"
+	"io"
 
 	_ "image/jpeg"
 	"log"
@@ -39,6 +40,29 @@ func (data UserServiceDataToCheck) GetImagelUrl() (string, error) {
 	}
 	log.Printf("url: %s\n", url)
 	return url, nil
+}
+func (data UserServiceDataToCheck) GetTemplate(templateString string) (string, error) {
+	tmpl, err := template.New("url").Parse(templateString)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse template: %w", err)
+	}
+
+	user := Template{
+		data.User,
+		data.Service,
+	}
+	var result strings.Builder
+	err = tmpl.Execute(&result, user)
+	if err != nil {
+		return "", fmt.Errorf("failed to execute template: %w", err)
+	}
+
+	// url, err := SetProtocolURL(result.String(), data.Service.Protocol)
+	// if err != nil {
+	// 	return "", fmt.Errorf("failed to set the protocol from url: %w", err)
+	// }
+	// log.Printf("url: %s\n", url)
+	return result.String(), nil
 }
 
 func (data UserServiceDataToCheck) GetUserHtmlUrl() (string, error) {
@@ -87,6 +111,38 @@ func (data UserServiceDataToCheck) UserExistsFunction() ServiceCheckResult {
 		User:    data.User,
 	}
 
+}
+
+func (data UserServiceDataToCheck) PatternUrlMatchUserExists(patternTemplate string) (bool, error) {
+	url, err := data.GetUserHtmlUrl()
+	if err != nil {
+		return false, fmt.Errorf("failed to get user HTML URL: %w", err)
+	}
+	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Printf("error making request pattern matching user exsists check: %s", err)
+		return false, fmt.Errorf("failed to send GET request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	pattern, err := data.GetTemplate(patternTemplate)
+	if err != nil {
+		return false, fmt.Errorf("failed to get pattern from pattern template: %w", err)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, err
+	}
+	log.Printf("checking pattern: %s => %d\n", pattern, strings.Count(string(body), pattern))
+
+	if strings.Count(string(body), pattern) > 0 {
+		return true, nil
+	}
+
+	return false, nil
 }
 func (data UserServiceDataToCheck) StatusCodeUserExistsFunc() (bool, error) {
 	url, err := data.GetUserHtmlUrl()
