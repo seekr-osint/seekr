@@ -213,7 +213,10 @@ function preListHandler() {
   }
 }
 
-document.querySelector(".select-selected")!.addEventListener("DOMSubtreeModified", preListHandler);
+const foo = document.querySelector("body > div.dd-nav-bar > custom-dropdown[title='country']")!;
+const selectedcountry = foo.shadowRoot!.querySelector("div > div > div > div.select-selected")!;
+
+selectedcountry!.addEventListener("DOMSubtreeModified", preListHandler);
 
 checkboxName.addEventListener('change', preListHandler);
 

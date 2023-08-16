@@ -31,19 +31,31 @@
     </script>
   </head>
   <body>
+    <!-- Templates -->
+    <template id="dropdown-template">
+      <div class="dropdown">
+        <div class="table">
+          <p class="tag"></p> <!-- Gender -->
+          <div class="dropdown-select">
+            <select>
+              <option></option> <!-- Select gender: -->
+            </select>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <div class="dd-nav-bar-top"></div>
     <div class="dd-nav-bar">
-      <div class="country-select">
-        <select>
-          <option value="0">Select country:</option>
-          <option value="WW">WorldWide</option>
-          <option value="UK">United Kingdom</option>
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-          <option value="SE">Sweden</option>
-          <option value="DE">Germany</option>
-        </select>
-      </div>
+      <custom-dropdown title="country" no-tag>
+        <custom-option>Select country:</custom-option>
+        <custom-option>WorldWide</custom-option>
+        <custom-option>United Kingdom</custom-option>
+        <custom-option>United States</custom-option>
+        <custom-option>Canada</custom-option>
+        <custom-option>Sweden</custom-option>
+        <custom-option>Germany</custom-option>
+      </custom-dropdown>
 
       <div class="existing-info-form">
         <div class="form-option">

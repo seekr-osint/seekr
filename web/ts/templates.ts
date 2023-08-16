@@ -21,7 +21,10 @@ class CustomDropdown extends HTMLElement {
     // Get dropdown title attribute and set initial values
     const dropdownTitleAttr = this.getAttribute("title")!;
     const dropdownTitle = dropdownTitleAttr.charAt(0).toUpperCase() + dropdownTitleAttr.slice(1) + ":";
-    dropdownTitleElement.textContent = dropdownTitle;
+
+    if (!this.hasAttribute("no-tag")) {
+      dropdownTitleElement.textContent = dropdownTitle;
+    }
 
     // Set initial option for select element
     const selElmntTag = selElmnt.children[0] as HTMLOptionElement;
@@ -42,6 +45,10 @@ class CustomDropdown extends HTMLElement {
     selectSelectedDiv.className = "select-selected";
     const labelText = selElmnt.options[0].innerHTML;
     selectSelectedDiv.innerHTML = labelText;
+
+    if (this.getAttribute("title") == "country") {
+      node.classList.add("country-select");
+    }
 
     const b = document.createElement("div");
     b.className = "select-items select-hide";

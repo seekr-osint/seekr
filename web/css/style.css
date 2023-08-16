@@ -35,10 +35,6 @@ html {
   height: unset !important;
 }
 
-.gender-select,
-.ethnicity-select,
-.religion-select,
-.civilstatus-select,
 .dropdown-select {
   position: relative;
   font-family: Arial;
@@ -46,19 +42,19 @@ html {
   width: 17rem;
 }
 
-.gender-select select,
-.ethnicity-select select,
-.religion-select select,
-.civilstatus-select select,
 .dropdown-select select {
   display: none;
   /*hide original SELECT element:*/
 }
 
+.country-select {
+  margin-top: 0 !important;
+}
+
 .select-selected {
   margin-bottom: 1rem;
   justify-self: center;
-  width: 20rem;
+  width: 17rem;
   height: 3rem;
   border-radius: 1rem;
   box-shadow: var(--shadowPreset-3);
@@ -72,7 +68,7 @@ html {
   position: absolute;
   content: "";
   top: 14px;
-  right: -3.5rem;
+  right: 0.5rem;
   width: 0;
   height: 0;
   border: 6px solid transparent;
