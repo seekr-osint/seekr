@@ -14,10 +14,7 @@ body {
   overflow: hidden;
 }
 
-.ww,
-.us,
-.ca,
-.uk {
+li {
   margin-bottom: 1rem;
   justify-self: center;
   width: auto;
