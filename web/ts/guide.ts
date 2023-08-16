@@ -71,12 +71,12 @@ function checkChecboxValue(checkboxType: string): boolean {
   }
 }
 
-function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | undefined {
+function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" | undefined {
   if (document) {
     const selectedCountry = document.querySelector(".select-selected");
 
     if (selectedCountry) {
-      const countries: { [key: string]: "all" | "ww" | "us" | "ca" | "uk" } = {};
+      const countries: { [key: string]: "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" } = {};
 
       // English
 
@@ -85,6 +85,8 @@ function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | undefined {
       countries["United States"] = "us";
       countries["Canada"] = "ca";
       countries["United Kingdom"] = "uk";
+      countries["Sweden"] = "se";
+      countries["Germany"] = "de";
 
       return countries[selectedCountry.innerHTML]; // Error here
     }
