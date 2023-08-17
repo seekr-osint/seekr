@@ -40,6 +40,12 @@ type InputData struct{
 	User    User        `json:"user"`
 	Service Service     `json:"service"`
 }
+
+type Accounts struct {
+	Existing MapServiceCheckResult `json:"existing"`
+	Failed MapServiceCheckResult `json:"failed"`
+}
+type MapServiceCheckResult map[string]ServiceCheckResult
 type ServiceCheckResult struct {
 	InputData InputData `json:"input_data"`
 	Exists  bool        `json:"exists"`
@@ -52,6 +58,7 @@ type Image struct {
 	Date time.Time
 }
 type AccountInfo struct {
+	Url string `json:"url"`
 	ProfilePicture history.History[Image] `json:"profile_picture"`
 	Bio            history.History[Bio]   `json:"bio"`
 }

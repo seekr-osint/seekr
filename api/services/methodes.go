@@ -203,6 +203,34 @@ func (user User) GetServices() DataToCheck {
 	return services
 }
 
+
+func (result ServiceCheckResult) GetMapName() string {
+	return fmt.Sprintf("%s-%s",result.InputData.Service.Name,result.InputData.User.Username)
+}
+func (results ServiceCheckResults) ToMapExisting()  MapServiceCheckResult {
+	services := MapServiceCheckResult{}
+	for _, result := range results {
+		if result.Exists {
+			services[result.GetMapName()] = result
+		}
+	}
+	return services
+}
+func (results ServiceCheckResults) ToMap()  MapServiceCheckResult {
+	services := MapServiceCheckResult{}
+	for _, result := range results {
+		services[result.GetMapName()] = result
+	}
+	return services
+}
+
+
+func (results ServiceCheckResults) GetExistingAndFailed() Services {
+	services := Services{}
+	services = append(services, results.GetExisting()...)
+	services = append(services, results.GetFailed()...)
+	return services
+}
 func (results ServiceCheckResults) GetFailed() Services {
 	services := Services{}
 	for _, result := range results {
@@ -245,6 +273,14 @@ func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) { // FIXM
 		if err != nil {
 			result.Errors.Info = err
 			return
+		}
+		if info.Url == "" {
+			url, err :=  data.GetUserHtmlUrl() 
+			if err != nil {
+				log.Printf("error getting url\n")	
+			} else {
+				info.Url = url
+			}
 		}
 		result.Info = info
 		result.Errors.Info = nil
