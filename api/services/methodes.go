@@ -322,6 +322,32 @@ func (services DataToCheck) Scan() ServiceCheckResults {
 	}
 	return results
 }
+func (img *Image) UnmarshalJSON(data []byte) error {
+	var encodedData string
+	if err := json.Unmarshal(data, &encodedData); err != nil {
+		return err
+	}
+
+	if encodedData == "" {
+		img.Img = nil
+		return nil
+	}
+
+	decodedBytes, err := base64.StdEncoding.DecodeString(encodedData)
+	if err != nil {
+		return err
+	}
+
+	buffer := bytes.NewBuffer(decodedBytes)
+
+	decodedImg, err := png.Decode(buffer)
+	if err != nil {
+		return err
+	}
+
+	img.Img = decodedImg
+	return nil
+}
 func (img *Image) MarshalJSON() ([]byte, error) {
 	if img.Img == nil {
 		return json.Marshal(nil)
