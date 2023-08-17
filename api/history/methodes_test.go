@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"testing"
 )
+
 func TestMerge(t *testing.T) {
 	h := History[int]{}
 	h.AddOrUpdateLatestItem(9)
@@ -23,7 +24,6 @@ func TestMerge(t *testing.T) {
 	}
 }
 
-
 func TestHistoryGetLatestAndInitialized(t *testing.T) {
 	var h History[int]
 
@@ -38,7 +38,7 @@ func TestHistoryGetLatestAndInitialized(t *testing.T) {
 	if *h.GetLatest() != 9 {
 		t.Errorf("Expected GetLatest to retrun 9, but got %d", h.GetLatest())
 	}
-	
+
 }
 
 func TestHistory_AddOrUpdateLatestItem(t *testing.T) {

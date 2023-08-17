@@ -17,7 +17,6 @@ import (
 	"net/url"
 	"strings"
 	"sync"
-
 	// "github.com/seekr-osint/seekr/api/history"
 )
 
@@ -203,11 +202,10 @@ func (user User) GetServices() DataToCheck {
 	return services
 }
 
-
 func (result ServiceCheckResult) GetMapName() string {
-	return fmt.Sprintf("%s-%s",result.InputData.Service.Name,result.InputData.User.Username)
+	return fmt.Sprintf("%s-%s", result.InputData.Service.Name, result.InputData.User.Username)
 }
-func (results ServiceCheckResults) ToMapExisting()  MapServiceCheckResult {
+func (results ServiceCheckResults) ToMapExisting() MapServiceCheckResult {
 	services := MapServiceCheckResult{}
 	for _, result := range results {
 		if result.Exists {
@@ -216,14 +214,13 @@ func (results ServiceCheckResults) ToMapExisting()  MapServiceCheckResult {
 	}
 	return services
 }
-func (results ServiceCheckResults) ToMap()  MapServiceCheckResult {
+func (results ServiceCheckResults) ToMap() MapServiceCheckResult {
 	services := MapServiceCheckResult{}
 	for _, result := range results {
 		services[result.GetMapName()] = result
 	}
 	return services
 }
-
 
 func (results ServiceCheckResults) GetExistingAndFailed() Services {
 	services := Services{}
@@ -275,9 +272,9 @@ func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) { // FIXM
 			return
 		}
 		if info.Url == "" {
-			url, err :=  data.GetUserHtmlUrl() 
+			url, err := data.GetUserHtmlUrl()
 			if err != nil {
-				log.Printf("error getting url\n")	
+				log.Printf("error getting url\n")
 			} else {
 				info.Url = url
 			}
@@ -404,28 +401,28 @@ func (service *Service) Parse() {
 func (s1 *ServiceCheckResult) Merge(s2 ServiceCheckResult) {
 	s1.Info.Bio.Merge(s2.Info.Bio)
 	s1.Info.ProfilePicture.Merge(s2.Info.ProfilePicture)
-  // s1Value := reflect.ValueOf(s1.Info)
-  // s2Value := reflect.ValueOf(s2.Info)
-	
-  //   field1 := s1Value.Field(i)
-  //   field2 := s2Value.Field(i)
-  //   // if field1.Type() == reflect.TypeOf(history.History[any]{}) {
-		// fmt.Println(field1.NumMethod())
-		// fmt.Println(field1.Convert(reflect.TypeOf(field1)))
+	// s1Value := reflect.ValueOf(s1.Info)
+	// s2Value := reflect.ValueOf(s2.Info)
 
-		// fmt.Println(field2.NumMethod())
-		// fmt.Println(field2)
+	//   field1 := s1Value.Field(i)
+	//   field2 := s2Value.Field(i)
+	//   // if field1.Type() == reflect.TypeOf(history.History[any]{}) {
+	// fmt.Println(field1.NumMethod())
+	// fmt.Println(field1.Convert(reflect.TypeOf(field1)))
 
-  //     parseMethod := field1.MethodByName("Merge")
-  //     if parseMethod.IsValid() {
-				// fmt.Printf("Merge on %s",field1.String())
-  //       arguments := []reflect.Value{field2}
-  //       parseMethod.Call(arguments)
-  //     } else {
+	// fmt.Println(field2.NumMethod())
+	// fmt.Println(field2)
 
-				// fmt.Printf("No Merge on %s",field1.String())
-				// log.Println(field1.String())
-			// }
-  //   // }
-  // }
+	//     parseMethod := field1.MethodByName("Merge")
+	//     if parseMethod.IsValid() {
+	// fmt.Printf("Merge on %s",field1.String())
+	//       arguments := []reflect.Value{field2}
+	//       parseMethod.Call(arguments)
+	//     } else {
+
+	// fmt.Printf("No Merge on %s",field1.String())
+	// log.Println(field1.String())
+	// }
+	//   // }
+	// }
 }
