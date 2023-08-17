@@ -2,6 +2,7 @@ package services
 
 import (
 	"image"
+	"time"
 )
 
 type Services []Service
@@ -28,22 +29,33 @@ type Template struct {
 	Service
 }
 
+type Errors struct {
+	Exists error `json:"exists"`
+	Info error `json:"info"`
+}
 type ServiceCheckResults []ServiceCheckResult
-type ServiceCheckResult struct {
+type InputData struct{
 	User    User        `json:"user"`
 	Service Service     `json:"service"`
-	Result  bool        `json:"exists"`
+}
+type ServiceCheckResult struct {
+	InputData InputData `json:"input_data"`
+	Exists  bool        `json:"exists"`
 	Info    AccountInfo `json:"info"`
-	InfoErr error       `json:"InfoErr"`
-	Error   error       `json:"error"`
+	Errors  Errors `json:"errors"`
 }
 type Image struct {
-	Img image.Image
+	Img  image.Image
+	Url  string
+	Date time.Time
 }
 type AccountInfo struct {
 	ProfilePicture Image `json:"profile_picture"`
 	Bio            Bio   `json:"bio"`
 }
+
+
+
 type Bio struct {
 	Bio      string             `json:"bio"`
 	Language map[string]float64 `json:"language"`

@@ -17,7 +17,7 @@ func StatusCodeUserExistsFunc(data UserServiceDataToCheck) (bool, error) {
 	return data.StatusCodeUserExistsFunc()
 }
 
-func EmptyInfo(data UserServiceDataToCheck) (AccountInfo, error) {
+func EmptyInfo(data UserServiceDataToCheck) (AccountInfo, error) { // data can sometimes be nil
 	return AccountInfo{}, nil
 }
 
@@ -27,7 +27,7 @@ var DefaultServices = Services{
 		UserExistsFunc: func(data UserServiceDataToCheck) (bool, error) {
 			return data.PatternUrlMatchUserExists("user?username={{.Username}}")
 		},
-		InfoFunc:            EmptyInfo,
+		InfoFunc:            InstagramInfo,
 		Domain:              "www.instagram.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/{{.Username}}/",
 		TestData: TestData{
@@ -97,6 +97,7 @@ var DefaultServices = Services{
 	{
 		Name:                "chess.com",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
+		InfoFunc:            EmptyInfo,
 		Domain:              "api.chess.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/pub/player/{{.Username}}",
 		BlocksTor:           true,
@@ -188,6 +189,38 @@ func YouTubeInfo(data UserServiceDataToCheck) (AccountInfo, error) { // FIXME br
 	}
 	return AccountInfo{
 		Bio: NewBio(bio),
+	}, nil
+}
+func InstagramInfo(data UserServiceDataToCheck) (AccountInfo, error) {
+	url, err := data.GetUserHtmlUrl()
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	response, err := http.Get(url)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	defer response.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(response.Body)
+	if err != nil {
+		return AccountInfo{}, err
+	}
+	var imgUrl string
+	doc.Find("meta[property='og:image']").Each(func(index int, item *goquery.Selection) {
+		content, exists := item.Attr("content")
+		if exists {
+			imgUrl = content
+		}
+	})
+	//ogImageContent, _ = element.Attr("content")
+	pfp, err := GetImage(imgUrl)
+	if err != nil { // FIXME no pfp
+		return AccountInfo{}, err
+	}
+	return AccountInfo{
+		//Bio: NewBio(),
+		ProfilePicture: pfp,
 	}, nil
 }
 

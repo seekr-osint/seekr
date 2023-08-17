@@ -9,6 +9,7 @@ import (
 	"image"
 	"image/png"
 	"io"
+	"time"
 
 	_ "image/jpeg"
 	"log"
@@ -105,10 +106,15 @@ func SetProtocolURL(rawURL, protocol string) (string, error) {
 func (data UserServiceDataToCheck) UserExistsFunction() ServiceCheckResult {
 	exists, err := data.Service.UserExistsFunc(data)
 	return ServiceCheckResult{
-		Error:   err,
-		Result:  exists,
+		Errors:   Errors{
+			Info: err,
+		},
+		Exists:  exists,
+		InputData: InputData{
 		Service: data.Service,
 		User:    data.User,
+			
+		},
 	}
 
 }
@@ -199,8 +205,8 @@ func (user User) GetServices() DataToCheck {
 func (results ServiceCheckResults) GetFailed() Services {
 	services := Services{}
 	for _, result := range results {
-		if result.Error != nil {
-			services = append(services, result.Service)
+		if result.Errors.Info != nil {
+			services = append(services, result.InputData.Service)
 		}
 	}
 	return services
@@ -208,8 +214,8 @@ func (results ServiceCheckResults) GetFailed() Services {
 func (results ServiceCheckResults) GetExisting() Services {
 	services := Services{}
 	for _, result := range results {
-		if result.Result && result.Error == nil {
-			services = append(services, result.Service)
+		if result.Exists && result.Errors.Info == nil {
+			services = append(services, result.InputData.Service)
 		}
 	}
 	return services
@@ -228,13 +234,24 @@ func (user User) String() string {
 	return user.Username
 }
 
-func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) {
+func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) { // FIXME bad code
+	if result.Exists {
+	if result.Errors.Info != nil {
+		result.Info,_ = EmptyInfo(data)
+		return
+	}
 	info, err := data.Service.InfoFunc(data)
+	if err != nil {
+		result.Errors.Info = err
+		return
+	}
 	result.Info = info
-	result.InfoErr = err
+	result.Errors.Info = nil
+
+	}
 }
 func (result ServiceCheckResult) String() string {
-	return fmt.Sprintf("User: %s\nExists: %t\n", result.User.Username, result.Result)
+	return fmt.Sprintf("User: %s\nExists: %t\n", result.InputData.User.Username, result.Exists)
 }
 
 func (results ServiceCheckResults) String() string {
@@ -258,9 +275,9 @@ func (services DataToCheck) Scan() ServiceCheckResults {
 	for i := 1; i <= workers; i++ {
 		wg.Add(1)
 		go ServicesCheckWorker(s, res, &wg)
-
 	}
 	for _, service := range services {
+		service.Service.Parse()
 		s <- service
 	}
 	close(s)
@@ -287,36 +304,62 @@ func (img *Image) MarshalJSON() ([]byte, error) {
 	return json.Marshal(base64.StdEncoding.EncodeToString(buffer.Bytes()))
 }
 
-func DecodeImage(imgstr string) (Image, error) {
-	reader := strings.NewReader(imgstr)
-	decodedImg, imgType, err := image.Decode(reader)
-	log.Printf("image type:%s", imgType)
-	if err != nil {
-		return Image{}, err
-	}
-	return Image{
-		Img: decodedImg,
-	}, nil
-}
+// func DecodeImage(imgstr string) (Image, error) {
+// 	reader := strings.NewReader(imgstr)
+// 	decodedImg, imgType, err := image.Decode(reader)
+// 	log.Printf("image type:%s", imgType)
+// 	if err != nil {
+// 		return Image{}, err
+// 	}
+// 	return Image{
+// 		Img: decodedImg,
+// 	}, nil
+// }
 
 func (data UserServiceDataToCheck) GetImage() (Image, error) {
 	url, err := data.GetImagelUrl()
 	if err != nil {
-		return Image{}, fmt.Errorf("failed to get user HTML URL: %w", err)
+		return Image{}, fmt.Errorf("failed to get Image URL: %w", err)
 	}
-	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
+	return GetImage(url)
+}
 
+func GetImage(url string) (Image,error) {
+	if url == "" {
+		return Image{}, nil
+	}
+	log.Printf("image: %s\n", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Printf("error status code check: %s", err)
 		return Image{}, fmt.Errorf("failed to send GET request: %w", err)
 	}
-	log.Printf("status code for %s (%s): %d \n", data.Service.Name, url, resp.StatusCode)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		return Image{}, nil // FIXME error handeling
 	}
+	img, _, err := image.Decode(resp.Body)
+	if err != nil {
+		return Image{}, fmt.Errorf("failed to decode image: %w", err)
+	}
+	return Image{
+		Img:  img,
+		Url:  url,
+		Date: time.Now(),
+	}, nil
+}
+func (info *AccountInfo) GetProfilePicture(url string) error {
+	pfp, err := GetImage(url)
+	if err != nil {
+		return err
+	}
+	info.ProfilePicture = pfp
+	return nil
+}
 
-	return Image{}, nil
+func (service *Service) Parse() {
+	if service.InfoFunc == nil {
+		service.InfoFunc = EmptyInfo
+	}
 }
