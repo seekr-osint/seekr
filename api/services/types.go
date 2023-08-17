@@ -59,8 +59,8 @@ type Image struct {
 }
 type AccountInfo struct {
 	Url            string                 `json:"url"`
-	ProfilePicture history.History[Image] `json:"profile_picture"`
-	Bio            history.History[Bio]   `json:"bio"`
+	ProfilePicture history.History[Image] `json:"profile_picture" ts_type:"{ latest: { data: string } } "`
+	Bio            history.History[Bio]   `json:"bio" ts_type:"{ latest: { data: {bio: string} } }"`
 }
 type Bio struct {
 	Bio      string             `json:"bio"`

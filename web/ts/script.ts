@@ -1,5 +1,6 @@
 import { saveAsFile, checkDropdownValue, loadDropdown, apiCall } from "./framework.js";
 import * as person from "../ts-gen/person.js";
+import * as accounts from "../ts-gen/servicecheckresult.js";
 
 function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
   if (value === undefined) {
@@ -1066,8 +1067,8 @@ function createCards(obj: Person) {
     accLoadingSpinner.style.display = "inline-block";
 
     // Set the flag to indicate that a request is in progress
-    const response = await fetch(apiCall('/getAccounts/' + accNameTag.value));
-    const data = await response.json();
+    const response = await fetch(apiCall('/scanAccounts/' + accNameTag.value));
+    const data = await response.json() as {[key: string]: accounts.ServiceCheckResult};
 
     const term_container = document.createElement("div");
     term_container.className = "term-container";
@@ -1100,8 +1101,8 @@ function createCards(obj: Person) {
         const user_pfp = document.createElement("img");
         user_pfp.className = "userPfp";
 
-        if (accObj.profilePicture != null) {
-          user_pfp.src = "data:image/png;base64," + accObj.profilePicture["1"].img;
+        if (accObj.info.profile_picture.latest != null) {
+          user_pfp.src = "data:image/png;base64," + accObj.info.profile_picture.latest.data;
         } else {
           user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
         }
@@ -1111,12 +1112,12 @@ function createCards(obj: Person) {
 
         const service_name = document.createElement("p");
         service_name.className = "serviceName";
-        service_name.innerHTML = accObj.service;
+        service_name.innerHTML = accObj.input_data.service.name;
 
         const user_name = document.createElement("a");
         user_name.className = "userName";
-        user_name.innerHTML = accObj.username;
-        user_name.href = accObj.url;
+        user_name.innerHTML = accObj.input_data.user.Username;
+        user_name.href = accObj.info.url;
         user_name.target = "_blank";
 
         row_div.appendChild(term_container);
@@ -1127,10 +1128,10 @@ function createCards(obj: Person) {
         info_container.appendChild(service_name);
         info_container.appendChild(user_name);
 
-        if (accObj.bio != null) {
+        if (accObj.info.bio.latest != null) {
           const user_bio = document.createElement("p");
           user_bio.className = "userBio";
-          user_bio.innerHTML = accObj.bio["1"].bio;
+          user_bio.innerHTML = accObj.info.bio.latest.data.bio;
 
           info_container.appendChild(user_bio);
         }
@@ -1171,11 +1172,12 @@ function createCards(obj: Person) {
 
           let data = await res.json() as Person;
 
-          data.accounts[accObj.service + "-" + accObj.username] = accObj;
-          fetch(apiCall("/person"), {
-            method: 'POST',
-            body: JSON.stringify(data)
-          });
+          // FIXME This is not working
+          // data.accounts[accObj.input_data.service.name + "-" + accObj.input_data.user.Username] = accObj;
+          // fetch(apiCall("/person"), {
+          //   method: 'POST',
+          //   body: JSON.stringify(data)
+          // });
 
           accept_p.innerHTML = "Accepted!";
         }
