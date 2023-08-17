@@ -7,9 +7,14 @@ net() {
   go test
 }
 vpn() {
+  status="$(proton status)"
+  echo $status
   proton start
+  sleep 2
   go test
-  proton stop
+  if [ "$status" == "down" ]; then
+    proton stop
+  fi
   proton status
 }
 if [ "$1" == "" ]; then
