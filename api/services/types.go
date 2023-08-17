@@ -3,6 +3,8 @@ package services
 import (
 	"image"
 	"time"
+
+	"github.com/seekr-osint/seekr/api/history"
 )
 
 type Services []Service
@@ -50,12 +52,9 @@ type Image struct {
 	Date time.Time
 }
 type AccountInfo struct {
-	ProfilePicture Image `json:"profile_picture"`
-	Bio            Bio   `json:"bio"`
+	ProfilePicture history.History[Image] `json:"profile_picture"`
+	Bio            history.History[Bio]   `json:"bio"`
 }
-
-
-
 type Bio struct {
 	Bio      string             `json:"bio"`
 	Language map[string]float64 `json:"language"`
@@ -65,6 +64,7 @@ type DataToCheck []UserServiceDataToCheck
 type UserServiceDataToCheck struct {
 	User    User    `json:"user"`
 	Service Service `json:"service"`
+	// ExistingServiceCheckResult ServiceCheckResult `json:"-"`
 }
 
 type UserExistsFunc func(UserServiceDataToCheck) (bool, error)

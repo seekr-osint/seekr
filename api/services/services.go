@@ -8,6 +8,7 @@ import (
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	// "github.com/seekr-osint/seekr/api/history"
 	"github.com/seekr-osint/seekr/api/language"
 )
 
@@ -187,10 +188,11 @@ func YouTubeInfo(data UserServiceDataToCheck) (AccountInfo, error) { // FIXME br
 	if err != nil {
 		return AccountInfo{}, err
 	}
-	return AccountInfo{
-		Bio: NewBio(bio),
-	}, nil
+	accountInfo := AccountInfo{}
+	accountInfo.Bio.AddOrUpdateLatestItem(NewBio(bio))
+	return accountInfo, nil
 }
+
 func InstagramInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	url, err := data.GetUserHtmlUrl()
 	if err != nil {
@@ -207,7 +209,7 @@ func InstagramInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 		return AccountInfo{}, err
 	}
 	var imgUrl string
-	doc.Find("meta[property='og:image']").Each(func(index int, item *goquery.Selection) {
+	doc.Find("meta[property='og:image']").Each(func(_ int, item *goquery.Selection) {
 		content, exists := item.Attr("content")
 		if exists {
 			imgUrl = content
@@ -218,10 +220,10 @@ func InstagramInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	if err != nil { // FIXME no pfp
 		return AccountInfo{}, err
 	}
-	return AccountInfo{
-		//Bio: NewBio(),
-		ProfilePicture: pfp,
-	}, nil
+
+	accountInfo := AccountInfo{}
+	accountInfo.ProfilePicture.AddOrUpdateLatestItem(pfp)
+	return accountInfo, nil
 }
 
 func TikTokInfo(data UserServiceDataToCheck) (AccountInfo, error) {
@@ -247,9 +249,9 @@ func TikTokInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	if userBioText == "No bio yet." {
 		userBioText = ""
 	}
-	return AccountInfo{
-		Bio: NewBio(userBioText),
-	}, nil
+	accountInfo := AccountInfo{}
+	accountInfo.Bio.AddOrUpdateLatestItem(NewBio(userBioText))
+	return accountInfo, nil
 }
 func NewBio(bio string) Bio { // TODO discord tag regex/username regex (https://www.tiktok.com/@japan)
 	if bio != "" {
@@ -261,5 +263,4 @@ func NewBio(bio string) Bio { // TODO discord tag regex/username regex (https://
 	return Bio{
 		Bio: bio,
 	}
-
 }

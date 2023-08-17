@@ -65,3 +65,40 @@ func TestHistory_AddOrUpdateLatestItemBio(t *testing.T) {
 		t.Error("Expected Latest bio to be equal after update")
 	}
 }
+
+func TestMerge(t *testing.T) {
+	s1 := &services.ServiceCheckResult{
+		Info: services.AccountInfo{},
+	}
+	s1.Info.Bio.AddOrUpdateLatestItem(services.NewBio("hello"))
+
+	s1.Info.ProfilePicture.AddOrUpdateLatestItem(services.Image{
+		Url: "url1",
+	})
+	s2 := services.ServiceCheckResult{
+		Info: services.AccountInfo{},
+	}
+
+	bio := services.NewBio("hello2")
+	s2.Info.Bio.AddOrUpdateLatestItem(bio)
+
+	s2.Info.ProfilePicture.AddOrUpdateLatestItem(services.Image{
+		Url: "url1",
+	})
+
+	s1.Merge(s2)
+
+	// Add assertions to test whether the merge operation worked as expected
+	// For example:
+
+	// bio := s1.Info.Bio.GetLatest()
+	t.Logf("s1: %v", s1.Info.Bio.GetLatest())
+	if !reflect.DeepEqual(s1.Info.Bio.Latest.Data, bio) {
+		t.Errorf("Merge failed , but got %d", len(s1.Info.Bio.History))
+	}
+	// if len(s1.Info.Bio.History) != 2 {
+	// 	t.Errorf("Expected merged ProfilePicture length to be 2, but got %d", len(s1.Info.Bio.History))
+	// }
+
+	// More assertions as needed
+}

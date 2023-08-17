@@ -1,6 +1,7 @@
 package history
 
 import (
+	"log"
 	"reflect"
 	"time"
 )
@@ -8,6 +9,16 @@ import (
 func (h *History[T]) Initialized() bool {
 	return h.Latest != nil
 }
+
+func (h *History[T]) Merge(h2 History[T]) { // no error handeling for merging h2 with more then one history item
+	log.Printf("merging")
+	if !h2.Initialized() {
+		return
+	}
+	data := *h2.GetLatest()
+	h.AddOrUpdateLatestItem(data)
+}
+
 func (h *History[T]) AddOrUpdateLatestItem(data T) {
 	if h.Initialized() && reflect.DeepEqual(h.Latest.Data, data) { // any is used to support structs
 		h.Latest.EndDate = time.Now()

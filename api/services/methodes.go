@@ -17,6 +17,8 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+
+	// "github.com/seekr-osint/seekr/api/history"
 )
 
 func (data UserServiceDataToCheck) GetImagelUrl() (string, error) {
@@ -106,14 +108,13 @@ func SetProtocolURL(rawURL, protocol string) (string, error) {
 func (data UserServiceDataToCheck) UserExistsFunction() ServiceCheckResult {
 	exists, err := data.Service.UserExistsFunc(data)
 	return ServiceCheckResult{
-		Errors:   Errors{
+		Errors: Errors{
 			Info: err,
 		},
-		Exists:  exists,
+		Exists: exists,
 		InputData: InputData{
-		Service: data.Service,
-		User:    data.User,
-			
+			Service: data.Service,
+			User:    data.User,
 		},
 	}
 
@@ -236,17 +237,17 @@ func (user User) String() string {
 
 func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) { // FIXME bad code
 	if result.Exists {
-	if result.Errors.Info != nil {
-		result.Info,_ = EmptyInfo(data)
-		return
-	}
-	info, err := data.Service.InfoFunc(data)
-	if err != nil {
-		result.Errors.Info = err
-		return
-	}
-	result.Info = info
-	result.Errors.Info = nil
+		if result.Errors.Info != nil {
+			result.Info, _ = EmptyInfo(data)
+			return
+		}
+		info, err := data.Service.InfoFunc(data)
+		if err != nil {
+			result.Errors.Info = err
+			return
+		}
+		result.Info = info
+		result.Errors.Info = nil
 
 	}
 }
@@ -324,7 +325,7 @@ func (data UserServiceDataToCheck) GetImage() (Image, error) {
 	return GetImage(url)
 }
 
-func GetImage(url string) (Image,error) {
+func GetImage(url string) (Image, error) {
 	if url == "" {
 		return Image{}, nil
 	}
@@ -354,7 +355,7 @@ func (info *AccountInfo) GetProfilePicture(url string) error {
 	if err != nil {
 		return err
 	}
-	info.ProfilePicture = pfp
+	info.ProfilePicture.AddOrUpdateLatestItem(pfp)
 	return nil
 }
 
@@ -362,4 +363,33 @@ func (service *Service) Parse() {
 	if service.InfoFunc == nil {
 		service.InfoFunc = EmptyInfo
 	}
+}
+
+func (s1 *ServiceCheckResult) Merge(s2 ServiceCheckResult) {
+	s1.Info.Bio.Merge(s2.Info.Bio)
+	s1.Info.ProfilePicture.Merge(s2.Info.ProfilePicture)
+  // s1Value := reflect.ValueOf(s1.Info)
+  // s2Value := reflect.ValueOf(s2.Info)
+	
+  //   field1 := s1Value.Field(i)
+  //   field2 := s2Value.Field(i)
+  //   // if field1.Type() == reflect.TypeOf(history.History[any]{}) {
+		// fmt.Println(field1.NumMethod())
+		// fmt.Println(field1.Convert(reflect.TypeOf(field1)))
+
+		// fmt.Println(field2.NumMethod())
+		// fmt.Println(field2)
+
+  //     parseMethod := field1.MethodByName("Merge")
+  //     if parseMethod.IsValid() {
+				// fmt.Printf("Merge on %s",field1.String())
+  //       arguments := []reflect.Value{field2}
+  //       parseMethod.Call(arguments)
+  //     } else {
+
+				// fmt.Printf("No Merge on %s",field1.String())
+				// log.Println(field1.String())
+			// }
+  //   // }
+  // }
 }

@@ -4,6 +4,25 @@ import (
 	"reflect"
 	"testing"
 )
+func TestMerge(t *testing.T) {
+	h := History[int]{}
+	h.AddOrUpdateLatestItem(9)
+
+	h2 := History[int]{}
+
+	h.AddOrUpdateLatestItem(12)
+
+	h.Merge(h2)
+
+	if h.Latest.Data != 12 {
+		t.Errorf("Merge failed: Expected Latest Data to be %d, but got %d", 12, h.Latest.Data)
+	}
+
+	if len(h.History) != 2 {
+		t.Errorf("Merge failed: Expected History length to be 2, but got %d", len(h.Latest.KnownDates))
+	}
+}
+
 
 func TestHistoryGetLatestAndInitialized(t *testing.T) {
 	var h History[int]
