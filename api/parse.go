@@ -7,6 +7,7 @@ import (
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/sources"
 )
 
@@ -59,6 +60,10 @@ func (person Person) ReplaceNil() Person {
 	}
 	if person.Accounts == nil {
 		person.Accounts = Accounts{}
+	}
+
+	if person.Services == nil {
+		person.Services = services.MapServiceCheckResult{}
 	}
 	if person.Tags == nil {
 		person.Tags = Tags{}
