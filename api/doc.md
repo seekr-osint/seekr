@@ -623,41 +623,6 @@ curl -X POST http://localhost:8080/api/person \
 **Status Code:** 201
 
 
-## Post Person (civil status)
-
-
-**Curl Request:**
-
-```sh
-curl -X GET http://localhost:8080/api/getAccounts/snapchat-exists
-```
-
-**Response:**
-
-```json
-{
-	"Snapchat-snapchat-exists": {
-		"bio": null,
-		"blog": "",
-		"created": "",
-		"firstname": "",
-		"followers": 0,
-		"following": 0,
-		"id": "",
-		"lastname": "",
-		"location": "",
-		"profilePicture": null,
-		"service": "Snapchat",
-		"updated": "",
-		"url": "",
-		"username": "snapchat-exists"
-	}
-}
-```
-
-**Status Code:** 200
-
-
 ## Get the current seekr config
 
 
