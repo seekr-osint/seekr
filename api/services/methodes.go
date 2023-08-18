@@ -17,6 +17,8 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+
+	"github.com/seekr-osint/seekr/api/functions"
 	// "github.com/seekr-osint/seekr/api/history"
 )
 
@@ -190,6 +192,18 @@ func (service Service) TestUserServiceData2() UserServiceDataToCheck {
 	}
 }
 
+
+func (user User) GetServices2(defaultServices Services) DataToCheck {
+	services := []UserServiceDataToCheck{}
+	for _, service := range defaultServices{
+		serviceWithData := UserServiceDataToCheck{
+			User:    user,
+			Service: service,
+		}
+		services = append(services, serviceWithData)
+	}
+	return services
+}
 func (user User) GetServices() DataToCheck {
 	services := []UserServiceDataToCheck{}
 	for _, service := range DefaultServices {
@@ -296,6 +310,20 @@ func (results ServiceCheckResults) String() string {
 	}
 	return sb.String()
 }
+
+// basically scanning for the services
+func (results *MapServiceCheckResult) Scan() { // FIXME BAD CODE
+	res := *results
+	for _, result := range functions.SortMapKeys(*results) {
+		services := Services{}
+		services = append(services, res[result].InputData.Service)
+		DataToCheck := res[result].InputData.User.GetServices2(services)
+		serviceCheckResults := DataToCheck.Scan()
+		res1 := res[result]
+		res1.Merge(serviceCheckResults[0])
+	}
+}
+
 func (user User) Scan() ServiceCheckResults {
 	return user.GetServices().Scan()
 }
@@ -423,6 +451,7 @@ func (service *Service) Parse() {
 		service.InfoFunc = EmptyInfo
 	}
 }
+
 
 func (s1 *ServiceCheckResult) Merge(s2 ServiceCheckResult) {
 	s1.Info.Bio.Merge(s2.Info.Bio)
