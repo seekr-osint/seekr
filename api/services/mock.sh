@@ -10,7 +10,7 @@ vpn() {
   status="$(proton status)"
   echo $status
   proton start
-  sleep 2
+  sleep 10
   go test
   if [ "$status" == "down" ]; then
     proton stop
