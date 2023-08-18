@@ -213,10 +213,15 @@ function preListHandler() {
   }
 }
 
+
+// I need this to work with the shadow dom
 const foo = document.querySelector("body > div.dd-nav-bar > custom-dropdown[title='country']")!;
 const selectedcountry = foo.shadowRoot!.querySelector("div > div > div > div.select-selected")!;
 
 selectedcountry!.addEventListener("DOMSubtreeModified", preListHandler);
+
+
+
 
 checkboxName.addEventListener('change', preListHandler);
 
