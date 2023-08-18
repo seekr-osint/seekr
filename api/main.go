@@ -335,7 +335,7 @@ func GetAccountsRequest(config ApiConfig, c *gin.Context) {
 }
 
 func ScanAccountsRequest(config ApiConfig, c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, ScanAccounts(config, strings.ToLower(c.Param("username"))))
+	c.IndentedJSON(http.StatusOK, ScanAccounts(config, strings.ToLower(c.Param("username"))).ToMapExisting())
 }
 
 func PostConfig(apiConfig ApiConfig, c *gin.Context) { // c.BindJSON is a person not people (POST "localhost:8080/person")

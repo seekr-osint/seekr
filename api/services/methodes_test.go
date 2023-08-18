@@ -157,7 +157,7 @@ func ServicesMockWorker(s <-chan Service, res chan<- bool, wg *sync.WaitGroup, t
 			status = true
 			//fmt.Printf("working\n")
 		}
-		t.Logf("Status: %v\n", status)
+		t.Logf("Status (%s): %v\n", service.Name, status)
 		res <- status
 	}
 }
@@ -327,4 +327,28 @@ func WriteMock(mockServer MockServerEndpoint) error {
 	fmt.Println("Data successfully written to", GetFilePath(url))
 	return nil
 
+}
+func TestGetServiceByName(t *testing.T) {
+	services := DefaultServices
+
+	t.Run("Existing Service", func(t *testing.T) {
+		service, err := services.GetServiceByName("Instagram")
+		if err != nil {
+			t.Errorf("Expected no error, but got: %v", err)
+		}
+		if service.Name != "Instagram" {
+			t.Errorf("Expected service name to be Instagram, but got: %s", service.Name)
+		}
+	})
+
+	t.Run("Non-Existing Service", func(t *testing.T) {
+		_, err := services.GetServiceByName("Twitter")
+		if err == nil {
+			t.Error("Expected an error, but got no error")
+		}
+		expectedErrMsg := "service not found"
+		if err.Error() != expectedErrMsg {
+			t.Errorf("Expected error message: %s, but got: %s", expectedErrMsg, err.Error())
+		}
+	})
 }

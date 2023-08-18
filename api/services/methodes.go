@@ -4,10 +4,13 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html/template"
 	"image"
 	"image/png"
+	"io"
+	"time"
 
 	_ "image/jpeg"
 	"log"
@@ -15,6 +18,9 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+
+	"github.com/seekr-osint/seekr/api/functions"
+	// "github.com/seekr-osint/seekr/api/history"
 )
 
 func (data UserServiceDataToCheck) GetImagelUrl() (string, error) {
@@ -39,6 +45,29 @@ func (data UserServiceDataToCheck) GetImagelUrl() (string, error) {
 	}
 	log.Printf("url: %s\n", url)
 	return url, nil
+}
+func (data UserServiceDataToCheck) GetTemplate(templateString string) (string, error) {
+	tmpl, err := template.New("url").Parse(templateString)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse template: %w", err)
+	}
+
+	user := Template{
+		data.User,
+		data.Service,
+	}
+	var result strings.Builder
+	err = tmpl.Execute(&result, user)
+	if err != nil {
+		return "", fmt.Errorf("failed to execute template: %w", err)
+	}
+
+	// url, err := SetProtocolURL(result.String(), data.Service.Protocol)
+	// if err != nil {
+	// 	return "", fmt.Errorf("failed to set the protocol from url: %w", err)
+	// }
+	// log.Printf("url: %s\n", url)
+	return result.String(), nil
 }
 
 func (data UserServiceDataToCheck) GetUserHtmlUrl() (string, error) {
@@ -81,12 +110,48 @@ func SetProtocolURL(rawURL, protocol string) (string, error) {
 func (data UserServiceDataToCheck) UserExistsFunction() ServiceCheckResult {
 	exists, err := data.Service.UserExistsFunc(data)
 	return ServiceCheckResult{
-		Error:   err,
-		Result:  exists,
-		Service: data.Service,
-		User:    data.User,
+		Errors: Errors{
+			Info: err,
+		},
+		Exists: exists,
+		InputData: InputData{
+			Service: data.Service,
+			User:    data.User,
+		},
 	}
 
+}
+
+func (data UserServiceDataToCheck) PatternUrlMatchUserExists(patternTemplate string) (bool, error) {
+	url, err := data.GetUserHtmlUrl()
+	if err != nil {
+		return false, fmt.Errorf("failed to get user HTML URL: %w", err)
+	}
+	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Printf("error making request pattern matching user exsists check: %s", err)
+		return false, fmt.Errorf("failed to send GET request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	pattern, err := data.GetTemplate(patternTemplate)
+	if err != nil {
+		return false, fmt.Errorf("failed to get pattern from pattern template: %w", err)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, err
+	}
+	log.Printf("checking pattern: %s => %d\n", pattern, strings.Count(string(body), pattern))
+
+	if strings.Count(string(body), pattern) > 0 {
+		return true, nil
+	}
+
+	return false, nil
 }
 func (data UserServiceDataToCheck) StatusCodeUserExistsFunc() (bool, error) {
 	url, err := data.GetUserHtmlUrl()
@@ -128,6 +193,17 @@ func (service Service) TestUserServiceData2() UserServiceDataToCheck {
 	}
 }
 
+func (user User) GetServices2(defaultServices Services) DataToCheck {
+	services := []UserServiceDataToCheck{}
+	for _, service := range defaultServices {
+		serviceWithData := UserServiceDataToCheck{
+			User:    user,
+			Service: service,
+		}
+		services = append(services, serviceWithData)
+	}
+	return services
+}
 func (user User) GetServices() DataToCheck {
 	services := []UserServiceDataToCheck{}
 	for _, service := range DefaultServices {
@@ -140,11 +216,37 @@ func (user User) GetServices() DataToCheck {
 	return services
 }
 
+func (result ServiceCheckResult) GetMapName() string {
+	return fmt.Sprintf("%s-%s", result.InputData.Service.Name, result.InputData.User.Username)
+}
+func (results ServiceCheckResults) ToMapExisting() MapServiceCheckResult {
+	services := MapServiceCheckResult{}
+	for _, result := range results {
+		if result.Exists {
+			services[result.GetMapName()] = result
+		}
+	}
+	return services
+}
+func (results ServiceCheckResults) ToMap() MapServiceCheckResult {
+	services := MapServiceCheckResult{}
+	for _, result := range results {
+		services[result.GetMapName()] = result
+	}
+	return services
+}
+
+func (results ServiceCheckResults) GetExistingAndFailed() Services {
+	services := Services{}
+	services = append(services, results.GetExisting()...)
+	services = append(services, results.GetFailed()...)
+	return services
+}
 func (results ServiceCheckResults) GetFailed() Services {
 	services := Services{}
 	for _, result := range results {
-		if result.Error != nil {
-			services = append(services, result.Service)
+		if result.Errors.Info != nil {
+			services = append(services, result.InputData.Service)
 		}
 	}
 	return services
@@ -152,8 +254,8 @@ func (results ServiceCheckResults) GetFailed() Services {
 func (results ServiceCheckResults) GetExisting() Services {
 	services := Services{}
 	for _, result := range results {
-		if result.Result && result.Error == nil {
-			services = append(services, result.Service)
+		if result.Exists && result.Errors.Info == nil {
+			services = append(services, result.InputData.Service)
 		}
 	}
 	return services
@@ -172,13 +274,32 @@ func (user User) String() string {
 	return user.Username
 }
 
-func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) {
-	info, err := data.Service.InfoFunc(data)
-	result.Info = info
-	result.InfoErr = err
+func (result *ServiceCheckResult) GetInfo(data UserServiceDataToCheck) { // FIXME bad code
+	if result.Exists {
+		if result.Errors.Info != nil {
+			result.Info, _ = EmptyInfo(data)
+			return
+		}
+		info, err := data.Service.InfoFunc(data)
+		if err != nil {
+			result.Errors.Info = err
+			return
+		}
+		if info.Url == "" {
+			url, err := data.GetUserHtmlUrl()
+			if err != nil {
+				log.Printf("error getting url\n")
+			} else {
+				info.Url = url
+			}
+		}
+		result.Info = info
+		result.Errors.Info = nil
+
+	}
 }
 func (result ServiceCheckResult) String() string {
-	return fmt.Sprintf("User: %s\nExists: %t\n", result.User.Username, result.Result)
+	return fmt.Sprintf("User: %s\nExists: %t\n", result.InputData.User.Username, result.Exists)
 }
 
 func (results ServiceCheckResults) String() string {
@@ -189,6 +310,38 @@ func (results ServiceCheckResults) String() string {
 	}
 	return sb.String()
 }
+
+func (services Services) GetServiceByName(name string) (Service, error) {
+	for _, service := range services {
+		// fmt.Printf("name1: %s name2: %s\n", service.Name, name)
+		if strings.EqualFold(service.Name, name) {
+			return service, nil
+		}
+	}
+	return Service{}, errors.New("service not found")
+}
+
+// basically scanning for the services
+func (results MapServiceCheckResult) Scan(defaultServices Services) MapServiceCheckResult { // FIXME BAD CODE
+	res := results
+	for _, result := range functions.SortMapKeys(results) {
+		services := Services{}
+		service, err := defaultServices.GetServiceByName(res[result].InputData.Service.Name)
+		if err != nil {
+			log.Printf("error service not found %s\n", res[result].InputData.Service.Name)
+		} else {
+			services = append(services, service)
+			DataToCheck := res[result].InputData.User.GetServices2(services)
+			serviceCheckResults := DataToCheck.Scan()
+			res1 := res[result]
+			fmt.Printf("len ServiceCheckResults: %d\n", len(serviceCheckResults))
+			res1.Merge(serviceCheckResults[0])
+			results[result] = res1
+		}
+	}
+	return results
+}
+
 func (user User) Scan() ServiceCheckResults {
 	return user.GetServices().Scan()
 }
@@ -202,9 +355,9 @@ func (services DataToCheck) Scan() ServiceCheckResults {
 	for i := 1; i <= workers; i++ {
 		wg.Add(1)
 		go ServicesCheckWorker(s, res, &wg)
-
 	}
 	for _, service := range services {
+		service.Service.Parse()
 		s <- service
 	}
 	close(s)
@@ -214,6 +367,32 @@ func (services DataToCheck) Scan() ServiceCheckResults {
 		results = append(results, result)
 	}
 	return results
+}
+func (img *Image) UnmarshalJSON(data []byte) error {
+	var encodedData string
+	if err := json.Unmarshal(data, &encodedData); err != nil {
+		return err
+	}
+
+	if encodedData == "" {
+		img.Img = nil
+		return nil
+	}
+
+	decodedBytes, err := base64.StdEncoding.DecodeString(encodedData)
+	if err != nil {
+		return err
+	}
+
+	buffer := bytes.NewBuffer(decodedBytes)
+
+	decodedImg, err := png.Decode(buffer)
+	if err != nil {
+		return err
+	}
+
+	img.Img = decodedImg
+	return nil
 }
 func (img *Image) MarshalJSON() ([]byte, error) {
 	if img.Img == nil {
@@ -231,36 +410,91 @@ func (img *Image) MarshalJSON() ([]byte, error) {
 	return json.Marshal(base64.StdEncoding.EncodeToString(buffer.Bytes()))
 }
 
-func DecodeImage(imgstr string) (Image, error) {
-	reader := strings.NewReader(imgstr)
-	decodedImg, imgType, err := image.Decode(reader)
-	log.Printf("image type:%s", imgType)
-	if err != nil {
-		return Image{}, err
-	}
-	return Image{
-		Img: decodedImg,
-	}, nil
-}
+// func DecodeImage(imgstr string) (Image, error) {
+// 	reader := strings.NewReader(imgstr)
+// 	decodedImg, imgType, err := image.Decode(reader)
+// 	log.Printf("image type:%s", imgType)
+// 	if err != nil {
+// 		return Image{}, err
+// 	}
+// 	return Image{
+// 		Img: decodedImg,
+// 	}, nil
+// }
 
 func (data UserServiceDataToCheck) GetImage() (Image, error) {
 	url, err := data.GetImagelUrl()
 	if err != nil {
-		return Image{}, fmt.Errorf("failed to get user HTML URL: %w", err)
+		return Image{}, fmt.Errorf("failed to get Image URL: %w", err)
 	}
-	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
+	return GetImage(url)
+}
 
+func GetImage(url string) (Image, error) {
+	if url == "" {
+		return Image{}, nil
+	}
+	log.Printf("image: %s\n", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Printf("error status code check: %s", err)
 		return Image{}, fmt.Errorf("failed to send GET request: %w", err)
 	}
-	log.Printf("status code for %s (%s): %d \n", data.Service.Name, url, resp.StatusCode)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		return Image{}, nil // FIXME error handeling
 	}
+	img, _, err := image.Decode(resp.Body)
+	if err != nil {
+		return Image{}, fmt.Errorf("failed to decode image: %w", err)
+	}
+	return Image{
+		Img:  img,
+		Url:  url,
+		Date: time.Now(),
+	}, nil
+}
+func (info *AccountInfo) GetProfilePicture(url string) error {
+	pfp, err := GetImage(url)
+	if err != nil {
+		return err
+	}
+	info.ProfilePicture.AddOrUpdateLatestItem(pfp)
+	return nil
+}
 
-	return Image{}, nil
+func (service *Service) Parse() {
+	if service.InfoFunc == nil {
+		service.InfoFunc = EmptyInfo
+	}
+}
+
+func (s1 *ServiceCheckResult) Merge(s2 ServiceCheckResult) {
+	s1.Info.Bio.Merge(s2.Info.Bio)
+	s1.Info.ProfilePicture.Merge(s2.Info.ProfilePicture)
+	// s1Value := reflect.ValueOf(s1.Info)
+	// s2Value := reflect.ValueOf(s2.Info)
+
+	//   field1 := s1Value.Field(i)
+	//   field2 := s2Value.Field(i)
+	//   // if field1.Type() == reflect.TypeOf(history.History[any]{}) {
+	// fmt.Println(field1.NumMethod())
+	// fmt.Println(field1.Convert(reflect.TypeOf(field1)))
+
+	// fmt.Println(field2.NumMethod())
+	// fmt.Println(field2)
+
+	//     parseMethod := field1.MethodByName("Merge")
+	//     if parseMethod.IsValid() {
+	// fmt.Printf("Merge on %s",field1.String())
+	//       arguments := []reflect.Value{field2}
+	//       parseMethod.Call(arguments)
+	//     } else {
+
+	// fmt.Printf("No Merge on %s",field1.String())
+	// log.Println(field1.String())
+	// }
+	//   // }
+	// }
 }

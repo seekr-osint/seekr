@@ -8,6 +8,7 @@ import (
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
 	"github.com/seekr-osint/seekr/api/religion"
+	"github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/sources"
 )
 
@@ -42,10 +43,11 @@ type Person struct {
 	Notes          string                  `json:"notes" ts_transform:"__VALUE__ || ''"`
 	Relations      Relation                `json:"relations"` // FIXME
 	Sources        sources.Sources         `json:"sources"`
-	Accounts       Accounts                `json:"accounts"`
-	Tags           Tags                    `json:"tags"`
-	NotAccounts    map[string]Account      `json:"notaccounts"`
-	Custom         interface{}             `json:"custom"`
+	Accounts       Accounts                       `json:"-"`
+	Services services.MapServiceCheckResult `json:"accounts"`
+	Tags        Tags                           `json:"tags"`
+	NotAccounts map[string]Account             `json:"notaccounts"`
+	Custom      interface{}                    `json:"custom"`
 }
 
 type Relation map[string][]string
