@@ -160,13 +160,23 @@ func (data UserServiceDataToCheck) StatusCodeUserExistsFunc() (bool, error) {
 	}
 	log.Printf("checking service %s for status code: %s\n", data.Service.Name, url)
 
-	resp, err := http.Get(url)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		log.Printf("error status code check: %s", err)
-		return false, fmt.Errorf("failed to send GET request: %w", err)
+		return false, err
 	}
-	log.Printf("status code for %s (%s): %d \n", data.Service.Name, url, resp.StatusCode)
-	defer resp.Body.Close()
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return false, err
+	}
+
+	// resp, err := http.Get(url)
+	// if err != nil {
+	// 	log.Printf("error status code check: %s", err)
+	// 	return false, fmt.Errorf("failed to send GET request: %w", err)
+	// }
+	// log.Printf("status code for %s (%s): %d \n", data.Service.Name, url, resp.StatusCode)
+	// defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusOK {
 		return true, nil
