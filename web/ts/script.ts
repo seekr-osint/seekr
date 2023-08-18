@@ -603,7 +603,7 @@ class Person extends person.Person {
     obj.accounts= init<typeof obj.accounts[string]>(obj.accounts);
     if (Object.keys(obj.accounts).length != 0 && obj.accounts != null) {
       for (const [_, accObj] of Object.entries(obj.accounts)) {
-        const accVar = (accObj as { service: string, id: string, username: string, url: string, profilePicture: { [key: number]: { img: string, img_hash: number } }, bio: { [key: number]: { bio: string } } });
+        const accVar = (accObj as accounts.ServiceCheckResult);
 
         //let accObj = obj.accounts[i];
 
@@ -615,8 +615,9 @@ class Person extends person.Person {
         const pfp_img = document.createElement("img"); // Pfp img
         pfp_img.className = "userPfp";
 
-        if (accVar.profilePicture != null) {
-          pfp_img.src = "data:image/png;base64," + accVar.profilePicture["1"].img;
+
+        if (accVar.info.profile_picture.latest != null && accVar.info.profile_picture.latest.data != null && accVar.info.profile_picture.latest.data != "") {
+          pfp_img.src = "data:image/png;base64," +accVar.info.profile_picture.latest.data;
         } else {
           pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
         }
@@ -629,14 +630,14 @@ class Person extends person.Person {
 
         const service_p = document.createElement("a");
         service_p.className = "serviceName";
-        service_p.innerHTML = accVar.service;
-        service_p.href = accVar.url;
+        service_p.innerHTML = accVar.input_data.service.name;
+        service_p.href = accVar.info.url;
         service_p.target = "_blank";
 
         const name_p = document.createElement("a");
         name_p.className = "userName";
-        name_p.innerHTML = accVar.username;
-        name_p.href = accVar.url;
+        name_p.innerHTML = accVar.input_data.user.Username;
+        name_p.href = accVar.info.url;
         name_p.target = "_blank";
 
         document.querySelector(".e-accounts")!.appendChild(base_div);
@@ -646,7 +647,7 @@ class Person extends person.Person {
         info_div.appendChild(service_p);
         info_div.appendChild(name_p);
 
-        if (accVar.service.toLowerCase() == "github") { // If the service is github, add a deep investigation button
+        if (accVar.input_data.service.name.toLowerCase() == "github") { // If the service is github, add a deep investigation button
           const deep_btn = document.createElement("div");
           deep_btn.className = "deepInvBtn btn btn-secondary";
           deep_btn.id = "deepInvBtn";
@@ -700,7 +701,7 @@ class Person extends person.Person {
             loadingSpinnerInner.appendChild(loadingSpinnerBall.cloneNode());
 
 
-            const res = await fetch(apiCall("/deep/github/" + accVar.username))
+            const res = await fetch(apiCall("/deep/github/" + accVar.input_data.user.Username))
             let data = await res.json();
 
             loadingSpinner.remove();
@@ -766,7 +767,7 @@ class Person extends person.Person {
 
 
           del_btn_div.onclick = function () {
-            fetch(apiCall("/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.service + "-" + accVar.username + "/delete"), {
+            fetch(apiCall("/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.input_data.service.name + "-" + accVar.input_data.user.Username + "/delete"), {
               method: "GET",
               mode: "no-cors"
             });
@@ -785,7 +786,7 @@ class Person extends person.Person {
           del_btn_div.appendChild(del_btn);
 
           del_btn_div.onclick = function () {
-            fetch(apiCall("/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.service + "-" + accVar.username + "/delete"), {
+            fetch(apiCall("/people/" + document.querySelector("#e-showid")!.innerHTML + "/accounts/" + accVar.input_data.service.name + "-" + accVar.input_data.user.Username + "/delete"), {
               method: "GET",
               mode: "no-cors"
             });
@@ -796,10 +797,10 @@ class Person extends person.Person {
           }
         }
 
-        if (accVar.bio != null) {
+        if (accVar.info.bio.latest != null) {
           const bio_p = document.createElement("p");
           bio_p.className = "userBio";
-          bio_p.innerHTML = accVar.bio["1"].bio;
+          bio_p.innerHTML = accVar.info.bio.latest.data.bio;
 
           info_div.appendChild(bio_p);
         }
@@ -1101,7 +1102,7 @@ function createCards(obj: Person) {
         const user_pfp = document.createElement("img");
         user_pfp.className = "userPfp";
 
-        if (accObj.info.profile_picture.latest != null) {
+        if (accObj.info.profile_picture.latest != null && accObj.info.profile_picture.latest.data != null && accObj.info.profile_picture.latest.data != "") {
           user_pfp.src = "data:image/png;base64," + accObj.info.profile_picture.latest.data;
         } else {
           user_pfp.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg";
@@ -1173,11 +1174,11 @@ function createCards(obj: Person) {
           let data = await res.json() as Person;
 
           // FIXME This is not working
-          // data.accounts[accObj.input_data.service.name + "-" + accObj.input_data.user.Username] = accObj;
-          // fetch(apiCall("/person"), {
-          //   method: 'POST',
-          //   body: JSON.stringify(data)
-          // });
+          data.accounts[accObj.input_data.service.name + "-" + accObj.input_data.user.Username] = accObj;
+          fetch(apiCall("/person"), {
+            method: 'POST',
+            body: JSON.stringify(data)
+          });
 
           accept_p.innerHTML = "Accepted!";
         }
@@ -1668,7 +1669,7 @@ function createCards(obj: Person) {
 
     if (Object.keys(obj.accounts).length != 0 && obj.accounts != null) {
       for (const [_, accObj] of Object.entries(obj.accounts)) {
-        const accVar = (accObj as { service: string, id: string, username: string, url: string, profilePicture: { [key: number]: { img: string, img_hash: number } }, bio: { [key: number]: { bio: string } } });
+        const accVar = (accObj as accounts.ServiceCheckResult );
 
         //let accObj = obj.accounts[i];
 
@@ -1680,8 +1681,8 @@ function createCards(obj: Person) {
         const pfp_img = document.createElement("img"); // Pfp img
         pfp_img.className = "userPfp";
 
-        if (accVar.profilePicture != null) {
-          pfp_img.src = "data:image/png;base64," + accVar.profilePicture[1]!.img;
+        if (accVar.info.profile_picture.latest != null && accVar.info.profile_picture.latest.data != null && accVar.info.profile_picture.latest.data != "") {
+          pfp_img.src = "data:image/png;base64," + accVar.info.profile_picture.latest.data;
         } else {
           pfp_img.src = "https://as2.ftcdn.net/v2/jpg/03/32/59/65/1000_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"
         }
@@ -1691,14 +1692,14 @@ function createCards(obj: Person) {
 
         const service_p = document.createElement("a");
         service_p.className = "serviceName";
-        service_p.innerHTML = accVar.service;
-        service_p.href = accVar.url;
+        service_p.innerHTML = accVar.input_data.service.name;
+        service_p.href = accVar.info.url;
         service_p.target = "_blank";
 
         const name_p = document.createElement("a");
         name_p.className = "userName";
-        name_p.innerHTML = accVar.username;
-        name_p.href = accVar.url;
+        name_p.innerHTML = accVar.input_data.user.Username;
+        name_p.href = accVar.info.url;
         name_p.target = "_blank";
 
 
@@ -1708,10 +1709,10 @@ function createCards(obj: Person) {
         info_div.appendChild(service_p);
         info_div.appendChild(name_p);
 
-        if (accVar.bio != null) {
+        if (accVar.info.bio.latest != null) {
           const bio_p = document.createElement("p");
           bio_p.className = "userBio";
-          bio_p.innerHTML = accVar.bio[1].bio;
+          bio_p.innerHTML = accVar.info.bio.latest.data.bio;
 
           info_div.appendChild(bio_p);
         }

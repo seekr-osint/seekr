@@ -43,8 +43,8 @@ type Person struct {
 	Notes          string                  `json:"notes" ts_transform:"__VALUE__ || ''"`
 	Relations      Relation                `json:"relations"` // FIXME
 	Sources        sources.Sources         `json:"sources"`
-	// Accounts       Accounts                       `json:"accounts"`
-	Accounts    services.MapServiceCheckResult `json:"accounts"`
+	Accounts       Accounts                       `json:"-"`
+	Services services.MapServiceCheckResult `json:"accounts"`
 	Tags        Tags                           `json:"tags"`
 	NotAccounts map[string]Account             `json:"notaccounts"`
 	Custom      interface{}                    `json:"custom"`
