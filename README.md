@@ -92,6 +92,7 @@ This tool is intended for legitimate and lawful use only. It is provided for edu
 For legal questions contact us at **[seekr-osint@proton.me](mailto:seekr-osint@proton.me)**!
 ## Thanks to
 [![Stargazers repo roster for @seekr-osint/seekr](https://reporoster.com/stars/seekr-osint/seekr)](https://github.com/seekr-osint/seekr/stargazers)
+[![Stargazers over time](https://starchart.cc/seekr-osint/seekr.svg)](https://starchart.cc/seekr-osint/seekr)
 
 - [WinBox.js](https://github.com/nextapps-de/winbox)
 - [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
