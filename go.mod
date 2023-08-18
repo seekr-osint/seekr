@@ -21,7 +21,7 @@ require (
 	github.com/projectdiscovery/subfinder/v2 v2.6.2
 	github.com/rocketlaunchr/google-search v1.1.6
 	github.com/src-d/enry/v2 v2.1.0
-	github.com/sundowndev/phoneinfoga/v2 v2.10.7
+	github.com/sundowndev/phoneinfoga/v2 v2.10.8
 	github.com/tkrajina/typescriptify-golang-structs v0.1.10
 )
 

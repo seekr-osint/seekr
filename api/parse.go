@@ -7,6 +7,7 @@ import (
 	"github.com/seekr-osint/seekr/api/errortypes"
 	"github.com/seekr-osint/seekr/api/hobby"
 	"github.com/seekr-osint/seekr/api/ip"
+	"github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/sources"
 )
 
@@ -38,6 +39,7 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 	if err != nil {
 		return person, err
 	}
+	person.Services = person.Services.Scan(services.DefaultServices)
 	return person, err
 }
 
@@ -59,6 +61,10 @@ func (person Person) ReplaceNil() Person {
 	}
 	if person.Accounts == nil {
 		person.Accounts = Accounts{}
+	}
+
+	if person.Services == nil {
+		person.Services = services.MapServiceCheckResult{}
 	}
 	if person.Tags == nil {
 		person.Tags = Tags{}
