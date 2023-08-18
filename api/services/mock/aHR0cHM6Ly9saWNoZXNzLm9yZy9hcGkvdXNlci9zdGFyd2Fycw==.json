@@ -1,0 +1,5 @@
+{
+  "url": "https://lichess.org/api/user/starwars",
+  "status_code": 200,
+  "response_body": "{\"id\":\"starwars\",\"username\":\"starwars\",\"perfs\":{\"blitz\":{\"games\":0,\"rating\":1500,\"rd\":500,\"prog\":0,\"prov\":true},\"bullet\":{\"games\":0,\"rating\":1500,\"rd\":500,\"prog\":0,\"prov\":true},\"correspondence\":{\"games\":0,\"rating\":1500,\"rd\":500,\"prog\":0,\"prov\":true},\"classical\":{\"games\":0,\"rating\":1500,\"rd\":500,\"prog\":0,\"prov\":true},\"rapid\":{\"games\":2,\"rating\":1321,\"rd\":449,\"prog\":0,\"prov\":true}},\"createdAt\":1397940285393,\"seenAt\":1399133493014,\"playTime\":{\"total\":19012,\"tv\":0},\"url\":\"https://lichess.org/@/starwars\",\"count\":{\"all\":34,\"rated\":2,\"ai\":0,\"draw\":2,\"drawH\":2,\"loss\":19,\"lossH\":19,\"win\":13,\"winH\":13,\"bookmark\":0,\"playing\":0,\"import\":0,\"me\":0}}"
+}
