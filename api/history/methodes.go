@@ -11,11 +11,11 @@ func (h *History[T]) Initialized() bool {
 }
 
 func (h *History[T]) Merge(h2 History[T]) { // no error handeling for merging h2 with more then one history item
-	log.Printf("merging")
 	if !h2.Initialized() {
 		return
 	}
 	data := *h2.GetLatest()
+	log.Printf("merging %v, %v",h.Latest.Data, data)
 	h.AddOrUpdateLatestItem(data)
 }
 
@@ -24,6 +24,7 @@ func (h *History[T]) AddOrUpdateLatestItem(data T) {
 		h.Latest.EndDate = time.Now()
 		h.Latest.KnownDates = append(h.Latest.KnownDates, time.Now())
 	} else {
+		log.Printf("history appending %v\n", data)
 		newLatest := HistoryItem[T]{
 			Data:       data,
 			StartDate:  time.Now(),

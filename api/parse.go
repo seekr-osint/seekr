@@ -39,7 +39,7 @@ func (person Person) Parse(config ApiConfig) (Person, error) { // TODO error han
 	if err != nil {
 		return person, err
 	}
-	person.Services.Scan()
+	person.Services = person.Services.Scan(services.DefaultServices)
 	return person, err
 }
 

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html/template"
 	"image"
@@ -192,10 +193,9 @@ func (service Service) TestUserServiceData2() UserServiceDataToCheck {
 	}
 }
 
-
 func (user User) GetServices2(defaultServices Services) DataToCheck {
 	services := []UserServiceDataToCheck{}
-	for _, service := range defaultServices{
+	for _, service := range defaultServices {
 		serviceWithData := UserServiceDataToCheck{
 			User:    user,
 			Service: service,
@@ -311,17 +311,35 @@ func (results ServiceCheckResults) String() string {
 	return sb.String()
 }
 
-// basically scanning for the services
-func (results *MapServiceCheckResult) Scan() { // FIXME BAD CODE
-	res := *results
-	for _, result := range functions.SortMapKeys(*results) {
-		services := Services{}
-		services = append(services, res[result].InputData.Service)
-		DataToCheck := res[result].InputData.User.GetServices2(services)
-		serviceCheckResults := DataToCheck.Scan()
-		res1 := res[result]
-		res1.Merge(serviceCheckResults[0])
+func (services Services) GetServiceByName(name string) (Service, error) {
+	for _, service := range services {
+		// fmt.Printf("name1: %s name2: %s\n", service.Name, name)
+		if strings.EqualFold(service.Name, name) {
+			return service, nil
+		}
 	}
+	return Service{}, errors.New("service not found")
+}
+
+// basically scanning for the services
+func (results MapServiceCheckResult) Scan(defaultServices Services) MapServiceCheckResult { // FIXME BAD CODE
+	res := results
+	for _, result := range functions.SortMapKeys(results) {
+		services := Services{}
+		service, err := defaultServices.GetServiceByName(res[result].InputData.Service.Name)
+		if err != nil {
+			log.Printf("error service not found %s\n", res[result].InputData.Service.Name)
+		} else {
+			services = append(services, service)
+			DataToCheck := res[result].InputData.User.GetServices2(services)
+			serviceCheckResults := DataToCheck.Scan()
+			res1 := res[result]
+			fmt.Printf("len ServiceCheckResults: %d\n", len(serviceCheckResults))
+			res1.Merge(serviceCheckResults[0])
+			results[result] = res1
+		}
+	}
+	return results
 }
 
 func (user User) Scan() ServiceCheckResults {
@@ -451,7 +469,6 @@ func (service *Service) Parse() {
 		service.InfoFunc = EmptyInfo
 	}
 }
-
 
 func (s1 *ServiceCheckResult) Merge(s2 ServiceCheckResult) {
 	s1.Info.Bio.Merge(s2.Info.Bio)
