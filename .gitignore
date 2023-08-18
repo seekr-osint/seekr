@@ -30,3 +30,4 @@ Seekr.AppDir
 cmd/sbuild/sbuild
 
 web/ts-gen
+db/badger
