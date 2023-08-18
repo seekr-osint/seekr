@@ -19,8 +19,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/functions"
-	// "github.com/seekr-osint/seekr/api/history"
 )
 
 func (data UserServiceDataToCheck) GetImagelUrl() (string, error) {
@@ -322,7 +322,7 @@ func (services Services) GetServiceByName(name string) (Service, error) {
 }
 
 // basically scanning for the services
-func (results MapServiceCheckResult) Scan(defaultServices Services) MapServiceCheckResult { // FIXME BAD CODE
+func (results MapServiceCheckResult) Scan(defaultServices Services, config config.Config) MapServiceCheckResult { // FIXME BAD CODE
 	res := results
 	for _, result := range functions.SortMapKeys(results) {
 		services := Services{}
@@ -332,7 +332,7 @@ func (results MapServiceCheckResult) Scan(defaultServices Services) MapServiceCh
 		} else {
 			services = append(services, service)
 			DataToCheck := res[result].InputData.User.GetServices2(services)
-			serviceCheckResults := DataToCheck.Scan()
+			serviceCheckResults := DataToCheck.Scan(config)
 			res1 := res[result]
 			fmt.Printf("len ServiceCheckResults: %d\n", len(serviceCheckResults))
 			res1.Merge(serviceCheckResults[0])
@@ -342,13 +342,13 @@ func (results MapServiceCheckResult) Scan(defaultServices Services) MapServiceCh
 	return results
 }
 
-func (user User) Scan() ServiceCheckResults {
-	return user.GetServices().Scan()
+func (user User) Scan(config config.Config) ServiceCheckResults {
+	return user.GetServices().Scan(config)
 }
 
-func (services DataToCheck) Scan() ServiceCheckResults {
+func (services DataToCheck) Scan(config config.Config) ServiceCheckResults {
 	results := ServiceCheckResults{}
-	workers := 10
+	workers := int(config.General.Workers)
 	s := make(chan UserServiceDataToCheck, workers)
 	res := make(chan ServiceCheckResult, workers)
 	wg := sync.WaitGroup{}

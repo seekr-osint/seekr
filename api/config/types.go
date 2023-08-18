@@ -8,6 +8,7 @@ type General struct {
 	ForcePort bool `toml:"force_port" json:"force_port" default:"false"`
 	Browser   bool `toml:"browser" json:"browser" default:"true"`
 	Discord   bool `toml:"discord" json:"discord" default:"true"`
+	Workers   uint `toml:"workers" json:"workers" default:"10"`
 	//CreateConfigFile bool `toml:"create_config_file" default:"false"` // not needed
 }
 type Config struct {

@@ -639,7 +639,8 @@ curl -X GET http://localhost:8080/api/config
 	"general": {
 		"browser": true,
 		"discord": true,
-		"force_port": false
+		"force_port": false,
+		"workers": 10
 	},
 	"server": {
 		"ip": "localhost",
@@ -663,7 +664,8 @@ curl -X POST http://localhost:8080/api/config \
 	"general": {
 		"browser": true,
 		"discord": true,
-		"force_port": false
+		"force_port": false,
+		"workers": 10
 	},
 	"server": {
 		"ip": "localhost",

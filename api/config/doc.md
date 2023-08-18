@@ -4,6 +4,7 @@
   browser = true
   discord = true
   force_port = false
+  workers = 10
 
 [server]
   ip = "localhost"

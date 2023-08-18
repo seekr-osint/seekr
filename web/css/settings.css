@@ -49,7 +49,7 @@
 }
 
 /* Port selection */
-
+.workers-tag,
 .port-tag,
 .ip-tag {
     font-size: 1.4rem;
@@ -72,11 +72,19 @@
 }
 
 
+
+.workers-tag::placeholder,
 .port-tag::placeholder,
 ip-tag::placeholder  {
     color: var(--textColor-1);
 }
 
+
+
+.workers-chip {
+    width: 9.5rem;
+    height: 3rem;
+}
 .port-chip {
     width: 9.5rem;
     height: 3rem;
