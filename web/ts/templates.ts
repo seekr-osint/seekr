@@ -1,3 +1,5 @@
+import { listHandler } from "./guide.js";
+
 class CustomDropdown extends HTMLElement {
   constructor() {
     super();
@@ -92,6 +94,14 @@ class CustomDropdown extends HTMLElement {
       const s = this.nextSibling as HTMLElement;
       s.classList.toggle("select-hide");
       this.classList.toggle("select-arrow-active");
+    });
+
+    const selectSelected = this.shadowRoot!.querySelector("div > div > div > div.select-selected")!;
+
+    selectSelected.addEventListener("DOMSubtreeModified", function () {
+      if (selectSelected && selectSelected.innerHTML != "") {
+        listHandler();
+      }
     });
   }
 }
