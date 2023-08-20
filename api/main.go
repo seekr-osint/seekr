@@ -16,6 +16,7 @@ import (
 	"github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/version"
 	"github.com/seekr-osint/seekr/api/webserver"
+	"github.com/seekr-osint/wayback-machine-golang/wayback"
 )
 
 var DatabaseFile string
@@ -92,6 +93,7 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.POST("/api/config", Handler(PostConfig, config))                                // post config
 	config.GinRouter.GET("/api/config", Handler(GetConfig, config))                                  // get config
 	config.GinRouter.GET("/api/info", Handler(GetInfo, config))                                      // get info
+	config.GinRouter.GET("/api/wayback/save", Handler(SaveWayback, config))                          // get info
 	config.GinRouter.POST("/api/detect/language", Handler(DetectLanguage, config))                   // detect language
 	config.GinRouter.POST("/api/detect/language/code", Handler(DetectLanguageCode, config))          // detect language in code
 
@@ -123,8 +125,19 @@ func ServeApi(config ApiConfig) {
 	config.GinRouter.Run(fmt.Sprintf("%s:%d", config.Server.Ip, config.Server.Port))
 }
 
-func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
+func SaveWayback(config ApiConfig, c *gin.Context) {
+	url := c.DefaultQuery("url", "")
+	if url != "" {
+		url, err := wayback.Archive(url, nil)
+		if err != nil {
+			c.IndentedJSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+			return
+		}
+		c.IndentedJSON(http.StatusOK, url)
+	}
+}
 
+func GithubInfoDeepRequest(config ApiConfig, c *gin.Context) {
 	if c.Param("username") != "" {
 		deep := github.DeepInvestigation{
 			Username:  c.Param("username"),
@@ -324,7 +337,7 @@ func ScanAccounts(config ApiConfig, username string) services.ServiceCheckResult
 	user := services.User{
 		Username: username,
 	}
-	return user.Scan()
+	return user.Scan(config.Config)
 }
 func GetAccounts(config ApiConfig, username string) Accounts {
 	return ServicesHandler(DefaultServices, username, config)
