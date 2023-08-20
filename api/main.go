@@ -324,7 +324,7 @@ func ScanAccounts(config ApiConfig, username string) services.ServiceCheckResult
 	user := services.User{
 		Username: username,
 	}
-	return user.Scan()
+	return user.Scan(config.Config)
 }
 func GetAccounts(config ApiConfig, username string) Accounts {
 	return ServicesHandler(DefaultServices, username, config)
