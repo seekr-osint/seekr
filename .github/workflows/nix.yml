@@ -12,3 +12,15 @@ jobs:
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix build
+    - name: Create status
+      run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.workflow_run.head_commit.id }} \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "state": "${{ github.event.workflow_run.conclusion }}",
+            "context": "unit test (kube)",
+            "target_url": "${{ github.event.workflow_run.html_url }}"
+            }' \
+          --fail
