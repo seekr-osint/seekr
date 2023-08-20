@@ -11,27 +11,21 @@ jobs:
     - uses: cachix/install-nix-action@v19
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
-    - run: nix build
-    - name: "Create a check run"
-      uses: actions/github-script@v6
-      env:
-        parameter_url: '${{ github.event.workflow_run.html_url }}'
+    - run: ls
+    #- run: nix build .#seekr-appimage
+    #- name: Upload a Build Artifact
+      #uses: actions/upload-artifact@v3.1.2
+      #with:
+    # Artifact name
+        #name: appimage
+    # A file, directory or wildcard pattern that describes what to upload
+        #path: ./result/
+    # The desired behavior if no files are found using the provided path.
+    - uses: LouisBrunner/checks-action@v1.6.1
+      if: always()
       with:
-        debug: ${{ secrets.ACTIONS_STEP_DEBUG || false }}
-        script: |
-            await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head_sha: context.sha,
-              name: "nix-build",
-              status: "completed",
-              // Careful, code injection can happen.
-              conclusion: "${{ github.event.workflow_run.conclusion }}",
-              // This is safe, not string interpolation.
-              details_url: process.env.parameter_url,
-              output: {
-                title: "Nix build",
-                summary: "nix buid *check*",
-                text: "nix build",
-              },
-            });
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: Nix build
+        conclusion: ${{ job.status }}
+        output: |
+          {"summary":"${{ steps.test.outputs.summary }}"}
