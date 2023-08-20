@@ -73,7 +73,7 @@ func (config ApiConfig) SetupWebServer() {
 	})
 }
 
-// DB methodes
+// DB methods
 
 func (config ApiConfig) SaveDB() error {
 	return config.SaveDBFunc(config)

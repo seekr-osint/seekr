@@ -11,7 +11,7 @@ import (
 	"github.com/seekr-osint/seekr/api/functions"
 )
 
-// Methodes
+// Methods
 func (e Email) IsGmailAddress() bool {
 	pattern := regexp.MustCompile(`^[a-zA-Z0-9._-]+@gmail\.com$`)
 	return pattern.MatchString(e.Mail)
