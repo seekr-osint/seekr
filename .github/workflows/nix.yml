@@ -12,15 +12,26 @@ jobs:
       with:
         github_access_token: ${{ secrets.GITHUB_TOKEN }}
     - run: nix build
-    - name: Create status
-      run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.workflow_run.head_commit.id }} \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "state": "${{ github.event.workflow_run.conclusion }}",
-            "context": "unit test (kube)",
-            "target_url": "${{ github.event.workflow_run.html_url }}"
-            }' \
-          --fail
+    - name: "Create a check run"
+      uses: actions/github-script@v6
+      env:
+        parameter_url: '${{ github.event.workflow_run.html_url }}'
+      with:
+        debug: ${{ secrets.ACTIONS_STEP_DEBUG || false }}
+        script: |
+            await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head_sha: context.sha,
+              name: "nix-build",
+              status: "completed",
+              // Careful, code injection can happen.
+              conclusion: "${{ github.event.workflow_run.conclusion }}",
+              // This is safe, not string interpolation.
+              details_url: process.env.parameter_url,
+              output: {
+                title: "Nix build",
+                summary: "nix buid *check*",
+                text: "nix build",
+              },
+            });
