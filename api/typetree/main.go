@@ -47,7 +47,7 @@ func ColorType(t reflect.Kind) string {
 }
 func PrintTypeTreeRec(t reflect.Type, visited map[reflect.Type]bool, indentLevel int, initialIndentLevel int, recursion bool) string {
 	var sb strings.Builder
-	methodes_printed := false
+	methods_printed := false
 
 	// Print all fields with indentation
 	switch t.Kind() {
@@ -75,8 +75,8 @@ func PrintTypeTreeRec(t reflect.Type, visited map[reflect.Type]bool, indentLevel
 				//sb.WriteString(fmt.Sprintf("case default: %s",field.Type.Kind())
 			}
 		}
-		//sb.WriteString(Methodes(t,indentLevel))
-		//methodes_printed = true
+		//sb.WriteString(Methods(t,indentLevel))
+		//methods_printed = true
 
 		// Recursively print fields and methods of embedded types with increased indentation
 		for i := 0; i < t.NumField(); i++ {
@@ -96,15 +96,15 @@ func PrintTypeTreeRec(t reflect.Type, visited map[reflect.Type]bool, indentLevel
 		sb.WriteString(fmt.Sprintf("%s\n", ColorType(t.Kind())))
 
 	}
-	if !methodes_printed {
-		sb.WriteString(Methodes(t, indentLevel))
+	if !methods_printed {
+		sb.WriteString(Methods(t, indentLevel))
 	}
 
-	//sb.WriteString(Methodes(t))
+	//sb.WriteString(Methods(t))
 	return sb.String()
 }
 
-func Methodes(t reflect.Type, indentLevel int) string {
+func Methods(t reflect.Type, indentLevel int) string {
 	var sb strings.Builder
 	if t.NumMethod() > 0 {
 		sb.WriteString(fmt.Sprintf("%s(%s) {\n", strings.Repeat(" ", indentLevel), t.String()))
