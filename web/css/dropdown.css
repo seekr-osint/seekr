@@ -35,7 +35,7 @@
     border-top: 2px solid #fff;
     border-right: 2px solid #fff;
     transform: rotate(-45deg);
-    transition: 0.5s;
+    transition: 0.2s;
     pointer-events: none;
 }
 
