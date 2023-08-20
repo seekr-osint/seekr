@@ -112,14 +112,17 @@ function setValues(config: SeekrConfig): void {
   }
 }
 
-function getValues(): { port: number, ip: string } {
+function getValues(): { port: number; ip: string; workers: number } {
   const portInput = document.getElementById("port-tag") as HTMLInputElement;
   const port = parseInt(portInput.value, 10);
 
   const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
   const ip = ipInput.value;
 
-  return { port, ip };
+  const workersInput = document.getElementById("workers-tag") as HTMLInputElement;
+  const workers = parseInt(workersInput.value, 10);
+
+  return { port, ip, workers };
 }
 
 async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
@@ -128,6 +131,7 @@ async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
 
   currentConfig.server.ip = values.ip;
   currentConfig.server.port = values.port;
+  currentConfig.general.workers = values.workers;
 
   return currentConfig;
 }
