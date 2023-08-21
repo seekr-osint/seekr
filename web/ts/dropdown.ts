@@ -40,6 +40,18 @@ class CustomDropdown extends HTMLElement {
     const dropdown = this.shadowRoot!.querySelector(".dropdown") as HTMLElement;
     if (dropdown) {
       dropdown.onclick = function() {
+      const allDropdowns = document.querySelectorAll("custom-dropdown");
+      console.log(allDropdowns);
+
+      allDropdowns.forEach((currentDropdown) => {
+      const shadowRoot = currentDropdown.shadowRoot;
+      if (shadowRoot) {
+        const dropdownElement = shadowRoot.querySelector(".dropdown");
+        if (dropdownElement && dropdownElement != dropdown) { // don't remove on teh dropdown the user clicked on
+          dropdownElement.classList.remove("active");
+        }
+      }
+      });
         dropdown.classList.toggle("active");
       };
     }
