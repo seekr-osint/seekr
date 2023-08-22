@@ -50,7 +50,7 @@ func main() {
 
 	cfg, err := config.LoadConfig()
 	if err != nil && err != config.ErrNoConfigFile {
-		fmt.Printf("Failed to load config: %s\n", err)
+		log.Printf("Failed to load config: %s\n", err)
 		return
 	}
 	configError := err
@@ -59,6 +59,9 @@ func main() {
 	data := flag.String("db", "data", "Database location")
 	port := flag.Uint64("port", cfg.Server.Port, "Port to serve the API on")
 	enableWebserver := flag.Bool("webserver", true, "Enable the webserver")
+	enableLiveServer := flag.Bool("live", false, "Enable the live server (dev only)")
+
+	liveServerPath := flag.String("live-path", "./web", "path to ./web folder")
 
 	browser := flag.Bool("browser", cfg.General.Browser, "open up the html interface in the default web browser")
 	forcePort := flag.Bool("forcePort", cfg.General.ForcePort, "forcePort")
@@ -99,6 +102,8 @@ func main() {
 			WebServer: webserver.Webserver{
 				Disable:    !*enableWebserver,
 				FileSystem: content,
+				LiveServer: *enableLiveServer,
+				LiveServerPath: *liveServerPath,
 			},
 			ApiServer: server.ApiServer{
 				Disable: !enableApiServer,
