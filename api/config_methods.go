@@ -61,9 +61,13 @@ func (config ApiConfig) Validate() error {
 // Web Server
 
 func (config ApiConfig) SetupWebServer() {
-	config.GinRouter.GET("/web/*filepath", func(c *gin.Context) {
-		http.FileServer(http.FS(config.Server.WebServer.FileSystem)).ServeHTTP(c.Writer, c.Request)
-	})
+	if config.Server.WebServer.LiveServer {
+		config.GinRouter.StaticFS("/web", http.Dir(config.Server.WebServer.LiveServerPath))
+	} else {
+		config.GinRouter.GET("/web/*filepath", func(c *gin.Context) {
+			http.FileServer(http.FS(config.Server.WebServer.FileSystem)).ServeHTTP(c.Writer, c.Request)
+		})
+	}
 	config.GinRouter.GET("/", func(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/web")
 	})
