@@ -1,5 +1,5 @@
 {
   "url": "https://api.chess.com/pub/player/danielnaroditsky",
   "status_code": 200,
-  "response_body": "{\"avatar\":\"https://images.chesscomfiles.com/uploads/v1/user/1715324.840b7522.200x200o.b79dde86ff74.jpg\",\"player_id\":1715324,\"@id\":\"https://api.chess.com/pub/player/danielnaroditsky\",\"url\":\"https://www.chess.com/member/DanielNaroditsky\",\"name\":\"Daniel Naroditsky\",\"username\":\"danielnaroditsky\",\"title\":\"GM\",\"followers\":25665,\"country\":\"https://api.chess.com/pub/country/US\",\"location\":\"Charlotte\",\"last_online\":1692331586,\"joined\":1232155799,\"status\":\"premium\",\"is_streamer\":true,\"twitch_url\":\"https://twitch.tv/gmnaroditsky\",\"verified\":false,\"league\":\"Champion\"}"
+  "response_body": "{\"avatar\":\"https://images.chesscomfiles.com/uploads/v1/user/1715324.840b7522.200x200o.b79dde86ff74.jpg\",\"player_id\":1715324,\"@id\":\"https://api.chess.com/pub/player/danielnaroditsky\",\"url\":\"https://www.chess.com/member/DanielNaroditsky\",\"name\":\"Daniel Naroditsky\",\"username\":\"danielnaroditsky\",\"title\":\"GM\",\"followers\":25719,\"country\":\"https://api.chess.com/pub/country/US\",\"location\":\"Charlotte\",\"last_online\":1692671625,\"joined\":1232155799,\"status\":\"premium\",\"is_streamer\":true,\"twitch_url\":\"https://twitch.tv/gmnaroditsky\",\"verified\":false,\"league\":\"Champion\"}"
 }
