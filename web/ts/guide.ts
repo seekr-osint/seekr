@@ -205,30 +205,38 @@ function listHandler() {
   }
 }
 
+// Function to handle changes in .select-selected innerHTML
 function preListHandler() {
   const selectedCountry = document.querySelector(".select-selected");
 
-  if (selectedCountry && selectedCountry.innerHTML != "") {
+  if (selectedCountry && selectedCountry.innerHTML !== "") {
     listHandler();
   }
 }
 
-document.querySelector(".select-selected")!.addEventListener("DOMSubtreeModified", preListHandler);
+// Create a MutationObserver instance
+const observer = new MutationObserver(preListHandler);
 
+// Select the parent node containing the .select-selected element
+const parentContainer = document.querySelector(".country-select");
+
+// Define the configuration for the observer
+const config = { childList: true, subtree: true };
+
+// Start observing the parent node
+if (parentContainer) {
+  observer.observe(parentContainer, config);
+}
+
+// Rest of your code for checkbox event listeners
 checkboxName.addEventListener('change', preListHandler);
-
 checkboxAddress.addEventListener('change', preListHandler);
-
 checkboxPhone.addEventListener('change', preListHandler);
-
 checkboxVIN.addEventListener('change', preListHandler);
-
 checkboxBusiness.addEventListener('change', preListHandler);
-
 checkboxIP.addEventListener('change', preListHandler);
-
 checkboxUsername.addEventListener('change', preListHandler);
-
 checkboxDomain.addEventListener('change', preListHandler);
+
 
 export {};
