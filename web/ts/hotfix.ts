@@ -43,7 +43,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
     x.appendChild(b);
     a.addEventListener("click", function (e) {
       e.stopPropagation();
-      closeAllSelect(this);
+      closeAllSelectOld(this);
       if (this.nextSibling) {
         const s = this.nextSibling as HTMLElement;
         s.classList.toggle("select-hide");
@@ -53,7 +53,7 @@ for (const [className, nodeList] of Object.entries(elements)) {
   }
 }
 
-function closeAllSelect(elmnt: HTMLElement) {
+function closeAllSelectOld(elmnt: HTMLElement) {
   const arrNo = [];
   const x = document.getElementsByClassName("select-items") as HTMLCollectionOf<HTMLElement>;
   const y = document.getElementsByClassName("select-selected") as HTMLCollectionOf<HTMLElement>;
@@ -72,5 +72,5 @@ function closeAllSelect(elmnt: HTMLElement) {
 }
 
 document.addEventListener("click", function() {
-  closeAllSelect(this.activeElement as HTMLElement);
+  closeAllSelectOld(this.activeElement as HTMLElement);
 });
