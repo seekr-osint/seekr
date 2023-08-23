@@ -121,6 +121,7 @@
             nixpkgsFor.${system}.nodePackages_latest.typescript
             nixpkgsFor.${system}.go
             nixpkgsFor.${system}.gcc
+            nixpkgsFor.${system}.shellcheck
             # jq is useful to debug the database
             nixpkgsFor.${system}.jq
             nixpkgsFor.${system}.gh
