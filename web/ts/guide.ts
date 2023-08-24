@@ -1,5 +1,8 @@
 const channel = new BroadcastChannel("seekr-channel");
 
+
+import { getValue,getDropdown } from "./dropdown.js";
+
 // Listen for messages on the broadcast channel
 channel.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
@@ -12,8 +15,7 @@ channel.addEventListener('message', (event) => {
 
 // The actual stuff
 
-const countryDropdown = document.getElementById("country-select");
-const selectedSelect = document.querySelector(".country-select select");
+const countryDropdown = getDropdown("country") as HTMLInputElement;
 
 const checkboxName = document.getElementById("checkbox_01") as HTMLInputElement;
 const checkboxNameIcon = document.getElementById("checkbox_01_icon") as HTMLElement;
@@ -73,7 +75,7 @@ function checkChecboxValue(checkboxType: string): boolean {
 
 function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" | undefined {
   if (document) {
-    const selectedCountry = document.querySelector(".select-selected");
+    const selectedCountry = getValue("country");
 
     if (selectedCountry) {
       const countries: { [key: string]: "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" } = {};
@@ -88,7 +90,7 @@ function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" | undef
       countries["Sweden"] = "se";
       countries["Germany"] = "de";
 
-      return countries[selectedCountry.innerHTML]; // Error here
+      return countries[selectedCountry]; // Error here
     }
   }
 }
@@ -205,29 +207,10 @@ function listHandler() {
   }
 }
 
-// Function to handle changes in .select-selected innerHTML
 function preListHandler() {
-  const selectedCountry = document.querySelector(".select-selected");
-
-  if (selectedCountry && selectedCountry.innerHTML !== "") {
     listHandler();
-  }
-}
-// Create a MutationObserver instance
-const observer = new MutationObserver(preListHandler);
-
-// Select the parent node containing the .select-selected element
-const parentContainer = document.querySelector(".country-select");
-
-// Define the configuration for the observer
-const config = { childList: true, subtree: true };
-
-// Start observing the parent node
-if (parentContainer) {
-  observer.observe(parentContainer, config);
 }
 
-// Rest of your code for checkbox event listeners
 checkboxName.addEventListener('change', preListHandler);
 checkboxAddress.addEventListener('change', preListHandler);
 checkboxPhone.addEventListener('change', preListHandler);
@@ -236,5 +219,6 @@ checkboxBusiness.addEventListener('change', preListHandler);
 checkboxIP.addEventListener('change', preListHandler);
 checkboxUsername.addEventListener('change', preListHandler);
 checkboxDomain.addEventListener('change', preListHandler);
+countryDropdown.addEventListener('change', preListHandler);
 
 export { listHandler };

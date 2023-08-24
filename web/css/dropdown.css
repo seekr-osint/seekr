@@ -11,16 +11,20 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    background: #fafafa;
+    background-color: var(--bg);
 }
 
 .dropdown {
     position: relative;
-    top: 50px;
-    left: 45%;
-    margin-top: 15px;
-    width: 300px;
-    height: 50px;
+    box-shadow: var(--shadowPreset-3);
+    border-radius: 1rem;
+    background: var(--bg);
+    /* top: 50px; */
+    /* left: 45%; */
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 17rem;
+    height: 4rem;
 }
 
 .dropdown::before {
@@ -51,22 +55,23 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
-    background: #fff;
+    background: var(--bg);
+
+
     font-size: 1.2em;
     border: none;
     outline: none;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    padding: 12px 20px;
-    border-radius: 10px;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
+    padding: 1.2rem 2rem;
+    border-radius: 1rem;
 }
 
 .dropdown .options {
-    position: absolute;
+    font-size: 1.2em;
+    position: relative;
     top: 70px;
     width: 100%;
-    background: #fff;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
+    background: var(--bg);
     overflow: hidden;
     display: none;
 }
@@ -74,14 +79,29 @@
 .dropdown.active .options {
     z-index: 9999;
     display: block;
+
+    position: relative;
+    font-family: Arial;
+    margin-top: 0.5rem;
+    width: 100%;
+    height: auto;
+
+    padding: 0.4rem 0.8rem;
+    border: 0.1rem solid transparent;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--shadow-1), -0.2rem -0.2rem 0.5rem var(--shadow-2);
 }
 
 .dropdown .options div {
-    padding: 12px 20px;
+    padding: 0.4rem 0.6rem;
+    border: 0.1rem solid transparent;
     cursor: pointer;
+    border-radius: 0.1rem;
+    color: var(--textColor-1);
 }
 
 .dropdown .options div:hover {
-    background: #62baea;
-    color: #fff;
+    background: var(--bg-bright);
+    color: var(--textColor-hover);
 }

@@ -19,9 +19,9 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/guide.css">
     <script type="module" src="./dist/ts/framework.js" defer></script>
+    <script type="module" src="./dist/ts/dropdown.js" defer></script>
     <script type="module" src="./dist/ts/guide.js" defer></script>
-    <script type="module" src="./dist/ts/templates.js" defer></script>
-    <script type="module" src="./dist/ts/hotfix.js" defer></script>
+    <!-- <script type="module" src="./dist/ts/templates.js" defer></script> -->
 
     <script type="text/javascript" defer>
       // Check local storage for theme setting
@@ -48,14 +48,16 @@
 
     <div class="dd-nav-bar-top"></div>
     <div class="dd-nav-bar">
-      <custom-dropdown title="country" no-tag>
-        <custom-option>WorldWide</custom-option>
-        <custom-option>United Kingdom</custom-option>
-        <custom-option>United States</custom-option>
-        <custom-option>Canada</custom-option>
-        <custom-option>Sweden</custom-option>
-        <custom-option>Germany</custom-option>
-      </custom-dropdown>
+
+    <custom-dropdown options="WorldWide,United Kingdom,United States,Canada,Sweden,Germany" dropdown-id="country"></custom-dropdown>
+      <!-- <custom-dropdown title="country" no-tag> -->
+      <!--   <custom-option>WorldWide</custom-option> -->
+      <!--   <custom-option>United Kingdom</custom-option> -->
+      <!--   <custom-option>United States</custom-option> -->
+      <!--   <custom-option>Canada</custom-option> -->
+      <!--   <custom-option>Sweden</custom-option> -->
+      <!--   <custom-option>Germany</custom-option> -->
+      <!-- </custom-dropdown> -->
 
       <div class="existing-info-form">
         <div class="form-option">

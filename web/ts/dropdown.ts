@@ -28,7 +28,6 @@ class CustomDropdown extends HTMLElement {
       <link rel="stylesheet" href="./css/style.css">
       <link rel="stylesheet" href="./css/dropdown.css">
 
-      ${id}:
       <div class="dropdown">
         <input class="text-box" type="text" placeholder="${placeholder}" readonly>
         <div class="options">
@@ -85,17 +84,6 @@ function divTemplate(words: string): string {
 
   return output;
 }
-const button = document.querySelector("#myButton");
- 
-button!.addEventListener("click", function() {
-   console.log(getValue("test1"));
- });
-
-const d = getDropdown("test1")
-
-d!.addEventListener("change", function() {
-  console.log(getValue("test1"));
-});
 
 function getDropdown(id: string): Element | null {
   if (!dropdowns.has(id)) {
