@@ -100,9 +100,9 @@ func main() {
 			Port:      uint16(*port),
 			ForcePort: *forcePort,
 			WebServer: webserver.Webserver{
-				Disable:    !*enableWebserver,
-				FileSystem: content,
-				LiveServer: *enableLiveServer,
+				Disable:        !*enableWebserver,
+				FileSystem:     content,
+				LiveServer:     *enableLiveServer,
 				LiveServerPath: *liveServerPath,
 			},
 			ApiServer: server.ApiServer{
