@@ -17,7 +17,6 @@ seekr.exe
 # Dev stuff
 .direnv
 
-cmd/seekr-cli/seekr-cli
 examples/plugins/**/**.bundle
 examples/plugins/**/plugin.so
 
