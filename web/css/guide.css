@@ -17,7 +17,9 @@ body {
 .ww,
 .us,
 .ca,
-.uk {
+.uk,
+.de,
+.se {
   margin-bottom: 1rem;
   justify-self: center;
   width: auto;
@@ -50,7 +52,7 @@ li {
 }
 
 .existing-info-form {
-  margin-left: 3rem;
+  margin-left: 1rem;
   display: flex;
 }
 
@@ -212,7 +214,7 @@ li {
   position: absolute;
   content: "";
   top: 14px;
-  right: -3.5rem;
+  right: 1.5rem;
   width: 0;
   height: 0;
   border: 6px solid transparent;
@@ -236,6 +238,11 @@ li {
   cursor: pointer;
   user-select: none;
   height: auto;
+  width: 15rem;
+}
+
+.dropdown-select {
+  margin-top: 0 !important;
 }
 
 /*style items (options):*/
@@ -243,7 +250,7 @@ li {
   position: absolute;
   background-color: var(--bg);
   margin-top: 0.5rem;
-  width: 20rem;
+  width: 15rem;
   height: auto;
   border-radius: 1rem;
   box-shadow: var(--shadowPreset-3);
