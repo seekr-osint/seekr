@@ -19,7 +19,6 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/functions"
 )
 
@@ -322,7 +321,7 @@ func (services Services) GetServiceByName(name string) (Service, error) {
 }
 
 // basically scanning for the services
-func (results MapServiceCheckResult) Scan(defaultServices Services, config config.Config) MapServiceCheckResult { // FIXME BAD CODE
+func (results MapServiceCheckResult) Scan(defaultServices Services, workers int) MapServiceCheckResult { // FIXME BAD CODE
 	res := results
 	for _, result := range functions.SortMapKeys(results) {
 		services := Services{}
@@ -332,7 +331,7 @@ func (results MapServiceCheckResult) Scan(defaultServices Services, config confi
 		} else {
 			services = append(services, service)
 			DataToCheck := res[result].InputData.User.GetServices2(services)
-			serviceCheckResults := DataToCheck.Scan(config)
+			serviceCheckResults := DataToCheck.Scan(workers)
 			res1 := res[result]
 			fmt.Printf("len ServiceCheckResults: %d\n", len(serviceCheckResults))
 			res1.Merge(serviceCheckResults[0])
@@ -342,13 +341,12 @@ func (results MapServiceCheckResult) Scan(defaultServices Services, config confi
 	return results
 }
 
-func (user User) Scan(config config.Config) ServiceCheckResults {
-	return user.GetServices().Scan(config)
+func (user User) Scan(workers int) ServiceCheckResults {
+	return user.GetServices().Scan(workers)
 }
 
-func (services DataToCheck) Scan(config config.Config) ServiceCheckResults {
+func (services DataToCheck) Scan(workers int) ServiceCheckResults {
 	results := ServiceCheckResults{}
-	workers := int(config.General.Workers)
 	s := make(chan UserServiceDataToCheck, workers)
 	res := make(chan ServiceCheckResult, workers)
 	wg := sync.WaitGroup{}
