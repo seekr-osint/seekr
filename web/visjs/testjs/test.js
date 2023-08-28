@@ -83,39 +83,67 @@ init();
 
 
 
-
-
-
 var clusterIndex = 0;
 var clusters = [];
 var lastClusterZoomLevel = 0;
 var clusterFactor = 0.9;
 
 // create an array with nodes
-var nodes = [
-    { id: 1, label: "Node 1" },
-    { id: 2, label: "Node 2" },
-    { id: 3, label: "Node 3" },
-    { id: 4, label: "Node 4" },
-    { id: 5, label: "Node 5" },
-    { id: 6, label: "Node 6" },
-    { id: 7, label: "Node 7" },
-    { id: 8, label: "Node 8" },
-    { id: 9, label: "Node 9" },
-    { id: 10, label: "Node 10" },
+const nodes = [
+    {
+        id: 1,
+        label: "User 1",
+        group: "users",
+    },
+    {
+        id: 2,
+        label: "User 2",
+        group: "users",
+    },
+    {
+        id: 3,
+        label: "Usergroup 1",
+        group: "usergroups",
+    },
+    {
+        id: 4,
+        label: "Usergroup 2",
+        group: "usergroups",
+    },
+    {
+        id: 5,
+        label: "Organisation 1",
+        shape: "icon",
+        icon: {
+            face: "'Ionicons'",
+            code: "\uf276",
+            size: 50,
+            color: "#f0a30a",
+        },
+    },
+    {
+        id: 6,
+        label: "User 3",
+        group: "users",
+    },
+    {
+        id: 7,
+        label: "User 4",
+        group: "users",
+    },
 ];
 
 // create an array with edges
-var edges = [
-    { from: 1, to: 2 },
+const edges = [
     { from: 1, to: 3 },
-    { from: 10, to: 4 },
-    { from: 2, to: 5 },
-    { from: 6, to: 2 },
-    { from: 7, to: 5 },
-    { from: 8, to: 6 },
-    { from: 9, to: 7 },
-    { from: 10, to: 9 },
+    { from: 1, to: 4 },
+    { from: 2, to: 4 },
+    { from: 3, to: 5 },
+    { from: 4, to: 5 },
+    { from: 6, to: 7 },
+    { from: 6, to: 5 },
+    { from: 5, to: 2 },
+    { from: 7, to: 3 },
 ];
 
 // create a network
@@ -127,7 +155,27 @@ var data = {
 var options = {
     layout: { randomSeed: 8 },
     physics: { adaptiveTimestep: false },
-    manipulation: { enabled: true }
+    manipulation: { enabled: true },
+    groups: {
+        usergroups: {
+            shape: "icon",
+            icon: {
+                face: "'Ionicons'",
+                code: "\uf47c",
+                size: 50,
+                color: "#57169a",
+            },
+        },
+        users: {
+            shape: "icon",
+            icon: {
+                face: "'Ionicons'",
+                code: "\uf47e",
+                size: 50,
+                color: "#aa00ff",
+            },
+        },
+    }
 };
 var network = new vis.Network(container, data, options);
 
