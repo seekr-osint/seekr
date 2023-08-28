@@ -155,7 +155,7 @@ var data = {
 var options = {
     layout: { randomSeed: 8 },
     physics: { adaptiveTimestep: false },
-    manipulation: { enabled: true },
+    manipulation: { enabled: true }, // Turn this off for production
     groups: {
         usergroups: {
             shape: "icon",
