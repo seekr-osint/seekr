@@ -11,7 +11,7 @@ require (
 	github.com/go-git/go-git/v5 v5.8.1
 	github.com/gocolly/colly v1.2.0
 	github.com/hugolgst/rich-go v0.0.0-20210925091458-d59fb695d9c0
-	github.com/likexian/whois v1.15.0
+	github.com/likexian/whois v1.15.1
 	github.com/manifoldco/promptui v0.9.0
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
