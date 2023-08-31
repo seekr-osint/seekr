@@ -8,7 +8,6 @@ import (
 
 	"github.com/seekr-osint/seekrstack/api/enum"
 )
-
 func writeToFile(filename, content string) error {
 	file, err := os.Create(filename)
 	if err != nil {
@@ -48,5 +47,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	err = WriteEnum("Ethnicity", []string{"African", "Asian", "Caucasian/White", "Hispanic/Latino", "Indigenous/Native American", "Multiracial/Mixed"}, "")
+	if err != nil {
+		panic(err)
+	}
+
 
 }

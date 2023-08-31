@@ -15,11 +15,14 @@ import (
 
 type Person struct {
 	gorm.Model `json:"-" tstype:"-" skip:"yes"`
-	ID         uint                    `json:"-" tstype:"-" gorm:"primaryKey"`
-	Owner      string                  `json:"-" tstype:"-" validate:"alphanum" skip:"yes"`
-	Name       string                  `json:"name" validate:"required" tstype:",required" example:"john"`
-	Age        uint                    `json:"age" validate:"number" tstype:"number" example:"13"`
-	Gender     enum.Enum[enums.Gender] `json:"gender" tstype:"'male' | 'female' | 'other' | ''" example:"male"`
+	ID         uint                       `json:"-" tstype:"-" gorm:"primaryKey"`
+	Owner      string                     `json:"-" tstype:"-" validate:"alphanum" skip:"yes"`
+	Name       string                     `json:"name" validate:"required" tstype:",required" example:"john"`
+	Age        uint                       `json:"age" validate:"number" tstype:"number" example:"13"`
+	Gender     enum.Enum[enums.Gender]    `json:"gender" tstype:"'male' | 'female' | 'other' | ''" example:"male"`
+	Ethnicity  enum.Enum[enums.Ethnicity] `json:"ethnicity" tstype:"'African' | 'Asian' | 'Caucasian/White' | 'Hispanic/Latino' | 'Indigenous/Native American' | 'Multiracial/Mixed'" example:"Asian"`
+	Maidenname string                     `json:"maidenname" tstype:"string" example:"greg"`
+	Kids       string                     `json:"kids" tstype:"string" example:"no because no wife"`
 }
 
 func (p Person) Validate(personValidator *validate.XValidator) error {

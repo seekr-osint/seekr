@@ -11,6 +11,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/helmet"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
@@ -50,6 +51,13 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 			})
 		},
 	})
+	fav, err := fs.ReadFile("web/images/favicon.ico")
+	if err != nil {
+		return err
+	}
+	app.Use(favicon.New(favicon.Config{
+		Data: fav,
+	}))
 
 	app.Use(basicauth.New(basicauth.Config{
 		Users: users.ToMap(),
@@ -58,8 +66,8 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
-	app.Use(helmet.New(helmet.Config{
 
+	app.Use(helmet.New(helmet.Config{
 		XSSProtection:             "0",
 		ContentTypeNosniff:        "nosniff",
 		XFrameOptions:             "SAMEORIGIN",
@@ -80,12 +88,6 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 			"Title": "Hello, World!",
 		}, "web/html/layouts/layout")
 	})
-	// storage := database.DBStorage{
-	// 	DB: db,
-	// }
-	// store := session.New(session.Config{
-	// 	Storage: storage,
-	// })
 
 	api := app.Group("/api")
 	v1 := api.Group("/v1", func(c *fiber.Ctx) error { // middleware for /api/v1
