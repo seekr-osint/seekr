@@ -45,7 +45,7 @@ function createThemeCards(theme: string) {
 
     themeCardText.classList.add("theme-text");
     themeCardText.dataset.theme = theme;
-    themeCardText.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+    themeCardText.textContent = theme.replace("_", ' ').replace(/\b\w/g, x => x.toUpperCase());
 
 
     themeCardContainer.appendChild(themeCardOuter);
