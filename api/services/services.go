@@ -27,19 +27,19 @@ func EmptyInfo(data UserServiceDataToCheck) (AccountInfo, error) { // data can s
 }
 
 var DefaultServices = Services{
-	{
-		Name: "Instagram",
-		UserExistsFunc: func(data UserServiceDataToCheck) (bool, error) {
-			return data.PatternUrlMatchUserExists("user?username={{.Username}}")
-		},
-		InfoFunc:            InstagramInfo,
-		Domain:              "www.instagram.com",
-		UserHtmlUrlTemplate: "{{.Domain}}/{{.Username}}/",
-		TestData: TestData{
-			ExistingUser:    "greg",
-			NotExistingUser: "greg2q1412fdwkdfns",
-		},
-	},
+	// {
+	// 	Name: "Instagram",
+	// 	UserExistsFunc: func(data UserServiceDataToCheck) (bool, error) {
+	// 		return data.PatternUrlMatchUserExists("user?username={{.Username}}")
+	// 	},
+	// 	InfoFunc:            InstagramInfo,
+	// 	Domain:              "www.instagram.com",
+	// 	UserHtmlUrlTemplate: "{{.Domain}}/{{.Username}}/",
+	// 	TestData: TestData{
+	// 		ExistingUser:    "greg",
+	// 		NotExistingUser: "greg2q1412fdwkdfns",
+	// 	},
+	// },
 	{
 		Name:                "GitHub",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
@@ -149,7 +149,7 @@ var DefaultServices = Services{
 	{
 		Name:                "Snapchat",
 		UserExistsFunc:      StatusCodeUserExistsFunc,
-		InfoFunc: 					SnapchatInfo,
+		InfoFunc:            SnapchatInfo,
 		Domain:              "snapchat.com",
 		UserHtmlUrlTemplate: "{{.Domain}}/add/{{.Username}}",
 		BlocksTor:           true,
@@ -176,7 +176,7 @@ func ScrapeImageTwitterTag(response http.Response) (string, error) {
 	}
 
 	img := doc.Find(`meta[name="twitter:image"]`).AttrOr("content", "")
-	log.Printf("image: %s",img)
+	log.Printf("image: %s", img)
 	return img, nil
 }
 
@@ -189,7 +189,6 @@ func ScrapeBioTwitterTag(response http.Response) (string, error) {
 	bio := doc.Find(`meta[name="twitter:description"]`).AttrOr("content", "")
 	return bio, nil
 }
-
 
 func SnapchatInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	url, err := data.GetUserHtmlUrl()
@@ -211,7 +210,7 @@ func SnapchatInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	if err != nil {
 		return AccountInfo{}, err
 	}
-	_, err = GetImage(RemoveExtension(img,"jpeg"))
+	_, err = GetImage(RemoveExtension(img, "jpeg"))
 	if err != nil { // FIXME no pfp
 		return AccountInfo{}, err
 	}
@@ -241,7 +240,7 @@ func YouTubeInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	if err != nil {
 		return AccountInfo{}, err
 	}
-	_, err = GetImage(RemoveExtension(img,"jpg"))
+	_, err = GetImage(RemoveExtension(img, "jpg"))
 	if err != nil { // FIXME no pfp
 		return AccountInfo{}, err
 	}
@@ -343,20 +342,20 @@ func AsciinemaInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 }
 
 type Player struct {
-		Avatar      string `json:"avatar"`
-    PlayerID    int       `json:"player_id"`
-    ID          string    `json:"@id"`
-    Url         string    `json:"url"`
-    Name        string    `json:"name"`
-    Username    string    `json:"username"`
-    Followers   int       `json:"followers"`
-    Country     string    `json:"country"`
-    Location    string    `json:"location"`
-    LastOnline  int64     `json:"last_online"`
-    Joined      int64     `json:"joined"`
-    Status      string    `json:"status"`
-    IsStreamer  bool      `json:"is_streamer"`
-    Verified    bool      `json:"verified"`
+	Avatar     string `json:"avatar"`
+	PlayerID   int    `json:"player_id"`
+	ID         string `json:"@id"`
+	Url        string `json:"url"`
+	Name       string `json:"name"`
+	Username   string `json:"username"`
+	Followers  int    `json:"followers"`
+	Country    string `json:"country"`
+	Location   string `json:"location"`
+	LastOnline int64  `json:"last_online"`
+	Joined     int64  `json:"joined"`
+	Status     string `json:"status"`
+	IsStreamer bool   `json:"is_streamer"`
+	Verified   bool   `json:"verified"`
 }
 
 func ChessComInfo(data UserServiceDataToCheck) (AccountInfo, error) {
@@ -375,15 +374,15 @@ func ChessComInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 		return AccountInfo{}, err
 	}
 	err = json.Unmarshal([]byte(jsonData), &player)
-    if err != nil {
-        return AccountInfo{}, err
-    }
+	if err != nil {
+		return AccountInfo{}, err
+	}
 
 	img, err := GetImage(player.Avatar)
-    if err != nil {
-        return AccountInfo{}, err
-    }
-	
+	if err != nil {
+		return AccountInfo{}, err
+	}
+
 	accountInfo := AccountInfo{}
 	accountInfo.ProfilePicture.AddOrUpdateLatestItem(img)
 	accountInfo.Url = player.Url
@@ -415,7 +414,7 @@ func TikTokInfo(data UserServiceDataToCheck) (AccountInfo, error) {
 	}
 	var imgUrl string
 	doc.Find("meta[data-rh=true][property='og:image']").Each(func(index int, element *goquery.Selection) {
-		imgUrl , _ = element.Attr("content")
+		imgUrl, _ = element.Attr("content")
 	})
 	pfp, err := GetImage(imgUrl)
 	if err != nil { // FIXME no pfp
@@ -437,7 +436,7 @@ func NewBio(bio string) Bio { // TODO discord tag regex/username regex (https://
 		Bio: bio,
 	}
 }
-func RemoveExtension(input,extension string) string {
+func RemoveExtension(input, extension string) string {
 	lastIndex := strings.LastIndex(input, extension)
 	if lastIndex == -1 {
 		return input
