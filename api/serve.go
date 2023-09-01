@@ -18,6 +18,7 @@ import (
 	"github.com/seekr-osint/seekr/api/apierror"
 	"github.com/seekr-osint/seekr/api/config"
 	"github.com/seekr-osint/seekr/api/person"
+	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/seekrauth"
 	"github.com/swaggo/fiber-swagger"
 )
@@ -101,6 +102,8 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 	v1.Patch("/people/:id", FiberHandler(PatchPerson, db))
 	v1.Post("/people", FiberHandler(PostPerson, db))
 
+	v1.Get("/restart", FiberHandler(Restart, db))
+
 	app.Get("/metrics", monitor.New(monitor.Config{Title: "Seekr Metrics Page"}))
 	for _, route := range app.GetRoutes(true) {
 		fmt.Printf("%s\t-> %s\n", route.Method, route.Path)
@@ -109,9 +112,14 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 	return app.Listen(config.Address())
 }
 
-// @Param		request	body		main.MyHandler.request	true	"query params"
-// @Success	200		{object}	main.MyHandler.response
-// @Router		/test [post]
+func Restart(c *fiber.Ctx, db *gorm.DB) error {
+	fmt.Printf("Restarting...\n")
+	err := restart.RestartBinary()
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func GetPerson(c *fiber.Ctx, db *gorm.DB) error {
 	id := c.Params("id")
 	var person person.Person
