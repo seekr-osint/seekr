@@ -2,6 +2,8 @@ import { saveAsFile, checkDropdownValue, loadDropdown, apiCall } from "./framewo
 import * as person from "../ts-gen/person.js";
 import * as accounts from "../ts-gen/services.js";
 import * as enums from "../ts-gen/enums.js";
+import * as phone from "../ts-gen/phone.js";
+import * as email from "../ts-gen/email.js";
 
 function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
   if (value === undefined) {
@@ -100,11 +102,11 @@ function Post(person: person.Person,loadingSpinner?: HTMLDivElement): void {
       });
   }
 
-  function Edit(obj: person.Person): void {
+  function Edit(obj: person.Person, create: boolean): void {
     mainContainer.style.display = "none";
     editContainer.style.display = "flex";
 
-    editShowID.innerHTML = obj.id;
+    editShowID.innerHTML = String(obj.id);
 
     editNameTag.value = obj.name;
 
@@ -513,7 +515,7 @@ function Post(person: person.Person,loadingSpinner?: HTMLDivElement): void {
 
     if (Object.keys(obj.email).length >= 1) {
       for (const [_, email] of Object.entries(obj.email)) {
-        const emailVar = (email as { mail: string, services: {} });
+        const emailVar = (email as email.Email);
 
         const container = document.createElement("div");
         container.className = "email-container";
@@ -542,7 +544,7 @@ function Post(person: person.Person,loadingSpinner?: HTMLDivElement): void {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-        if (emailVar.services != undefined && emailVar.services != null && emailVar.services != "") {
+        if (emailVar.services != undefined && emailVar.services != null) {
           const hidden_email_save = document.createElement("p");
           hidden_email_save.className = "hidden-email-save";
 
@@ -938,11 +940,10 @@ document.getElementById("newbtn")!.onclick = async function () {
   }
 
   let obj = {} as person.Person;
-  obj.id = checkId(preId);
   obj.name = "";
   obj.age = 0;
   // obj = replaceUndefinedWithEmpty<typeof obj>(obj);
-  Edit(obj);
+  Edit(obj,true);
   // mainContainer.style.display = "none";
   // createContainer.style.display = "flex";
 }
@@ -1553,7 +1554,7 @@ function createCards(obj: person.Person) {
 
     if (Object.keys(obj.email).length >= 1) {
       for (const [_, email] of Object.entries(obj.email)) {
-        const emailVar = (email as person.Email)
+        const emailVar = (email as email.Email)
 
         if (emailVar.mail != "" && emailVar.mail != null && emailVar.mail != undefined) {
           viewEmailSpacemaker.style.display = "block";
@@ -1720,7 +1721,7 @@ function createCards(obj: person.Person) {
   // edit button
   e_icon_div.onclick = function () {
     let obj2 = obj as person.Person;
-    Edit(obj2)
+    Edit(obj2,false)
   }
 }
 
@@ -1875,11 +1876,11 @@ editSaveBtn.onclick = async function () {
   obj.age = age;
   obj.bday = bday;
   obj.address = address;
-  obj.phone = phoneNumbers as { [key: string]: person.PhoneNumber };
+  obj.phone = phoneNumbers as unknown as phone.PhoneNumbers;
   obj.civilstatus = civilstatus as unknown as enums.CivilstatusEnum;
   obj.kids = kids;
   obj.hobbies = hobbies;
-  obj.email = emailAddresses as unknown as { [key: string]: person.Email };
+  obj.email = emailAddresses as unknown as email.Emails;
   obj.ips = ips;
   obj.occupation = occupation;
   obj.prevoccupation = prevoccupation;

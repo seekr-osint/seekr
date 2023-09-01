@@ -7,7 +7,9 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/seekr-osint/seekr/api/email"
 	"github.com/seekr-osint/seekr/api/enums"
+	"github.com/seekr-osint/seekr/api/phone"
 	"github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/types/clubs"
 	"github.com/seekr-osint/seekr/api/types/hobbies"
@@ -38,6 +40,8 @@ type Person struct {
 	Political             string                         `json:"political" tstype:"string"`
 	Notes                 string                         `json:"notes" tstype:"string"`
 	Services              services.MapServiceCheckResult `json:"accounts" grom:"embedded" tstype:"services.MapServiceCheckResult"`
+	PhoneNumbers          phone.PhoneNumbers             `json:"phone" tstype:"phone.PhoneNumbers"`
+	Emails                email.Emails                   `json:"email" tstype:"email.Emails"`
 	Hobbies               hobbies.Hobbies                `json:"hobbies" tstype:"hobbies.Hobbies"`
 	Clubs                 clubs.Clubs                    `json:"clubs" tstype:"clubs.Clubs"`
 	Sources               sources.Sources                `json:"sources" tstype:"sources.Sources"`

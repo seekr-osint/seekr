@@ -16,12 +16,12 @@ func main() {
 				OutputPath: "./../../web/ts-gen/person.ts",
 				Frontmatter: `import * as enums from "enums.js"
 import * as services from "services.js"
-
 import * as hobbies from "hobbies.js"
 import * as ips from "ips.js"
 import * as clubs from "clubs.js"
 import * as sources from "sources.js"
-
+import * as phone from "phone.js"
+import * as email from "email.js"
 `,
 			},
 			{
@@ -34,6 +34,15 @@ import * as sources from "sources.js"
 				ExcludeFiles: []string{"functypes.go"},
 			},
 
+			{
+				Path:       "github.com/seekr-osint/seekr/api/phone",
+				OutputPath: "./../../web/ts-gen/phone.ts",
+			},
+			{
+				Path:         "github.com/seekr-osint/seekr/api/email",
+				OutputPath:   "./../../web/ts-gen/email.ts",
+				ExcludeFiles: []string{"func_types.go"},
+			},
 			{
 				Path:       "github.com/seekr-osint/seekr/api/types/clubs",
 				OutputPath: "./../../web/ts-gen/clubs.ts",
