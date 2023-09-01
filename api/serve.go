@@ -11,7 +11,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/basicauth"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
-	"github.com/gofiber/fiber/v2/middleware/helmet"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
+	// "github.com/gofiber/fiber/v2/middleware/helmet"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/seekr-osint/seekr/api/apierror"
@@ -65,27 +66,31 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
-	app.Use(helmet.New(helmet.Config{
-		XSSProtection:             "0",
-		ContentTypeNosniff:        "nosniff",
-		XFrameOptions:             "SAMEORIGIN",
-		ReferrerPolicy:            "no-referrer",
-		CrossOriginEmbedderPolicy: "require-corp",
-		CrossOriginOpenerPolicy:   "same-origin",
-		CrossOriginResourcePolicy: "same-origin",
-		OriginAgentCluster:        "?1",
-		XDNSPrefetchControl:       "off",
-		XDownloadOptions:          "noopen",
-		XPermittedCrossDomain:     "none",
-	}))
+	// app.Use(helmet.New(helmet.Config{
+	// 	XSSProtection:             "0",
+	// 	ContentTypeNosniff:        "sniff",
+	// 	XFrameOptions:             "SAMEORIGIN",
+	// 	ReferrerPolicy:            "no-referrer",
+	// 	CrossOriginEmbedderPolicy: "require-corp",
+	// 	CrossOriginOpenerPolicy:   "same-origin",
+	// 	CrossOriginResourcePolicy: "same-origin",
+	// 	OriginAgentCluster:        "?1",
+	// 	XDNSPrefetchControl:       "off",
+	// 	XDownloadOptions:          "noopen",
+	// 	XPermittedCrossDomain:     "none",
+	// }))
 
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Render("web/html/index", fiber.Map{
-			"Title": "Hello, World!",
-		}, "web/html/layouts/layout")
-	})
+	web := app.Group("/web")
+	web.Use("/", filesystem.New(filesystem.Config{
+		Root:   http.FS(fs),
+		Browse: true,
+		Index:  "index.html",
+		// NotFoundFile: "404.html",
+		MaxAge:     3600,
+		PathPrefix: "web",
+	}))
 
 	api := app.Group("/api")
 	v1 := api.Group("/v1", func(c *fiber.Ctx) error { // middleware for /api/v1
