@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/seekr-osint/seekr/api/enum"
 	"github.com/seekr-osint/seekr/api/enums"
+	// "github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/validate"
 	"gorm.io/gorm"
 )
@@ -23,6 +24,7 @@ type Person struct {
 	Ethnicity  enum.Enum[enums.Ethnicity] `json:"ethnicity" tstype:"'African' | 'Asian' | 'Caucasian/White' | 'Hispanic/Latino' | 'Indigenous/Native American' | 'Multiracial/Mixed'" example:"Asian"`
 	Maidenname string                     `json:"maidenname" tstype:"string" example:"greg"`
 	Kids       string                     `json:"kids" tstype:"string" example:"no because no wife"`
+	// Services   services.MapServiceCheckResult `json:"accounts" grom:"type:embed"`
 }
 
 func (p Person) Validate(personValidator *validate.XValidator) error {
