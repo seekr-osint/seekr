@@ -51,7 +51,7 @@ type MapServiceCheckResult map[string]ServiceCheckResult
 type ServiceCheckResult struct {
 	InputData InputData   `json:"input_data"`
 	Exists    bool        `json:"exists"`
-	Info      AccountInfo `json:"info" tstype:"-"`
+	Info      AccountInfo `json:"info"`
 	Errors    Errors      `json:"errors"`
 }
 type Image struct {
@@ -60,8 +60,8 @@ type Image struct {
 	Date time.Time `tstype:"string"`
 }
 type AccountInfo struct {
-	Url            string                 `json:"url"`
-	ProfilePicture history.History[Image] `json:"profile_picture" tstype:"{ latest: { data: string } } "`
+	Url            string                 `json:"url" tstype:"string"`
+	ProfilePicture history.History[Image] `json:"profile_picture" tstype:"{ latest: { data: string } }"`
 	Bio            history.History[Bio]   `json:"bio" tstype:"{ latest: { data: {bio: string} } }"`
 }
 type Bio struct {

@@ -3,9 +3,8 @@ package enums
 import (
 	"github.com/seekr-osint/seekr/api/enum"
 )
-
 type Gender string
-type GenderEnum struct {
+type GenderEnum struct{
 	Gender enum.Enum[Gender] `json:"gender" tstype:"'Male' | 'Female' | 'Other' | ''" example:"Male"`
 }
 
@@ -17,10 +16,13 @@ type GenderEnum struct {
 // 	return gender.Gender.Scan(value)
 // }
 
+
 func (gender Gender) Values() []Gender {
-	return []Gender{"Male", "Female", "Other"}
+	return []Gender{ "Male", "Female", "Other" }
 }
 
 func (gender Gender) NullValue() Gender {
 	return ""
 }
+
+
