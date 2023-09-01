@@ -11,7 +11,7 @@
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/seekr-osint/seekr">
 <img alt="GitHub issues" src="https://img.shields.io/github/issues/seekr-osint/seekr">
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
-<a alt="Discord" href="https://discord.gg/hQ9XvMUjjr"><img src="https://img.shields.io/badge/Join%20the-Discord%20server-6666ff" alt="Badge Discord"></a>
+<a alt="Discord" href="https://discord.gg/tc4u99Eg5G"><img src="https://img.shields.io/badge/Join%20the-Discord%20server-6666ff" alt="Badge Discord"></a>
 </p>
 
 ## Introduction   
