@@ -59,4 +59,9 @@ func main() {
 		panic(err)
 	}
 
+	err = WriteEnum("Religion", []string{"Christianity", "Islam", "Hinduism", "Buddhism", "Sikhism", "Judaism", "Other", "Atheism"}, "")
+	if err != nil {
+		panic(err)
+	}
+
 }
