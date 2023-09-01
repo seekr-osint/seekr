@@ -8,6 +8,7 @@ import (
 
 	"github.com/seekr-osint/seekrstack/api/enum"
 )
+
 func writeToFile(filename, content string) error {
 	file, err := os.Create(filename)
 	if err != nil {
@@ -43,7 +44,7 @@ func WriteEnum(typeName string, values []string, nullValue string) error {
 }
 
 func main() {
-	err := WriteEnum("Gender", []string{"male", "female", "other"}, "")
+	err := WriteEnum("Gender", []string{"Male", "Female", "Other"}, "")
 	if err != nil {
 		panic(err)
 	}
@@ -53,5 +54,9 @@ func main() {
 		panic(err)
 	}
 
+	err = WriteEnum("Civilstatus", []string{"Single", "Married", "Windowed", "Divorced", "Seperated"}, "")
+	if err != nil {
+		panic(err)
+	}
 
 }

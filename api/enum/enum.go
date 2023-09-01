@@ -33,10 +33,10 @@ func (e Enum[T]) Validate() error {
 }
 
 func (e *Enum[T]) Scan(value interface{}) error {
-	if err := json.Unmarshal(value.([]byte),e); err != nil {
+	if err := json.Unmarshal(value.([]byte), e); err != nil {
 		return err
 	}
-	
+
 	if err := e.Validate(); err != nil {
 		return err
 	}
@@ -47,9 +47,9 @@ func (e Enum[T]) Value() (driver.Value, error) {
 		return "", err
 	}
 	value, err := json.Marshal(e)
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 	return value, nil
 }
 

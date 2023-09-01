@@ -99,4 +99,3 @@ func PostPerson(c *fiber.Ctx, db *gorm.DB) error {
 	db.Create(&person)
 	return c.Status(201).JSON(person)
 }
-

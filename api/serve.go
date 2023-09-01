@@ -101,6 +101,7 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 
 	v1.Get("/restart", FiberHandler(Restart, db))
 	v1.Post("/detect-language", FiberHandler(DetectLanguage, db))
+	v1.Get("/scanAccounts/:username", FiberHandler(Restart, db))
 
 	app.Get("/metrics", monitor.New(monitor.Config{Title: "Seekr Metrics Page"}))
 	for _, route := range app.GetRoutes(true) {

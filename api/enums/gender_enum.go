@@ -3,10 +3,9 @@ package enums
 type Gender string
 
 func (gender Gender) Values() []Gender {
-	return []Gender{ "male", "female", "other" }
+	return []Gender{"Male", "Female", "Other"}
 }
 
 func (gender Gender) NullValue() Gender {
 	return ""
 }
-

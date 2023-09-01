@@ -1,4 +1,4 @@
-//NOTTgo:generate go run main.go
+// NOTTgo:generate go run main.go
 package main
 
 import (
