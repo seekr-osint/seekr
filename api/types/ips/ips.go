@@ -5,12 +5,10 @@ import (
 	"encoding/json"
 )
 
-
 type IPs map[string]IP
 type IP struct {
 	IP string `json:"ip" validate:"ip" tstype:"string"`
 }
-
 
 func (i *IPs) Scan(value interface{}) error {
 	if err := json.Unmarshal(value.([]byte), i); err != nil {

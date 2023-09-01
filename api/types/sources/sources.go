@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 )
 
-
 type Sources map[string]Source
 type Source struct {
 	URL string `json:"url" validate:"url" tstype:"string"`

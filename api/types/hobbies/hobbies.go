@@ -9,6 +9,7 @@ type Hobbies map[string]Hobby
 type Hobby struct {
 	Hobby string `json:"hobby" tstype:"string"`
 }
+
 func (h *Hobbies) Scan(value interface{}) error {
 	if err := json.Unmarshal(value.([]byte), h); err != nil {
 		return err

@@ -35,20 +35,20 @@ import * as sources from "sources.js"
 			},
 
 			{
-				Path:         "github.com/seekr-osint/seekr/api/types/clubs",
-				OutputPath:   "./../../web/ts-gen/clubs.ts",
+				Path:       "github.com/seekr-osint/seekr/api/types/clubs",
+				OutputPath: "./../../web/ts-gen/clubs.ts",
 			},
 			{
-				Path:         "github.com/seekr-osint/seekr/api/types/sources",
-				OutputPath:   "./../../web/ts-gen/sources.ts",
+				Path:       "github.com/seekr-osint/seekr/api/types/sources",
+				OutputPath: "./../../web/ts-gen/sources.ts",
 			},
 			{
-				Path:         "github.com/seekr-osint/seekr/api/types/hobbies",
-				OutputPath:   "./../../web/ts-gen/hobbies.ts",
+				Path:       "github.com/seekr-osint/seekr/api/types/hobbies",
+				OutputPath: "./../../web/ts-gen/hobbies.ts",
 			},
 			{
-				Path:         "github.com/seekr-osint/seekr/api/types/ips",
-				OutputPath:   "./../../web/ts-gen/ips.ts",
+				Path:       "github.com/seekr-osint/seekr/api/types/ips",
+				OutputPath: "./../../web/ts-gen/ips.ts",
 			},
 			// {
 			// 	Path:       "github.com/seekr-osint/seekr/api/history",

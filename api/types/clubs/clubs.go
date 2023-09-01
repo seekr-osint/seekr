@@ -10,7 +10,6 @@ type Club struct {
 	Club string `json:"club" tstype:"string"`
 }
 
-
 func (c *Clubs) Scan(value interface{}) error {
 	if err := json.Unmarshal(value.([]byte), c); err != nil {
 		return err
@@ -24,4 +23,3 @@ func (c Clubs) Value() (driver.Value, error) {
 	}
 	return value, nil
 }
-
