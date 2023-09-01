@@ -9,6 +9,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.49.0
 	github.com/gofiber/template/html/v2 v2.0.5
 	github.com/gzuidhof/tygo v0.2.9
+	github.com/nyaruka/phonenumbers v1.1.0
 	github.com/pemistahl/lingua-go v1.3.4
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
@@ -52,7 +53,6 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
-	github.com/nyaruka/phonenumbers v1.1.0 // indirect
 	github.com/onlinecity/go-phone-iso3166 v0.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
