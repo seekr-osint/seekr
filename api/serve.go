@@ -17,6 +17,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/seekr-osint/seekr/api/apierror"
 	"github.com/seekr-osint/seekr/api/config"
+	"github.com/seekr-osint/seekr/api/language"
 	"github.com/seekr-osint/seekr/api/person"
 	"github.com/seekr-osint/seekr/api/restart"
 	"github.com/seekr-osint/seekr/api/seekrauth"
@@ -103,6 +104,7 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 	v1.Post("/people", FiberHandler(PostPerson, db))
 
 	v1.Get("/restart", FiberHandler(Restart, db))
+	v1.Post("/detect-language", FiberHandler(DetectLanguage, db))
 
 	app.Get("/metrics", monitor.New(monitor.Config{Title: "Seekr Metrics Page"}))
 	for _, route := range app.GetRoutes(true) {
@@ -112,6 +114,19 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 	return app.Listen(config.Address())
 }
 
+func DetectLanguage(c *fiber.Ctx, db *gorm.DB) error {
+	var text struct {
+		Text string `json:"text"`
+	}
+
+	body := c.Body()
+	err := json.Unmarshal(body, &text)
+	if err != nil {
+		return c.Status(503).SendString(err.Error())
+	}
+	lang := language.DetectLanguage(text.Text)
+	return c.Status(200).JSON(lang)
+}
 func Restart(c *fiber.Ctx, db *gorm.DB) error {
 	fmt.Printf("Restarting...\n")
 	err := restart.RestartBinary()
