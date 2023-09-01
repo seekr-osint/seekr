@@ -1,6 +1,8 @@
 package services
 
 import (
+	"database/sql/driver"
+	"encoding/json"
 	"image"
 	"time"
 
@@ -76,3 +78,21 @@ type UserServiceDataToCheck struct {
 
 type UserExistsFunc func(UserServiceDataToCheck) (bool, error)
 type InfoFunc func(UserServiceDataToCheck) (AccountInfo, error)
+
+
+
+func (e MapServiceCheckResult) Scan(value interface{}) error {
+	if err := json.Unmarshal(value.([]byte), e); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (e MapServiceCheckResult) Value() (driver.Value, error) {
+	value, err := json.Marshal(e)
+	if err != nil {
+		return nil, err
+	}
+	return value, nil
+}
+

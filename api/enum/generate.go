@@ -16,10 +16,22 @@ type TemplateData struct {
 }
 
 const codeTemplate = `
+import (
+	"github.com/seekr-osint/seekr/api/enum"
+)
 type {{.TypeName}} string
 type {{.TypeName}}Enum struct{
-	{{.TypeName}} {{.TypeName}} ` + "`" + `json:"{{.LowerTypeName}}" tstype:"{{.TSEnum}}" example:"{{index .Values 0}}"` + "`" + `
+	{{.TypeName}} enum.Enum[{{.TypeName}}] ` + "`" + `json:"{{.LowerTypeName}}" tstype:"{{.TSEnum}}" example:"{{index .Values 0}}"` + "`" + `
 }
+
+// func ({{.LowerTypeName}} {{.TypeName}}Enum) Value() (driver.Value, error) {
+// 	return {{.LowerTypeName}}.{{.TypeName}}.Vlaue()
+// }
+
+// func ({{.LowerTypeName}} {{.TypeName}}Enum) Scan(value interface{}) error {
+// 	return {{.LowerTypeName}}.{{.TypeName}}.Scan(value)
+// }
+
 
 func ({{.LowerTypeName}} {{.TypeName}}) Values() []{{.TypeName}} {
 	return []{{.TypeName}}{ {{range $index, $value := .Values}}{{if $index}}, {{end}}"{{$value}}"{{end}} }
@@ -28,6 +40,7 @@ func ({{.LowerTypeName}} {{.TypeName}}) Values() []{{.TypeName}} {
 func ({{.LowerTypeName}} {{.TypeName}}) NullValue() {{.TypeName}} {
 	return "{{.NullValue}}"
 }
+
 `
 
 func CreateTemplateData(typeName string, values []string, nullValue string) TemplateData {
