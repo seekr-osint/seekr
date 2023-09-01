@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/seekr-osint/seekrstack/api/enum"
+	"github.com/seekr-osint/seekr/api/enum"
 )
 
 func writeToFile(filename, content string) error {

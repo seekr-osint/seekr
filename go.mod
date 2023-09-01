@@ -10,7 +10,6 @@ require (
 	github.com/gofiber/template/html/v2 v2.0.5
 	github.com/gzuidhof/tygo v0.2.9
 	github.com/pemistahl/lingua-go v1.3.4
-	github.com/seekr-osint/seekrstack v0.0.0-20230831215629-76b3d1ad0967
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
 	github.com/src-d/enry/v2 v2.1.0

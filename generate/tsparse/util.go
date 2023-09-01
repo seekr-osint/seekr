@@ -2,10 +2,7 @@ package tsparse
 
 import (
 	"fmt"
-	// "log"
 	"reflect"
-	// "strings"
-	// "github.com/seekr-osint/seekrstack/api/enum"
 )
 
 type FieldInfo struct {

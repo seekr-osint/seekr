@@ -77,6 +77,7 @@ func (e Enum[T]) String() string {
 func (e Enum[T]) TSValue() T { // error on non string enums
 	return e.CurrentValue
 }
+
 func (e Enum[T]) TSAssign() string { // error on non string enums
 	res := fmt.Sprintf("'%v'", e.CurrentValue.NullValue())
 	for _, v := range e.CurrentValue.Values() {

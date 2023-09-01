@@ -7,8 +7,8 @@ import (
 	"text/template"
 	// "strings"
 
-	"github.com/seekr-osint/seekrstack/api/person"
-	"github.com/seekr-osint/seekrstack/generate/tsparse"
+	"github.com/seekr-osint/seekr/api/person"
+	"github.com/seekr-osint/seekr/generate/tsparse"
 )
 
 // import (
