@@ -321,7 +321,7 @@ func (services Services) GetServiceByName(name string) (Service, error) {
 }
 
 // basically scanning for the services
-func (results MapServiceCheckResult) Scan(defaultServices Services, workers int) MapServiceCheckResult { // FIXME BAD CODE
+func (results MapServiceCheckResult) ScanAcc(defaultServices Services, workers int) MapServiceCheckResult { // FIXME BAD CODE
 	res := results
 	for _, result := range functions.SortMapKeys(results) {
 		services := Services{}
@@ -331,7 +331,7 @@ func (results MapServiceCheckResult) Scan(defaultServices Services, workers int)
 		} else {
 			services = append(services, service)
 			DataToCheck := res[result].InputData.User.GetServices2(services)
-			serviceCheckResults := DataToCheck.Scan(workers)
+			serviceCheckResults := DataToCheck.ScanAcc(workers)
 			res1 := res[result]
 			fmt.Printf("len ServiceCheckResults: %d\n", len(serviceCheckResults))
 			res1.Merge(serviceCheckResults[0])
@@ -341,11 +341,11 @@ func (results MapServiceCheckResult) Scan(defaultServices Services, workers int)
 	return results
 }
 
-func (user User) Scan(workers int) ServiceCheckResults {
-	return user.GetServices().Scan(workers)
+func (user User) ScanAcc(workers int) ServiceCheckResults {
+	return user.GetServices().ScanAcc(workers)
 }
 
-func (services DataToCheck) Scan(workers int) ServiceCheckResults {
+func (services DataToCheck) ScanAcc(workers int) ServiceCheckResults {
 	results := ServiceCheckResults{}
 	s := make(chan UserServiceDataToCheck, workers)
 	res := make(chan ServiceCheckResult, workers)
