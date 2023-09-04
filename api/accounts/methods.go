@@ -45,6 +45,7 @@ func (a AccountScanner) UserExistsCheckInput(user User) (*UserExistsCheckInput, 
 	}
 	userExistsCheckInput := UserExistsCheckInput{
 		URLs: *urls,
+		User: user,
 	}
 	return &userExistsCheckInput, nil
 }

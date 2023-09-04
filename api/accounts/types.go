@@ -34,6 +34,7 @@ type URLSlice []string
 
 type UserExistsCheckInput struct {
 	URLs URLs `json:"urls"`
+	User `json:"username"`
 }
 type URLTemplateInput struct {
 	User
