@@ -3,8 +3,9 @@ package enums
 import (
 	"github.com/seekr-osint/seekr/api/enum"
 )
+
 type Religion string
-type ReligionEnum struct{
+type ReligionEnum struct {
 	Religion enum.Enum[Religion] `json:"religion" tstype:"'Christianity' | 'Islam' | 'Hinduism' | 'Buddhism' | 'Sikhism' | 'Judaism' | 'Other' | 'Atheism' | ''" example:"Christianity"`
 }
 
@@ -16,13 +17,10 @@ type ReligionEnum struct{
 // 	return religion.Religion.Scan(value)
 // }
 
-
 func (religion Religion) Values() []Religion {
-	return []Religion{ "Christianity", "Islam", "Hinduism", "Buddhism", "Sikhism", "Judaism", "Other", "Atheism" }
+	return []Religion{"Christianity", "Islam", "Hinduism", "Buddhism", "Sikhism", "Judaism", "Other", "Atheism"}
 }
 
 func (religion Religion) NullValue() Religion {
 	return ""
 }
-
-

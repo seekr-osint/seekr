@@ -40,7 +40,5 @@ var defaultServices Services = Services{
 }
 
 func DefaultServices() Services {
-
 	return defaultServices
-
 }
