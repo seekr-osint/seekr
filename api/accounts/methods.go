@@ -49,6 +49,14 @@ func (a AccountScanner) UserExistsCheckInput(user User) (*UserExistsCheckInput, 
 	return &userExistsCheckInput, nil
 }
 
+func (u URLs) ToSlice() URLSlice {
+	urls := URLSlice{}
+	for _, url := range functions.SortMapKeys(u) {
+		urls = append(urls, u[url])
+	}
+	return urls
+}
+
 func (a AccountScanner) GetURLsMap(user User) (*URLs, error) {
 	urls := URLs{}
 	for _, tmpl := range functions.SortMapKeys(a.URLTemplates) {
@@ -66,9 +74,17 @@ func (a AccountScanner) GetURLTemplateInput(user User) *URLTemplateInput {
 }
 
 func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult[DefaultAccount], error) {
+	url, err := a.GetURL("HtmlURL", user)
+	if err != nil {
+		return nil, err
+	}
+	if url == "" {
+		return nil, fmt.Errorf("error empty HtmlURL")
+	}
 	res := ScanResult[DefaultAccount]{
-		Account: &DefaultAccount{ // FIXME add url
+		Account: &DefaultAccount{
 			Name: a.Name,
+			URL:  url,
 		},
 	}
 

@@ -4,26 +4,31 @@ type User struct {
 	Username string `json:"username" tstype:"string"`
 }
 
-type TestData struct {
-	UserExistsCheck map[User]struct {
-		Exists bool
-		Error  error
-	}
+type MockData[T Account] struct {
+	User   User          `json:"user"`
+	Result ScanResult[T] `json:"result"`
+}
+
+type TestData[T Account] struct {
+	MockData []MockData[T] `json:"mock_data"`
 }
 
 type Services []AccountScanner
 type AccountScanner struct {
-	Name            string       `json:"name" tstype:"string"`
-	Domain          string       `json:"domain" tstype:"string"`
-	Protocol        string       `json:"protocol" tstype:"string"`
-	URLTemplates    URLTemplates `json:"url_templates"`
-	UserExistsCheck URLTemplate  `json:"user_exists_check" tstype:"string"`
+	Name            string                   `json:"name" tstype:"string"`
+	Domain          string                   `json:"domain" tstype:"string"`
+	Protocol        string                   `json:"protocol" tstype:"string"`
+	URLTemplates    URLTemplates             `json:"url_templates"`
+	UserExistsCheck URLTemplate              `json:"user_exists_check" tstype:"string"`
+	TestData        TestData[DefaultAccount] `json:"test_data"`
 }
 
 type URLTemplates map[string]URLTemplate
 type URLTemplate string
 
 type URLs map[string]string
+
+type URLSlice []string
 
 // type URL string // TODO protocol as method
 
@@ -46,6 +51,7 @@ type ScanResult[T Account] struct {
 	Errors      Errors `json:"errors"`
 	RateLimited bool   `json:"rate_limited" tstype:"bolean"`
 }
+
 type Errors struct {
 	UserExistsCheck error `json:"user_exists_check" tstype:"string"`
 }

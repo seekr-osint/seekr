@@ -101,7 +101,7 @@
                 "-extldflags=-static"
                 #"-X main.version=${version}"
               ];
-              vendorSha256 = "sha256-YkKNIUTEYUi2zwjHPBXfdDGcvpnvxmH5Vu1R3LZ0afk=";
+              vendorSha256 = "sha256-8vJP9bRd+ThFYaTGEdrEnQa2BJs+zsW3ozro01a0TWM=";
             };
           });
 

@@ -6,10 +6,11 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/glebarez/sqlite v1.9.0
 	github.com/go-playground/validator/v10 v10.15.3
-	github.com/gofiber/fiber/v2 v2.49.0
+	github.com/gofiber/fiber/v2 v2.49.1
 	github.com/gofiber/template/html/v2 v2.0.5
 	github.com/gzuidhof/tygo v0.2.9
-	github.com/nyaruka/phonenumbers v1.1.0
+	github.com/jarcoal/httpmock v1.3.1
+	github.com/nyaruka/phonenumbers v1.1.8
 	github.com/pemistahl/lingua-go v1.3.4
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
@@ -39,7 +40,7 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.3.1 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
-	github.com/hashicorp/golang-lru v0.5.4 // indirect
+	github.com/hashicorp/golang-lru v1.0.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -74,8 +75,8 @@ require (
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.14.0 // indirect
-	golang.org/x/sys v0.11.0 // indirect
-	golang.org/x/text v0.12.0 // indirect
+	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	golang.org/x/tools v0.12.1-0.20230815132531-74c255bcf846 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
