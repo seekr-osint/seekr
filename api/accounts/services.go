@@ -261,6 +261,42 @@ var defaultServices Services = Services{
 			},
 		},
 	},
+
+	{
+		Name:   "Replit",
+		Domain: "replit.com",
+		URLTemplates: map[string]URLTemplate{
+			"HtmlURL": "{{ .Domain }}/@{{ .Username }}",
+		},
+		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
+		TestData: TestData[DefaultAccount]{
+			MockData: []MockData[DefaultAccount]{
+				{
+					User: User{
+						Username: "greg",
+					},
+					Result: ScanResult[DefaultAccount]{
+						Account: &DefaultAccount{
+							Name: "Replit",
+							URL:  "https://replit.com/@greg",
+						},
+						Exists: true,
+					},
+				},
+				{
+					User: User{
+						Username: "thatoneguywholikesseekr",
+					},
+					Result: ScanResult[DefaultAccount]{
+						Account: &DefaultAccount{
+							Name: "Replit",
+						},
+						Exists: false,
+					},
+				},
+			},
+		},
+	},
 	{
 		Name:   "Asciinema",
 		Domain: "asciinema.org",
@@ -297,12 +333,117 @@ var defaultServices Services = Services{
 		},
 	},
 	{
+		Name:   "Vimeo",
+		Domain: "vimeo.com",
+		URLTemplates: map[string]URLTemplate{
+			"HtmlURL": "{{ .Domain }}/{{ .Username }}/",
+		},
+		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
+		TestData: TestData[DefaultAccount]{
+			MockData: []MockData[DefaultAccount]{
+				{
+					User: User{
+						Username: "greg",
+					},
+					Result: ScanResult[DefaultAccount]{
+						Account: &DefaultAccount{
+							Name: "Vimeo",
+							URL:  "https://vimeo.com/greg/",
+						},
+						Exists: true,
+					},
+				},
+				{
+					User: User{
+						Username: "thatoneguywholikesseekr",
+					},
+					Result: ScanResult[DefaultAccount]{
+						Account: &DefaultAccount{
+							Name: "Vimeo",
+						},
+						Exists: false,
+					},
+				},
+			},
+		},
+	},
+
+	// {
+	// 	Name:   "Twitch",
+	// 	Domain: "twitch.tv",
+	// 	URLTemplates: map[string]URLTemplate{
+	// 		"HtmlURL": "{{ .Domain }}/{{ .Username }}/",
+	// 	},
+	// 	UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
+	// 	TestData: TestData[DefaultAccount]{
+	// 		MockData: []MockData[DefaultAccount]{
+	// 			{
+	// 				User: User{
+	// 					Username: "greg",
+	// 				},
+	// 				Result: ScanResult[DefaultAccount]{
+	// 					Account: &DefaultAccount{
+	// 						Name: "Twitch",
+	// 						URL:  "https://m.twitch.tv/greg/",
+	// 					},
+	// 					Exists: true,
+	// 				},
+	// 			},
+	// 			{
+	// 				User: User{
+	// 					Username: "thatoneguywholikesseekr",
+	// 				},
+	// 				Result: ScanResult[DefaultAccount]{
+	// 					Account: &DefaultAccount{
+	// 						Name: "Twitch",
+	// 					},
+	// 					Exists: false,
+	// 				},
+	// 			},
+	// 		},
+	// 	},
+	// },
+	{
+		Name:   "PyPi",
+		Domain: "pypi.org",
+		URLTemplates: map[string]URLTemplate{
+			"HtmlURL": "{{ .Domain }}/user/{{ .Username }}/",
+		},
+		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
+		TestData: TestData[DefaultAccount]{
+			MockData: []MockData[DefaultAccount]{
+				{
+					User: User{
+						Username: "greg",
+					},
+					Result: ScanResult[DefaultAccount]{
+						Account: &DefaultAccount{
+							Name: "PyPi",
+							URL:  "https://pypi.org/user/greg/",
+						},
+						Exists: true,
+					},
+				},
+				{
+					User: User{
+						Username: "thatoneguywholikesseekr",
+					},
+					Result: ScanResult[DefaultAccount]{
+						Account: &DefaultAccount{
+							Name: "PyPi",
+						},
+						Exists: false,
+					},
+				},
+			},
+		},
+	},
+	{
 		Name:   "Instagram",
 		Domain: "instagram.com",
 		URLTemplates: map[string]URLTemplate{
 			"HtmlURL": "{{ .Domain }}/{{ .Username }}/",
 		},
-		//
 		UserExistsCheck: `{{ bodyPatternMatch .URLs.HtmlURL "user?username=" 1 }}`,
 		TestData: TestData[DefaultAccount]{
 			MockData: []MockData[DefaultAccount]{
