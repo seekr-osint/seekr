@@ -3,7 +3,15 @@ package accounts
 import (
 	"fmt"
 	"net/http"
+	"text/template"
 )
+
+func FuncMap() template.FuncMap {
+	return template.FuncMap{
+		"status":       StatusCode,
+		"statusSimple": StatusCodeSimple,
+	}
+}
 
 func StatusCodeSimple(url string, expectedStatusCode int) string {
 	return StatusCode(url, expectedStatusCode, -1)

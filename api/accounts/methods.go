@@ -84,7 +84,6 @@ func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult[D
 	res := ScanResult[DefaultAccount]{
 		Account: &DefaultAccount{
 			Name: a.Name,
-			URL:  url,
 		},
 	}
 
@@ -97,13 +96,15 @@ func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult[D
 	if res.Errors.UserExistsCheck != nil {
 		return &res, nil
 	}
+	if res.Exists {
+		res.Account.URL = url
+	}
+
 	return &res, nil
 }
 
 func (u UserExistsCheckInput) RunUserExistsCheck(accountScanner *AccountScanner) (bool, bool, error) {
-	tmpl, err := template.New("url").Funcs(template.FuncMap{
-		"status": StatusCode,
-	}).Parse(string(accountScanner.UserExistsCheck))
+	tmpl, err := template.New("url").Funcs(FuncMap()).Parse(string(accountScanner.UserExistsCheck))
 	if err != nil {
 		return false, false, err
 	}
