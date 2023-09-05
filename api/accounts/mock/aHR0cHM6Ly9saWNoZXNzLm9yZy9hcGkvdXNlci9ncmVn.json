@@ -1,0 +1,5 @@
+{
+  "url": "https://lichess.org/api/user/greg",
+  "resp_body": "{\"id\":\"greg\",\"username\":\"greg\",\"disabled\":true}",
+  "status_code": 200
+}
