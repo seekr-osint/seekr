@@ -1,4 +1,4 @@
-// NOTTgo:generate go run main.go
+// UNUSED CODE 
 package main
 
 import (

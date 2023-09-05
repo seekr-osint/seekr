@@ -12,10 +12,9 @@ import (
 	"github.com/seekr-osint/seekr/api/restart"
 )
 
+// POST request taking in LanguageTextInput as input to detect the Language of it.
 func DetectLanguage(c *fiber.Ctx, db *gorm.DB) error {
-	var text struct {
-		Text string `json:"text"`
-	}
+	var text LanguageTextInput
 
 	body := c.Body()
 	err := json.Unmarshal(body, &text)
@@ -25,6 +24,8 @@ func DetectLanguage(c *fiber.Ctx, db *gorm.DB) error {
 	lang := language.DetectLanguage(text.Text)
 	return c.Status(200).JSON(lang)
 }
+
+// Restart seekr (empty response on success)
 func Restart(c *fiber.Ctx, db *gorm.DB) error {
 	fmt.Printf("Restarting...\n")
 	err := restart.RestartBinary()
@@ -33,6 +34,7 @@ func Restart(c *fiber.Ctx, db *gorm.DB) error {
 	}
 	return nil
 }
+
 func GetPerson(c *fiber.Ctx, db *gorm.DB) error {
 	id := c.Params("id")
 	var person person.Person

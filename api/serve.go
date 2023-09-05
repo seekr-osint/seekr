@@ -1,3 +1,4 @@
+// Serve the seekr api using fiber
 package api
 
 import (
@@ -21,20 +22,7 @@ import (
 	"github.com/swaggo/fiber-swagger"
 )
 
-//	@title			Seekr
-//	@version		1.0
-//	@description	Seekr api
-
-//	@contact.name	seekr github
-//	@contact.url	http://github.com/seekr-osint/seekr
-//	@contact.email	seekr-osint@proton.me
-
-//	@license.name	GPL v3
-//	@license.url	https://github.com/seekr-osint/seekr/blob/main/LICENSE
-
-//	@host		/api/v1
-//	@BasePath	/v1
-
+// Serve the seekr api using fiber. called from the main package.
 func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users) error {
 	engine := html.NewFileSystem(http.FS(fs), ".html")
 
@@ -116,9 +104,8 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 	return app.Listen(config.Address())
 }
 
-// @Param		request	body		main.MyHandler.request	true	"query params"
-// @Success	200		{object}	main.MyHandler.response
-// @Router		/test [post]
+// Handler for api endpoints.
+// Limiting the DataBase to only include entries of the user making the request.
 func FiberHandler(fn func(*fiber.Ctx, *gorm.DB) error, db *gorm.DB) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		localdb := UserDB(c.Locals("username").(string), db)
@@ -126,6 +113,9 @@ func FiberHandler(fn func(*fiber.Ctx, *gorm.DB) error, db *gorm.DB) fiber.Handle
 	}
 }
 
+// returning the DataBase where entries a given username is the owner of.
+//
+// It is used by FiberHandler() for multi user support.
 func UserDB(username string, db *gorm.DB) *gorm.DB {
 	return db.Where("owner = ?", username)
 }

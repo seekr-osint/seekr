@@ -1,7 +1,9 @@
+// Data Structure stored in the DataBase
+//
+// The person package is used to define a person entry, the main data structure seekr works with.
 package person
 
 import (
-	"database/sql/driver"
 	"fmt"
 	"strings"
 
@@ -16,11 +18,11 @@ import (
 	"github.com/seekr-osint/seekr/api/types/ips"
 	"github.com/seekr-osint/seekr/api/types/sources"
 
-	// "github.com/seekr-osint/seekr/api/services"
 	"github.com/seekr-osint/seekr/api/validate"
 	"gorm.io/gorm"
 )
 
+// Person type representing a single person.
 type Person struct {
 	gorm.Model            `json:"-" tstype:"-" skip:"yes"`
 	ID                    uint                           `json:"id" gorm:"primaryKey"` // maybe exploit to overwrite other users data
@@ -52,6 +54,10 @@ type Person struct {
 	enums.ReligionEnum    `json:"religion" tstype:"enums.ReligionEnum"`
 }
 
+// Validate a person and return an error if any field is fornatted incorrectly
+// Can be called to make sure a person is valid.
+// The data base validates a person on save but this validation is more advanced and detects more errors.
+// It uses the go-playground/validator package and struct tags to validate the person.
 func (p Person) Validate(personValidator *validate.XValidator) error {
 	if personValidator == nil {
 		personValidator = NewValidator()
@@ -75,6 +81,8 @@ func (p Person) Validate(personValidator *validate.XValidator) error {
 	}
 	return nil
 }
+
+// Returns a new validator (*validate.XValidator). Used internally by the Validate() method and has no usage outside of the person package.
 func NewValidator() *validate.XValidator {
 	v := &validate.XValidator{
 		Validator: validator.New(),
@@ -83,12 +91,12 @@ func NewValidator() *validate.XValidator {
 	return v
 }
 
-func ValidateValuer(field validator.FieldLevel) bool {
-	if valuer, ok := field.Field().Interface().(driver.Valuer); ok {
+// func ValidateValuer(field validator.FieldLevel) bool {
+// 	if valuer, ok := field.Field().Interface().(driver.Valuer); ok {
 
-		_, err := valuer.Value()
-		return err == nil
-	}
+// 		_, err := valuer.Value()
+// 		return err == nil
+// 	}
 
-	return false
-}
+// 	return false
+// }
