@@ -1,5 +1,6 @@
-//go:generate go run main.go
 package main
+
+//go:generate go run main.go
 
 import (
 	"fmt"

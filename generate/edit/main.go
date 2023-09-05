@@ -1,4 +1,4 @@
-// UNUSED CODE 
+// UNUSED CODE
 package main
 
 import (
