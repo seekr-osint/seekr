@@ -1,26 +1,39 @@
 package accounts
 
+type Jobs []Job
+type Job struct {
+	ID             int            `json:"id" tstype:"number"`
+	AccountScanner AccountScanner `json:"account_scanner"`
+	User           User           `json:"user"`
+}
+
+type WorkerResult struct {
+	ID         int        `json:"id" tstype:"number"`
+	ScanResult ScanResult `json:"scan_result"`
+	Error      error      `json:"error" tstype:"string"`
+}
+
 type User struct {
 	Username string `json:"username" tstype:"string"`
 }
 
-type MockData[T Account] struct {
-	User   User          `json:"user"`
-	Result ScanResult[T] `json:"result"`
+type MockData struct {
+	User   User       `json:"user"`
+	Result ScanResult `json:"result"`
 }
 
-type TestData[T Account] struct {
-	MockData []MockData[T] `json:"mock_data"`
+type TestData struct {
+	MockData []MockData `json:"mock_data"`
 }
 
 type Services []AccountScanner
 type AccountScanner struct {
-	Name            string                   `json:"name" tstype:"string"`
-	Domain          string                   `json:"domain" tstype:"string"`
-	Protocol        string                   `json:"protocol" tstype:"string"`
-	URLTemplates    URLTemplates             `json:"url_templates"`
-	UserExistsCheck URLTemplate              `json:"user_exists_check" tstype:"string"`
-	TestData        TestData[DefaultAccount] `json:"test_data"`
+	Name            string       `json:"name" tstype:"string"`
+	Domain          string       `json:"domain" tstype:"string"`
+	Protocol        string       `json:"protocol" tstype:"string"`
+	URLTemplates    URLTemplates `json:"url_templates"`
+	UserExistsCheck URLTemplate  `json:"user_exists_check" tstype:"string"`
+	TestData        TestData     `json:"test_data"`
 }
 
 type URLTemplates map[string]URLTemplate
@@ -41,16 +54,18 @@ type URLTemplateInput struct {
 	AccountScanner
 }
 
-//	type ScanResult[T Account] struct {
+//	type ScanResult struct {
 //		Account T      `json:"account"`
 //		Errors  Errors `json:"errors"`
 //		RateLimited bool `json:"rate_limited" tstype:"bolean"`
 //	}
-type ScanResult[T Account] struct {
-	Exists      bool   `json:"exists"`
-	Account     *T     `json:"account"`
-	Errors      Errors `json:"errors"`
-	RateLimited bool   `json:"rate_limited" tstype:"bolean"`
+
+type ScanResults []ScanResult
+type ScanResult struct {
+	Exists      bool           `json:"exists"`
+	Account     DefaultAccount `json:"account"`
+	Errors      Errors         `json:"errors"`
+	RateLimited bool           `json:"rate_limited" tstype:"bolean"`
 }
 
 type Errors struct {

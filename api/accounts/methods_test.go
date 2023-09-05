@@ -20,13 +20,9 @@ func TestRunCheck(t *testing.T) {
 			urls = append(urls, u.ToSlice()...)
 		}
 	}
-	endpoints := MockEndpoints{}
-	for _, url := range urls {
-		endpoint, err := GetMockHTTP(url)
-		if err != nil {
-			log.Fatalf("Error %s", err)
-		}
-		endpoints = append(endpoints, *endpoint)
+	endpoints, err := urls.ToMockEndpoints()
+	if err != nil {
+		t.Fatalf("error converting urls to mock endpoints: %s", err)
 	}
 	endpoints.CreateMockEndoints()
 	t.Cleanup(httpmock.Deactivate)
@@ -37,7 +33,7 @@ func TestRunCheck(t *testing.T) {
 				if err != nil {
 					log.Panicf("error: %v", err)
 				}
-				if !reflect.DeepEqual(*res.Account, *mockData.Result.Account) {
+				if !reflect.DeepEqual(res.Account, mockData.Result.Account) {
 					t.Errorf("expected %+v got %+v", mockData.Result.Account, res.Account)
 				}
 				if res.Exists != mockData.Result.Exists {

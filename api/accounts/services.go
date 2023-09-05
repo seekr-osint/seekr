@@ -8,14 +8,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "GitHub",
 							URL:  "https://github.com/greg",
 						},
@@ -26,8 +26,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "gregdoesnotexsist",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "GitHub",
 						},
 						Exists: false,
@@ -44,14 +44,14 @@ var defaultServices Services = Services{
 			"ApiURL":  "{{ .Domain }}/api/user/{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.ApiURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "hansniemman", // FIXME recognize disabled accoubts
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Lichess",
 							URL:  "https://lichess.org/@/hansniemman",
 						},
@@ -62,8 +62,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "starwars",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Lichess",
 							URL:  "https://lichess.org/@/starwars",
 						},
@@ -74,8 +74,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "gregdoesnotexsist",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Lichess",
 						},
 						Exists: false,
@@ -91,14 +91,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/add/{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Snapchat",
 							URL:  "https://snapchat.com/add/greg",
 						},
@@ -109,8 +109,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Snapchat",
 						},
 						Exists: false,
@@ -127,14 +127,14 @@ var defaultServices Services = Services{
 			"bio":     "{{.Domain}}/@{{.Username}}/about",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "mrbeast",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "YouTube",
 							URL:  "https://youtube.com/@mrbeast",
 						},
@@ -145,8 +145,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "YouTube",
 						},
 						Exists: false,
@@ -162,14 +162,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/@{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "TikTok",
 							URL:  "https://tiktok.com/@greg",
 						},
@@ -180,8 +180,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "TikTok",
 						},
 						Exists: false,
@@ -197,14 +197,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/~{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Npm",
 							URL:  "https://npmjs.com/~greg",
 						},
@@ -215,8 +215,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Npm",
 						},
 						Exists: false,
@@ -233,14 +233,14 @@ var defaultServices Services = Services{
 			"ApiURL":  "api.{{ .Domain }}/pub/player/{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.ApiURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "danielnaroditsky",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "chess.com",
 							URL:  "https://chess.com/member/danielnaroditsky",
 						},
@@ -251,8 +251,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "chess.com",
 						},
 						Exists: false,
@@ -269,14 +269,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/@{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Replit",
 							URL:  "https://replit.com/@greg",
 						},
@@ -287,8 +287,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Replit",
 						},
 						Exists: false,
@@ -304,14 +304,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/~{{ .Username }}",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Asciinema",
 							URL:  "https://asciinema.org/~greg",
 						},
@@ -322,8 +322,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Asciinema",
 						},
 						Exists: false,
@@ -339,14 +339,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/{{ .Username }}/",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Vimeo",
 							URL:  "https://vimeo.com/greg/",
 						},
@@ -357,8 +357,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Vimeo",
 						},
 						Exists: false,
@@ -375,14 +375,14 @@ var defaultServices Services = Services{
 	// 		"HtmlURL": "{{ .Domain }}/{{ .Username }}/",
 	// 	},
 	// 	UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-	// 	TestData: TestData[DefaultAccount]{
-	// 		MockData: []MockData[DefaultAccount]{
+	// 	TestData: TestData{
+	// 		MockData: []MockData{
 	// 			{
 	// 				User: User{
 	// 					Username: "greg",
 	// 				},
-	// 				Result: ScanResult[DefaultAccount]{
-	// 					Account: &DefaultAccount{
+	// 				Result: ScanResult{
+	// 					Account: DefaultAccount{
 	// 						Name: "Twitch",
 	// 						URL:  "https://m.twitch.tv/greg/",
 	// 					},
@@ -393,8 +393,8 @@ var defaultServices Services = Services{
 	// 				User: User{
 	// 					Username: "thatoneguywholikesseekr",
 	// 				},
-	// 				Result: ScanResult[DefaultAccount]{
-	// 					Account: &DefaultAccount{
+	// 				Result: ScanResult{
+	// 					Account: DefaultAccount{
 	// 						Name: "Twitch",
 	// 					},
 	// 					Exists: false,
@@ -410,14 +410,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/user/{{ .Username }}/",
 		},
 		UserExistsCheck: `{{ status .URLs.HtmlURL 200 -1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "PyPi",
 							URL:  "https://pypi.org/user/greg/",
 						},
@@ -428,8 +428,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "PyPi",
 						},
 						Exists: false,
@@ -445,14 +445,14 @@ var defaultServices Services = Services{
 			"HtmlURL": "{{ .Domain }}/{{ .Username }}/",
 		},
 		UserExistsCheck: `{{ bodyPatternMatch .URLs.HtmlURL "user?username=" 1 }}`,
-		TestData: TestData[DefaultAccount]{
-			MockData: []MockData[DefaultAccount]{
+		TestData: TestData{
+			MockData: []MockData{
 				{
 					User: User{
 						Username: "greg",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Instagram",
 							URL:  "https://instagram.com/greg/",
 						},
@@ -463,8 +463,8 @@ var defaultServices Services = Services{
 					User: User{
 						Username: "thatoneguywholikesseekr",
 					},
-					Result: ScanResult[DefaultAccount]{
-						Account: &DefaultAccount{
+					Result: ScanResult{
+						Account: DefaultAccount{
 							Name: "Instagram",
 						},
 						Exists: false,

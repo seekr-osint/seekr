@@ -50,14 +50,6 @@ func (a AccountScanner) UserExistsCheckInput(user User) (*UserExistsCheckInput, 
 	return &userExistsCheckInput, nil
 }
 
-func (u URLs) ToSlice() URLSlice {
-	urls := URLSlice{}
-	for _, url := range functions.SortMapKeys(u) {
-		urls = append(urls, u[url])
-	}
-	return urls
-}
-
 func (a AccountScanner) GetURLsMap(user User) (*URLs, error) {
 	urls := URLs{}
 	for _, tmpl := range functions.SortMapKeys(a.URLTemplates) {
@@ -74,7 +66,13 @@ func (a AccountScanner) GetURLTemplateInput(user User) *URLTemplateInput {
 	return &URLTemplateInput{AccountScanner: a, User: user}
 }
 
-func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult[DefaultAccount], error) {
+func (a AccountScanner) ToJob(user User) Job {
+	return Job{
+		User:           user,
+		AccountScanner: a,
+	}
+}
+func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult, error) {
 	url, err := a.GetURL("HtmlURL", user)
 	if err != nil {
 		return nil, err
@@ -82,8 +80,8 @@ func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult[D
 	if url == "" {
 		return nil, fmt.Errorf("error empty HtmlURL")
 	}
-	res := ScanResult[DefaultAccount]{
-		Account: &DefaultAccount{
+	res := ScanResult{
+		Account: DefaultAccount{
 			Name: a.Name,
 		},
 	}
@@ -104,6 +102,36 @@ func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult[D
 	return &res, nil
 }
 
+func (s Services) ToJobs(user User) *Jobs {
+	jobs := Jobs{}
+	for _, service := range s {
+		jobs = append(jobs, service.ToJob(user))
+	}
+	return &jobs
+}
+
+func (s Services) ToURLSlice(user User) (*URLSlice, error) {
+	urls := URLSlice{}
+	for _, service := range s {
+		surls, err := service.GetURLsMap(user)
+		if err != nil {
+			return nil, err
+		}
+		urls = append(urls, surls.ToSlice()...)
+	}
+	return &urls, nil
+}
+
+// URL
+
+func (u URLs) ToSlice() URLSlice {
+	urls := URLSlice{}
+	for _, url := range functions.SortMapKeys(u) {
+		urls = append(urls, u[url])
+	}
+	return urls
+}
+
 func (u UserExistsCheckInput) RunUserExistsCheck(accountScanner *AccountScanner) (bool, bool, error) {
 	tmpl, err := template.New("url").Funcs(FuncMap()).Parse(string(accountScanner.UserExistsCheck))
 	if err != nil {
@@ -115,4 +143,12 @@ func (u UserExistsCheckInput) RunUserExistsCheck(accountScanner *AccountScanner)
 		return false, false, err
 	}
 	return ParseCheckResult(result.String())
+}
+
+func (j Job) RunScannerDefaultAccountResult() (*ScanResult, error) {
+	return j.AccountScanner.RunScannerDefaultAccountResult(j.User)
+}
+
+func (w *WorkerResult) SetID(id int) {
+	w.ID = id
 }

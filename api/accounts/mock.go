@@ -125,3 +125,16 @@ func GetFilePath(url string) string {
 	filePath := fmt.Sprintf("mock/%s.json", encodedURL)
 	return filePath
 }
+
+func (u URLSlice) ToMockEndpoints() (*MockEndpoints, error) {
+	endpoints := MockEndpoints{}
+	for _, url := range u {
+		endpoint, err := GetMockHTTP(url)
+		if err != nil {
+			return nil, err
+		}
+		endpoints = append(endpoints, *endpoint)
+	}
+	return &endpoints, nil
+
+}
