@@ -20,7 +20,7 @@ require (
 	github.com/pemistahl/lingua-go v1.3.4
 	github.com/projectdiscovery/subfinder/v2 v2.6.2
 	github.com/rocketlaunchr/google-search v1.1.6
-	github.com/seekr-osint/wayback-machine-golang v1.1.1
+	github.com/seekr-osint/wayback-machine-golang v1.1.2
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/sundowndev/phoneinfoga/v2 v2.10.8
 	github.com/tkrajina/typescriptify-golang-structs v0.1.10
