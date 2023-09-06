@@ -29,8 +29,7 @@ type MockEndpoint struct {
 }
 type MockEndpoints []MockEndpoint
 
-// var endpoints MockEndpoints
-
+// Use httpmock to Activate the CreateMockEndoints.
 func (endpoints MockEndpoints) CreateMockEndoints() {
 	httpmock.Activate()
 	// defer httpmock.DeactivateAndReset()
@@ -40,6 +39,8 @@ func (endpoints MockEndpoints) CreateMockEndoints() {
 		httpmock.RegisterResponder("GET", endpoint.URL, httpmock.NewStringResponder(endpoint.StatusCode, endpoint.ResponseBody))
 	}
 }
+
+// Fetching the body and status_code form an URL and retrunign a MockEndpoint.
 func FetchURL(url string) (*MockEndpoint, error) {
 	response, err := http.Get(url)
 
@@ -59,6 +60,8 @@ func FetchURL(url string) (*MockEndpoint, error) {
 	}, nil
 }
 
+// Get a MockEndpoint for the given URL.
+// This will try to read the mock endpoint from the file system first using ReadMockHTTP and if it doesn't exist use FetchURL to fetch it and then write it using endpoint.Write() to the file system.
 func GetMockHTTP(url string) (*MockEndpoint, error) {
 	var endpoint *MockEndpoint
 	endpoint, err := ReadMockHTTP(url)
@@ -120,6 +123,9 @@ func ReadMockHTTP(url string) (*MockEndpoint, error) {
 	return &mockData, err
 }
 
+// This file path is used to store the mock resonse for the given URL.
+//
+// returning "mock/{{base64 url}}.json
 func GetFilePath(url string) string {
 	encodedURL := base64.URLEncoding.EncodeToString([]byte(url))
 	filePath := fmt.Sprintf("mock/%s.json", encodedURL)

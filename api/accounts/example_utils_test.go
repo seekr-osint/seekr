@@ -31,7 +31,6 @@ func ExampleParseCheckResult_err() {
 	// false, false, useful err message
 }
 
-
 func ExampleParseCheckResult_errEmpty() {
 	exists, rateLimited, err := accounts.ParseCheckResult("error: ")
 	fmt.Printf("%v, %v, %v", exists, rateLimited, err)
@@ -54,4 +53,39 @@ func ExampleParseCheckResult_empty() {
 	// Output:
 	//
 	// false, false, empty result
+}
+
+func ExampleSetProtocolURL() {
+	url, err := accounts.SetProtocolURL("github.com", "https")
+	fmt.Printf("%v, %v", url, err)
+	// Output:
+	//
+	// https://github.com, <nil>
+}
+
+// The default protocl is `https`. Therefore if the protocol parameter is empty the protocol will be set to https.
+func ExampleSetProtocolURL_defaultProtocol() {
+	url, err := accounts.SetProtocolURL("github.com", "")
+	fmt.Printf("%v, %v", url, err)
+	// Output:
+	//
+	// https://github.com, <nil>
+}
+
+// If a protocol is already specified in the url and the protocol parameter is empty, the protocol of the URL won't be changed.
+func ExampleSetProtocolURL_keepProtocol() {
+	url, err := accounts.SetProtocolURL("http://github.com", "")
+	fmt.Printf("%v, %v", url, err)
+	// Output:
+	//
+	// http://github.com, <nil>
+}
+
+// If a protocol is already specified in the url and the protocol parameter is not empty, the prtocol of the url will be changed to the specified protocol in the protocol parameter.
+func ExampleSetProtocolURL_overwriteProtocol() {
+	url, err := accounts.SetProtocolURL("https://github.com", "http")
+	fmt.Printf("%v, %v", url, err)
+	// Output:
+	//
+	// http://github.com, <nil>
 }
