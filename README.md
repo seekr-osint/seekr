@@ -37,6 +37,11 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
 - Themes & Plugins
+
+> **Warning**
+> Seekr is beta software and still in an early stage of development
+
+
 ## Getting Started - Installation
 Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.
 ### Windows
