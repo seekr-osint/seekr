@@ -8,7 +8,7 @@ import (
 
 func ExampleGetFilePath() {
 	path := accounts.GetFilePath("https://github.com/greg")
-	fmt.Printf("%v", path)
+	fmt.Printf("%s", path)
 	// Output:
 	//
 	// mock/aHR0cHM6Ly9naXRodWIuY29tL2dyZWc=.json

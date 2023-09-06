@@ -125,7 +125,7 @@ func ReadMockHTTP(url string) (*MockEndpoint, error) {
 
 // This file path is used to store the mock resonse for the given URL.
 //
-// returning "mock/{{base64 url}}.json
+// returning `mock/{{ base64 url }}.json`
 func GetFilePath(url string) string {
 	encodedURL := base64.URLEncoding.EncodeToString([]byte(url))
 	filePath := fmt.Sprintf("mock/%s.json", encodedURL)
