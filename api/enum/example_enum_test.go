@@ -33,7 +33,7 @@ func ExampleEnum_Validate() {
 	err := g.Gender.Validate()
 	fmt.Printf("%v", err)
 	// Output:
-	// 
+	//
 	// <nil>
 
 }

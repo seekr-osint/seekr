@@ -38,7 +38,6 @@ func (e Enum[T]) Validate() error {
 	return fmt.Errorf("invalid enum value: %v", e.CurrentValue)
 }
 
-
 // Used in db
 func (e *Enum[T]) Scan(value interface{}) error {
 	if err := json.Unmarshal(value.([]byte), e); err != nil {
