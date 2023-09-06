@@ -17,7 +17,7 @@ require (
 	github.com/mholt/archiver/v4 v4.0.0-alpha.8
 	github.com/nyaruka/phonenumbers v1.1.8
 	github.com/pelletier/go-toml v1.9.5
-	github.com/pemistahl/lingua-go v1.3.4
+	github.com/pemistahl/lingua-go v1.4.0
 	github.com/projectdiscovery/subfinder/v2 v2.6.2
 	github.com/rocketlaunchr/google-search v1.1.6
 	github.com/seekr-osint/wayback-machine-golang v1.1.1
