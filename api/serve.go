@@ -76,7 +76,7 @@ func Serve(config config.Config, fs embed.FS, db *gorm.DB, users seekrauth.Users
 		Browse: true,
 		Index:  "index.html",
 		// NotFoundFile: "404.html",
-		MaxAge:     3600,
+		MaxAge:     1,
 		PathPrefix: "web",
 	}))
 
