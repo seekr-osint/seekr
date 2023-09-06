@@ -1,3 +1,4 @@
+// Package Used to Validate and generate enums.
 package enum
 
 import (
@@ -7,19 +8,24 @@ import (
 	"reflect"
 )
 
+// Alias to any.
+// Specify which types can be enums.
 type ValidEnum interface {
 	any
 }
 
+// Methods required for enums
 type EnumT[T ValidEnum] interface {
 	Values() []T
 	NullValue() T
 }
 
+// Actual enum
 type Enum[T EnumT[T]] struct {
 	CurrentValue T
 }
 
+// checking the Valid values specified in the Values() and NullValue() methods.
 func (e Enum[T]) Validate() error {
 	if reflect.DeepEqual(e.CurrentValue, e.CurrentValue.NullValue()) {
 		return nil
@@ -32,6 +38,8 @@ func (e Enum[T]) Validate() error {
 	return fmt.Errorf("invalid enum value: %v", e.CurrentValue)
 }
 
+
+// Used in db
 func (e *Enum[T]) Scan(value interface{}) error {
 	if err := json.Unmarshal(value.([]byte), e); err != nil {
 		return err
@@ -42,6 +50,8 @@ func (e *Enum[T]) Scan(value interface{}) error {
 	}
 	return nil
 }
+
+// Used in db
 func (e Enum[T]) Value() (driver.Value, error) {
 	if err := e.Validate(); err != nil {
 		return "", err
@@ -70,6 +80,7 @@ func (e *Enum[T]) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// just return the enum value as a string
 func (e Enum[T]) String() string {
 	return fmt.Sprintf("%v", e.CurrentValue)
 }

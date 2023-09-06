@@ -7,6 +7,7 @@ import (
 type XValidator struct {
 	Validator *validator.Validate
 }
+
 type ErrorResponse struct {
 	Error       bool
 	FailedField string
