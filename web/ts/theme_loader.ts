@@ -37,12 +37,12 @@ fetch(cssFolder)
       cssLink.href = href!;
 
       head.appendChild(cssLink);
-      
-      if (localStorageTheme == href!.trim().replace("/web/themes/", "").replace(".css", "")) {
-        hasThemeBeenApplied = true;
-      }
 
       const theme = href!.trim().replace("/web/themes/", "").replace(".css", "");
+      
+      if (localStorageTheme == theme) {
+        hasThemeBeenApplied = true;
+      }
 
       createThemeCards(theme);
     });
