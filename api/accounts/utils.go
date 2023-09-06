@@ -26,6 +26,7 @@ func SetProtocolURL(rawURL, protocol string) (string, error) {
 	return parsedURL.String(), nil
 }
 
+// Used to parse the string returned from the UserExistsCheck.
 func ParseCheckResult(res string) (bool, bool, error) {
 	switch {
 	case res == "true":
@@ -34,7 +35,11 @@ func ParseCheckResult(res string) (bool, bool, error) {
 		return false, false, nil
 	case strings.HasPrefix(res, "error:"):
 		errorMessage := strings.TrimSpace(strings.TrimPrefix(res, "error:"))
-		return false, false, fmt.Errorf("%s", errorMessage)
+		if errorMessage != "" {
+			return false, false, fmt.Errorf("%s", errorMessage)
+		} else {
+			return false, false, fmt.Errorf("error message missing")
+		}
 	case res == "":
 		return false, false, fmt.Errorf("empty result")
 	case res == "rate limited":

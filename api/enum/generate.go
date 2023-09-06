@@ -45,7 +45,7 @@ func ({{.LowerTypeName}} {{.TypeName}}) Values() []{{.TypeName}} {
 	return []{{.TypeName}}{{"{"}}{{range $index, $value := .Values}}{{if $index}}, {{end}}"{{$value}}"{{end}}{{"}"}}
 }
 
-// returning The NillValue for the enum.
+// returning The NullValue for the enum.
 // Used by the enum package.
 func ({{.LowerTypeName}} {{.TypeName}}) NullValue() {{.TypeName}} {
 	return "{{.NullValue}}"

@@ -18,6 +18,7 @@ func DetectLanguage(c *fiber.Ctx, db *gorm.DB) error {
 
 	body := c.Body()
 	err := json.Unmarshal(body, &text)
+	// Serve the seekr api using fiber. called from the main package.
 	if err != nil {
 		return c.Status(503).SendString(err.Error())
 	}
@@ -85,6 +86,8 @@ func PatchPerson(c *fiber.Ctx, db *gorm.DB) error {
 	return c.Status(200).JSON(person)
 }
 
+// POST request to add a new person.
+// The person owner is overwritten to be the username of the user making the request. FiberHandler() will use the owner for multi user support.
 func PostPerson(c *fiber.Ctx, db *gorm.DB) error {
 	person := person.Person{}
 

@@ -28,7 +28,7 @@ func (ethnicity Ethnicity) Values() []Ethnicity {
 	return []Ethnicity{"African", "Asian", "Caucasian/White", "Hispanic/Latino", "Indigenous/Native American", "Multiracial/Mixed"}
 }
 
-// returning The NillValue for the enum.
+// returning The NullValue for the enum.
 // Used by the enum package.
 func (ethnicity Ethnicity) NullValue() Ethnicity {
 	return ""

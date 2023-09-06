@@ -28,7 +28,7 @@ func (civilstatus Civilstatus) Values() []Civilstatus {
 	return []Civilstatus{"Single", "Married", "Windowed", "Divorced", "Seperated"}
 }
 
-// returning The NillValue for the enum.
+// returning The NullValue for the enum.
 // Used by the enum package.
 func (civilstatus Civilstatus) NullValue() Civilstatus {
 	return ""

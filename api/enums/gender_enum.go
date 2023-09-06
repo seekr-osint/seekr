@@ -28,7 +28,7 @@ func (gender Gender) Values() []Gender {
 	return []Gender{"Male", "Female", "Other"}
 }
 
-// returning The NillValue for the enum.
+// returning The NullValue for the enum.
 // Used by the enum package.
 func (gender Gender) NullValue() Gender {
 	return ""

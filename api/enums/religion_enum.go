@@ -28,7 +28,7 @@ func (religion Religion) Values() []Religion {
 	return []Religion{"Christianity", "Islam", "Hinduism", "Buddhism", "Sikhism", "Judaism", "Other", "Atheism"}
 }
 
-// returning The NillValue for the enum.
+// returning The NullValue for the enum.
 // Used by the enum package.
 func (religion Religion) NullValue() Religion {
 	return ""
