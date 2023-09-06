@@ -6,6 +6,7 @@
  A multi-purpose toolkit for gathering and managing OSINT-Data with a neat web-interface.
 </p>
 <p align="center">
+  <a href="https://pkg.go.dev/github.com/seekr-osint/seekr"><img src="https://pkg.go.dev/badge/github.com/seekr-osint/seekr.svg" alt="Go Reference"></a>
 <img alt="GitHub" src="https://img.shields.io/github/license/seekr-osint/seekr">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/seekr-osint/seekr/go.yml">
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/seekr-osint/seekr">
