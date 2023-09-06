@@ -13,8 +13,7 @@
 <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/seekr-osint/seekr">
 <a alt="Discord" href="https://discord.gg/tc4u99Eg5G"><img src="https://img.shields.io/badge/Join%20the-Discord%20server-6666ff" alt="Badge Discord"></a>
 </p>
-> [!WARNING]  
-> Seekr is beta software and still in eary stage of development
+
 ## Introduction   
 Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. Our desktop view enables you to have all of your favourite OSINT tools integrated in one. The backend is written in Go with BadgerDB as database and it offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, seekr makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
 
@@ -38,6 +37,11 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
 - Themes & Plugins
+
+> **Warning**
+> Seekr is beta software and still in eary stage of development
+
+
 ## Getting Started - Installation
 Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.
 ### Windows
