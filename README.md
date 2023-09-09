@@ -40,7 +40,7 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Themes
 
 > **Warning**
-> Seekr is beta software and still in an early stage of development
+> Seekr is a beta software and still in an early stage of development
 
 ## Getting Started - Installation
 Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.
