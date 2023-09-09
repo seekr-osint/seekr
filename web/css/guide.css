@@ -14,12 +14,7 @@ body {
   overflow: hidden;
 }
 
-.ww,
-.us,
-.ca,
-.uk,
-.de,
-.se {
+.result-chip {
   margin-bottom: 1rem;
   justify-self: center;
   width: auto;
