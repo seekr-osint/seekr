@@ -170,10 +170,10 @@ class CustomDropdown extends HTMLElement {
         }
       }
 
-      function checkCountry(): "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" | undefined {
+      function checkCountry(): string | undefined {
         if (document) {
           if (selectSelectedDiv) {
-            const countries: { [key: string]: "all" | "ww" | "us" | "ca" | "uk" | "se" | "de" } = {};
+            const countries: { [key: string]: string } = {};
 
             // English
 
@@ -184,6 +184,10 @@ class CustomDropdown extends HTMLElement {
             countries["United Kingdom"] = "uk";
             countries["Sweden"] = "se";
             countries["Germany"] = "de";
+            countries["France"] = "fr";
+            countries["Italy"] = "it";
+            countries["Russia"] = "ru";
+            countries["Australia"] = "au";
 
             return countries[selectSelectedDiv.innerHTML]; // Error here
           }
