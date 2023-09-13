@@ -22,6 +22,53 @@ html {
   }
 }
 
+/* Switch between db and graph */
+.switch-chip {
+  width: 4rem;
+  height: 8rem;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  box-shadow: var(--shadowPreset-8);
+  bottom: 22rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.switch-icon {
+  margin: 0.2rem 0;
+  font-size: 2rem;
+  color: var(--textColor-1);
+}
+
+.switch-icon:hover {
+  color: var(--textColor-hover);
+  cursor: pointer;
+}
+
+.top-cell {
+  border-bottom: solid var(--textColor-1) 0.15rem;
+}
+
+.icon-cell {
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+  width: 2.5rem;
+  display: flex;
+}
+
+
+
+
 .not-selectable {
   user-select: none;
 }
