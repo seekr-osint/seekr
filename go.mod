@@ -18,7 +18,7 @@ require (
 	github.com/nyaruka/phonenumbers v1.1.8
 	github.com/pelletier/go-toml v1.9.5
 	github.com/pemistahl/lingua-go v1.3.4
-	github.com/projectdiscovery/subfinder/v2 v2.6.2
+	github.com/projectdiscovery/subfinder/v2 v2.6.3
 	github.com/rocketlaunchr/google-search v1.1.6
 	github.com/seekr-osint/wayback-machine-golang v1.1.1
 	github.com/src-d/enry/v2 v2.1.0
@@ -108,7 +108,7 @@ require (
 	github.com/mholt/archiver v3.1.1+incompatible // indirect
 	github.com/microcosm-cc/bluemonday v1.0.25 // indirect
 	github.com/miekg/dns v1.1.55 // indirect
-	github.com/minio/selfupdate v0.6.0 // indirect
+	github.com/minio/selfupdate v0.6.1-0.20230907112617-f11e74f84ca7 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
@@ -126,17 +126,17 @@ require (
 	github.com/projectdiscovery/cdncheck v1.0.9 // indirect
 	github.com/projectdiscovery/chaos-client v0.5.1 // indirect
 	github.com/projectdiscovery/dnsx v1.1.4 // indirect
-	github.com/projectdiscovery/fastdialer v0.0.36 // indirect
-	github.com/projectdiscovery/goflags v0.1.16 // indirect
+	github.com/projectdiscovery/fastdialer v0.0.37 // indirect
+	github.com/projectdiscovery/goflags v0.1.20 // indirect
 	github.com/projectdiscovery/gologger v1.1.11 // indirect
-	github.com/projectdiscovery/hmap v0.0.14 // indirect
+	github.com/projectdiscovery/hmap v0.0.18 // indirect
 	github.com/projectdiscovery/networkpolicy v0.0.6 // indirect
 	github.com/projectdiscovery/ratelimit v0.0.9 // indirect
-	github.com/projectdiscovery/retryabledns v1.0.34 // indirect
-	github.com/projectdiscovery/retryablehttp-go v1.0.22 // indirect
-	github.com/projectdiscovery/utils v0.0.49 // indirect
+	github.com/projectdiscovery/retryabledns v1.0.35 // indirect
+	github.com/projectdiscovery/retryablehttp-go v1.0.26 // indirect
+	github.com/projectdiscovery/utils v0.0.54 // indirect
 	github.com/quic-go/quic-go v0.37.6 // indirect
-	github.com/refraction-networking/utls v1.4.3 // indirect
+	github.com/refraction-networking/utls v1.5.2 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rs/xid v1.5.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20230101081208-5e3ef4b5456d // indirect
