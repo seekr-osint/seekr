@@ -1,0 +1,5 @@
+{
+  "url": "https://lichess.org/api/user/gregdoesnotexsist",
+  "resp_body": "{\"error\":\"Not found\"}",
+  "status_code": 404
+}

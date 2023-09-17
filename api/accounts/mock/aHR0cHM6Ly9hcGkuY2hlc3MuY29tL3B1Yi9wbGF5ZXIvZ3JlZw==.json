@@ -1,0 +1,5 @@
+{
+  "url": "https://api.chess.com/pub/player/greg",
+  "resp_body": "{\"player_id\":3352,\"@id\":\"https://api.chess.com/pub/player/greg\",\"url\":\"https://www.chess.com/member/greg\",\"name\":\"greg hytche\",\"username\":\"greg\",\"followers\":0,\"country\":\"https://api.chess.com/pub/country/US\",\"location\":\"oklahoma,wagner,ok\",\"last_online\":1181996307,\"joined\":1181996222,\"status\":\"basic\",\"is_streamer\":false,\"verified\":false}",
+  "status_code": 200
+}

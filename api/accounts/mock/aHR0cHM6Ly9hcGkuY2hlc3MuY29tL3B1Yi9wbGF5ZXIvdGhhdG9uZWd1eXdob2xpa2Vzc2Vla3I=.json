@@ -1,0 +1,5 @@
+{
+  "url": "https://api.chess.com/pub/player/thatoneguywholikesseekr",
+  "resp_body": "{\"code\":0,\"message\":\"User \\\"thatoneguywholikesseekr\\\" not found.\"}",
+  "status_code": 404
+}

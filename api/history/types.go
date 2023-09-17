@@ -8,7 +8,7 @@ type History[T any] struct {
 }
 type HistoryItem[T any] struct {
 	Data       T           `json:"data"`
-	StartDate  time.Time   `json:"start_date"`
-	EndDate    time.Time   `json:"end_date"`
-	KnownDates []time.Time `json:"known_dates"`
+	StartDate  time.Time   `json:"start_date" tstype:"string"`
+	EndDate    time.Time   `json:"end_date" tstype:"string"`
+	KnownDates []time.Time `json:"known_dates" tstype:"string[]"`
 }

@@ -5,28 +5,6 @@ before:
     - go generate ./...
     - tsc --project web
 builds:
-  - main: ./cmd/seekr-cli/main.go
-    id: "seekr-cli"
-    binary: seekr-cli
-    goos:
-      - linux
-      - windows
-        #- darwin
-        #- freebsd
-    goarch:
-      - amd64
-        #- arm64
-    tags:
-      - osusergo
-      - netgo
-      - static_build
-    asmflags:
-      - -trimpath
-    ldflags:
-      - -s -w
-      - "-X main.version={{ .Version }}"
-    env:
-      - CGO_ENABLED=0
   - main: ./main.go
     id: "seekr"
     binary: seekr

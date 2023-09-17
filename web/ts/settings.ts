@@ -1,5 +1,5 @@
 import { apiCall } from './framework.js';
-import * as tsGenConfig from './../ts-gen/config.js'
+// import * as tsGenConfig from './../ts-gen/config.js'
 
 const channel = new BroadcastChannel("seekr-channel");
 
@@ -59,103 +59,103 @@ function createThemeCards(theme: string) {
   }
 }
 
-// SEEKR config stuff
+//// SEEKR config stuff
 
-type SeekrConfig = tsGenConfig.Config
-//interface SeekrConfig {
-//  general: {
-//    browser: boolean;
-//    discord: boolean;
-//    force_port: boolean;
-//  };
-//  server: {
-//    ip: string;
-//    port: number;
-//  };
+//type SeekrConfig = tsGenConfig.Config
+////interface SeekrConfig {
+////  general: {
+////    browser: boolean;
+////    discord: boolean;
+////    force_port: boolean;
+////  };
+////  server: {
+////    ip: string;
+////    port: number;
+////  };
+////}
+
+//async function restartSeekr(): Promise<void> {
+//  await fetch(apiCall('/restart'));
+//  return;
 //}
 
-async function restartSeekr(): Promise<void> {
-  await fetch(apiCall('/restart'));
-  return;
-}
+//async function getCurrentConfig(): Promise<SeekrConfig> {
+//  const response = await fetch(apiCall('/config'));
+//  const data = await response.json();
+//  return data as SeekrConfig;
+//}
 
-async function getCurrentConfig(): Promise<SeekrConfig> {
-  const response = await fetch(apiCall('/config'));
-  const data = await response.json();
-  return data as SeekrConfig;
-}
+//async function postSeekrConfig(config: SeekrConfig): Promise<string> {
+//  const response = await fetch(apiCall('/config'), {
+//    method: 'POST',
+//    headers: {
+//      'Content-Type': 'application/json',
+//    },
+//    body: JSON.stringify(config),
+//  });
+//  const data = await response.json();
+//  return data.message;
+//}
 
-async function postSeekrConfig(config: SeekrConfig): Promise<string> {
-  const response = await fetch(apiCall('/config'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(config),
-  });
-  const data = await response.json();
-  return data.message;
-}
+//function setValues(config: SeekrConfig): void {
+//  // Port
+//  const portInput = document.getElementById("port-tag") as HTMLInputElement;
+//  if (portInput) {
+//    portInput.value = config.server.port.toString();
+//  }
 
-function setValues(config: SeekrConfig): void {
-  // Port
-  const portInput = document.getElementById("port-tag") as HTMLInputElement;
-  if (portInput) {
-    portInput.value = config.server.port.toString();
-  }
+//  // Port
+//  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
 
-  // Port
-  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
+//  if (ipInput) {
+//    ipInput.value = config.server.ip.toString();
+//  }
+//}
 
-  if (ipInput) {
-    ipInput.value = config.server.ip.toString();
-  }
-}
+//function getValues(): { port: number; ip: string; workers: number } {
+//  const portInput = document.getElementById("port-tag") as HTMLInputElement;
+//  const port = parseInt(portInput.value, 10);
 
-function getValues(): { port: number; ip: string; workers: number } {
-  const portInput = document.getElementById("port-tag") as HTMLInputElement;
-  const port = parseInt(portInput.value, 10);
+//  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
+//  const ip = ipInput.value;
 
-  const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
-  const ip = ipInput.value;
+//  const workersInput = document.getElementById("workers-tag") as HTMLInputElement;
+//  const workers = parseInt(workersInput.value, 10);
 
-  const workersInput = document.getElementById("workers-tag") as HTMLInputElement;
-  const workers = parseInt(workersInput.value, 10);
+//  return { port, ip, workers };
+//}
 
-  return { port, ip, workers };
-}
+//async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
+//  let currentConfig = await getCurrentConfig();
+//  const values = getValues();
 
-async function getUpdatedSeekrConfig(): Promise<SeekrConfig> {
-  let currentConfig = await getCurrentConfig();
-  const values = getValues();
+//  currentConfig.server.ip = values.ip;
+//  currentConfig.server.port = values.port;
+//  currentConfig.general.workers = values.workers;
 
-  currentConfig.server.ip = values.ip;
-  currentConfig.server.port = values.port;
-  currentConfig.general.workers = values.workers;
+//  return currentConfig;
+//}
 
-  return currentConfig;
-}
+//document.addEventListener('DOMContentLoaded', () => {
+//  const saveBtn = document.getElementById('settings-savebtn-p');
+//  if (saveBtn) {
+//    (async () => {
+//      const currentConfig = await getCurrentConfig();
+//      // console.log('Current Config:', currentConfig);
+//      setValues(currentConfig);
+//    })();
 
-document.addEventListener('DOMContentLoaded', () => {
-  const saveBtn = document.getElementById('settings-savebtn-p');
-  if (saveBtn) {
-    (async () => {
-      const currentConfig = await getCurrentConfig();
-      // console.log('Current Config:', currentConfig);
-      setValues(currentConfig);
-    })();
+//    saveBtn.addEventListener('click', async () => {
+//      const newConfig = await getUpdatedSeekrConfig();
+//      const message = await postSeekrConfig(newConfig);
+//      restartSeekr();
 
-    saveBtn.addEventListener('click', async () => {
-      const newConfig = await getUpdatedSeekrConfig();
-      const message = await postSeekrConfig(newConfig);
-      restartSeekr();
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    });
-  }
-});
+//      setTimeout(() => {
+//        window.location.reload();
+//      }, 1000);
+//    });
+//  }
+//});
 
 
 export { createThemeCards, changeTheme };

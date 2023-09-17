@@ -15,7 +15,7 @@ func (h *History[T]) Merge(h2 History[T]) { // no error handeling for merging h2
 		return
 	}
 	data := *h2.GetLatest()
-	log.Printf("merging %v, %v",h.Latest.Data, data)
+	log.Printf("merging %v, %v", h.Latest.Data, data)
 	h.AddOrUpdateLatestItem(data)
 }
 
