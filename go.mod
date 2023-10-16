@@ -23,7 +23,7 @@ require (
 	github.com/seekr-osint/wayback-machine-golang v1.1.1
 	github.com/src-d/enry/v2 v2.1.0
 	github.com/sundowndev/phoneinfoga/v2 v2.10.8
-	github.com/tkrajina/typescriptify-golang-structs v0.1.10
+	github.com/tkrajina/typescriptify-golang-structs v0.1.11
 )
 
 require (
