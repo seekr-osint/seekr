@@ -135,7 +135,7 @@ require (
 	github.com/projectdiscovery/retryabledns v1.0.34 // indirect
 	github.com/projectdiscovery/retryablehttp-go v1.0.22 // indirect
 	github.com/projectdiscovery/utils v0.0.49 // indirect
-	github.com/quic-go/quic-go v0.37.6 // indirect
+	github.com/quic-go/quic-go v0.37.7 // indirect
 	github.com/refraction-networking/utls v1.4.3 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rs/xid v1.5.0 // indirect
