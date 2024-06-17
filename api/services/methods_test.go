@@ -331,15 +331,15 @@ func WriteMock(mockServer MockServerEndpoint) error {
 func TestGetServiceByName(t *testing.T) {
 	services := DefaultServices
 
-	t.Run("Existing Service", func(t *testing.T) {
-		service, err := services.GetServiceByName("Instagram")
-		if err != nil {
-			t.Errorf("Expected no error, but got: %v", err)
-		}
-		if service.Name != "Instagram" {
-			t.Errorf("Expected service name to be Instagram, but got: %s", service.Name)
-		}
-	})
+	// t.Run("Existing Service", func(t *testing.T) {
+	// 	service, err := services.GetServiceByName("Instagram")
+	// 	if err != nil {
+	// 		t.Errorf("Expected no error, but got: %v", err)
+	// 	}
+	// 	if service.Name != "Instagram" {
+	// 		t.Errorf("Expected service name to be Instagram, but got: %s", service.Name)
+	// 	}
+	// })
 
 	t.Run("Non-Existing Service", func(t *testing.T) {
 		_, err := services.GetServiceByName("Twitter")

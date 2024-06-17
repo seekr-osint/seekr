@@ -1,7 +1,7 @@
 import { createThemeCards, changeTheme } from "./settings.js";
 
 const head = document.getElementsByTagName("head")[0];
-const cssFolder = "./themes/";
+const cssFolder = "./themes";
 
 const localStorageTheme = localStorage.getItem("theme");
 
@@ -29,20 +29,20 @@ fetch(cssFolder)
     let hasThemeBeenApplied = false;
 
     links.forEach((link) => {
-      const href = cssFolder + link.getAttribute("href");
+      const href = link.getAttribute("href");
       const cssLink = document.createElement("link");
 
       cssLink.rel = "stylesheet";
       cssLink.type = "text/css";
-      cssLink.href = href;
+      cssLink.href = href!;
 
       head.appendChild(cssLink);
 
-      if (localStorageTheme == link.getAttribute("href")?.replace(".css", "")) {
+      const theme = href!.trim().replace("/web/themes/", "").replace(".css", "");
+      
+      if (localStorageTheme == theme) {
         hasThemeBeenApplied = true;
       }
-
-      const theme = href.trim().replace(/^\.\/themes\/|\.css$/g, '');
 
       createThemeCards(theme);
     });

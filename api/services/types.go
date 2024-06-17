@@ -1,6 +1,8 @@
 package services
 
 import (
+	"database/sql/driver"
+	"encoding/json"
 	"image"
 	"time"
 
@@ -10,14 +12,14 @@ import (
 type Services []Service
 type Service struct {
 	Name                string            `json:"name"`
-	UserExistsFunc      UserExistsFunc    `json:"-"`
-	InfoFunc            InfoFunc          `json:"-"`
-	UserHtmlUrlTemplate string            `json:"-"`
-	UrlTemplates        map[string]string `json:"-"`
+	UserExistsFunc      UserExistsFunc    `json:"-" tstype:"-"`
+	InfoFunc            InfoFunc          `json:"-" tstype:"-"`
+	UserHtmlUrlTemplate string            `json:"-" tstype:"-"`
+	UrlTemplates        map[string]string `json:"-" tstype:"-"`
 	Domain              string            `json:"domain"`
-	Protocol            string            `json:"-"`
-	TestData            TestData          `json:"-"`
-	BlocksTor           bool              `json:"-"`
+	Protocol            string            `json:"-" tstype:"-"`
+	TestData            TestData          `json:"-" tstype:"-"`
+	BlocksTor           bool              `json:"-" tstype:"-"`
 }
 type TestData struct {
 	ExistingUser    string
@@ -32,8 +34,8 @@ type Template struct {
 }
 
 type Errors struct {
-	Exists error `json:"exists"`
-	Info   error `json:"info"`
+	Exists error `json:"exists" tstype:"string"`
+	Info   error `json:"info" tstype:"string"`
 }
 type ServiceCheckResults []ServiceCheckResult
 type InputData struct {
@@ -53,14 +55,14 @@ type ServiceCheckResult struct {
 	Errors    Errors      `json:"errors"`
 }
 type Image struct {
-	Img  image.Image
+	Img  image.Image `tstype:"string"`
 	Url  string
-	Date time.Time
+	Date time.Time `tstype:"string"`
 }
 type AccountInfo struct {
-	Url            string                 `json:"url"`
-	ProfilePicture history.History[Image] `json:"profile_picture" ts_type:"{ latest: { data: string } } "`
-	Bio            history.History[Bio]   `json:"bio" ts_type:"{ latest: { data: {bio: string} } }"`
+	Url            string                 `json:"url" tstype:"string"`
+	ProfilePicture history.History[Image] `json:"profile_picture" tstype:"{ latest: { data: string } }"`
+	Bio            history.History[Bio]   `json:"bio" tstype:"{ latest: { data: {bio: string} } }"`
 }
 type Bio struct {
 	Bio      string             `json:"bio"`
@@ -74,5 +76,17 @@ type UserServiceDataToCheck struct {
 	// ExistingServiceCheckResult ServiceCheckResult `json:"-"`
 }
 
-type UserExistsFunc func(UserServiceDataToCheck) (bool, error)
-type InfoFunc func(UserServiceDataToCheck) (AccountInfo, error)
+func (e *MapServiceCheckResult) Scan(value interface{}) error {
+	if err := json.Unmarshal(value.([]byte), e); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (e MapServiceCheckResult) Value() (driver.Value, error) {
+	value, err := json.Marshal(e)
+	if err != nil {
+		return nil, err
+	}
+	return value, nil
+}

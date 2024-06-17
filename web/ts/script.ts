@@ -1,6 +1,9 @@
 import { saveAsFile, checkDropdownValue, loadDropdown, apiCall } from "./framework.js";
 import * as person from "../ts-gen/person.js";
-import * as accounts from "../ts-gen/servicecheckresult.js";
+import * as accounts from "../ts-gen/services.js";
+import * as enums from "../ts-gen/enums.js";
+import * as phone from "../ts-gen/phone.js";
+import * as email from "../ts-gen/email.js";
 
 function init<T>(value: { [key: string]: T }) :  { [key: string]: T } {
   if (value === undefined) {
@@ -81,11 +84,10 @@ function mkList<T>(name: string, value: { [key: string]: T }, fieldname: keyof T
     }
 }
 
-class Person extends person.Person {
-  Post(loadingSpinner?: HTMLDivElement): void {
+function Post(person: person.Person,loadingSpinner?: HTMLDivElement): void {
     const requestOptions = {
       method: "POST",
-      body: JSON.stringify(this),
+      body: JSON.stringify(person),
     };
 
     fetch(apiCall("/person"), requestOptions)
@@ -100,18 +102,17 @@ class Person extends person.Person {
       });
   }
 
-  Edit(): void {
-    let obj = this;
+  function Edit(obj: person.Person, create: boolean): void {
     mainContainer.style.display = "none";
     editContainer.style.display = "flex";
 
-    editShowID.innerHTML = obj.id;
+    editShowID.innerHTML = String(obj.id);
 
     editNameTag.value = obj.name;
 
-    loadDropdown("gender", obj.gender);
+    loadDropdown("gender", String(obj.gender));
 
-    loadDropdown("ethnicity", obj.ethnicity);
+    loadDropdown("ethnicity", String(obj.ethnicity));
 
     editAge.innerHTML = obj.age.toString() || "";
     editBday.innerHTML = obj.bday;
@@ -193,7 +194,7 @@ class Person extends person.Person {
       }
     }
 
-    loadDropdown("civil status", obj.civilstatus);
+    loadDropdown("civil status", String(obj.civilstatus));
 
     editKids.innerHTML = obj.kids;
 
@@ -273,7 +274,7 @@ class Person extends person.Person {
     editEducation.innerHTML = obj.education;
 
     // religion dropdown
-    loadDropdown("religion", obj.religion);
+    loadDropdown("religion", String(obj.religion));
 
     editPets.innerHTML = obj.pets;
 
@@ -514,7 +515,7 @@ class Person extends person.Person {
 
     if (Object.keys(obj.email).length >= 1) {
       for (const [_, email] of Object.entries(obj.email)) {
-        const emailVar = (email as { mail: string, services: {} });
+        const emailVar = (email as email.Email);
 
         const container = document.createElement("div");
         container.className = "email-container";
@@ -543,7 +544,7 @@ class Person extends person.Person {
         subContainer.appendChild(del_btn_div);
         del_btn_div.appendChild(del_btn);
 
-        if (emailVar.services != undefined && emailVar.services != null && emailVar.services != "") {
+        if (emailVar.services != undefined && emailVar.services != null) {
           const hidden_email_save = document.createElement("p");
           hidden_email_save.className = "hidden-email-save";
 
@@ -808,7 +809,6 @@ class Person extends person.Person {
     }
     return
   }
-}
 
 
 const searchBar = document.getElementById("searchbar");
@@ -939,12 +939,11 @@ document.getElementById("newbtn")!.onclick = async function () {
     return preId;
   }
 
-  let obj = new Person();
-  obj.id = checkId(preId);
+  let obj = {} as person.Person;
   obj.name = "";
   obj.age = 0;
   // obj = replaceUndefinedWithEmpty<typeof obj>(obj);
-  obj.Edit();
+  Edit(obj,true);
   // mainContainer.style.display = "none";
   // createContainer.style.display = "flex";
 }
@@ -957,7 +956,7 @@ document.getElementById("exportbtn")!.onclick = async function () {
   saveAsFile(JSON.stringify(data), "data.json");
 }
 
-function createCards(obj: Person) {
+function createCards(obj: person.Person) {
   let x = document.querySelector('#list-holder')!;
 
   // Basic
@@ -1031,7 +1030,7 @@ function createCards(obj: Person) {
   }
 
   acc_icon_div.onclick = function () {
-    editShowID.innerHTML = obj.id;
+    editShowID.innerHTML = String(obj.id);
     mainContainer.style.display = "none";
     accContainer.style.display = "flex";
   }
@@ -1171,7 +1170,7 @@ function createCards(obj: Person) {
 
           const res = await fetch(apiCall("/people/" + getId));
 
-          let data = await res.json() as Person;
+          let data = await res.json() as person.Person;
 
           // FIXME This is not working
           data.accounts[accObj.input_data.service.name + "-" + accObj.input_data.user.Username] = accObj;
@@ -1229,7 +1228,7 @@ function createCards(obj: Person) {
     mainContainer.style.display = "none";
     container.style.display = "flex";
 
-    viewShowId.innerHTML = obj.id;
+    viewShowId.innerHTML = String(obj.id);
 
     viewNameTag.value = obj.name;
 
@@ -1555,7 +1554,7 @@ function createCards(obj: Person) {
 
     if (Object.keys(obj.email).length >= 1) {
       for (const [_, email] of Object.entries(obj.email)) {
-        const emailVar = (email as person.Email)
+        const emailVar = (email as email.Email)
 
         if (emailVar.mail != "" && emailVar.mail != null && emailVar.mail != undefined) {
           viewEmailSpacemaker.style.display = "block";
@@ -1721,8 +1720,8 @@ function createCards(obj: Person) {
   }
   // edit button
   e_icon_div.onclick = function () {
-    let obj2 = new Person(obj);
-    obj2.Edit()
+    let obj2 = obj as person.Person;
+    Edit(obj2,false)
   }
 }
 
@@ -1861,8 +1860,8 @@ editSaveBtn.onclick = async function () {
 
   const res = await fetch(apiCall("/people/" + id))
 
-  let data = await res.json() as Person;
-  let obj = new Person();
+  let data = await res.json() as person.Person;
+  let obj = {} as person.Person;
 
   if (data == null || res.status == 404) {
     obj.accounts = {};
@@ -1870,23 +1869,23 @@ editSaveBtn.onclick = async function () {
     obj.accounts = data.accounts;
   }
 
-  obj.id = id;
+  obj.id = parseInt(id,10);
   obj.name = name;
-  obj.gender = gender || '';
-  obj.ethnicity = ethnicity || '';
+  obj.gender = gender as unknown as enums.GenderEnum;
+  obj.ethnicity = ethnicity as unknown as enums.EthnicityEnum;
   obj.age = age;
   obj.bday = bday;
   obj.address = address;
-  obj.phone = phoneNumbers as { [key: string]: person.PhoneNumber };
-  obj.civilstatus = civilstatus || '';
+  obj.phone = phoneNumbers as unknown as phone.PhoneNumbers;
+  obj.civilstatus = civilstatus as unknown as enums.CivilstatusEnum;
   obj.kids = kids;
   obj.hobbies = hobbies;
-  obj.email = emailAddresses as unknown as { [key: string]: person.Email };
+  obj.email = emailAddresses as unknown as email.Emails;
   obj.ips = ips;
   obj.occupation = occupation;
   obj.prevoccupation = prevoccupation;
   obj.education = education;
-  obj.religion = religion || '';
+  obj.religion = religion as unknown as enums.ReligionEnum;
   obj.pets = pets;
   obj.clubs = clubs;
   obj.legal = legal;
@@ -1894,7 +1893,7 @@ editSaveBtn.onclick = async function () {
   obj.sources = sources;
   obj.notes = notes;
 
-  obj.Post(loadingSpinner);
+  Post(obj,loadingSpinner);
 }
 
 document.getElementById("backbtn")!.onclick = function () {
@@ -1989,7 +1988,7 @@ async function runOnStart() {
   } else {
     for (const [i, _] of Object.entries(data)) {
       //let obj = data[Number(i)] as any;
-      let obj = data[Number(i)] as Person;
+      let obj = data[Number(i)] as person.Person;
 
       createCards(obj);
     }

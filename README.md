@@ -6,6 +6,7 @@
  A multi-purpose toolkit for gathering and managing OSINT-Data with a neat web-interface.
 </p>
 <p align="center">
+  <a href="https://pkg.go.dev/github.com/seekr-osint/seekr"><img src="https://pkg.go.dev/badge/github.com/seekr-osint/seekr.svg" alt="Go Reference"></a>
 <img alt="GitHub" src="https://img.shields.io/github/license/seekr-osint/seekr">
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/seekr-osint/seekr/go.yml">
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/seekr-osint/seekr">
@@ -14,7 +15,7 @@
 </p>
 
 ## Introduction   
-Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. Our desktop view enables you to have all of your favourite OSINT tools integrated in one. The backend is written in Go with BadgerDB as database and it offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, seekr makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
+Seekr is a multi-purpose toolkit for gathering and managing OSINT-data with a sleek web interface. Our desktop view enables you to have all of your favourite OSINT tools integrated in one. The backend is written in Go with MySQL as database and it offers a wide range of features for data collection, organization, and analysis. Whether you're a researcher, investigator, or just someone looking to gather information, seekr makes it easy to find and manage the data you need. Give it a try and see how it can streamline your OSINT workflow!
 
 Check the wiki for setup guide, API-docs, etc.
 
@@ -35,11 +36,10 @@ Seekr is desingned with OSINT in mind and optimized for real world usecases.
 - Account cards for each person in the database
 - Account discovery intigrating with the account cards
 - Pre defined commonly used fields in the database
-- Themes & Plugins
+- Themes
 
 > **Warning**
 > Seekr is a beta software and still in an early stage of development
-
 
 ## Getting Started - Installation
 Just a quick warning, **unstable builds** may contain bugs and are **not recommended** for production use.

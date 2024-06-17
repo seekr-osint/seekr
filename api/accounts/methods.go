@@ -1,0 +1,154 @@
+package accounts
+
+import (
+	"fmt"
+	"strings"
+	"text/template"
+
+	"github.com/seekr-osint/seekr/api/functions"
+)
+
+// URLTemplate
+
+func (u URLTemplate) GetURL(user User, accountScanner AccountScanner) (string, error) {
+	templateInput := accountScanner.GetURLTemplateInput(user)
+	tmpl, err := template.New("url").Parse(string(u))
+	if err != nil {
+		return "", err
+	}
+	result := strings.Builder{}
+	err = tmpl.Execute(&result, templateInput)
+	if err != nil {
+		return "", err
+	}
+	url, err := SetProtocolURL(result.String(), accountScanner.Protocol)
+	if err != nil {
+		return "", fmt.Errorf("failed to set the protocol from url: %w", err)
+	}
+	return url, nil
+}
+
+// AccountScanner
+
+func (a AccountScanner) GetURL(templateName string, user User) (string, error) {
+	tmpl, ok := a.URLTemplates[templateName]
+	if !ok {
+		return "", fmt.Errorf("no such template %s", templateName)
+	}
+	return tmpl.GetURL(user, a)
+}
+
+func (a AccountScanner) UserExistsCheckInput(user User) (*UserExistsCheckInput, error) {
+	urls, err := a.GetURLsMap(user)
+	if err != nil {
+		return nil, err
+	}
+	userExistsCheckInput := UserExistsCheckInput{
+		URLs: *urls,
+		User: user,
+	}
+	return &userExistsCheckInput, nil
+}
+
+func (a AccountScanner) GetURLsMap(user User) (*URLs, error) {
+	urls := URLs{}
+	for _, tmpl := range functions.SortMapKeys(a.URLTemplates) {
+		url, err := a.URLTemplates[tmpl].GetURL(user, a)
+		if err != nil {
+			return nil, err
+		}
+		urls[tmpl] = url
+	}
+	return &urls, nil
+}
+
+func (a AccountScanner) GetURLTemplateInput(user User) *URLTemplateInput {
+	return &URLTemplateInput{AccountScanner: a, User: user}
+}
+
+func (a AccountScanner) ToJob(user User) Job {
+	return Job{
+		User:           user,
+		AccountScanner: a,
+	}
+}
+func (a AccountScanner) RunScannerDefaultAccountResult(user User) (*ScanResult, error) {
+	url, err := a.GetURL("HtmlURL", user)
+	if err != nil {
+		return nil, err
+	}
+	if url == "" {
+		return nil, fmt.Errorf("error empty HtmlURL")
+	}
+	res := ScanResult{
+		Account: DefaultAccount{
+			Name: a.Name,
+		},
+	}
+
+	userExistsCheckInput, err := a.UserExistsCheckInput(user)
+	if err != nil {
+		return nil, err
+	}
+
+	res.Exists, res.RateLimited, res.Errors.UserExistsCheck = userExistsCheckInput.RunUserExistsCheck(&a)
+	if res.Errors.UserExistsCheck != nil {
+		return &res, nil
+	}
+	if res.Exists {
+		res.Account.URL = url
+	}
+
+	return &res, nil
+}
+
+func (s Services) ToJobs(user User) *Jobs {
+	jobs := Jobs{}
+	for _, service := range s {
+		jobs = append(jobs, service.ToJob(user))
+	}
+	return &jobs
+}
+
+func (s Services) ToURLSlice(user User) (*URLSlice, error) {
+	urls := URLSlice{}
+	for _, service := range s {
+		surls, err := service.GetURLsMap(user)
+		if err != nil {
+			return nil, err
+		}
+		urls = append(urls, surls.ToSlice()...)
+	}
+	return &urls, nil
+}
+
+// URL
+
+func (u URLs) ToSlice() URLSlice {
+	urls := URLSlice{}
+	for _, url := range functions.SortMapKeys(u) {
+		urls = append(urls, u[url])
+	}
+	return urls
+}
+
+func (u UserExistsCheckInput) RunUserExistsCheck(accountScanner *AccountScanner) (bool, bool, error) {
+	tmpl, err := template.New("url").Funcs(FuncMap()).Parse(string(accountScanner.UserExistsCheck))
+	if err != nil {
+		return false, false, err
+	}
+	result := strings.Builder{}
+	err = tmpl.Execute(&result, u)
+	if err != nil {
+		return false, false, err
+	}
+	return ParseCheckResult(result.String())
+}
+
+func (j Job) RunScannerDefaultAccountResult() (*ScanResult, error) {
+	return j.AccountScanner.RunScannerDefaultAccountResult(j.User)
+}
+
+func (w *WorkerResult) SetID(id int) {
+	w.ID = id
+}
