@@ -2,7 +2,6 @@ package api
 
 import (
 	"log"
-	//"log"
 	"regexp"
 
 	"github.com/seekr-osint/seekr/api/functions"

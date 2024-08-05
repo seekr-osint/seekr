@@ -98,13 +98,11 @@ async function postSeekrConfig(config: SeekrConfig): Promise<string> {
 }
 
 function setValues(config: SeekrConfig): void {
-  // Port
   const portInput = document.getElementById("port-tag") as HTMLInputElement;
   if (portInput) {
     portInput.value = config.server.port.toString();
   }
 
-  // Port
   const ipInput = document.getElementById("ip-tag") as HTMLInputElement;
 
   if (ipInput) {

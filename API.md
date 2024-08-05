@@ -5,7 +5,7 @@ To get the whole DataBase simply run:
 ```sh
 curl localhost:8080/
 ```
-### Get a person Object by it's id
+### Get a person Object by id
 ```sh
 curl localhost:8080/people/:id
 ```

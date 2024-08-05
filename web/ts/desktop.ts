@@ -1,7 +1,7 @@
 const bg_var = getComputedStyle(document.documentElement).getPropertyValue('[data-theme]--bg');
 
 const channelDesktop = new BroadcastChannel("seekr-channel");
-// Listen for messages on the broadcast channel
+
 channelDesktop.addEventListener('message', (event) => {
   if (event.data.type === "theme") {
     const theme = event.data.theme;

@@ -23,7 +23,7 @@ import (
 )
 
 // Web server content
-//
+
 //go:embed web/*
 var content embed.FS
 
