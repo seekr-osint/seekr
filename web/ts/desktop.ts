@@ -118,11 +118,29 @@ function createSeekrSettingsWindow() {
 //   appIcon.src = "./img/seekr-icon.png";
 // });
 
-const shortcutMenu = document.querySelector('.shortcut-menu');
-const appBar = document.querySelector('.app-bar');
-shortcutMenu!.addEventListener('click', function() {
-  appBar!.classList.toggle('clicked');
-});
+function setupShortcutMenu() {
+  const shortcutMenu = document.querySelector('.shortcut-menu') as HTMLElement | null;
+  const appBar = document.querySelector('.app-bar') as HTMLElement | null;
+
+  if (!shortcutMenu || !appBar) {
+    console.error("SEEKR Desktop: shortcut-menu or app-bar not found");
+    return;
+  }
+
+  shortcutMenu.addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+    appBar.classList.toggle("clicked");
+  }, true);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setupShortcutMenu);
+} else {
+  setupShortcutMenu();
+}
 
 
 // Replace the hex color code with the desired one
